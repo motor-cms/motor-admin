@@ -52,7 +52,7 @@ namespace Motor\Admin\Http\Resources;
  *   ),
  *   @OA\Property(
  *     property="conversions",
- *     type="object",
+ *     type="array",
  *     @OA\Items(
  *       @OA\Property(
  *         property="thumb",

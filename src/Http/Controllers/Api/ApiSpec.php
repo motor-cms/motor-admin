@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 /**
  * @OA\Info(
  *   title="Motor Admin API",
- *   version="1.1.0",
+ *   version="2.0.0",
  *   x={
  *     "logo": {
  *       "url": "http://motor-cms.com/motor.png",

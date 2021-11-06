@@ -2,8 +2,9 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\UserRequest;
+use Motor\Admin\Http\Requests\Api\UserPatchRequest;
 use Motor\Admin\Http\Resources\UserCollection;
 use Motor\Admin\Http\Resources\UserResource;
 use Motor\Admin\Models\User;
@@ -68,7 +69,7 @@ class UsersController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\UserCollection
      */
-    public function index()
+    public function index(): UserCollection
     {
         $paginator = UserService::collection()
                                 ->getPaginator();
@@ -82,7 +83,7 @@ class UsersController extends ApiController
      *   path="/api/users",
      *   summary="Create new user",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/UserRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/UserPostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -122,10 +123,10 @@ class UsersController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\UserRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @param \Motor\Admin\Http\Requests\Api\UserPatchRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(UserRequest $request)
+    public function store(UserPatchRequest $request): JsonResponse
     {
         $result = UserService::create($request)
                              ->getResult();
@@ -188,7 +189,7 @@ class UsersController extends ApiController
      * @param \Motor\Admin\Models\User $record
      * @return \Motor\Admin\Http\Resources\UserResource
      */
-    public function show(User $record)
+    public function show(User $record): UserResource
     {
         $result = UserService::show($record)
                              ->getResult();
@@ -202,7 +203,7 @@ class UsersController extends ApiController
      *   path="/api/users/{user}",
      *   summary="Update an existing user",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/UserRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/UserPatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -249,11 +250,11 @@ class UsersController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\UserRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\UserPatchRequest $request
      * @param \Motor\Admin\Models\User $record
      * @return \Motor\Admin\Http\Resources\UserResource
      */
-    public function update(UserRequest $request, User $record)
+    public function update(UserPatchRequest $request, User $record): UserResource
     {
         $result = UserService::update($record, $request)
                              ->getResult();
@@ -320,7 +321,7 @@ class UsersController extends ApiController
      * @param \Motor\Admin\Models\User $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $record)
+    public function destroy(User $record): JsonResponse
     {
         $result = UserService::delete($record)
                              ->getResult();

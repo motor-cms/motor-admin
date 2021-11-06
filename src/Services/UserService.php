@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Services;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -16,11 +17,17 @@ class UserService extends BaseService
 {
     protected $model = User::class;
 
+    /**
+     *
+     */
     public function filters()
     {
         $this->filter->addClientFilter();
     }
 
+    /**
+     *
+     */
     public function beforeCreate()
     {
         if (Auth::user()->client_id > 0) {
@@ -33,12 +40,19 @@ class UserService extends BaseService
         $this->updatePassword();
     }
 
+    /**
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     public function afterCreate()
     {
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
     }
 
+    /**
+     *
+     */
     public function beforeUpdate()
     {
         // Special case to filter out the users api token when calling over the api
@@ -49,12 +63,19 @@ class UserService extends BaseService
         $this->updatePassword();
     }
 
+    /**
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     public function afterUpdate()
     {
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
     }
 
+    /**
+     *
+     */
     private function updateClientId()
     {
         if (!Arr::get($this->data, 'client_id')) {
@@ -62,6 +83,9 @@ class UserService extends BaseService
         }
     }
 
+    /**
+     *
+     */
     private function updatePassword()
     {
         if (Arr::get($this->data, 'password') == '') {
@@ -71,11 +95,18 @@ class UserService extends BaseService
         }
     }
 
+    /**
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     private function uploadFiles()
     {
         $this->uploadFile(Arr::get($this->data, 'avatar'), 'avatar');
     }
 
+    /**
+     *
+     */
     private function syncRolesAndPermissions()
     {
         if (Arr::get($this->data, 'roles')) {
