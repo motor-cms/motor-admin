@@ -46,7 +46,8 @@ class RoleRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name'       => 'required',
+            'guard_name' => 'nullable',
         ];
     }
 }

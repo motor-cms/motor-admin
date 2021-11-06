@@ -96,10 +96,18 @@ class ClientRequest extends Request
     public function rules()
     {
         return [
-            'name'          => 'required',
-            'website'       => 'nullable|url',
-            'contact_email' => 'nullable|email',
-            'is_active'     => 'nullable|boolean',
+            'name'               => 'required',
+            'slug'               => 'nullable',
+            'address'            => 'nullable',
+            'zip'                => 'nullable',
+            'city'               => 'nullable',
+            'country_iso_3166_1' => 'nullable',
+            'website'            => 'nullable|url',
+            'description'        => 'nullable',
+            'is_active'          => 'nullable|boolean',
+            'contact_name'       => 'nullable',
+            'contact_email'      => 'nullable|email',
+            'contact_phone'      => 'nullable',
         ];
     }
 }

@@ -5,15 +5,20 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class ProfileEditRequest
+ * Class UserRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class ProfileEditRequest extends Request
+class UserPatchRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="ProfileEditRequest",
+     *   schema="UserPatchRequest",
+     *   @OA\Property(
+     *     property="client_id",
+     *     type="integer",
+     *     example="1"
+     *   ),
      *   @OA\Property(
      *     property="name",
      *     type="string",
@@ -31,11 +36,26 @@ class ProfileEditRequest extends Request
      *     example="secret password"
      *   ),
      *   @OA\Property(
-     *     property="avatar",
-     *     type="file",
-     *     example="avatar.png"
+     *     property="roles",
+     *     type="array",
+     *     @OA\Items(
+     *       ref="#/components/schemas/RoleRequest"
+     *     )
      *   ),
-     *   required={"name", "email", "password"},
+     *   @OA\Property(
+     *     property="permissions",
+     *     type="array",
+     *     @OA\Items(
+     *       ref="#/components/schemas/PermissionRequest"
+     *     )
+     *   ),
+     *   @OA\Property(
+     *     property="avatar",
+     *     type="string",
+     *     example="ABCDEF",
+     *     description="base64 data url"
+     *   ),
+     *   required={"name", "email"},
      * )
      */
 
@@ -57,10 +77,13 @@ class ProfileEditRequest extends Request
     public function rules()
     {
         return [
-            'name'     => 'required',
-            'email'    => 'required|email',
-            'password' => 'confirmed',
-            'avatar'   => 'nullable|image',
+            'client_id'   => 'nullable|exists:clients',
+            'name'        => 'required',
+            'email'       => 'nullable|unique:users',
+            'password'    => 'required|min:8',
+            'roles'       => 'nullable|array',
+            'permissions' => 'nullable|array',
+            'avatar'      => 'nullable',
         ];
     }
 }

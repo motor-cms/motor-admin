@@ -27,13 +27,13 @@ abstract class BaseService
 
     protected $record;
 
-    protected $data = [];
+    protected array $data = [];
 
     protected $result;
 
-    protected $sortableField = 'id';
+    protected string $sortableField = 'id';
 
-    protected $sortableDirection = 'ASC';
+    protected string $sortableDirection = 'ASC';
 
     /**
      * Basic create method.
@@ -42,7 +42,7 @@ abstract class BaseService
      * @param \Illuminate\Http\Request|array $request
      * @return \Motor\Admin\Services\BaseService
      */
-    public static function create(Request|array $request)
+    public static function create(Request|array $request): BaseService
     {
         return (new static())->setRequest($request)
                              ->doCreate();
@@ -56,7 +56,7 @@ abstract class BaseService
      * @param \Illuminate\Http\Request|array $request
      * @return \Motor\Admin\Services\BaseService
      */
-    public static function update(Model $record, Request|array $request)
+    public static function update(Model $record, Request|array $request): BaseService
     {
         return (new static())->setRequest($request)
                              ->setRecord($record)
@@ -70,7 +70,7 @@ abstract class BaseService
      *
      * @return mixed
      */
-    public static function show($record)
+    public static function show($record): mixed
     {
         return (new static())->setRecord($record)
                              ->doShow();
@@ -84,7 +84,7 @@ abstract class BaseService
      * @param null $sorting
      * @return BaseService
      */
-    public static function collection($alias = '', $sorting = null)
+    public static function collection($alias = '', $sorting = null): BaseService
     {
         $instance = new static();
         $instance->filter = new Filter($alias);
@@ -113,7 +113,7 @@ abstract class BaseService
      *
      * @return mixed
      */
-    public static function delete($record)
+    public static function delete($record): mixed
     {
         return (new static())->setRecord($record)
                              ->doDelete();
@@ -145,7 +145,7 @@ abstract class BaseService
      *
      * @return mixed
      */
-    public function getResult()
+    public function getResult(): mixed
     {
         return $this->result;
     }
@@ -155,7 +155,7 @@ abstract class BaseService
      *
      * @return mixed
      */
-    public function getPaginator()
+    public function getPaginator(): mixed
     {
         $query = ($this->model)::filteredByMultiple($this->getFilter());
 //        $query->addSelect($query->getModel()->getTable() . '.*'); // removed because if duplicate id issue in L7
@@ -173,7 +173,7 @@ abstract class BaseService
      * @param array $sorting
      * @return $this
      */
-    public function setSorting(array $sorting)
+    public function setSorting(array $sorting): static
     {
         [$this->sortableField, $this->sortableDirection] = $sorting;
 
@@ -186,7 +186,7 @@ abstract class BaseService
      * @param $query
      * @return mixed
      */
-    public function applySorting($query)
+    public function applySorting($query): mixed
     {
         // check if we need to join a table
         $join = false;
@@ -238,7 +238,7 @@ abstract class BaseService
      *
      * @return mixed
      */
-    public function applyScopes($query)
+    public function applyScopes($query): mixed
     {
         return $query;
     }
@@ -249,7 +249,7 @@ abstract class BaseService
      *
      * @return $this
      */
-    public function doShow()
+    public function doShow(): static
     {
         $this->beforeShow();
         $this->result = $this->record;
@@ -264,7 +264,7 @@ abstract class BaseService
      *
      * @return $this
      */
-    public function doCreate()
+    public function doCreate(): static
     {
         $this->record = new $this->model();
         $this->beforeCreate();
@@ -284,7 +284,7 @@ abstract class BaseService
      *
      * @return $this
      */
-    public function doUpdate()
+    public function doUpdate(): static
     {
         $this->beforeUpdate();
         $this->result = $this->record->update($this->data);
@@ -302,7 +302,7 @@ abstract class BaseService
      *
      * @return $this
      */
-    public function doDelete()
+    public function doDelete(): static
     {
         $this->beforeDelete();
         if ($this->record->exists) {
@@ -313,7 +313,6 @@ abstract class BaseService
         return $this;
     }
 
-
     /**
      * Sets a record
      *
@@ -321,7 +320,7 @@ abstract class BaseService
      *
      * @return $this
      */
-    public function setRecord(Model $record)
+    public function setRecord(Model $record): static
     {
         $this->record = $record;
 
@@ -334,7 +333,7 @@ abstract class BaseService
      * @param \Illuminate\Http\Request|array $request
      * @return $this
      */
-    public function setRequest(Request|array $request)
+    public function setRequest(Request|array $request): static
     {
         $key = '';
 
@@ -354,7 +353,6 @@ abstract class BaseService
         return $this;
     }
 
-
     /**
      * Handles file uploads either with a UploadedFile object or a base64 encoded file
      *
@@ -369,11 +367,11 @@ abstract class BaseService
      */
     public function uploadFile(
         $file,
-        $identifier = 'image',
+        string $identifier = 'image',
         $collection = null,
         $record = null,
-        $addToCollection = false
-    ) {
+        bool $addToCollection = false
+    ): static {
         if (! is_null($record) && ! $record instanceof HasMedia) {
             return $this;
         }
@@ -387,20 +385,6 @@ abstract class BaseService
         }
 
         $collection = (! is_null($collection) ? $collection : $identifier);
-
-        // FIXME: might not be useful anymore
-//        foreach ($this->data as $key => $value) {
-//            if (preg_match('/delete_media_(.*)/', $key, $matches) == 1 && $value == 1) {
-//                $media = $record->getMedia($collection);
-//                $mediaItem = $media->where('id', $matches[1])
-//                                   ->first();
-//
-//                if (! empty($mediaItem)) {
-//                    $mediaItem->delete();
-////                    $record->deleteMedia($matches[1]);
-//                }
-//            }
-//        }
 
         // Delete from API
         if (Arr::get($this->data, $identifier.'.dataUrl') !== null || Arr::get($this->data, $identifier) === false) {
@@ -448,7 +432,7 @@ abstract class BaseService
      *
      * @return bool
      */
-    protected function isValidBase64($string)
+    protected function isValidBase64($string): bool
     {
         $decoded = base64_decode($string, true);
         // Check if there is no invalid character in strin

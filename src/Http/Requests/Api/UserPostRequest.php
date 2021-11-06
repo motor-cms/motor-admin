@@ -9,11 +9,11 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class UserRequest extends Request
+class UserPostRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="UserRequest",
+     *   schema="UserPostRequest",
      *   @OA\Property(
      *     property="client_id",
      *     type="integer",
@@ -49,6 +49,12 @@ class UserRequest extends Request
      *       ref="#/components/schemas/PermissionRequest"
      *     )
      *   ),
+     *   @OA\Property(
+     *     property="avatar",
+     *     type="string",
+     *     example="ABCDEF",
+     *     description="base64 data url"
+     *   ),
      *   required={"name", "email", "password"},
      * )
      */
@@ -70,17 +76,14 @@ class UserRequest extends Request
      */
     public function rules()
     {
-        if ($this->method() === 'PATCH' || $this->method() === 'PUT') {
-            return [
-                'name'  => 'required',
-                'avatar' => 'nullable',
-            ];
-        } else {
-            return [
-                'name'     => 'required',
-                'email'    => 'required|unique:users',
-                'password' => 'required',
-            ];
-        }
+        return [
+            'client_id'   => 'nullable|exists:clients',
+            'name'        => 'required',
+            'email'       => 'required|unique:users',
+            'password'    => 'required|min:8',
+            'roles'       => 'nullable|array',
+            'permissions' => 'nullable|array',
+            'avatar'      => 'nullable',
+        ];
     }
 }
