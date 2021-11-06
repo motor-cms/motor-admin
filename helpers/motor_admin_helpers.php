@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Motor\Admin\Models\ConfigVariable;
 
 function merge_local_config_with_db_configuration_variables($package)
@@ -13,34 +12,6 @@ function merge_local_config_with_db_configuration_variables($package)
         }
     } catch (\Exception $e) {
         // Do nothing if the database doesn't exist
-    }
-}
-
-if (! function_exists('has_permission')) {
-    /**
-     * @param $permission
-     * @return bool
-     */
-    function has_permission($permission)
-    {
-        return (Auth::user()
-                    ->hasRole('SuperAdmin') || Auth::user()
-                                                   ->hasPermissionTo($permission));
-    }
-}
-
-if (! function_exists('has_role')) {
-    /**
-     * @param $role
-     * @return bool
-     */
-    function has_role($role)
-    {
-        $role = explode(',', $role);
-
-        return (Auth::user()
-                    ->hasRole('SuperAdmin') || Auth::user()
-                                                   ->hasAnyRole($role));
     }
 }
 
