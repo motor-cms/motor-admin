@@ -2,20 +2,17 @@
 
 return [
     'profile'          => [
-        'name'   => 'admin/global.profile',
         'values' => [
             'read',
             'write',
         ],
     ],
     'dashboard'        => [
-        'name'   => 'admin/global.dashboard',
         'values' => [
             'read',
         ],
     ],
     'clients'          => [
-        'name'   => 'admin/clients.clients',
         'values' => [
             'read',
             'write',
@@ -23,7 +20,6 @@ return [
         ],
     ],
     'users'            => [
-        'name'   => 'admin/users.users',
         'values' => [
             'read',
             'write',
@@ -31,7 +27,6 @@ return [
         ],
     ],
     'languages'        => [
-        'name'   => 'admin/languages.languages',
         'values' => [
             'read',
             'write',
@@ -39,7 +34,6 @@ return [
         ],
     ],
     'email_templates'  => [
-        'name'   => 'admin/email_templates.email_templates',
         'values' => [
             'read',
             'write',
@@ -47,7 +41,6 @@ return [
         ],
     ],
     'permissions'      => [
-        'name'   => 'admin/permissions.permissions',
         'values' => [
             'read',
             'write',
@@ -55,7 +48,6 @@ return [
         ],
     ],
     'roles'            => [
-        'name'   => 'admin/roles.roles',
         'values' => [
             'read',
             'write',
@@ -63,7 +55,6 @@ return [
         ],
     ],
     'categories'       => [
-        'name'   => 'motor-admin::admin/categories.categories',
         'values' => [
             'read',
             'write',
@@ -71,7 +62,6 @@ return [
         ],
     ],
     'category_trees'   => [
-        'name'   => 'motor-admin::admin/category_trees.category_trees',
         'values' => [
             'read',
             'write',
@@ -79,7 +69,6 @@ return [
         ],
     ],
     'config_variables' => [
-        'name'   => 'motor-admin::admin/config_variables.config_variables',
         'values' => [
             'read',
             'write',
@@ -87,7 +76,6 @@ return [
         ],
     ],
     'administration'   => [
-        'name'   => 'motor-admin::admin/global.administration',
         'values' => [
             'read',
         ],

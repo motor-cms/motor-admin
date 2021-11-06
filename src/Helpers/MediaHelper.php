@@ -13,8 +13,8 @@ use function GuzzleHttp\Psr7\mimetype_from_filename;
 class MediaHelper
 {
     /**
-     * @param HasMedia $record
-     * @param          $identifier
+     * @param \Spatie\MediaLibrary\HasMedia $record
+     * @param string $identifier
      * @param bool $base64
      * @param array $conversions
      * @return array

@@ -1,11 +1,9 @@
 <?php
 
 return [
-    'collapseIcon' => '', //<i class="fa fa-angle-left pull-right"></i>',
-    'items'        => [
+    'items' => [
         0   => [
             'slug'        => 'dashboard',
-            'name'        => 'motor-admin.global.dashboard',
             'icon'        => 'home',
             'route'       => 'admin.dashboard',
             'roles'       => ['SuperAdmin'],
@@ -13,7 +11,6 @@ return [
         ],
         900 => [
             'slug'        => 'administration',
-            'name'        => 'motor-admin.global.administration',
             'icon'        => 'cogs',
             'route'       => null,
             'roles'       => ['SuperAdmin'],
@@ -21,7 +18,6 @@ return [
             'items'       => [
                 100 => [
                     'slug'        => 'users',
-                    'name'        => 'motor-admin.users.users',
                     'icon'        => 'fa fa-user',
                     'route'       => 'admin.motor-admin.users',
                     'roles'       => ['SuperAdmin'],
@@ -29,7 +25,6 @@ return [
                 ],
                 110 => [
                     'slug'        => 'languages',
-                    'name'        => 'motor-admin.languages.languages',
                     'icon'        => 'fa fa-globe',
                     'route'       => 'admin.motor-admin.languages',
                     'roles'       => ['SuperAdmin'],
@@ -37,7 +32,6 @@ return [
                 ],
                 120 => [
                     'slug'        => 'clients',
-                    'name'        => 'motor-admin.clients.clients',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.motor-admin.clients',
                     'roles'       => ['SuperAdmin'],
@@ -45,7 +39,6 @@ return [
                 ],
                 130 => [
                     'slug'        => 'email_templates',
-                    'name'        => 'motor-admin.email_templates.email_templates',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.motor-admin.email-templates',
                     'roles'       => ['SuperAdmin'],
@@ -53,7 +46,6 @@ return [
                 ],
                 140 => [
                     'slug'        => 'roles',
-                    'name'        => 'motor-admin.roles.roles',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.motor-admin.roles',
                     'roles'       => ['SuperAdmin'],
@@ -61,7 +53,6 @@ return [
                 ],
                 150 => [
                     'slug'        => 'permissions',
-                    'name'        => 'motor-admin::admin/permissions.permissions',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.permissions.index',
                     'roles'       => ['SuperAdmin'],
@@ -69,7 +60,6 @@ return [
                 ],
                 160 => [
                     'slug'        => 'category_trees',
-                    'name'        => 'motor-admin.category_trees.category_trees',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.motor-admin.category-trees',
                     'roles'       => ['SuperAdmin'],
@@ -78,7 +68,6 @@ return [
                 ],
                 170 => [
                     'slug'        => 'config_variables',
-                    'name'        => 'motor-admin.config_variables.config_variables',
                     'icon'        => 'fa fa-plus',
                     'route'       => 'admin.motor-admin.config-variables',
                     'roles'       => ['SuperAdmin'],
