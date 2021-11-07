@@ -48,8 +48,9 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Motor\\Admin\\Providers\\MotorServiceProvider"
-      ]
+        "Motor\\Admin\\Providers\\MotorServiceProvider",
+        "Motor\\Admin\\Providers\\MotorAuthServiceProvider"
+      ],
     }
   },
   "minimum-stability": "dev",
