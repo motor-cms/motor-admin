@@ -16,7 +16,6 @@ use Motor\Admin\Http\Controllers\Api\UsersController;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'bindings', 'permission'],
-    'namespace'  => 'Motor\Admin\Http\Controllers\Api',
     'prefix'     => 'api',
     'as'         => 'api.',
 ], static function () {
