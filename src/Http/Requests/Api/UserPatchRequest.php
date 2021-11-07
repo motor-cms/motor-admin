@@ -57,9 +57,9 @@ class UserPatchRequest extends Request
      *   ),
      *   @OA\Property(
      *     property="avatar",
-     *     type="string",
-     *     example="ABCDEF",
-     *     description="base64 data url"
+     *     type="object",
+     *     ref="#/components/schemas/FileUpload",
+     *     description="If false, the existing avatar will be deleted"
      *   ),
      *   required={"name"},
      * )
@@ -83,13 +83,15 @@ class UserPatchRequest extends Request
     public function rules()
     {
         return [
-            'client_id'   => 'nullable|integer|exists:clients',
-            'name'        => 'required',
-            'email'       => 'nullable|unique:users',
-            'password'    => 'nullable|min:8',
-            'roles'       => 'nullable|array',
-            'permissions' => 'nullable|array',
-            'avatar'      => 'nullable',
+            'client_id'      => 'nullable|integer|exists:clients',
+            'name'           => 'required',
+            'email'          => 'nullable|unique:users',
+            'password'       => 'nullable|min:8',
+            'roles'          => 'nullable|array',
+            'permissions'    => 'nullable|array',
+            'avatar'         => 'nullable',
+            'avatar.dataUrl' => 'nullable|string',
+            'avatar.name'    => 'nullable|string',
         ];
     }
 }
