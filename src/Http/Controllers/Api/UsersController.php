@@ -18,7 +18,7 @@ use Motor\Admin\Services\UserService;
  */
 class UsersController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\User';
+    protected string $model = \Motor\Admin\Models\User::class;
 
     protected string $modelResource = 'user';
 
@@ -27,13 +27,12 @@ class UsersController extends ApiController
      *   tags={"UsersController"},
      *   path="/api/users",
      *   summary="Get user collection",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -86,13 +85,12 @@ class UsersController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/UserPostRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -142,13 +140,12 @@ class UsersController extends ApiController
      *   tags={"UsersController"},
      *   path="/api/users/{user}",
      *   summary="Get single user",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -206,13 +203,12 @@ class UsersController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/UserPatchRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -268,13 +264,12 @@ class UsersController extends ApiController
      *   tags={"UsersController"},
      *   path="/api/users/{user}",
      *   summary="Delete a user",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
