@@ -27,13 +27,12 @@ class PermissionsController extends ApiController
      *   tags={"PermissionsController"},
      *   path="/api/permissions",
      *   summary="Get permission collection",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -86,13 +85,12 @@ class PermissionsController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/PermissionPostRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -142,13 +140,12 @@ class PermissionsController extends ApiController
      *   tags={"PermissionsController"},
      *   path="/api/permissions/{permission}",
      *   summary="Get single permission",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -206,13 +203,12 @@ class PermissionsController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/PermissionPatchRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -268,13 +264,12 @@ class PermissionsController extends ApiController
      *   tags={"PermissionsController"},
      *   path="/api/permissions/{permission}",
      *   summary="Delete a permission",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),

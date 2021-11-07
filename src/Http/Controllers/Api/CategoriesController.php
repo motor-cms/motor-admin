@@ -29,13 +29,12 @@ class CategoriesController extends ApiController
      *   tags={"CategoriesController"},
      *   path="/api/category_trees/{category_tree}/categories",
      *   summary="Get categories collection",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -122,13 +121,12 @@ class CategoriesController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -185,13 +183,12 @@ class CategoriesController extends ApiController
      *   tags={"CategoriesController"},
      *   path="/api/category_trees/{category_tree}/categories/{category}",
      *   summary="Get single category",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -256,13 +253,12 @@ class CategoriesController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -325,13 +321,12 @@ class CategoriesController extends ApiController
      *   tags={"CategoriesController"},
      *   path="/api/category_trees/{category_tree}/categories/{category}",
      *   summary="Delete a category",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),

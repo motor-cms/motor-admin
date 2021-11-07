@@ -29,13 +29,12 @@ class CategoryTreesController extends ApiController
      *   tags={"CategoryTreesController"},
      *   path="/api/category_trees",
      *   summary="Get category tree collection",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -95,13 +94,12 @@ class CategoryTreesController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/CategoryTreePostRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Response(
      *     response=200,
@@ -151,13 +149,12 @@ class CategoryTreesController extends ApiController
      *   tags={"CategoryTreesController"},
      *   path="/api/category_trees/{category}",
      *   summary="Get single category tree",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -215,13 +212,12 @@ class CategoryTreesController extends ApiController
      *   @OA\RequestBody(
      *     @OA\JsonContent(ref="#/components/schemas/CategoryTreePatchRequest")
      *   ),
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),
@@ -277,13 +273,12 @@ class CategoryTreesController extends ApiController
      *   tags={"CategoryTreesController"},
      *   path="/api/category_trees/{category}",
      *   summary="Delete a category tree",
+     *   security={ {"sanctum": {} }},
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
-     *     in="query",
-     *     allowReserved=true,
-     *     name="api_token",
-     *     parameter="api_token",
-     *     description="Personal api_token of the user"
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="integer"),

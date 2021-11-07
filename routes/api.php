@@ -15,7 +15,7 @@ use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
 
 Route::group([
-    'middleware' => ['auth:sanctum', 'bindings', 'permission'],
+    'middleware' => ['auth:sanctum', 'bindings'],
     'prefix'     => 'api',
     'as'         => 'api.',
 ], static function () {

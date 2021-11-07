@@ -17,17 +17,6 @@ namespace App\Http\Controllers\Api;
  *   )
  * )
  *
- * @OA\Tag(name="UsersController", description="Endpoints for the users resource")
- *
- *
- * @OA\Parameter(
- *    @OA\Schema(type="string"),
- *    in="query",
- *    allowReserved=true,
- *    name="api_token",
- *    parameter="api_token",
- *    description="Personal api_token of the user"
- * )
  */
 
 /**
