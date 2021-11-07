@@ -5,7 +5,7 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class UserRequest
+ * Class UserPatchRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
@@ -39,15 +39,21 @@ class UserPatchRequest extends Request
      *     property="roles",
      *     type="array",
      *     @OA\Items(
-     *       ref="#/components/schemas/RoleRequest"
-     *     )
+     *       anyOf={
+     *         @OA\Schema(type="integer")
+     *       }
+     *     ),
+     *     example="[1,2,3]"
      *   ),
      *   @OA\Property(
      *     property="permissions",
      *     type="array",
      *     @OA\Items(
-     *       ref="#/components/schemas/PermissionRequest"
-     *     )
+     *       anyOf={
+     *         @OA\Schema(type="integer")
+     *       }
+     *     ),
+     *     example="[1,2,3]"
      *   ),
      *   @OA\Property(
      *     property="avatar",
@@ -55,7 +61,7 @@ class UserPatchRequest extends Request
      *     example="ABCDEF",
      *     description="base64 data url"
      *   ),
-     *   required={"name", "email"},
+     *   required={"name"},
      * )
      */
 
@@ -77,10 +83,10 @@ class UserPatchRequest extends Request
     public function rules()
     {
         return [
-            'client_id'   => 'nullable|exists:clients',
+            'client_id'   => 'nullable|integer|exists:clients',
             'name'        => 'required',
             'email'       => 'nullable|unique:users',
-            'password'    => 'required|min:8',
+            'password'    => 'nullable|min:8',
             'roles'       => 'nullable|array',
             'permissions' => 'nullable|array',
             'avatar'      => 'nullable',

@@ -30,6 +30,8 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Role whereName($value)
  * @method static Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $permissions_count
+ * @property-read int|null $users_count
  */
 class Role extends \Spatie\Permission\Models\Role
 {
@@ -41,7 +43,7 @@ class Role extends \Spatie\Permission\Models\Role
      *
      * @var array
      */
-    protected $searchableColumns = [
+    protected array $searchableColumns = [
         'name',
         'guard_name',
     ];

@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\PermissionGroupRequest;
 use Motor\Admin\Http\Resources\PermissionGroupCollection;
@@ -69,7 +70,7 @@ class  PermissionGroupsController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\PermissionGroupCollection
      */
-    public function index()
+    public function index(): PermissionGroupCollection
     {
         $paginator = PermissionGroupService::collection()
                                            ->getPaginator();
@@ -124,9 +125,9 @@ class  PermissionGroupsController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param \Motor\Admin\Http\Requests\Api\PermissionGroupRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(PermissionGroupRequest $request)
+    public function store(PermissionGroupRequest $request): JsonResponse
     {
         $result = PermissionGroupService::create($request)
                                         ->getResult();
@@ -189,7 +190,7 @@ class  PermissionGroupsController extends ApiController
      * @param \Motor\Admin\Models\PermissionGroup $record
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
-    public function show(PermissionGroup $record)
+    public function show(PermissionGroup $record): PermissionGroupResource
     {
         $result = PermissionGroupService::show($record)
                                         ->getResult();
@@ -254,7 +255,7 @@ class  PermissionGroupsController extends ApiController
      * @param \Motor\Admin\Models\Permission $record
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
-    public function update(PermissionGroupRequest $request, Permission $record)
+    public function update(PermissionGroupRequest $request, Permission $record): PermissionGroupResource
     {
         $result = PermissionGroupService::update($record, $request)
                                         ->getResult();
@@ -321,7 +322,7 @@ class  PermissionGroupsController extends ApiController
      * @param \Motor\Admin\Models\PermissionGroup $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(PermissionGroup $record)
+    public function destroy(PermissionGroup $record): JsonResponse
     {
         $result = PermissionGroupService::delete($record)
                                         ->getResult();

@@ -2,6 +2,11 @@
 
 use Motor\Admin\Models\ConfigVariable;
 
+/**
+ * @param $package
+ * @throws \Psr\Container\ContainerExceptionInterface
+ * @throws \Psr\Container\NotFoundExceptionInterface
+ */
 function merge_local_config_with_db_configuration_variables($package)
 {
     try {
@@ -16,11 +21,11 @@ function merge_local_config_with_db_configuration_variables($package)
 }
 
 /**
- * @param      $var
+ * @param string $var
  * @param null $default
- * @return mixed|null
+ * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|string|null
  */
-function config_variable($var, $default = null)
+function config_variable(string $var, $default = null)
 {
     [$package, $group, $name] = explode('.', $var);
 

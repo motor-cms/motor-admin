@@ -6,6 +6,11 @@ namespace Motor\Admin\Http\Resources;
  * @OA\Schema(
  *   schema="RoleResource",
  *   @OA\Property(
+ *     property="id",
+ *     type="integer",
+ *     example="1"
+ *   ),
+ *   @OA\Property(
  *     property="name",
  *     type="string",
  *     example="Administrator"
@@ -14,6 +19,13 @@ namespace Motor\Admin\Http\Resources;
  *     property="guard_name",
  *     type="string",
  *     example="web"
+ *   ),
+ *   @OA\Property(
+ *     property="permissions",
+ *     type="array",
+ *     @OA\Items(
+ *       ref="#/components/schemas/PermissionResource"
+ *     ),
  *   )
  * )
  */
@@ -25,7 +37,7 @@ class RoleResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             "id"          => $this->id,

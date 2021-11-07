@@ -51,6 +51,47 @@ use Motor\Core\Traits\Filterable;
  * @method static Builder|Category whereUpdatedAt($value)
  * @method static Builder|Category whereUpdatedBy($value)
  * @mixin \Eloquent
+ * @property-read int|null $children_count
+ * @method static \Kalnoy\Nestedset\Collection|static[] all($columns = ['*'])
+ * @method static QueryBuilder|Category ancestorsAndSelf($id, array $columns = [])
+ * @method static QueryBuilder|Category ancestorsOf($id, array $columns = [])
+ * @method static QueryBuilder|Category applyNestedSetScope(?string $table = null)
+ * @method static QueryBuilder|Category countErrors()
+ * @method static QueryBuilder|Category defaultOrder(string $dir = 'asc')
+ * @method static QueryBuilder|Category descendantsAndSelf($id, array $columns = [])
+ * @method static QueryBuilder|Category descendantsOf($id, array $columns = [], $andSelf = false)
+ * @method static QueryBuilder|Category fixSubtree($root)
+ * @method static QueryBuilder|Category fixTree($root = null)
+ * @method static \Kalnoy\Nestedset\Collection|static[] get($columns = ['*'])
+ * @method static QueryBuilder|Category getNodeData($id, $required = false)
+ * @method static QueryBuilder|Category getPlainNodeData($id, $required = false)
+ * @method static QueryBuilder|Category getTotalErrors()
+ * @method static QueryBuilder|Category hasChildren()
+ * @method static QueryBuilder|Category hasParent()
+ * @method static QueryBuilder|Category isBroken()
+ * @method static QueryBuilder|Category leaves(array $columns = [])
+ * @method static QueryBuilder|Category makeGap(int $cut, int $height)
+ * @method static QueryBuilder|Category moveNode($key, $position)
+ * @method static QueryBuilder|Category orWhereAncestorOf(bool $id, bool $andSelf = false)
+ * @method static QueryBuilder|Category orWhereDescendantOf($id)
+ * @method static QueryBuilder|Category orWhereNodeBetween($values)
+ * @method static QueryBuilder|Category orWhereNotDescendantOf($id)
+ * @method static QueryBuilder|Category rebuildSubtree($root, array $data, $delete = false)
+ * @method static QueryBuilder|Category rebuildTree(array $data, $delete = false, $root = null)
+ * @method static QueryBuilder|Category reversed()
+ * @method static QueryBuilder|Category root(array $columns = [])
+ * @method static QueryBuilder|Category whereAncestorOf($id, $andSelf = false, $boolean = 'and')
+ * @method static QueryBuilder|Category whereAncestorOrSelf($id)
+ * @method static QueryBuilder|Category whereDescendantOf($id, $boolean = 'and', $not = false, $andSelf = false)
+ * @method static QueryBuilder|Category whereDescendantOrSelf(string $id, string $boolean = 'and', string $not = false)
+ * @method static QueryBuilder|Category whereIsAfter($id, $boolean = 'and')
+ * @method static QueryBuilder|Category whereIsBefore($id, $boolean = 'and')
+ * @method static QueryBuilder|Category whereIsLeaf()
+ * @method static QueryBuilder|Category whereIsRoot()
+ * @method static QueryBuilder|Category whereNodeBetween($values, $boolean = 'and', $not = false)
+ * @method static QueryBuilder|Category whereNotDescendantOf($id)
+ * @method static QueryBuilder|Category withDepth(string $as = 'depth')
+ * @method static QueryBuilder|Category withoutRoot()
  */
 class Category extends Model
 {
@@ -63,14 +104,14 @@ class Category extends Model
      *
      * @var array
      */
-    protected $blameable = ['created', 'updated', 'deleted'];
+    protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
      * Searchable columns for the searchable trait
      *
      * @var array
      */
-    protected $searchableColumns = [
+    protected array $searchableColumns = [
         'name',
     ];
 
@@ -89,7 +130,7 @@ class Category extends Model
      *
      * @return array
      */
-    public function getSearchableColumns()
+    public function getSearchableColumns(): array
     {
         return (property_exists($this, 'searchableColumns')) ? $this->searchableColumns : [];
     }
@@ -98,10 +139,7 @@ class Category extends Model
     /**
      * @return array
      */
-    /**
-     * @return array
-     */
-    protected function getScopeAttributes()
+    protected function getScopeAttributes(): array
     {
         return ['scope'];
     }

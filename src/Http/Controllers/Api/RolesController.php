@@ -2,8 +2,10 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\RoleRequest;
+use Motor\Admin\Http\Requests\Api\RolePatchRequest;
+use Motor\Admin\Http\Requests\Api\RolePostRequest;
 use Motor\Admin\Http\Resources\RoleCollection;
 use Motor\Admin\Http\Resources\RoleResource;
 use Motor\Admin\Models\Role;
@@ -68,7 +70,7 @@ class RolesController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\RoleCollection
      */
-    public function index()
+    public function index(): RoleCollection
     {
         $paginator = RoleService::collection()
                                 ->getPaginator();
@@ -82,7 +84,7 @@ class RolesController extends ApiController
      *   path="/api/roles",
      *   summary="Create new role",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/RoleRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/RolePostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -122,10 +124,10 @@ class RolesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\RoleRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @param \Motor\Admin\Http\Requests\Api\RolePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RoleRequest $request)
+    public function store(RolePostRequest $request): JsonResponse
     {
         $result = RoleService::create($request)
                              ->getResult();
@@ -188,7 +190,7 @@ class RolesController extends ApiController
      * @param \Motor\Admin\Models\Role $record
      * @return \Motor\Admin\Http\Resources\RoleResource
      */
-    public function show(Role $record)
+    public function show(Role $record): RoleResource
     {
         $result = RoleService::show($record)
                              ->getResult();
@@ -202,7 +204,7 @@ class RolesController extends ApiController
      *   path="/api/roles/{role}",
      *   summary="Update an existing role",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/RoleRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/RolePatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -249,11 +251,11 @@ class RolesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\RoleRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\RolePatchRequest $request
      * @param \Motor\Admin\Models\Role $record
      * @return \Motor\Admin\Http\Resources\RoleResource
      */
-    public function update(RoleRequest $request, Role $record)
+    public function update(RolePatchRequest $request, Role $record): RoleResource
     {
         $result = RoleService::update($record, $request)
                              ->getResult();
@@ -320,7 +322,7 @@ class RolesController extends ApiController
      * @param \Motor\Admin\Models\Role $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Role $record)
+    public function destroy(Role $record): JsonResponse
     {
         $result = RoleService::delete($record)
                              ->getResult();

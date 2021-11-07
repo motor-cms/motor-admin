@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\ConfigVariableRequest;
 use Motor\Admin\Http\Resources\ConfigVariableCollection;
@@ -68,7 +69,7 @@ class ConfigVariablesController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\ConfigVariableCollection
      */
-    public function index()
+    public function index(): ConfigVariableCollection
     {
         $paginator = ConfigVariableService::collection()
                                           ->getPaginator();
@@ -123,9 +124,9 @@ class ConfigVariablesController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param \Motor\Admin\Http\Requests\Api\ConfigVariableRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ConfigVariableRequest $request)
+    public function store(ConfigVariableRequest $request): JsonResponse
     {
         $result = ConfigVariableService::create($request)
                                        ->getResult();
@@ -188,7 +189,7 @@ class ConfigVariablesController extends ApiController
      * @param \Motor\Admin\Models\ConfigVariable $record
      * @return \Motor\Admin\Http\Resources\ConfigVariableResource
      */
-    public function show(ConfigVariable $record)
+    public function show(ConfigVariable $record): ConfigVariableResource
     {
         $result = ConfigVariableService::show($record)
                                        ->getResult();
@@ -253,7 +254,7 @@ class ConfigVariablesController extends ApiController
      * @param \Motor\Admin\Models\ConfigVariable $record
      * @return \Motor\Admin\Http\Resources\ConfigVariableResource
      */
-    public function update(ConfigVariableRequest $request, ConfigVariable $record)
+    public function update(ConfigVariableRequest $request, ConfigVariable $record): ConfigVariableResource
     {
         $result = ConfigVariableService::update($record, $request)
                                        ->getResult();
@@ -320,7 +321,7 @@ class ConfigVariablesController extends ApiController
      * @param \Motor\Admin\Models\ConfigVariable $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(ConfigVariable $record)
+    public function destroy(ConfigVariable $record): JsonResponse
     {
         $result = ConfigVariableService::delete($record)
                                        ->getResult();

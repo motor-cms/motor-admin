@@ -5,19 +5,19 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class PermissionRequest
+ * Class RolePostRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class PermissionRequest extends Request
+class RolePostRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="PermissionRequest",
+     *   schema="RolePostRequest",
      *   @OA\Property(
      *     property="name",
      *     type="string",
-     *     example="dashboard.read"
+     *     example="Administrator"
      *   ),
      *   @OA\Property(
      *     property="guard_name",
@@ -33,7 +33,7 @@ class PermissionRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -43,11 +43,11 @@ class PermissionRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'       => 'required',
-            'guard_name' => 'nullable',
+            'guard_name' => 'required',
         ];
     }
 }

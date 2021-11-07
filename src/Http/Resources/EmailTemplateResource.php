@@ -16,9 +16,19 @@ namespace Motor\Admin\Http\Resources;
  *     ref="#/components/schemas/ClientResource"
  *   ),
  *   @OA\Property(
+ *     property="client_id",
+ *     type="integer",
+ *     example="1"
+ *   ),
+ *   @OA\Property(
  *     property="language",
  *     type="object",
  *     ref="#/components/schemas/LanguageResource"
+ *   ),
+ *   @OA\Property(
+ *     property="language_id",
+ *     type="integer",
+ *     example="1"
  *   ),
  *   @OA\Property(
  *     property="name",
@@ -82,7 +92,7 @@ class EmailTemplateResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id'                      => (int) $this->id,

@@ -6,15 +6,15 @@ use Illuminate\Validation\Rule;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class CategoryTreeRequest
+ * Class CategoryTreePatchRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class CategoryTreeRequest extends Request
+class CategoryTreePatchRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="CategoryTreeRequest",
+     *   schema="CategoryTreePatchRequest",
      *   @OA\Property(
      *     property="name",
      *     type="string",
@@ -34,7 +34,7 @@ class CategoryTreeRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -44,7 +44,7 @@ class CategoryTreeRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $request = $this;
 
@@ -54,15 +54,10 @@ class CategoryTreeRequest extends Request
                 'required',
                 Rule::unique('categories')
                     ->where(function ($query) use ($request) {
-                        if ($request->method() == 'PATCH' || $request->method() == 'PUT') {
-                            return $query->where('scope', $request->scope)
-                                         ->where('parent_id', null)
-                                         ->where('id', '!=', $request->route()
-                                                                     ->originalParameter('category'));
-                        } else {
-                            return $query->where('scope', $request->scope)
-                                         ->where('parent_id', null);
-                        }
+                        return $query->where('scope', $request->scope)
+                                     ->where('parent_id', null)
+                                     ->where('id', '!=', $request->route()
+                                                                 ->originalParameter('category'));
                     }),
             ],
         ];

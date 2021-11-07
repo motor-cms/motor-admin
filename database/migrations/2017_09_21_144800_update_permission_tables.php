@@ -30,7 +30,7 @@ class UpdatePermissionTables extends Migration
 
         Schema::create(
             $tableNames['model_has_permissions'],
-            function (Blueprint $table) use ($tableNames, $foreignKeys) {
+            function (Blueprint $table) use ($tableNames) {
                 $table->integer('permission_id')->unsigned();
                 $table->morphs('model');
 
@@ -40,7 +40,7 @@ class UpdatePermissionTables extends Migration
             }
         );
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $foreignKeys) {
+        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
             $table->integer('role_id')->unsigned();
             $table->morphs('model');
 

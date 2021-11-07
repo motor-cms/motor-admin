@@ -15,11 +15,10 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param $request
      * @param \Closure $next
-     * @param string|null $guard
-     *
-     * @return mixed
+     * @param null $guard
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {

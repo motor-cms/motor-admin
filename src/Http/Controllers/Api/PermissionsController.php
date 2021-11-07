@@ -2,8 +2,10 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\PermissionRequest;
+use Motor\Admin\Http\Requests\Api\PermissionPatchRequest;
+use Motor\Admin\Http\Requests\Api\PermissionPostRequest;
 use Motor\Admin\Http\Resources\PermissionCollection;
 use Motor\Admin\Http\Resources\PermissionResource;
 use Motor\Admin\Models\Permission;
@@ -68,7 +70,7 @@ class PermissionsController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\PermissionCollection
      */
-    public function index()
+    public function index(): PermissionCollection
     {
         $paginator = PermissionService::collection()
                                       ->getPaginator();
@@ -82,7 +84,7 @@ class PermissionsController extends ApiController
      *   path="/api/permissions",
      *   summary="Create new permission",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/PermissionRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/PermissionPostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -122,10 +124,10 @@ class PermissionsController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param PermissionRequest $request
+     * @param PermissionPostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(PermissionRequest $request)
+    public function store(PermissionPostRequest $request): JsonResponse
     {
         $result = PermissionService::create($request)
                                    ->getResult();
@@ -188,7 +190,7 @@ class PermissionsController extends ApiController
      * @param \Motor\Admin\Models\Permission $record
      * @return \Motor\Admin\Http\Resources\PermissionResource
      */
-    public function show(Permission $record)
+    public function show(Permission $record): PermissionResource
     {
         $result = PermissionService::show($record)
                                    ->getResult();
@@ -202,7 +204,7 @@ class PermissionsController extends ApiController
      *   path="/api/permissions/{permission}",
      *   summary="Update an existing permission",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/PermissionRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/PermissionPatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -249,11 +251,11 @@ class PermissionsController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\PermissionRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\PermissionPatchRequest $request
      * @param \Motor\Admin\Models\Permission $record
      * @return \Motor\Admin\Http\Resources\PermissionResource
      */
-    public function update(PermissionRequest $request, Permission $record)
+    public function update(PermissionPatchRequest $request, Permission $record): PermissionResource
     {
         $result = PermissionService::update($record, $request)
                                    ->getResult();
@@ -320,7 +322,7 @@ class PermissionsController extends ApiController
      * @param \Motor\Admin\Models\Permission $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Permission $record)
+    public function destroy(Permission $record): JsonResponse
     {
         $result = PermissionService::delete($record)
                                    ->getResult();

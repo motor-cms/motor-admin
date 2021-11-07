@@ -35,6 +35,18 @@ namespace Motor\Admin\Http\Resources;
  *     type="integer",
  *     example="5"
  *   ),
+ *   @OA\Property(
+ *     property="level",
+ *     type="integer",
+ *     example="1"
+ *   ),
+ *   @OA\Property(
+ *     property="children",
+ *     type="array",
+ *     @OA\Items(
+ *       ref="#/components/schemas/CategoryResource"
+ *     )
+ *   )
  * )
  */
 class CategoryResource extends BaseResource
@@ -45,7 +57,7 @@ class CategoryResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         if ($request->route()->compiled->getStaticPrefix() === '/api/category_trees') {
             $this->load('children');

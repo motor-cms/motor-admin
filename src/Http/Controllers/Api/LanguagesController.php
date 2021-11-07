@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\LanguageRequest;
 use Motor\Admin\Http\Resources\LanguageCollection;
@@ -68,7 +69,7 @@ class LanguagesController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\LanguageCollection
      */
-    public function index()
+    public function index(): LanguageCollection
     {
         $paginator = LanguageService::collection()
                                     ->getPaginator();
@@ -123,9 +124,9 @@ class LanguagesController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param \Motor\Admin\Http\Requests\Api\LanguageRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(LanguageRequest $request)
+    public function store(LanguageRequest $request): JsonResponse
     {
         $result = LanguageService::create($request)
                                  ->getResult();
@@ -188,7 +189,7 @@ class LanguagesController extends ApiController
      * @param \Motor\Admin\Models\Language $record
      * @return \Motor\Admin\Http\Resources\LanguageResource
      */
-    public function show(Language $record)
+    public function show(Language $record): LanguageResource
     {
         $result = LanguageService::show($record)
                                  ->getResult();
@@ -253,7 +254,7 @@ class LanguagesController extends ApiController
      * @param \Motor\Admin\Models\Language $record
      * @return \Motor\Admin\Http\Resources\LanguageResource
      */
-    public function update(LanguageRequest $request, Language $record)
+    public function update(LanguageRequest $request, Language $record): LanguageResource
     {
         $result = LanguageService::update($record, $request)
                                  ->getResult();
@@ -320,7 +321,7 @@ class LanguagesController extends ApiController
      * @param \Motor\Admin\Models\Language $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Language $record)
+    public function destroy(Language $record): JsonResponse
     {
         $result = LanguageService::delete($record)
                                  ->getResult();

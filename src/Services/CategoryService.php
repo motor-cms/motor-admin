@@ -46,7 +46,7 @@ class CategoryService extends BaseService
             if ($this->record->exists) {
                 $formerPreviousSibling = $this->record->getPrevSibling();
             }
-            if ((is_null($formerPreviousSibling) || (! is_null($formerPreviousSibling) && $formerPreviousSibling->id != $node->id))) {
+            if ((is_null($formerPreviousSibling) || ($formerPreviousSibling->id != $node->id))) {
                 $this->record->afterNode($node);
             }
         }
@@ -62,7 +62,7 @@ class CategoryService extends BaseService
                 if ($this->record->exists) {
                     $formerNextSibling = $this->record->getNextSibling();
                 }
-                if ((is_null($formerNextSibling) || (! is_null($formerNextSibling) && $formerNextSibling->id != $node->id))) {
+                if ((is_null($formerNextSibling) || ($formerNextSibling->id != $node->id))) {
                     $this->record->beforeNode($node);
                 }
             }

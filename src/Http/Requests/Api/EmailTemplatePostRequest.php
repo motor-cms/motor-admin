@@ -5,15 +5,15 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class EmailTemplateRequest
+ * Class EmailTemplatePostRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class EmailTemplateRequest extends Request
+class EmailTemplatePostRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="EmailTemplateRequest",
+     *   schema="EmailTemplatePostRequest",
      *   @OA\Property(
      *     property="client_id",
      *     type="integer",
@@ -76,7 +76,7 @@ class EmailTemplateRequest extends Request
      *     description="Comma separated list of email addresses",
      *     example="bcc1@motor-cms.com,bcc2.motor-cms.com"
      *   ),
-     *   required={"name", "client_id", "language_id"},
+     *   required={"name", "client_id", "language_id", "subject"},
      * )
      */
 
@@ -85,7 +85,7 @@ class EmailTemplateRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -95,12 +95,21 @@ class EmailTemplateRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name'        => 'required',
-            'client_id'   => 'required',
-            'language_id' => 'required',
+            'client_id'               => 'required|integer',
+            'language_id'             => 'required|integer',
+            'name'                    => 'required',
+            'subject'                 => 'required',
+            'body_text'               => 'nullable',
+            'body_html'               => 'nullable',
+            'default_sender_name'     => 'nullable',
+            'default_sender_email'    => 'nullable|email',
+            'default_recipient_name'  => 'nullable',
+            'default_recipient_email' => 'nullable|email',
+            'default_cc_email'        => 'nullable',
+            'default_bcc_email'       => 'nullable',
         ];
     }
 }

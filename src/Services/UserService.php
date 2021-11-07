@@ -2,7 +2,6 @@
 
 namespace Motor\Admin\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

@@ -2,8 +2,10 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\ClientRequest;
+use Motor\Admin\Http\Requests\Api\ClientPatchRequest;
+use Motor\Admin\Http\Requests\Api\ClientPostRequest;
 use Motor\Admin\Http\Resources\ClientCollection;
 use Motor\Admin\Http\Resources\ClientResource;
 use Motor\Admin\Models\Client;
@@ -68,7 +70,7 @@ class ClientsController extends ApiController
      *
      * @return ClientCollection
      */
-    public function index()
+    public function index(): ClientCollection
     {
         $paginator = ClientService::collection()
                                   ->getPaginator();
@@ -82,7 +84,7 @@ class ClientsController extends ApiController
      *   path="/api/clients",
      *   summary="Create new client",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/ClientRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/ClientPostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -122,10 +124,10 @@ class ClientsController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param ClientRequest $request
+     * @param ClientPostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ClientRequest $request)
+    public function store(ClientPostRequest $request): JsonResponse
     {
         $result = ClientService::create($request)
                                ->getResult();
@@ -188,7 +190,7 @@ class ClientsController extends ApiController
      * @param Client $record
      * @return ClientResource
      */
-    public function show(Client $record)
+    public function show(Client $record): ClientResource
     {
         $result = ClientService::show($record)
                                ->getResult();
@@ -202,7 +204,7 @@ class ClientsController extends ApiController
      *   path="/api/clients/{client}",
      *   summary="Update an existing client",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/ClientRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/ClientPatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -249,11 +251,11 @@ class ClientsController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param ClientRequest $request
+     * @param ClientPatchRequest $request
      * @param Client $record
      * @return ClientResource
      */
-    public function update(ClientRequest $request, Client $record)
+    public function update(ClientPatchRequest $request, Client $record): ClientResource
     {
         $result = ClientService::update($record, $request)
                                ->getResult();
@@ -320,7 +322,7 @@ class ClientsController extends ApiController
      * @param Client $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Client $record)
+    public function destroy(Client $record): JsonResponse
     {
         $result = ClientService::delete($record)
                                ->getResult();

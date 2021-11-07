@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 
 /**
@@ -16,7 +17,7 @@ class AdminNavigationsController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $items = config('motor-admin-navigation.items');
         ksort($items);

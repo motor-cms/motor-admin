@@ -68,7 +68,7 @@ class ProfileEditController extends ApiController
      * @param \Motor\Admin\Http\Requests\Api\ProfileEditRequest $request
      * @return \Motor\Admin\Http\Resources\UserResource
      */
-    public function update(ProfileEditRequest $request)
+    public function update(ProfileEditRequest $request): UserResource
     {
         $result = ProfileEditService::update(Auth::user(), $request)
                                     ->getResult();
@@ -124,7 +124,7 @@ class ProfileEditController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\UserResource
      */
-    public function me()
+    public function me(): UserResource
     {
         $result = ProfileEditService::show(Auth::user())
                                     ->getResult();

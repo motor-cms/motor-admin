@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Motor\Admin\Database\Factories\UserFactory;
-use Motor\Admin\Notifications\ResetPassword;
 use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
@@ -69,6 +68,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $media_count
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Motor\Admin\Database\Factories\UserFactory factory(...$parameters)
+ * @property-read int|null $permissions_count
+ * @property-read int|null $roles_count
  */
 class User extends Authenticatable implements HasMedia
 {
@@ -80,7 +86,7 @@ class User extends Authenticatable implements HasMedia
     use HasFactory;
     use HasApiTokens;
 
-    protected $guard_name = 'web';
+    protected string $guard_name = 'web';
 
     protected static function newFactory()
     {
@@ -88,21 +94,8 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * Send a password reset email to the user
-     *
-     * @param string $token
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPassword($token, $this));
-    }
-
-
-    /**
-     * @param Media|null $media
-     */
-    /**
-     * @param Media|null $media
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null): void
     {
@@ -119,7 +112,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array
      */
-    protected $searchableColumns = ['name', 'email'];
+    protected array $searchableColumns = ['name', 'email'];
 
     /**
      * The attributes that are mass assignable.
@@ -147,7 +140,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function client()
+    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }

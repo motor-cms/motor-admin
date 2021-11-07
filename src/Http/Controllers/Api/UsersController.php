@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\UserPatchRequest;
+use Motor\Admin\Http\Requests\Api\UserPostRequest;
 use Motor\Admin\Http\Resources\UserCollection;
 use Motor\Admin\Http\Resources\UserResource;
 use Motor\Admin\Models\User;
@@ -123,10 +124,10 @@ class UsersController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\UserPatchRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\UserPostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(UserPatchRequest $request): JsonResponse
+    public function store(UserPostRequest $request): JsonResponse
     {
         $result = UserService::create($request)
                              ->getResult();
