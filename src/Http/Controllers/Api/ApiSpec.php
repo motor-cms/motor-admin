@@ -39,6 +39,24 @@ namespace App\Http\Controllers\Api;
 
 /**
  * @OA\Schema(
+ *   schema="FileUpload",
+ *   @OA\Property(
+ *     property="dataUrl",
+ *     type="string",
+ *     example="ABCDEF",
+ *     description="Must be a valid base64 encoded image (png or jpg)"
+ *   ),
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="my-file.jpg",
+ *     description="If empty, a temporary filename will be generated"
+ *   )
+ * )
+ */
+
+/**
+ * @OA\Schema(
  *   schema="PaginationLinks",
  *   @OA\Property(
  *     property="first",
