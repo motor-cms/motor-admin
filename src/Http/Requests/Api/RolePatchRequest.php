@@ -5,31 +5,26 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class LanguageRequest
+ * Class RolePatchRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class LanguageRequest extends Request
+class RolePatchRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="LanguageRequest",
+     *   schema="RolePatchRequest",
      *   @OA\Property(
-     *     property="iso_639_1",
+     *     property="name",
      *     type="string",
-     *     example="de"
+     *     example="Administrator"
      *   ),
      *   @OA\Property(
-     *     property="english_name",
+     *     property="guard_name",
      *     type="string",
-     *     example="German"
+     *     example="web"
      *   ),
-     *   @OA\Property(
-     *     property="native_name",
-     *     type="string",
-     *     example="Deutsch"
-     *   ),
-     *   required={"iso_639_1", "english_name", "native_name"},
+     *   required={"name"},
      * )
      */
 
@@ -51,9 +46,8 @@ class LanguageRequest extends Request
     public function rules(): array
     {
         return [
-            'iso_639_1'    => 'required|min:2|max:2',
-            'english_name' => 'required',
-            'native_name'  => 'required',
+            'name'       => 'required',
+            'guard_name' => 'nullable',
         ];
     }
 }

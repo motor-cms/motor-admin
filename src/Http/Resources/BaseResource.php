@@ -20,7 +20,7 @@ class BaseResource extends JsonResource
      * @param mixed $resource
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public static function collection($resource)
+    public static function collection($resource): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return tap(new AnonymousResourceCollection($resource, static::class), function ($collection) {
             if (property_exists(static::class, 'preserveKeys')) {

@@ -4,7 +4,7 @@ namespace Motor\Admin\Traits;
 
 /*
 |--------------------------------------------------------------------------
-| Api Responser Trait
+| Api Responder Trait
 |--------------------------------------------------------------------------
 |
 | This trait will be used for any response we sent to clients.
@@ -16,12 +16,12 @@ trait ApiResponder
     /**
      * Return a success JSON response.
      *
-     * @param array|string $data
-     * @param string $message
-     * @param int|null $code
+     * @param array $data
+     * @param string|null $message
+     * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function success($data, string $message = null, int $code = 200)
+    protected function success(array $data, string $message = null, int $code = 200)
     {
         return response()->json([
             'status'  => 'Success',
@@ -33,12 +33,12 @@ trait ApiResponder
     /**
      * Return an error JSON response.
      *
-     * @param string $message
+     * @param string|null $message
      * @param int $code
-     * @param array|string|null $data
+     * @param array|null $data
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function error(string $message = null, int $code, $data = null)
+    protected function error(string $message = null, int $code = 500, array $data = null)
     {
         return response()->json([
             'status'  => 'Error',

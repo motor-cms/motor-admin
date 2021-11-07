@@ -5,26 +5,26 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class RoleRequest
+ * Class PermissionPatchRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class RoleRequest extends Request
+class PermissionPatchRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="RoleRequest",
+     *   schema="PermissionPatchRequest",
      *   @OA\Property(
      *     property="name",
      *     type="string",
-     *     example="Administrator"
+     *     example="dashboard.read"
      *   ),
      *   @OA\Property(
      *     property="guard_name",
      *     type="string",
      *     example="web"
      *   ),
-     *   required={"name", "guard_name"},
+     *   required={"name"},
      * )
      */
 
@@ -33,7 +33,7 @@ class RoleRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -43,7 +43,7 @@ class RoleRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'       => 'required',

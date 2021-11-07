@@ -2,39 +2,30 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
+use Illuminate\Validation\Rule;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class ConfigVariableRequest
+ * Class CategoryTreePostRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class ConfigVariableRequest extends Request
+class CategoryTreePostRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="ConfigVariableRequest",
-     *   @OA\Property(
-     *     property="package",
-     *     type="string",
-     *     example="motor-admin"
-     *   ),
-     *   @OA\Property(
-     *     property="group",
-     *     type="string",
-     *     example="project"
-     *   ),
+     *   schema="CategoryTreePostRequest",
      *   @OA\Property(
      *     property="name",
      *     type="string",
-     *     example="name"
+     *     example="New category tree"
      *   ),
      *   @OA\Property(
-     *     property="value",
+     *     property="scope",
      *     type="string",
-     *     example="My awesome project"
+     *     example="new-category-scope"
      *   ),
-     *   required={"package", "group", "name", "value"},
+     *   required={"name", "scope"},
      * )
      */
 
@@ -55,11 +46,18 @@ class ConfigVariableRequest extends Request
      */
     public function rules(): array
     {
+        $request = $this;
+
         return [
-            'package' => 'required',
-            'group'   => 'required',
-            'name'    => 'required',
-            'value'   => 'required',
+            'name'  => 'required',
+            'scope' => [
+                'required',
+                Rule::unique('categories')
+                    ->where(function ($query) use ($request) {
+                        return $query->where('scope', $request->scope)
+                                     ->where('parent_id', null);
+                    }),
+            ],
         ];
     }
 }

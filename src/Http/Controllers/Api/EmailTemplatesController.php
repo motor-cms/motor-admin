@@ -2,8 +2,10 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\EmailTemplateRequest;
+use Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest;
+use Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest;
 use Motor\Admin\Http\Resources\EmailTemplateCollection;
 use Motor\Admin\Http\Resources\EmailTemplateResource;
 use Motor\Admin\Models\EmailTemplate;
@@ -68,7 +70,7 @@ class EmailTemplatesController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\EmailTemplateCollection
      */
-    public function index()
+    public function index(): EmailTemplateCollection
     {
         $paginator = EmailTemplateService::collection()
                                          ->getPaginator();
@@ -82,7 +84,7 @@ class EmailTemplatesController extends ApiController
      *   path="/api/email_templates",
      *   summary="Create new email template",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplateRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplatePostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -122,10 +124,10 @@ class EmailTemplatesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\EmailTemplateRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @param \Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(EmailTemplateRequest $request)
+    public function store(EmailTemplatePostRequest $request): JsonResponse
     {
         $result = EmailTemplateService::create($request)
                                       ->getResult();
@@ -188,7 +190,7 @@ class EmailTemplatesController extends ApiController
      * @param \Motor\Admin\Models\EmailTemplate $record
      * @return \Motor\Admin\Http\Resources\EmailTemplateResource
      */
-    public function show(EmailTemplate $record)
+    public function show(EmailTemplate $record): EmailTemplateResource
     {
         $result = EmailTemplateService::show($record)
                                       ->getResult();
@@ -202,7 +204,7 @@ class EmailTemplatesController extends ApiController
      *   path="/api/email_templates/{email_template}",
      *   summary="Update an existing email template",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplateRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplatePatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -249,11 +251,11 @@ class EmailTemplatesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\EmailTemplateRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest $request
      * @param \Motor\Admin\Models\EmailTemplate $record
      * @return \Motor\Admin\Http\Resources\EmailTemplateResource
      */
-    public function update(EmailTemplateRequest $request, EmailTemplate $record)
+    public function update(EmailTemplatePatchRequest $request, EmailTemplate $record): EmailTemplateResource
     {
         $result = EmailTemplateService::update($record, $request)
                                       ->getResult();
@@ -320,7 +322,7 @@ class EmailTemplatesController extends ApiController
      * @param \Motor\Admin\Models\EmailTemplate $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(EmailTemplate $record)
+    public function destroy(EmailTemplate $record): JsonResponse
     {
         $result = EmailTemplateService::delete($record)
                                       ->getResult();

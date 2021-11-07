@@ -5,7 +5,7 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class UserRequest
+ * Class UserPostRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
@@ -39,15 +39,21 @@ class UserPostRequest extends Request
      *     property="roles",
      *     type="array",
      *     @OA\Items(
-     *       ref="#/components/schemas/RoleRequest"
-     *     )
+     *       anyOf={
+     *         @OA\Schema(type="integer")
+     *       }
+     *     ),
+     *     example="[1,2,3]"
      *   ),
      *   @OA\Property(
      *     property="permissions",
      *     type="array",
      *     @OA\Items(
-     *       ref="#/components/schemas/PermissionRequest"
-     *     )
+     *       anyOf={
+     *         @OA\Schema(type="integer")
+     *       }
+     *     ),
+     *     example="[1,2,3]"
      *   ),
      *   @OA\Property(
      *     property="avatar",
@@ -64,7 +70,7 @@ class UserPostRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -74,10 +80,10 @@ class UserPostRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'client_id'   => 'nullable|exists:clients',
+            'client_id'   => 'nullable|integer|exists:clients',
             'name'        => 'required',
             'email'       => 'required|unique:users',
             'password'    => 'required|min:8',

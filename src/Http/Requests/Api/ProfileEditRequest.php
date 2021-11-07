@@ -32,10 +32,11 @@ class ProfileEditRequest extends Request
      *   ),
      *   @OA\Property(
      *     property="avatar",
-     *     type="file",
-     *     example="avatar.png"
+     *     type="string",
+     *     example="ABCDEF",
+     *     description="base64 data url"
      *   ),
-     *   required={"name", "email", "password"},
+     *   required={"name", "email"},
      * )
      */
 
@@ -44,7 +45,7 @@ class ProfileEditRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -54,13 +55,13 @@ class ProfileEditRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'     => 'required',
             'email'    => 'required|email',
-            'password' => 'confirmed',
-            'avatar'   => 'nullable|image',
+            'password' => 'nullable|min:8',
+            'avatar'   => 'nullable',
         ];
     }
 }

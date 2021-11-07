@@ -59,12 +59,12 @@ class UserResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id'          => (int) $this->id,
             'client'      => new ClientResource($this->client),
-            'client_id' => $this->client_id,
+            'client_id'   => $this->client_id,
             'roles'       => RoleResource::collection($this->roles),
             'permissions' => PermissionResource::collection($this->permissions),
             'name'        => $this->name,

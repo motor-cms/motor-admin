@@ -18,7 +18,7 @@ class AnonymousResourceCollection extends BaseResourceCollection
      * @param string $collects
      * @return void
      */
-    public function __construct($resource, $collects)
+    public function __construct($resource, string $collects)
     {
         $this->collects = $collects;
 

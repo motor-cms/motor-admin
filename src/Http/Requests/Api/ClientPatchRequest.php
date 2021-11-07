@@ -5,15 +5,15 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class ClientRequest
+ * Class ClientPatchRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
-class ClientRequest extends Request
+class ClientPatchRequest extends Request
 {
     /**
      * @OA\Schema(
-     *   schema="ClientRequest",
+     *   schema="ClientPatchRequest",
      *   @OA\Property(
      *     property="name",
      *     type="string",
@@ -83,7 +83,7 @@ class ClientRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -93,7 +93,7 @@ class ClientRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'               => 'required',
@@ -101,7 +101,7 @@ class ClientRequest extends Request
             'address'            => 'nullable',
             'zip'                => 'nullable',
             'city'               => 'nullable',
-            'country_iso_3166_1' => 'nullable',
+            'country_iso_3166_1' => 'nullable|min:2|max:2',
             'website'            => 'nullable|url',
             'description'        => 'nullable',
             'is_active'          => 'nullable|boolean',

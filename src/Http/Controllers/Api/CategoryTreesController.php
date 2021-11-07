@@ -2,9 +2,11 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Kalnoy\Nestedset\NestedSet;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\Admin\Http\Requests\Api\CategoryTreeRequest;
+use Motor\Admin\Http\Requests\Api\CategoryTreePatchRequest;
+use Motor\Admin\Http\Requests\Api\CategoryTreePostRequest;
 use Motor\Admin\Http\Resources\CategoryCollection;
 use Motor\Admin\Http\Resources\CategoryTreeResource;
 use Motor\Admin\Models\Category;
@@ -70,7 +72,7 @@ class CategoryTreesController extends ApiController
      *
      * @return \Motor\Admin\Http\Resources\CategoryCollection
      */
-    public function index()
+    public function index(): CategoryCollection
     {
         $service = CategoryService::collection();
 
@@ -91,7 +93,7 @@ class CategoryTreesController extends ApiController
      *   path="/api/category_trees",
      *   summary="Create new category tree",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/CategoryTreeRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/CategoryTreePostRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -131,10 +133,10 @@ class CategoryTreesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryTreeRequest $request
-     * @return mixed
+     * @param \Motor\Admin\Http\Requests\Api\CategoryTreePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CategoryTreeRequest $request)
+    public function store(CategoryTreePostRequest $request): JsonResponse
     {
         $result = CategoryService::create($request)
                                  ->getResult();
@@ -197,7 +199,7 @@ class CategoryTreesController extends ApiController
      * @param \Motor\Admin\Models\Category $record
      * @return \Motor\Admin\Http\Resources\CategoryTreeResource
      */
-    public function show(Category $record)
+    public function show(Category $record): CategoryTreeResource
     {
         $result = CategoryService::show($record)
                                  ->getResult();
@@ -211,7 +213,7 @@ class CategoryTreesController extends ApiController
      *   path="/api/category_trees/{category}",
      *   summary="Update an existing category tree",
      *   @OA\RequestBody(
-     *     @OA\JsonContent(ref="#/components/schemas/CategoryTreeRequest")
+     *     @OA\JsonContent(ref="#/components/schemas/CategoryTreePatchRequest")
      *   ),
      *   @OA\Parameter(
      *     @OA\Schema(type="string"),
@@ -258,11 +260,11 @@ class CategoryTreesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryTreeRequest $request
+     * @param \Motor\Admin\Http\Requests\Api\CategoryTreePatchRequest $request
      * @param \Motor\Admin\Models\Category $record
      * @return \Motor\Admin\Http\Resources\CategoryTreeResource
      */
-    public function update(CategoryTreeRequest $request, Category $record)
+    public function update(CategoryTreePatchRequest $request, Category $record): CategoryTreeResource
     {
         $result = CategoryService::update($record, $request)
                                  ->getResult();
@@ -329,7 +331,7 @@ class CategoryTreesController extends ApiController
      * @param \Motor\Admin\Models\Category $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Category $record)
+    public function destroy(Category $record): JsonResponse
     {
         $result = CategoryService::delete($record)
                                  ->getResult();

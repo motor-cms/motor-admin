@@ -5,7 +5,7 @@ namespace Motor\Admin\Http\Requests\Api;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * Class PermissionRequest
+ * Class PermissionGroupRequest
  *
  * @package Motor\Admin\Http\Requests\Admin
  */
@@ -28,7 +28,7 @@ class PermissionGroupRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -38,7 +38,7 @@ class PermissionGroupRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required',

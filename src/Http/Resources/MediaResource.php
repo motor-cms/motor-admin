@@ -2,6 +2,24 @@
 
 namespace Motor\Admin\Http\Resources;
 
+
+/**
+ * @OA\Schema(
+ *   schema="MediaResourceConversions",
+ *   @OA\Property(
+ *     property="thumb",
+ *     type="string",
+ *     example="http://localhost/media/conversion/my-image-thumb.png"
+ *   ),
+ *   @OA\Property(
+ *     property="preview",
+ *     type="string",
+ *     example="http://localhost/media/conversion/my-image-preview.png"
+ *   ),
+ * )
+ */
+
+
 /**
  * @OA\Schema(
  *   schema="MediaResource",
@@ -52,20 +70,9 @@ namespace Motor\Admin\Http\Resources;
  *   ),
  *   @OA\Property(
  *     property="conversions",
- *     type="array",
- *     @OA\Items(
- *       @OA\Property(
- *         property="thumb",
- *         type="string",
- *         example="http://localhost/media/conversion/my-image-thumb.png"
- *       ),
- *       @OA\Property(
- *         property="preview",
- *         type="string",
- *         example="http://localhost/media/conversion/my-image-preview.png"
- *       ),
- *     ),
- *   ),
+ *     type="object",
+ *     ref="#/components/schemas/MediaResourceConversions"
+ *   )
  * )
  */
 class MediaResource extends BaseResource
@@ -76,7 +83,7 @@ class MediaResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $conversions = [];
         if (! is_null($this->generated_conversions)) {

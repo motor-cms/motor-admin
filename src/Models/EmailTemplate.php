@@ -70,7 +70,7 @@ class EmailTemplate extends Model
     use Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Filterable;
 
-    protected $blameable = ['created', 'updated', 'deleted'];
+    protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
      * The attributes that are mass assignable.
@@ -95,7 +95,7 @@ class EmailTemplate extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function client()
+    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
@@ -103,7 +103,7 @@ class EmailTemplate extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function language()
+    public function language(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.language'));
     }

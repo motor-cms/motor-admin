@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Kalnoy\Nestedset\NestedSet;
 use Motor\Admin\Http\Controllers\ApiController;
@@ -84,7 +85,7 @@ class CategoriesController extends ApiController
      * @param \Motor\Admin\Models\Category $categoryTree
      * @return \Illuminate\Http\JsonResponse|\Motor\Admin\Http\Resources\CategoryCollection
      */
-    public function index(Category $categoryTree, Request $request)
+    public function index(Category $categoryTree, Request $request): CategoryCollection|JsonResponse
     {
         $service = CategoryService::collection();
 
@@ -167,9 +168,9 @@ class CategoriesController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param \Motor\Admin\Http\Requests\Api\CategoryRequest $request
-     * @return \Illuminate\Http\JsonResponse|object
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): JsonResponse
     {
         $result = CategoryService::create($request)
                                  ->getResult();
@@ -239,7 +240,7 @@ class CategoriesController extends ApiController
      * @param \Motor\Admin\Models\Category $record
      * @return \Motor\Admin\Http\Resources\CategoryResource
      */
-    public function show($parent, Category $record) // Typecase on parent fails with a type error
+    public function show($parent, Category $record): CategoryResource // Typecase on parent fails with a type error
     {
         $result = CategoryService::show($record)
                                  ->getResult();
@@ -311,7 +312,7 @@ class CategoriesController extends ApiController
      * @param \Motor\Admin\Models\Category $record
      * @return \Motor\Admin\Http\Resources\CategoryResource
      */
-    public function update(CategoryRequest $request, $parent, Category $record)
+    public function update(CategoryRequest $request, $parent, Category $record): CategoryResource
     {
         $result = CategoryService::update($record, $request)
                                  ->getResult();
@@ -385,7 +386,7 @@ class CategoriesController extends ApiController
      * @param \Motor\Admin\Models\Category $record
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Category $record)
+    public function destroy(Category $record): JsonResponse
     {
         $result = CategoryService::delete($record)
                                  ->getResult();

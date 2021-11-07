@@ -61,14 +61,14 @@ namespace Motor\Admin\Http\Resources;
  *     example="John Doe"
  *   ),
  *   @OA\Property(
- *     property="contact_email",
- *     type="string",
- *     example="john@doe.com"
- *   ),
- *   @OA\Property(
  *     property="contact_phone",
  *     type="string",
  *     example="+1 123 123 123"
+ *   ),
+ *   @OA\Property(
+ *     property="contact_email",
+ *     type="string",
+ *     example="john@doe.com"
  *   )
  * )
  */
@@ -80,7 +80,7 @@ class ClientResource extends BaseResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id'                 => (int) $this->id,
@@ -91,11 +91,11 @@ class ClientResource extends BaseResource
             'city'               => $this->city,
             'country_iso_3166_1' => $this->country_iso_3166_1,
             'website'            => $this->website,
+            'description'        => $this->description,
+            'is_active'          => (bool) $this->is_active,
             'contact_name'       => $this->contact_name,
             'contact_phone'      => $this->contact_phone,
             'contact_email'      => $this->contact_email,
-            'description'        => $this->description,
-            'is_active'          => (bool) $this->is_active,
 
         ];
     }

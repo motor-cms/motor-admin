@@ -45,6 +45,8 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|ConfigVariable whereUpdatedBy($value)
  * @method static Builder|ConfigVariable whereValue($value)
  * @mixin \Eloquent
+ * @property int $is_invisible
+ * @method static Builder|ConfigVariable whereIsInvisible($value)
  */
 class ConfigVariable extends Model
 {
@@ -57,14 +59,14 @@ class ConfigVariable extends Model
      *
      * @var array
      */
-    protected $blameable = ['created', 'updated', 'deleted'];
+    protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
      * Searchable columns for the searchable trait
      *
      * @var array
      */
-    protected $searchableColumns = [
+    protected array $searchableColumns = [
         'package',
         'group',
         'name',

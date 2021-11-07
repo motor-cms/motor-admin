@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Motor\Admin\Models\User;
@@ -12,7 +13,7 @@ class AuthController extends Controller
 {
     use ApiResponder;
 
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $attr = $request->validate([
             'name'     => 'required|string|max:255',
@@ -31,7 +32,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $attr = $request->validate([
             'email'    => 'required|string|email|',

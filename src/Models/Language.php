@@ -32,6 +32,7 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Language whereNativeName($value)
  * @method static Builder|Language whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Motor\Admin\Database\Factories\LanguageFactory factory(...$parameters)
  */
 class Language extends Model
 {
@@ -44,7 +45,7 @@ class Language extends Model
      *
      * @var array
      */
-    protected $searchableColumns = ['iso_639_1', 'native_name', 'english_name'];
+    protected array $searchableColumns = ['iso_639_1', 'native_name', 'english_name'];
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +58,7 @@ class Language extends Model
         'native_name',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): LanguageFactory
     {
         return LanguageFactory::new();
     }

@@ -63,6 +63,7 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Client whereWebsite($value)
  * @method static Builder|Client whereZip($value)
  * @mixin \Eloquent
+ * @method static \Motor\Admin\Database\Factories\ClientFactory factory(...$parameters)
  */
 class Client extends Model
 {
@@ -71,14 +72,14 @@ class Client extends Model
     use Filterable;
     use HasFactory;
 
-    protected $blameable = ['created', 'updated', 'deleted'];
+    protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
      * Searchable columns for the searchable trait
      *
      * @var array
      */
-    protected $searchableColumns = ['name'];
+    protected array $searchableColumns = ['name'];
 
     /**
      * The attributes that are mass assignable.
@@ -100,7 +101,7 @@ class Client extends Model
         'description',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): ClientFactory
     {
         return ClientFactory::new();
     }
