@@ -8,7 +8,6 @@ use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -34,16 +33,13 @@ use Motor\Core\Traits\Searchable;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Motor\Admin\Models\Client $client
- * @property-read \Motor\Admin\Models\User $creator
- * @property-read \Motor\Admin\Models\User|null $eraser
  * @property-read \Motor\Admin\Models\Language|null $language
- * @property-read \Motor\Admin\Models\User $updater
- * @method static Builder|EmailTemplate filteredBy(Filter $filter, $column)
- * @method static Builder|EmailTemplate filteredByMultiple(Filter $filter)
+ * @method static Builder|EmailTemplate filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|EmailTemplate filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|EmailTemplate newModelQuery()
  * @method static Builder|EmailTemplate newQuery()
  * @method static Builder|EmailTemplate query()
- * @method static Builder|EmailTemplate search($q, $full_text = false)
+ * @method static Builder|EmailTemplate search($query, $full_text = false)
  * @method static Builder|EmailTemplate whereBodyHtml($value)
  * @method static Builder|EmailTemplate whereBodyText($value)
  * @method static Builder|EmailTemplate whereClientId($value)

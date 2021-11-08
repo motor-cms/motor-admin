@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Motor\Admin\Database\Factories\ClientFactory;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -35,15 +34,13 @@ use Motor\Core\Traits\Searchable;
  * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Motor\Admin\Models\User $creator
- * @property-read \Motor\Admin\Models\User|null $eraser
- * @property-read \Motor\Admin\Models\User $updater
- * @method static Builder|Client filteredBy(Filter $filter, $column)
- * @method static Builder|Client filteredByMultiple(Filter $filter)
+ * @method static \Motor\Admin\Database\Factories\ClientFactory factory(...$parameters)
+ * @method static Builder|Client filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|Client filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|Client newModelQuery()
  * @method static Builder|Client newQuery()
  * @method static Builder|Client query()
- * @method static Builder|Client search($q, $full_text = false)
+ * @method static Builder|Client search($query, $full_text = false)
  * @method static Builder|Client whereAddress($value)
  * @method static Builder|Client whereCity($value)
  * @method static Builder|Client whereContactEmail($value)
@@ -63,7 +60,6 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Client whereWebsite($value)
  * @method static Builder|Client whereZip($value)
  * @mixin \Eloquent
- * @method static \Motor\Admin\Database\Factories\ClientFactory factory(...$parameters)
  */
 class Client extends Model
 {

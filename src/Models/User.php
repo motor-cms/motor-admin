@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Motor\Admin\Database\Factories\UserFactory;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,44 +18,36 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * Motor\Admin\Models\User
  *
- * @property int
- *               $id
- * @property int|null
- *               $client_id
- * @property string
- *               $name
- * @property string
- *               $email
- * @property string
- *               $password
- * @property string
- *               $api_token
- * @property string|null
- *               $remember_token
- * @property string|null
- *               $password_last_changed_at
- * @property \Illuminate\Support\Carbon|null
- *               $created_at
- * @property \Illuminate\Support\Carbon|null
- *               $updated_at
- * @property-read \Motor\Admin\Models\Client|null
- *                    $client
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[]
- *                    $media
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]
- *                $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[]
- *                    $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[]
- *                    $roles
- * @method static Builder|User filteredBy(Filter $filter, $column)
- * @method static Builder|User filteredByMultiple(Filter $filter)
+ * @property int $id
+ * @property int|null $client_id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $api_token
+ * @property string|null $remember_token
+ * @property string|null $password_last_changed_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Motor\Admin\Models\Client|null $client
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
+ * @property-read int|null $media_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Motor\Admin\Database\Factories\UserFactory factory(...$parameters)
+ * @method static Builder|User filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|User filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User permission($permissions)
  * @method static Builder|User query()
  * @method static Builder|User role($roles, $guard = null)
- * @method static Builder|User search($q, $full_text = false)
+ * @method static Builder|User search($query, $full_text = false)
  * @method static Builder|User whereApiToken($value)
  * @method static Builder|User whereClientId($value)
  * @method static Builder|User whereCreatedAt($value)
@@ -68,13 +59,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read int|null $media_count
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
- * @property-read int|null $tokens_count
- * @method static \Motor\Admin\Database\Factories\UserFactory factory(...$parameters)
- * @property-read int|null $permissions_count
- * @property-read int|null $roles_count
  */
 class User extends Authenticatable implements HasMedia
 {

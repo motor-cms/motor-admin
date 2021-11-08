@@ -4,7 +4,6 @@ namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -16,20 +15,20 @@ use Motor\Core\Traits\Searchable;
  * @property int|null $sort_position
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static Builder|PermissionGroup filteredBy(Filter $filter, $column)
- * @method static Builder|PermissionGroup filteredByMultiple(Filter $filter)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @method static Builder|PermissionGroup filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|PermissionGroup filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|PermissionGroup newModelQuery()
  * @method static Builder|PermissionGroup newQuery()
  * @method static Builder|PermissionGroup query()
- * @method static Builder|PermissionGroup search($q, $full_text = false)
+ * @method static Builder|PermissionGroup search($query, $full_text = false)
  * @method static Builder|PermissionGroup whereCreatedAt($value)
  * @method static Builder|PermissionGroup whereId($value)
  * @method static Builder|PermissionGroup whereName($value)
  * @method static Builder|PermissionGroup whereSortPosition($value)
  * @method static Builder|PermissionGroup whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
- * @property-read int|null $permissions_count
  */
 class PermissionGroup extends Model
 {
