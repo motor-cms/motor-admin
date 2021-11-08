@@ -17,7 +17,7 @@ use Motor\Admin\Services\LanguageService;
  */
 class LanguagesController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\Language';
+    protected string $model = Language::class;
 
     protected string $modelResource = 'language';
 

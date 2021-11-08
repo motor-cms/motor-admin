@@ -20,7 +20,7 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class CategoryTreesController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\Category';
+    protected string $model = Category::class;
 
     protected string $modelResource = 'category';
 

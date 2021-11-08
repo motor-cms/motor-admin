@@ -17,7 +17,7 @@ use Motor\Admin\Services\ConfigVariableService;
  */
 class ConfigVariablesController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\ConfigVariable';
+    protected string $model = ConfigVariable::class;
 
     protected string $modelResource = 'config_variable';
 

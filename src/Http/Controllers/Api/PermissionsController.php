@@ -18,7 +18,7 @@ use Motor\Admin\Services\PermissionService;
  */
 class PermissionsController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\Permission';
+    protected string $model = Permission::class;
 
     protected string $modelResource = 'permission';
 

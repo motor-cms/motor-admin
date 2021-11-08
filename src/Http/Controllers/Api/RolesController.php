@@ -18,7 +18,7 @@ use Motor\Admin\Services\RoleService;
  */
 class RolesController extends ApiController
 {
-    protected string $model = 'Motor\Admin\Models\Role';
+    protected string $model = Role::class;
 
     protected string $modelResource = 'role';
 
