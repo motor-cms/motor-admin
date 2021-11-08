@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Motor\Admin\Database\Factories\LanguageFactory;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -19,12 +18,13 @@ use Motor\Core\Traits\Searchable;
  * @property string $native_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static Builder|Language filteredBy(Filter $filter, $column)
- * @method static Builder|Language filteredByMultiple(Filter $filter)
+ * @method static \Motor\Admin\Database\Factories\LanguageFactory factory(...$parameters)
+ * @method static Builder|Language filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|Language filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|Language newModelQuery()
  * @method static Builder|Language newQuery()
  * @method static Builder|Language query()
- * @method static Builder|Language search($q, $full_text = false)
+ * @method static Builder|Language search($query, $full_text = false)
  * @method static Builder|Language whereCreatedAt($value)
  * @method static Builder|Language whereEnglishName($value)
  * @method static Builder|Language whereId($value)
@@ -32,7 +32,6 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Language whereNativeName($value)
  * @method static Builder|Language whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Motor\Admin\Database\Factories\LanguageFactory factory(...$parameters)
  */
 class Language extends Model
 {

@@ -3,7 +3,6 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Motor\Core\Filter\Filter;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -17,17 +16,20 @@ use Motor\Core\Traits\Searchable;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Motor\Admin\Models\PermissionGroup|null $group
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Role[] $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\User[] $users
- * @method static Builder|Permission filteredBy(Filter $filter, $column)
- * @method static Builder|Permission filteredByMultiple(Filter $filter)
+ * @property-read int|null $users_count
+ * @method static Builder|Permission filteredBy(\Motor\Core\Filter\Filter $filter, $column)
+ * @method static Builder|Permission filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|Permission newModelQuery()
  * @method static Builder|Permission newQuery()
- * @method static Builder|\Spatie\Permission\Models\Permission permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission permission($permissions)
  * @method static Builder|Permission query()
- * @method static Builder|\Spatie\Permission\Models\Permission role($roles, $guard = null)
- * @method static Builder|Permission search($q, $full_text = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission role($roles, $guard = null)
+ * @method static Builder|Permission search($query, $full_text = false)
  * @method static Builder|Permission whereCreatedAt($value)
  * @method static Builder|Permission whereGuardName($value)
  * @method static Builder|Permission whereId($value)
@@ -35,9 +37,6 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Permission wherePermissionGroupId($value)
  * @method static Builder|Permission whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read int|null $permissions_count
- * @property-read int|null $roles_count
- * @property-read int|null $users_count
  */
 class Permission extends \Spatie\Permission\Models\Permission
 {
