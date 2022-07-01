@@ -7,25 +7,24 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class CategoryTreePostRequest
+ *
+ * @OA\Schema(
+ *   schema="CategoryTreePostRequest",
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="New category tree"
+ *   ),
+ *   @OA\Property(
+ *     property="scope",
+ *     type="string",
+ *     example="new-category-scope"
+ *   ),
+ *   required={"name", "scope"},
+ * )
  */
 class CategoryTreePostRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="CategoryTreePostRequest",
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="New category tree"
-     *   ),
-     *   @OA\Property(
-     *     property="scope",
-     *     type="string",
-     *     example="new-category-scope"
-     *   ),
-     *   required={"name", "scope"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.
