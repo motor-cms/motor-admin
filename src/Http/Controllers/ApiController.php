@@ -6,12 +6,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Locale;
 
 /**
  * Class ApiController
- *
- * @package Motor\Admin\Http\Controllers
  */
 class ApiController extends BaseController
 {

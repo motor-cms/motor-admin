@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class UserPatchRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class UserPatchRequest extends Request
 {

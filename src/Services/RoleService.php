@@ -8,8 +8,6 @@ use Motor\Admin\Models\Role;
 
 /**
  * Class RoleService
- *
- * @package Motor\Admin\Services
  */
 class RoleService extends BaseService
 {

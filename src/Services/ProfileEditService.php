@@ -7,8 +7,6 @@ use Motor\Admin\Models\User;
 
 /**
  * Class ProfileEditService
- *
- * @package Motor\Admin\Services
  */
 class ProfileEditService extends BaseService
 {

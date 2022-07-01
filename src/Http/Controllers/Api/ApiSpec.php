@@ -16,7 +16,6 @@ namespace App\Http\Controllers\Api;
  *     email="me@dfox.info"
  *   )
  * )
- *
  */
 
 /**
@@ -142,4 +141,3 @@ namespace App\Http\Controllers\Api;
  *   )
  * )
  */
-

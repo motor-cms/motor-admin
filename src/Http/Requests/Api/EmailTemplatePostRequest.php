@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class EmailTemplatePostRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class EmailTemplatePostRequest extends Request
 {

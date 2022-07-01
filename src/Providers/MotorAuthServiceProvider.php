@@ -8,13 +8,11 @@ use Motor\Admin\Policies\UserPolicy;
 
 /**
  * Class MotorServiceProvider
- *
- * @package Motor\Admin\Providers
  */
 class MotorAuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
     ];
 
     /**

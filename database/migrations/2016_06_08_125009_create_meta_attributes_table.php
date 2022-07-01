@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 /**
  * @codeCoverageIgnore
@@ -16,6 +16,7 @@ class CreateMetaAttributesTable extends Migration
      * @var string
      */
     protected $table = 'meta_attributes';
+
     /**
      * Run the migrations.
      *
@@ -37,6 +38,7 @@ class CreateMetaAttributesTable extends Migration
             'create index meta_attributes_index_value on meta_attributes (meta_key, meta_value(20))'
         );
     }
+
     /**
      * Reverse the migrations.
      *

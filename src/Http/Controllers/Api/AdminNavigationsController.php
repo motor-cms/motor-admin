@@ -7,8 +7,6 @@ use Motor\Admin\Http\Controllers\ApiController;
 
 /**
  * Class AdminNavigationsController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class AdminNavigationsController extends ApiController
 {

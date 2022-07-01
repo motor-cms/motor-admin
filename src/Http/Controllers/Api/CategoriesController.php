@@ -15,8 +15,6 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
  * Class CategoriesController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class CategoriesController extends ApiController
 {
@@ -81,7 +79,7 @@ class CategoriesController extends ApiController
      *
      * Display a listing of the resource.
      *
-     * @param \Motor\Admin\Models\Category $categoryTree
+     * @param  \Motor\Admin\Models\Category  $categoryTree
      * @return \Illuminate\Http\JsonResponse|\Motor\Admin\Http\Resources\CategoryCollection
      */
     public function index(Category $categoryTree, Request $request): CategoryCollection|JsonResponse
@@ -108,7 +106,6 @@ class CategoriesController extends ApiController
 
         $service->setSorting([NestedSet::LFT, 'ASC']);
         $paginator = $service->getPaginator();
-
 
         return (new CategoryCollection($paginator))->additional(['message' => 'Category collection read']);
     }
@@ -165,7 +162,7 @@ class CategoriesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\CategoryRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategoryRequest $request): JsonResponse
@@ -234,7 +231,7 @@ class CategoriesController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Motor\Admin\Http\Resources\CategoryResource
      */
     public function show($parent, Category $record): CategoryResource // Typecase on parent fails with a type error
@@ -304,8 +301,8 @@ class CategoriesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryRequest $request
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Http\Requests\Api\CategoryRequest  $request
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Motor\Admin\Http\Resources\CategoryResource
      */
     public function update(CategoryRequest $request, $parent, Category $record): CategoryResource
@@ -378,7 +375,7 @@ class CategoriesController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Category $record): JsonResponse

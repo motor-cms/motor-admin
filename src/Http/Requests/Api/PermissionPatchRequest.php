@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class PermissionPatchRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class PermissionPatchRequest extends Request
 {

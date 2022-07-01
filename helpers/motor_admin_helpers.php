@@ -4,6 +4,7 @@ use Motor\Admin\Models\ConfigVariable;
 
 /**
  * @param $package
+ *
  * @throws \Psr\Container\ContainerExceptionInterface
  * @throws \Psr\Container\NotFoundExceptionInterface
  */
@@ -21,8 +22,8 @@ function merge_local_config_with_db_configuration_variables($package)
 }
 
 /**
- * @param string $var
- * @param null $default
+ * @param  string  $var
+ * @param  null  $default
  * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|string|null
  */
 function config_variable(string $var, $default = null)

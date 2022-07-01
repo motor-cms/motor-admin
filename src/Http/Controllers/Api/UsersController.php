@@ -13,8 +13,6 @@ use Motor\Admin\Services\UserService;
 
 /**
  * Class UsersController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class UsersController extends ApiController
 {
@@ -122,7 +120,7 @@ class UsersController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\UserPostRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\UserPostRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserPostRequest $request): JsonResponse
@@ -184,7 +182,7 @@ class UsersController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\User $record
+     * @param  \Motor\Admin\Models\User  $record
      * @return \Motor\Admin\Http\Resources\UserResource
      */
     public function show(User $record): UserResource
@@ -247,8 +245,8 @@ class UsersController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\UserPatchRequest $request
-     * @param \Motor\Admin\Models\User $record
+     * @param  \Motor\Admin\Http\Requests\Api\UserPatchRequest  $request
+     * @param  \Motor\Admin\Models\User  $record
      * @return \Motor\Admin\Http\Resources\UserResource
      */
     public function update(UserPatchRequest $request, User $record): UserResource
@@ -314,7 +312,7 @@ class UsersController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\User $record
+     * @param  \Motor\Admin\Models\User  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $record): JsonResponse

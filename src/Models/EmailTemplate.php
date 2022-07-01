@@ -34,6 +34,7 @@ use Motor\Core\Traits\Searchable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Motor\Admin\Models\Client $client
  * @property-read \Motor\Admin\Models\Language|null $language
+ *
  * @method static Builder|EmailTemplate filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|EmailTemplate filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|EmailTemplate newModelQuery()

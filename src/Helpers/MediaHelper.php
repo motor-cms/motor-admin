@@ -2,21 +2,19 @@
 
 namespace Motor\Admin\Helpers;
 
-use Spatie\MediaLibrary\HasMedia;
 use function GuzzleHttp\Psr7\mimetype_from_filename;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * Class MediaHelper
- *
- * @package Motor\Admin\Helpers
  */
 class MediaHelper
 {
     /**
-     * @param \Spatie\MediaLibrary\HasMedia $record
-     * @param string $identifier
-     * @param bool $base64
-     * @param array $conversions
+     * @param  \Spatie\MediaLibrary\HasMedia  $record
+     * @param  string  $identifier
+     * @param  bool  $base64
+     * @param  array  $conversions
      * @return array
      */
     public static function getFileInformation(

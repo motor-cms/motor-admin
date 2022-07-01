@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class ConfigVariableRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class ConfigVariableRequest extends Request
 {

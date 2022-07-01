@@ -17,6 +17,7 @@ use Motor\Core\Traits\Searchable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
+ *
  * @method static Builder|PermissionGroup filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|PermissionGroup filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|PermissionGroup newModelQuery()

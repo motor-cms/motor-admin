@@ -22,6 +22,7 @@ use Motor\Core\Traits\Searchable;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\User[] $users
  * @property-read int|null $users_count
+ *
  * @method static Builder|Permission filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|Permission filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|Permission newModelQuery()

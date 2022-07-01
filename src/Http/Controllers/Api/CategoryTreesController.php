@@ -15,8 +15,6 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
  * Class CategoriesController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class CategoryTreesController extends ApiController
 {
@@ -131,7 +129,7 @@ class CategoryTreesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryTreePostRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\CategoryTreePostRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategoryTreePostRequest $request): JsonResponse
@@ -193,7 +191,7 @@ class CategoryTreesController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Motor\Admin\Http\Resources\CategoryTreeResource
      */
     public function show(Category $record): CategoryTreeResource
@@ -256,8 +254,8 @@ class CategoryTreesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\CategoryTreePatchRequest $request
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Http\Requests\Api\CategoryTreePatchRequest  $request
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Motor\Admin\Http\Resources\CategoryTreeResource
      */
     public function update(CategoryTreePatchRequest $request, Category $record): CategoryTreeResource
@@ -323,7 +321,7 @@ class CategoryTreesController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\Category $record
+     * @param  \Motor\Admin\Models\Category  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Category $record): JsonResponse

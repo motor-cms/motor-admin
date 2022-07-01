@@ -34,6 +34,7 @@ use Motor\Core\Traits\Searchable;
  * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Motor\Admin\Database\Factories\ClientFactory factory(...$parameters)
  * @method static Builder|Client filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|Client filteredByMultiple(\Motor\Core\Filter\Filter $filter)
