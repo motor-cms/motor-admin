@@ -6,8 +6,6 @@ use Motor\Admin\Models\Category;
 
 /**
  * Class CategoryService
- *
- * @package Motor\Admin\Services
  */
 class CategoryService extends BaseService
 {

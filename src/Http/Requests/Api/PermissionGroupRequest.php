@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class PermissionGroupRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class PermissionGroupRequest extends Request
 {

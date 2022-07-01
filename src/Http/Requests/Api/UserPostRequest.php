@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class UserPostRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class UserPostRequest extends Request
 {

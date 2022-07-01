@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class ProfileEditRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class ProfileEditRequest extends Request
 {

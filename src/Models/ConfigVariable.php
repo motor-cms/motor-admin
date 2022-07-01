@@ -25,6 +25,7 @@ use Motor\Core\Traits\Searchable;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
+ *
  * @method static Builder|ConfigVariable filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|ConfigVariable filteredByMultiple(\Motor\Core\Filter\Filter $filter)
  * @method static Builder|ConfigVariable newModelQuery()

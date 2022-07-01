@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class CategoryRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class CategoryRequest extends Request
 {

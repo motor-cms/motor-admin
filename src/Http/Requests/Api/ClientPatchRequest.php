@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class ClientPatchRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class ClientPatchRequest extends Request
 {

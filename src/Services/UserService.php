@@ -9,24 +9,16 @@ use Motor\Admin\Models\User;
 
 /**
  * Class UserService
- *
- * @package Motor\Admin\Services
  */
 class UserService extends BaseService
 {
     protected $model = User::class;
 
-    /**
-     *
-     */
     public function filters()
     {
         $this->filter->addClientFilter();
     }
 
-    /**
-     *
-     */
     public function beforeCreate()
     {
         if (Auth::user()->client_id > 0) {
@@ -49,9 +41,6 @@ class UserService extends BaseService
         $this->uploadFiles();
     }
 
-    /**
-     *
-     */
     public function beforeUpdate()
     {
         // Special case to filter out the users api token when calling over the api
@@ -72,19 +61,13 @@ class UserService extends BaseService
         $this->uploadFiles();
     }
 
-    /**
-     *
-     */
     private function updateClientId()
     {
-        if (!Arr::get($this->data, 'client_id')) {
+        if (! Arr::get($this->data, 'client_id')) {
             $this->data['client_id'] = null;
         }
     }
 
-    /**
-     *
-     */
     private function updatePassword()
     {
         if (Arr::get($this->data, 'password') == '') {
@@ -103,9 +86,6 @@ class UserService extends BaseService
         $this->uploadFile(Arr::get($this->data, 'avatar'), 'avatar');
     }
 
-    /**
-     *
-     */
     private function syncRolesAndPermissions()
     {
         if (Arr::get($this->data, 'roles')) {

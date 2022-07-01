@@ -14,8 +14,6 @@ use Spatie\MediaLibrary\HasMedia;
 
 /**
  * Class BaseService
- *
- * @package Motor\Admin\Services
  */
 abstract class BaseService
 {
@@ -39,7 +37,7 @@ abstract class BaseService
      * Basic create method.
      * Usually called by an API
      *
-     * @param \Illuminate\Http\Request|array $request
+     * @param  \Illuminate\Http\Request|array  $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function create(Request|array $request): BaseService
@@ -52,8 +50,8 @@ abstract class BaseService
      * Basic update method.
      * Usually called by an API
      *
-     * @param \Illuminate\Database\Eloquent\Model $record
-     * @param \Illuminate\Http\Request|array $request
+     * @param  \Illuminate\Database\Eloquent\Model  $record
+     * @param  \Illuminate\Http\Request|array  $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function update(Model $record, Request|array $request): BaseService
@@ -67,7 +65,6 @@ abstract class BaseService
      * Simple wrapper to return the given record
      *
      * @param $record
-     *
      * @return mixed
      */
     public static function show($record): mixed
@@ -80,8 +77,8 @@ abstract class BaseService
      * Wrapper to return paginated results
      * Applies basic filters and adds filters through the individual services filters() method
      *
-     * @param string $alias
-     * @param null $sorting
+     * @param  string  $alias
+     * @param  null  $sorting
      * @return BaseService
      */
     public static function collection($alias = '', $sorting = null): BaseService
@@ -110,7 +107,6 @@ abstract class BaseService
      * Simple wrapper around the delete method of the record
      *
      * @param $record
-     *
      * @return mixed
      */
     public static function delete($record): mixed
@@ -170,7 +166,7 @@ abstract class BaseService
     /**
      * Set sorting array
      *
-     * @param array $sorting
+     * @param  array  $sorting
      * @return $this
      */
     public function setSorting(array $sorting): static
@@ -235,7 +231,6 @@ abstract class BaseService
      * Add custom scopes to query
      *
      * @param $query
-     *
      * @return mixed
      */
     public function applyScopes($query): mixed
@@ -316,8 +311,7 @@ abstract class BaseService
     /**
      * Sets a record
      *
-     * @param Model $record
-     *
+     * @param  Model  $record
      * @return $this
      */
     public function setRecord(Model $record): static
@@ -330,7 +324,7 @@ abstract class BaseService
     /**
      * Sets a request object
      *
-     * @param \Illuminate\Http\Request|array $request
+     * @param  \Illuminate\Http\Request|array  $request
      * @return $this
      */
     public function setRequest(Request|array $request): static
@@ -357,11 +351,12 @@ abstract class BaseService
      * Handles file uploads either with a UploadedFile object or a base64 encoded file
      *
      * @param $file
-     * @param string $identifier
-     * @param null $collection
-     * @param null $record
-     * @param false $addToCollection
+     * @param  string  $identifier
+     * @param  null  $collection
+     * @param  null  $record
+     * @param  false  $addToCollection
      * @return $this
+     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
@@ -412,7 +407,7 @@ abstract class BaseService
 
                 $name = Arr::get($this->data, $identifier.'.name', $tempFilename);
 
-                $handle = fopen($tempFilename, "w");
+                $handle = fopen($tempFilename, 'w');
                 fwrite($handle, $image);
                 fclose($handle);
                 $record->addMedia($tempFilename)
@@ -429,7 +424,6 @@ abstract class BaseService
      * Helper method to check if a file upload field is base64 encoded
      *
      * @param $string
-     *
      * @return bool
      */
     protected function isValidBase64($string): bool

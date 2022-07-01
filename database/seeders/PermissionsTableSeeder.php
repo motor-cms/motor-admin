@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Artisan;
  */
 class PermissionsTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *

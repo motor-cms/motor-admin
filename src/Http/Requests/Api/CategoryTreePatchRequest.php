@@ -7,8 +7,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class CategoryTreePatchRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class CategoryTreePatchRequest extends Request
 {

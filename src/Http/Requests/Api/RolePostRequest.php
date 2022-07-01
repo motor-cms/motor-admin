@@ -6,8 +6,6 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class RolePostRequest
- *
- * @package Motor\Admin\Http\Requests\Admin
  */
 class RolePostRequest extends Request
 {

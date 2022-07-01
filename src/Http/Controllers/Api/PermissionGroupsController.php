@@ -13,10 +13,8 @@ use Motor\Admin\Services\PermissionGroupService;
 
 /**
  * Class PermissionGroupsController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
-class  PermissionGroupsController extends ApiController
+class PermissionGroupsController extends ApiController
 {
     protected string $model = PermissionGroup::class;
 
@@ -122,7 +120,7 @@ class  PermissionGroupsController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\PermissionGroupRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\PermissionGroupRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PermissionGroupRequest $request): JsonResponse
@@ -184,7 +182,7 @@ class  PermissionGroupsController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\PermissionGroup $record
+     * @param  \Motor\Admin\Models\PermissionGroup  $record
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
     public function show(PermissionGroup $record): PermissionGroupResource
@@ -247,8 +245,8 @@ class  PermissionGroupsController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\PermissionGroupRequest $request
-     * @param \Motor\Admin\Models\Permission $record
+     * @param  \Motor\Admin\Http\Requests\Api\PermissionGroupRequest  $request
+     * @param  \Motor\Admin\Models\Permission  $record
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
     public function update(PermissionGroupRequest $request, Permission $record): PermissionGroupResource
@@ -314,7 +312,7 @@ class  PermissionGroupsController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\PermissionGroup $record
+     * @param  \Motor\Admin\Models\PermissionGroup  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(PermissionGroup $record): JsonResponse

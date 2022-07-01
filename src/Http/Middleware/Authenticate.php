@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Authenticate
- *
- * @package Motor\Admin\Http\Middleware
  */
 class Authenticate
 {
@@ -16,8 +14,8 @@ class Authenticate
      * Handle an incoming request.
      *
      * @param $request
-     * @param \Closure $next
-     * @param null $guard
+     * @param  \Closure  $next
+     * @param  null  $guard
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|mixed
      */
     public function handle($request, Closure $next, $guard = null)

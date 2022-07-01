@@ -30,6 +30,7 @@ use Motor\Core\Traits\Filterable;
  * @property-read \Kalnoy\Nestedset\Collection|Category[] $children
  * @property-read int|null $children_count
  * @property-read Category|null $parent
+ *
  * @method static \Kalnoy\Nestedset\Collection|static[] all($columns = ['*'])
  * @method static QueryBuilder|Category ancestorsAndSelf($id, array $columns = [])
  * @method static QueryBuilder|Category ancestorsOf($id, array $columns = [])
@@ -131,7 +132,6 @@ class Category extends Model
         return (property_exists($this, 'searchableColumns')) ? $this->searchableColumns : [];
     }
 
-
     /**
      * @return array
      */
@@ -151,5 +151,4 @@ class Category extends Model
             $builder->orderBy(NestedSet::LFT, 'ASC');
         });
     }
-
 }

@@ -18,6 +18,7 @@ use Motor\Core\Traits\Searchable;
  * @property string $native_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Motor\Admin\Database\Factories\LanguageFactory factory(...$parameters)
  * @method static Builder|Language filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|Language filteredByMultiple(\Motor\Core\Filter\Filter $filter)

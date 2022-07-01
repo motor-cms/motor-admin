@@ -1,9 +1,9 @@
 <?php
 
 namespace Motor\Admin\Database\Seeders;
-use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\Role;
 use Motor\Admin\Models\User;
@@ -13,7 +13,6 @@ use Motor\Admin\Models\User;
  */
 class UsersTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *

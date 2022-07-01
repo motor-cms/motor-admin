@@ -17,10 +17,10 @@ class BaseResource extends JsonResource
     /**
      * Create a new anonymous resource collection.
      *
-     * @param mixed $resource
+     * @param  mixed  $resource
      * @return \Motor\Admin\Http\Resources\AnonymousResourceCollection
      */
-    public static function collection($resource): \Motor\Admin\Http\Resources\AnonymousResourceCollection
+    public static function collection($resource): AnonymousResourceCollection
     {
         return tap(new AnonymousResourceCollection($resource, static::class), function ($collection) {
             if (property_exists(static::class, 'preserveKeys')) {

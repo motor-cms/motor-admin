@@ -39,6 +39,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Motor\Admin\Database\Factories\UserFactory factory(...$parameters)
  * @method static Builder|User filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|User filteredByMultiple(\Motor\Core\Filter\Filter $filter)
@@ -78,7 +79,8 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media
+     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media|null  $media
+     *
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null): void

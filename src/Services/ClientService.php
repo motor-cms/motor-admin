@@ -8,19 +8,17 @@ use Motor\Admin\Models\Client;
 
 /**
  * Class ClientService
- *
- * @package Motor\Admin\Services
  */
 class ClientService extends BaseService
 {
     protected $model = Client::class;
 
-    function beforeCreate()
+    public function beforeCreate()
     {
         $this->createSlug();
     }
 
-    function beforeUpdate()
+    public function beforeUpdate()
     {
         $this->createSlug();
     }

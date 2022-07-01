@@ -13,8 +13,6 @@ use Motor\Admin\Services\EmailTemplateService;
 
 /**
  * Class EmailTemplatesController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class EmailTemplatesController extends ApiController
 {
@@ -122,7 +120,7 @@ class EmailTemplatesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(EmailTemplatePostRequest $request): JsonResponse
@@ -184,7 +182,7 @@ class EmailTemplatesController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\EmailTemplate $record
+     * @param  \Motor\Admin\Models\EmailTemplate  $record
      * @return \Motor\Admin\Http\Resources\EmailTemplateResource
      */
     public function show(EmailTemplate $record): EmailTemplateResource
@@ -247,8 +245,8 @@ class EmailTemplatesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest $request
-     * @param \Motor\Admin\Models\EmailTemplate $record
+     * @param  \Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest  $request
+     * @param  \Motor\Admin\Models\EmailTemplate  $record
      * @return \Motor\Admin\Http\Resources\EmailTemplateResource
      */
     public function update(EmailTemplatePatchRequest $request, EmailTemplate $record): EmailTemplateResource
@@ -314,7 +312,7 @@ class EmailTemplatesController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\EmailTemplate $record
+     * @param  \Motor\Admin\Models\EmailTemplate  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(EmailTemplate $record): JsonResponse

@@ -12,8 +12,6 @@ use Motor\Admin\Services\ConfigVariableService;
 
 /**
  * Class ConfigVariablesController
- *
- * @package Motor\Admin\Http\Controllers\Api
  */
 class ConfigVariablesController extends ApiController
 {
@@ -121,7 +119,7 @@ class ConfigVariablesController extends ApiController
      *
      * Store a newly created resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\ConfigVariableRequest $request
+     * @param  \Motor\Admin\Http\Requests\Api\ConfigVariableRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(ConfigVariableRequest $request): JsonResponse
@@ -183,7 +181,7 @@ class ConfigVariablesController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param \Motor\Admin\Models\ConfigVariable $record
+     * @param  \Motor\Admin\Models\ConfigVariable  $record
      * @return \Motor\Admin\Http\Resources\ConfigVariableResource
      */
     public function show(ConfigVariable $record): ConfigVariableResource
@@ -246,8 +244,8 @@ class ConfigVariablesController extends ApiController
      *
      * Update the specified resource in storage.
      *
-     * @param \Motor\Admin\Http\Requests\Api\ConfigVariableRequest $request
-     * @param \Motor\Admin\Models\ConfigVariable $record
+     * @param  \Motor\Admin\Http\Requests\Api\ConfigVariableRequest  $request
+     * @param  \Motor\Admin\Models\ConfigVariable  $record
      * @return \Motor\Admin\Http\Resources\ConfigVariableResource
      */
     public function update(ConfigVariableRequest $request, ConfigVariable $record): ConfigVariableResource
@@ -313,7 +311,7 @@ class ConfigVariablesController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param \Motor\Admin\Models\ConfigVariable $record
+     * @param  \Motor\Admin\Models\ConfigVariable  $record
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(ConfigVariable $record): JsonResponse
