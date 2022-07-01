@@ -6,25 +6,24 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class PermissionPatchRequest
+ *
+ * @OA\Schema(
+ *   schema="PermissionPatchRequest",
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="dashboard.read"
+ *   ),
+ *   @OA\Property(
+ *     property="guard_name",
+ *     type="string",
+ *     example="web"
+ *   ),
+ *   required={"name"},
+ * )
  */
 class PermissionPatchRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="PermissionPatchRequest",
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="dashboard.read"
-     *   ),
-     *   @OA\Property(
-     *     property="guard_name",
-     *     type="string",
-     *     example="web"
-     *   ),
-     *   required={"name"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

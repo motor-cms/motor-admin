@@ -6,20 +6,19 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class PermissionGroupRequest
+ *
+ * @OA\Schema(
+ *   schema="PermissionGroupRequest",
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="administration"
+ *   ),
+ *   required={"name"},
+ * )
  */
 class PermissionGroupRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="PermissionGroupRequest",
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="administration"
-     *   ),
-     *   required={"name"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

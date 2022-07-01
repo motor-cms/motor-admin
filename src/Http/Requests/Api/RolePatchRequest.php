@@ -6,25 +6,24 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class RolePatchRequest
+ *
+ * @OA\Schema(
+ *   schema="RolePatchRequest",
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="Administrator"
+ *   ),
+ *   @OA\Property(
+ *     property="guard_name",
+ *     type="string",
+ *     example="web"
+ *   ),
+ *   required={"name"},
+ * )
  */
 class RolePatchRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="RolePatchRequest",
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="Administrator"
-     *   ),
-     *   @OA\Property(
-     *     property="guard_name",
-     *     type="string",
-     *     example="web"
-     *   ),
-     *   required={"name"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

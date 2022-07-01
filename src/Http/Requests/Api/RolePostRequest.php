@@ -6,25 +6,24 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class RolePostRequest
+ *
+ * @OA\Schema(
+ *   schema="RolePostRequest",
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="Administrator"
+ *   ),
+ *   @OA\Property(
+ *     property="guard_name",
+ *     type="string",
+ *     example="web"
+ *   ),
+ *   required={"name", "guard_name"},
+ * )
  */
 class RolePostRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="RolePostRequest",
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="Administrator"
-     *   ),
-     *   @OA\Property(
-     *     property="guard_name",
-     *     type="string",
-     *     example="web"
-     *   ),
-     *   required={"name", "guard_name"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

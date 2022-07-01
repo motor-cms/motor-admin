@@ -6,62 +6,61 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class UserPostRequest
+ *
+ * @OA\Schema(
+ *   schema="UserPostRequest",
+ *   @OA\Property(
+ *     property="client_id",
+ *     type="integer",
+ *     example="1"
+ *   ),
+ *   @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="My beautiful name"
+ *   ),
+ *   @OA\Property(
+ *     property="email",
+ *     type="string",
+ *     example="test@domain.com",
+ *     description="Must be a unique RFC valid email address"
+ *   ),
+ *   @OA\Property(
+ *     property="password",
+ *     type="string",
+ *     example="secret password"
+ *   ),
+ *   @OA\Property(
+ *     property="roles",
+ *     type="array",
+ *     @OA\Items(
+ *       anyOf={
+ *         @OA\Schema(type="integer")
+ *       }
+ *     ),
+ *     example="[1,2,3]"
+ *   ),
+ *   @OA\Property(
+ *     property="permissions",
+ *     type="array",
+ *     @OA\Items(
+ *       anyOf={
+ *         @OA\Schema(type="integer")
+ *       }
+ *     ),
+ *     example="[1,2,3]"
+ *   ),
+ *   @OA\Property(
+ *     property="avatar",
+ *     type="object",
+ *     ref="#/components/schemas/FileUpload",
+ *     description="If false, the existing avatar will be deleted"
+ *   ),
+ *   required={"name", "email", "password"},
+ * )
  */
 class UserPostRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="UserPostRequest",
-     *   @OA\Property(
-     *     property="client_id",
-     *     type="integer",
-     *     example="1"
-     *   ),
-     *   @OA\Property(
-     *     property="name",
-     *     type="string",
-     *     example="My beautiful name"
-     *   ),
-     *   @OA\Property(
-     *     property="email",
-     *     type="string",
-     *     example="test@domain.com",
-     *     description="Must be a unique RFC valid email address"
-     *   ),
-     *   @OA\Property(
-     *     property="password",
-     *     type="string",
-     *     example="secret password"
-     *   ),
-     *   @OA\Property(
-     *     property="roles",
-     *     type="array",
-     *     @OA\Items(
-     *       anyOf={
-     *         @OA\Schema(type="integer")
-     *       }
-     *     ),
-     *     example="[1,2,3]"
-     *   ),
-     *   @OA\Property(
-     *     property="permissions",
-     *     type="array",
-     *     @OA\Items(
-     *       anyOf={
-     *         @OA\Schema(type="integer")
-     *       }
-     *     ),
-     *     example="[1,2,3]"
-     *   ),
-     *   @OA\Property(
-     *     property="avatar",
-     *     type="object",
-     *     ref="#/components/schemas/FileUpload",
-     *     description="If false, the existing avatar will be deleted"
-     *   ),
-     *   required={"name", "email", "password"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

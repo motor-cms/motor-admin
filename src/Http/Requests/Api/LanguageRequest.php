@@ -6,30 +6,29 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Class LanguageRequest
+ *
+ * @OA\Schema(
+ *   schema="LanguageRequest",
+ *   @OA\Property(
+ *     property="iso_639_1",
+ *     type="string",
+ *     example="de"
+ *   ),
+ *   @OA\Property(
+ *     property="english_name",
+ *     type="string",
+ *     example="German"
+ *   ),
+ *   @OA\Property(
+ *     property="native_name",
+ *     type="string",
+ *     example="Deutsch"
+ *   ),
+ *   required={"iso_639_1", "english_name", "native_name"},
+ * )
  */
 class LanguageRequest extends Request
 {
-    /**
-     * @OA\Schema(
-     *   schema="LanguageRequest",
-     *   @OA\Property(
-     *     property="iso_639_1",
-     *     type="string",
-     *     example="de"
-     *   ),
-     *   @OA\Property(
-     *     property="english_name",
-     *     type="string",
-     *     example="German"
-     *   ),
-     *   @OA\Property(
-     *     property="native_name",
-     *     type="string",
-     *     example="Deutsch"
-     *   ),
-     *   required={"iso_639_1", "english_name", "native_name"},
-     * )
-     */
 
     /**
      * Determine if the user is authorized to make this request.

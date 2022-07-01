@@ -16,9 +16,7 @@ namespace Motor\Admin\Http\Resources;
  *     example="http://localhost/media/conversion/my-image-preview.png"
  *   ),
  * )
- */
-
-/**
+ *
  * @OA\Schema(
  *   schema="MediaResource",
  *   @OA\Property(
