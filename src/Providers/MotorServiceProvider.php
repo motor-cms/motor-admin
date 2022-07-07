@@ -36,6 +36,7 @@ class MotorServiceProvider extends ServiceProvider
         $this->permissions();
         $this->registerCommands();
         $this->migrations();
+        $this->navigationItems();
         merge_local_config_with_db_configuration_variables('motor-admin');
     }
 
@@ -129,5 +130,14 @@ class MotorServiceProvider extends ServiceProvider
                 MotorCreatePermissionsCommand::class,
             ]);
         }
+    }
+
+    /**
+     * Merge backend navigation items from configuration file
+     */
+    public function navigationItems()
+    {
+        $config = $this->app['config']->get('motor-admin-navigation', []);
+        $this->app['config']->set('motor-admin-navigation', array_replace_recursive(require __DIR__.'/../../config/motor-admin-navigation.php', $config));
     }
 }
