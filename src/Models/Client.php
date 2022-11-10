@@ -69,6 +69,9 @@ class Client extends Model
     use Filterable;
     use HasFactory;
 
+    /**
+     * @var array
+     */
     protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
@@ -98,6 +101,9 @@ class Client extends Model
         'description',
     ];
 
+    /**
+     * @return \Motor\Admin\Database\Factories\ClientFactory
+     */
     protected static function newFactory(): ClientFactory
     {
         return ClientFactory::new();
