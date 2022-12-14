@@ -17,14 +17,15 @@
     "barryvdh/laravel-ide-helper": "^2.9",
     "intervention/imagecache": "^2.4",
     "league/glide-laravel": "^1.0",
-    "dfox288/culpa": "^9.0.2",
+    "dfox288/culpa": "^9.1.1",
     "symfony/intl": "^5.0",
     "spatie/laravel-medialibrary": "^9.0",
     "spatie/laravel-permission": "^5.0",
     "kalnoy/nestedset": "^6.0",
     "laravel/horizon": "^5.0",
     "matthewbdaly/laravel-etag-middleware": "^1.3",
-    "darkaonline/l5-swagger": "^8.0"
+    "darkaonline/l5-swagger": "^8.0",
+    "axn/laravel-pk-int-to-bigint": "^1.3.2"
   },
   "autoload": {
     "psr-4": {
