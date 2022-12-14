@@ -17,7 +17,6 @@ class ProfileEditController extends ApiController
      * @OA\Put (
      *   tags={"UserProfileController"},
      *   path="/api/profile",
-     *   parameters={"Accept": "application/json"},
      *   summary="Update an existing user",
      *   @OA\MediaType(
      *     mediaType="application/json",
