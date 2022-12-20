@@ -22,6 +22,10 @@ class MotorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment('local') && class_exists(\Clockwork\Support\Laravel\ClockworkServiceProvider::class)) {
+            $clockwork = \Clockwork\Support\Vanilla\Clockwork::init(['register_helpers' => true]);
+        }
+
         Response::macro('attachment', static function ($content, $filename, $format = 'application/json') {
             $headers = [
                 'Content-type'        => $format,
