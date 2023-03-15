@@ -24,9 +24,7 @@ class UserService extends BaseService
         if (Auth::user()->client_id > 0) {
             $this->record->client_id = Auth::user()->client_id;
         }
-
         $this->data['api_token'] = Str::random(60);
-
         $this->updateClientId();
         $this->updatePassword();
     }
@@ -91,7 +89,6 @@ class UserService extends BaseService
         if (Arr::get($this->data, 'roles')) {
             $this->record->syncRoles(Arr::get($this->data, 'roles', []));
         }
-
         //if (Arr::get($this->data, 'permissions')) {
         //    $this->record->syncPermissions(Arr::get($this->data, 'permissions', []));
         //}
