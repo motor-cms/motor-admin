@@ -73,7 +73,7 @@ return [
                     'roles'       => ['SuperAdmin'],
                     'permissions' => ['category_trees.read'],
                     'aliases'     => ['admin.categories'],
-                    'name'        => 'motor-admin.categories.categories',
+                    'name'        => 'motor-admin.category_trees.category_trees',
                 ],
                 170 => [
                     'slug'        => 'config_variables',
