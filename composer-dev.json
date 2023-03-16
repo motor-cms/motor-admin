@@ -23,7 +23,6 @@
     "laravel/sanctum": "^3.2",
     "doctrine/dbal": "^3.0",
     "league/glide-laravel": "^1.0",
-    "dfox288/culpa": "^10.0",
     "symfony/intl": "^6.2",
     "spatie/laravel-medialibrary": "^10.0",
     "spatie/laravel-permission": "^5.0",

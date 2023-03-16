@@ -2,16 +2,13 @@
 
 namespace Motor\Admin\Models;
 
-use Culpa\Traits\Blameable;
-use Culpa\Traits\CreatedBy;
-use Culpa\Traits\DeletedBy;
-use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Motor\Admin\Database\Factories\ClientFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
+use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
 /**
  * Motor\Admin\Models\Client
@@ -65,14 +62,9 @@ use Motor\Core\Traits\Searchable;
 class Client extends Model
 {
     use Searchable;
-    use Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use BlameableTrait;
     use Filterable;
     use HasFactory;
-
-    /**
-     * @var array
-     */
-    protected array $blameable = ['created', 'updated', 'deleted'];
 
     /**
      * Searchable columns for the searchable trait
