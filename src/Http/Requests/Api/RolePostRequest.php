@@ -45,6 +45,7 @@ class RolePostRequest extends Request
         return [
             'name'       => 'required',
             'guard_name' => 'required',
+            'permissions' => 'nullable',
         ];
     }
 }
