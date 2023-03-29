@@ -28,5 +28,11 @@ class LanguagesTableSeeder extends Seeder
             'english_name' => 'English',
             'native_name'  => 'English',
         ]);
+
+        DB::table('languages')->insert([
+            'iso_639_1'    => 'fr',
+            'english_name' => 'French',
+            'native_name'  => 'Français',
+        ]);
     }
 }
