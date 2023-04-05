@@ -13,6 +13,7 @@ use Motor\Admin\Http\Controllers\Api\PermissionsController;
 use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
+use \Motor\Assistant\Http\Controllers\Api\CustomerCenterController;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'bindings'],
@@ -42,6 +43,8 @@ Route::group([
     Route::put('profile', [ProfileEditController::class, 'update'])
          ->name('profile.update');
     Route::apiResource('config_variables', ConfigVariablesController::class);
+    Route::apiResource('customer_centers', CustomerCenterController::class);
+
 });
 
 Route::post('/api/auth/register', [AuthController::class, 'register']);
