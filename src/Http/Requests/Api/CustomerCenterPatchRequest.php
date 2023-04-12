@@ -1,6 +1,6 @@
 <?php
 
-namespace Motor\Assistant\Http\Requests\Api;
+namespace Motor\Admin\Http\Requests\Api;
 
 use Motor\Admin\Http\Requests\Api\CustomerCenterPostRequest;
 

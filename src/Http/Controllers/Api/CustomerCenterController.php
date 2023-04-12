@@ -1,15 +1,15 @@
 <?php
 
-namespace Motor\Assistant\Http\Controllers\Api;
+namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\CustomerCenterPostRequest;
 use Motor\Admin\Http\Resources\CustomerCenterResource;
 use Motor\Admin\Models\CustomerCenter;
-use \Motor\Admin\Http\Resources\CustomerCenterCollection;
-use Motor\Assistant\Http\Requests\Api\CustomerCenterPatchRequest;
-use Motor\Assistant\Services\CustomerCenterService;
+use Motor\Admin\Http\Resources\CustomerCenterCollection;
+use Motor\Admin\Http\Requests\Api\CustomerCenterPatchRequest;
+use Motor\Admin\Services\CustomerCenterService;
 
 /**
  * Class CustomerCenterController

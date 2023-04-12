@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Motor\Admin\Database\Factories\ClientFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
 /**
- * Motor\Admin\Models\Client
+ * Motor\Admin\Models\CustomerCenter
  *
  * @property int $id
  * @property string $name
@@ -27,8 +26,6 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string latitude
  * @property string opening_times
  * @property string longitude
- * @property int $created_by
- * @property int $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
@@ -36,7 +33,6 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
 class CustomerCenter extends Model
 {
     use Searchable;
-    use BlameableTrait;
     use Filterable;
     use HasFactory;
 
