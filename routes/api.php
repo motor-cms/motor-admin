@@ -13,7 +13,7 @@ use Motor\Admin\Http\Controllers\Api\PermissionsController;
 use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
-use \Motor\Assistant\Http\Controllers\Api\CustomerCenterController;
+use Motor\Admin\Http\Controllers\Api\CustomerCenterController;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'bindings'],

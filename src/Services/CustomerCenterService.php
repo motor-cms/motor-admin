@@ -1,6 +1,6 @@
 <?php
 
-namespace Motor\Assistant\Services;
+namespace Motor\Admin\Services;
 
 use Motor\Admin\Http\Requests\Request;
 use Motor\Admin\Models\CustomerCenter;
