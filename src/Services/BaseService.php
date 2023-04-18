@@ -154,7 +154,6 @@ abstract class BaseService
     public function getPaginator(): mixed
     {
         $query = ($this->model)::filteredByMultiple($this->getFilter());
-//        $query->addSelect($query->getModel()->getTable() . '.*'); // removed because if duplicate id issue in L7
         $query = $this->applyScopes($query);
         $query = $this->applySorting($query);
 
@@ -220,7 +219,9 @@ abstract class BaseService
                 return $query->orderBy($this->sortableField, $this->sortableDirection);
             }
 
-            return $query->orderBy($query->getModel()
+//            return $query->orderBy($query->getModel() // scout does not have a getModel() method but a public $model property, not sure if this will break
+//            with older versions of motor sortable
+            return $query->orderBy($query->model
                                          ->getTable().'.'.$this->sortableField, $this->sortableDirection);
         }
 
