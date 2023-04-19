@@ -37,7 +37,7 @@ abstract class BaseService
      * Basic create method.
      * Usually called by an API
      *
-     * @param  \Illuminate\Http\Request|array  $request
+     * @param \Illuminate\Http\Request|array $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function create(Request|array $request): BaseService
@@ -50,8 +50,8 @@ abstract class BaseService
      * Basic update method.
      * Usually called by an API
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $record
-     * @param  \Illuminate\Http\Request|array  $request
+     * @param \Illuminate\Database\Eloquent\Model $record
+     * @param \Illuminate\Http\Request|array $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function update(Model $record, Request|array $request): BaseService
@@ -77,8 +77,8 @@ abstract class BaseService
      * Wrapper to return paginated results
      * Applies basic filters and adds filters through the individual services filters() method
      *
-     * @param  string  $alias
-     * @param  null  $sorting
+     * @param string $alias
+     * @param null $sorting
      * @return BaseService
      */
     public static function collection($alias = '', $sorting = null): BaseService
@@ -165,7 +165,7 @@ abstract class BaseService
     /**
      * Set sorting array
      *
-     * @param  array  $sorting
+     * @param array $sorting
      * @return $this
      */
     public function setSorting(array $sorting): static
@@ -219,10 +219,10 @@ abstract class BaseService
                 return $query->orderBy($this->sortableField, $this->sortableDirection);
             }
 
-//            return $query->orderBy($query->getModel() // scout does not have a getModel() method but a public $model property, not sure if this will break
-//            with older versions of motor sortable
-            return $query->orderBy($query->model
-                                         ->getTable().'.'.$this->sortableField, $this->sortableDirection);
+            // Checking if we're using Eloquent Builder, which has a getModel() method or the Scout builder, which only has a model property
+            $model = property_exists($query, 'model') ? $query->model : $query->getModel();
+
+            return $query->orderBy($model->getTable().'.'.$this->sortableField, $this->sortableDirection);
         }
 
         return $query;
@@ -312,7 +312,7 @@ abstract class BaseService
     /**
      * Sets a record
      *
-     * @param  Model  $record
+     * @param Model $record
      * @return $this
      */
     public function setRecord(Model $record): static
@@ -325,7 +325,7 @@ abstract class BaseService
     /**
      * Sets a request object
      *
-     * @param  \Illuminate\Http\Request|array  $request
+     * @param \Illuminate\Http\Request|array $request
      * @return $this
      */
     public function setRequest(Request|array $request): static
@@ -352,10 +352,10 @@ abstract class BaseService
      * Handles file uploads either with a UploadedFile object or a base64 encoded file
      *
      * @param $file
-     * @param  string  $identifier
-     * @param  null  $collection
-     * @param  null  $record
-     * @param  false  $addToCollection
+     * @param string $identifier
+     * @param null $collection
+     * @param null $record
+     * @param false $addToCollection
      * @return $this
      *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
