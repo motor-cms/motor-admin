@@ -44,6 +44,7 @@ class PermissionGroupPolicy
      */
     public function view(User $user, PermissionGroup $permissionGroup)
     {
+
         return $user->hasPermissionTo('permission_group.read');
     }
 
