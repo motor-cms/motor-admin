@@ -47,6 +47,13 @@ return [
             'delete',
         ],
     ],
+    'permission_groups'      => [
+        'values' => [
+            'read',
+            'write',
+            'delete',
+        ],
+    ],
     'roles'            => [
         'values' => [
             'read',

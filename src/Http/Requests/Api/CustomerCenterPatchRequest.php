@@ -76,7 +76,7 @@ use Motor\Admin\Http\Requests\Api\CustomerCenterPostRequest;
  *     type="string",
  *     example="My beautiful opening_times"
  *   ),
- *   required={"name", "address", "zip", "city", "country_iso_3166_1
+ *   required={"name", "address", "zip", "city", "country_iso_3166_1"}
  * )
  */
 class CustomerCenterPatchRequest extends CustomerCenterPostRequest

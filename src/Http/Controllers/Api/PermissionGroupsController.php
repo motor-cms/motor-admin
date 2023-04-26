@@ -70,7 +70,7 @@ class PermissionGroupsController extends ApiController
     public function index(): PermissionGroupCollection
     {
         $paginator = PermissionGroupService::collection()
-                                           ->getPaginator();
+            ->getPaginator();
 
         return (new PermissionGroupCollection($paginator))->additional(['message' => 'Permission collection read']);
     }
@@ -126,11 +126,11 @@ class PermissionGroupsController extends ApiController
     public function store(PermissionGroupRequest $request): JsonResponse
     {
         $result = PermissionGroupService::create($request)
-                                        ->getResult();
+            ->getResult();
 
         return (new PermissionGroupResource($result))->additional(['message' => 'Permission group created'])
-                                                     ->response()
-                                                     ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -182,13 +182,13 @@ class PermissionGroupsController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param  \Motor\Admin\Models\PermissionGroup  $record
+     * @param  \Motor\Admin\Models\PermissionGroup  $permissionGroup
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
-    public function show(PermissionGroup $record): PermissionGroupResource
+    public function show(PermissionGroup $permissionGroup): PermissionGroupResource
     {
-        $result = PermissionGroupService::show($record)
-                                        ->getResult();
+        $result = PermissionGroupService::show($permissionGroup)
+            ->getResult();
 
         return (new PermissionGroupResource($result->load('permissions')))->additional(['message' => 'Permission group read']);
     }
@@ -246,13 +246,27 @@ class PermissionGroupsController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Motor\Admin\Http\Requests\Api\PermissionGroupRequest  $request
-     * @param  \Motor\Admin\Models\Permission  $record
+     * @param  \Motor\Admin\Models\Permission  $permissionGroup
      * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
-    public function update(PermissionGroupRequest $request, Permission $record): PermissionGroupResource
+    public function update(PermissionGroupRequest $request, PermissionGroup $permissionGroup): PermissionGroupResource
     {
-        $result = PermissionGroupService::update($record, $request)
-                                        ->getResult();
+        $result = PermissionGroupService::update($permissionGroup, $request)
+            ->getResult();
+
+        $permissions = $result->permissions()->get();
+        foreach ($permissions as $permission) {
+            // We want to replace the prefix of the permission, so we need to explode the name
+            $permissionNameExploded = explode('.', $permission->name);
+            //We removed the prefix before the dot, so we need to remove it from the array
+            array_shift($permissionNameExploded);
+            //We need to reassemble the name with the new prefix, so we implode the array
+            $newPermissionName = implode('.', $permissionNameExploded);
+            //We set the new name of the permission with the new prefix
+            $permission->name = $result->name . '.' . $newPermissionName;
+            //We save the permission
+            $permission->save();
+        }
 
         return (new PermissionGroupResource($result))->additional(['message' => 'Permission group updated']);
     }
@@ -312,13 +326,13 @@ class PermissionGroupsController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param  \Motor\Admin\Models\PermissionGroup  $record
+     * @param  \Motor\Admin\Models\PermissionGroup  $permissionGroup
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(PermissionGroup $record): JsonResponse
+    public function destroy(PermissionGroup $permissionGroup): JsonResponse
     {
-        $result = PermissionGroupService::delete($record)
-                                        ->getResult();
+        $result = PermissionGroupService::delete($permissionGroup)
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'Permission group deleted']);
