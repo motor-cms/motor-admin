@@ -80,15 +80,15 @@ class UserPatchRequest extends Request
     public function rules()
     {
         return [
-            'client_id'      => 'nullable|integer|exists:clients,id',
-            'name'           => 'required',
-            'email'          => 'nullable|unique:users',
-            'password'       => 'nullable|min:8',
-            'roles'          => 'nullable|array',
-            'permissions'    => 'nullable|array',
-            'avatar'         => 'nullable',
+            'client_id' => 'nullable|integer|exists:clients,id',
+            'name' => 'required',
+            'email' => ['required', 'email', \Illuminate\Validation\Rule::unique('users')->ignore($this->route('user'))],
+            'password' => 'nullable|min:8',
+            'roles' => 'nullable|array',
+            'permissions' => 'nullable|array',
+            'avatar' => 'nullable',
             'avatar.dataUrl' => 'nullable|string',
-            'avatar.name'    => 'nullable|string',
+            'avatar.name' => 'nullable|string',
         ];
     }
 }
