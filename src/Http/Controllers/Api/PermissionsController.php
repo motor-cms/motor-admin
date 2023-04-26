@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\PermissionPatchRequest;
 use Motor\Admin\Http\Requests\Api\PermissionPostRequest;
@@ -182,12 +183,12 @@ class PermissionsController extends ApiController
      *
      * Display the specified resource.
      *
-     * @param  \Motor\Admin\Models\Permission  $record
+     * @param  \Motor\Admin\Models\Permission $permission
      * @return \Motor\Admin\Http\Resources\PermissionResource
      */
-    public function show(Permission $record): PermissionResource
+    public function show(Permission $permission): PermissionResource
     {
-        $result = PermissionService::show($record)
+        $result = PermissionService::show($permission)
                                    ->getResult();
 
         return (new PermissionResource($result))->additional(['message' => 'Permission read']);
@@ -246,12 +247,12 @@ class PermissionsController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Motor\Admin\Http\Requests\Api\PermissionPatchRequest  $request
-     * @param  \Motor\Admin\Models\Permission  $record
+     * @param  \Motor\Admin\Models\Permission  $permission
      * @return \Motor\Admin\Http\Resources\PermissionResource
      */
-    public function update(PermissionPatchRequest $request, Permission $record): PermissionResource
+    public function update(PermissionPatchRequest $request, Permission $permission): PermissionResource
     {
-        $result = PermissionService::update($record, $request)
+        $result = PermissionService::update($permission, $request)
                                    ->getResult();
 
         return (new PermissionResource($result))->additional(['message' => 'Permission updated']);
@@ -312,12 +313,12 @@ class PermissionsController extends ApiController
      *
      * Remove the specified resource from storage.
      *
-     * @param  \Motor\Admin\Models\Permission  $record
+     * @param  \Motor\Admin\Models\Permission  $permission
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Permission $record): JsonResponse
+    public function destroy(Permission $permission): JsonResponse
     {
-        $result = PermissionService::delete($record)
+        $result = PermissionService::delete($permission)
                                    ->getResult();
 
         if ($result) {
@@ -325,5 +326,12 @@ class PermissionsController extends ApiController
         }
 
         return response()->json(['message' => 'Problem deleting permission'], 400);
+    }
+
+    public function items(Request $request, String $id): PermissionCollection
+    {
+        $paginator = Permission::where("permission_group_id", $id)->paginate(25);
+
+        return (new PermissionCollection($paginator))->additional(['message' => 'Permission collection read']);
     }
 }

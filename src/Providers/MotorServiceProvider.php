@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\ConfigVariable;
+use Motor\Admin\Models\PermissionGroup;
 
 /**
  * Class MotorServiceProvider
@@ -97,10 +98,6 @@ class MotorServiceProvider extends ServiceProvider
 
         Route::bind('role', static function ($id) {
             return config('motor-admin.models.role')::findOrFail($id);
-        });
-
-        Route::bind('permission', static function ($id) {
-            return config('motor-admin.models.permission')::findOrFail($id);
         });
 
         Route::bind('language', static function ($id) {
