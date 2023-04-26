@@ -80,7 +80,7 @@ class UserPatchRequest extends Request
     public function rules()
     {
         return [
-            'client_id'      => 'nullable|integer|exists:clients',
+            'client_id'      => 'nullable|integer|exists:clients,id',
             'name'           => 'required',
             'email'          => 'nullable|unique:users',
             'password'       => 'nullable|min:8',

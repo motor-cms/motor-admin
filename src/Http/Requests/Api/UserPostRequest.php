@@ -80,7 +80,7 @@ class UserPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'      => 'nullable|integer|exists:clients',
+            'client_id'      => 'nullable|integer|exists:clients,id',
             'name'           => 'required',
             'email'          => 'required|unique:users',
             'password'       => 'required|min:8',
