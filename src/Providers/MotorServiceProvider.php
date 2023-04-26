@@ -100,14 +100,6 @@ class MotorServiceProvider extends ServiceProvider
             return config('motor-admin.models.role')::findOrFail($id);
         });
 
-        Route::bind('permission', static function ($id) {
-            return config('motor-admin.models.permission')::findOrFail($id);
-        });
-
-        Route::bind('permission_group', static function ($id) {
-            return PermissionGroup::findOrFail($id);
-        });
-
         Route::bind('language', static function ($id) {
             return config('motor-admin.models.language')::findOrFail($id);
         });
