@@ -24,8 +24,9 @@ Route::group([
     Route::apiResource('clients', ClientsController::class);
     Route::apiResource('languages', LanguagesController::class);
     Route::apiResource('roles', RolesController::class);
-    Route::apiResource('permissions', PermissionsController::class);
     Route::apiResource('permission_groups', PermissionGroupsController::class);
+    Route::apiResource('permissions', PermissionsController::class);
+    Route::get("permissions_items/{id}", [PermissionsController::class, "items"]);
     Route::apiResource('email_templates', EmailTemplatesController::class);
     Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
         'parameters' => [
