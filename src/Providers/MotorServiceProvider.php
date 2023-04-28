@@ -57,6 +57,7 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
         $this->mergeConfigFrom(__DIR__.'/../../config/blameable.php', 'blameable');
+        $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
     }
 
     /**
