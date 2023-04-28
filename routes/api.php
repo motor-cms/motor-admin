@@ -13,12 +13,11 @@ use Motor\Admin\Http\Controllers\Api\PermissionsController;
 use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
-use Motor\Admin\Http\Controllers\Api\CustomerCenterController;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'bindings'],
-    'prefix'     => 'api',
-    'as'         => 'api.',
+    'prefix' => 'api',
+    'as' => 'api.',
 ], static function () {
     Route::apiResource('users', UsersController::class);
     Route::apiResource('clients', ClientsController::class);
@@ -26,7 +25,7 @@ Route::group([
     Route::apiResource('roles', RolesController::class);
     Route::apiResource('permission_groups', PermissionGroupsController::class);
     Route::apiResource('permissions', PermissionsController::class);
-    Route::get("permissions_items/{id}", [PermissionsController::class, "items"]);
+    Route::get('permissions_items/{id}', [PermissionsController::class, 'items']);
     Route::apiResource('email_templates', EmailTemplatesController::class);
     Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
         'parameters' => [
@@ -40,11 +39,10 @@ Route::group([
     ]);
 
     Route::get('profile', [ProfileEditController::class, 'me'])
-         ->name('profile.read');
+        ->name('profile.read');
     Route::put('profile', [ProfileEditController::class, 'update'])
-         ->name('profile.update');
+        ->name('profile.update');
     Route::apiResource('config_variables', ConfigVariablesController::class);
-    Route::apiResource('customer_centers', CustomerCenterController::class);
 
 });
 
@@ -60,5 +58,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/api/auth/logout', [AuthController::class, 'logout']);
 
     Route::get('/api/admin_navigations', [AdminNavigationsController::class, 'index'])
-         ->name('admin_navigations.index');
+        ->name('admin_navigations.index');
 });
