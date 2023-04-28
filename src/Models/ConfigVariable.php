@@ -41,6 +41,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @method static Builder|ConfigVariable whereUpdatedAt($value)
  * @method static Builder|ConfigVariable whereUpdatedBy($value)
  * @method static Builder|ConfigVariable whereValue($value)
+ *
  * @mixin \Eloquent
  */
 class ConfigVariable extends Model
@@ -52,8 +53,6 @@ class ConfigVariable extends Model
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = [
         'package',

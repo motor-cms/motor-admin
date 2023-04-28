@@ -38,6 +38,7 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Permission whereName($value)
  * @method static Builder|Permission wherePermissionGroupId($value)
  * @method static Builder|Permission whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Permission extends \Spatie\Permission\Models\Permission
@@ -48,8 +49,6 @@ class Permission extends \Spatie\Permission\Models\Permission
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = [
         'name',
@@ -67,9 +66,6 @@ class Permission extends \Spatie\Permission\Models\Permission
         'guard_name',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.permission_group'), 'permission_group_id');

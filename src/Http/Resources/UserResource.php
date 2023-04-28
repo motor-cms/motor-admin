@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="UserResource",
+ *
  *   @OA\Property(
  *     property="id",
  *     type="integer",
@@ -23,17 +24,21 @@ namespace Motor\Admin\Http\Resources;
  *   @OA\Property(
  *     property="roles",
  *     type="array",
+ *
  *     @OA\Items(
  *       ref="#/components/schemas/RoleResource"
  *     ),
  *   ),
+ *
  *   @OA\Property(
  *     property="permissions",
  *     type="array",
+ *
  *     @OA\Items(
  *       ref="#/components/schemas/PermissionResource"
  *     ),
  *   ),
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -57,7 +62,6 @@ class UserResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {

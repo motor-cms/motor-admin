@@ -57,6 +57,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @method static Builder|EmailTemplate whereSubject($value)
  * @method static Builder|EmailTemplate whereUpdatedAt($value)
  * @method static Builder|EmailTemplate whereUpdatedBy($value)
+ *
  * @mixin \Eloquent
  */
 class EmailTemplate extends Model
@@ -86,17 +87,11 @@ class EmailTemplate extends Model
         'default_bcc_email',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function language(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.language'));

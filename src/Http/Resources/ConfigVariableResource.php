@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="ConfigVariableResource",
+ *
  *   @OA\Property(
  *     property="id",
  *     type="integer",
@@ -43,7 +44,6 @@ class ConfigVariableResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {

@@ -13,15 +13,13 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param $request
-     * @param  \Closure  $next
      * @param  null  $guard
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)
-                ->guest()) {
+            ->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'message' => 'Unauthorized',

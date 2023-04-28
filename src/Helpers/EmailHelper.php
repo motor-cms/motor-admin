@@ -13,7 +13,7 @@ class EmailHelper
     {
         // Try to get email template
         $template = EmailTemplate::where('name', $templateName)
-                                 ->first();
+            ->first();
         if (is_null($template)) {
             Log::error('No template found for '.$templateName);
 

@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="UserPatchRequest",
+ *
  *   @OA\Property(
  *     property="client_id",
  *     type="integer",
@@ -33,23 +34,29 @@ use Motor\Admin\Http\Requests\Request;
  *   @OA\Property(
  *     property="roles",
  *     type="array",
+ *
  *     @OA\Items(
  *       anyOf={
+ *
  *         @OA\Schema(type="integer")
  *       }
  *     ),
  *     example="[1,2,3]"
  *   ),
+ *
  *   @OA\Property(
  *     property="permissions",
  *     type="array",
+ *
  *     @OA\Items(
  *       anyOf={
+ *
  *         @OA\Schema(type="integer")
  *       }
  *     ),
  *     example="[1,2,3]"
  *   ),
+ *
  *   @OA\Property(
  *     property="avatar",
  *     type="object",
@@ -61,7 +68,6 @@ use Motor\Admin\Http\Requests\Request;
  */
 class UserPatchRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

@@ -28,28 +28,37 @@ class CategoriesController extends ApiController
      *   path="/api/category_trees/{category_tree}/categories",
      *   summary="Get categories collection",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category_tree",
      *     parameter="category_tree",
      *     description="Category tree id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="array",
+     *
      *         @OA\Items(ref="#/components/schemas/CategoryResource")
      *       ),
+     *
      *       @OA\Property(
      *         property="meta",
      *         ref="#/components/schemas/PaginationMeta"
@@ -65,22 +74,23 @@ class CategoriesController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Category tree not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Display a listing of the resource.
-     *
-     * @param  \Motor\Admin\Models\Category  $categoryTree
-     * @return \Illuminate\Http\JsonResponse|\Motor\Admin\Http\Resources\CategoryCollection
      */
     public function index(Category $categoryTree, Request $request): CategoryCollection|JsonResponse
     {
@@ -98,11 +108,11 @@ class CategoriesController extends ApiController
 
         $filter = $service->getFilter();
         $filter->add(new WhereRenderer('scope'))
-               ->setValue($scope);
+            ->setValue($scope);
         $filter->add(new WhereRenderer('parent_id'))
-               ->setOperator('!=')
-               ->setAllowNull(true)
-               ->setValue(null);
+            ->setOperator('!=')
+            ->setAllowNull(true)
+            ->setValue(null);
 
         $service->setSorting([NestedSet::LFT, 'ASC']);
         $paginator = $service->getPaginator();
@@ -115,27 +125,36 @@ class CategoriesController extends ApiController
      *   tags={"CategoriesController"},
      *   path="/api/category_trees/{category_tree}/categories",
      *   summary="Create new category",
+     *
      *   @OA\RequestBody(
+     *
      *     @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
      *   ),
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category_tree",
      *     parameter="category_tree",
      *     description="Category tree id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -148,31 +167,32 @@ class CategoriesController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param  \Motor\Admin\Http\Requests\Api\CategoryRequest  $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategoryRequest $request): JsonResponse
     {
         $result = CategoryService::create($request)
-                                 ->getResult();
+            ->getResult();
 
         return (new CategoryResource($result))->additional(['message' => 'Category created'])
-                                              ->response()
-                                              ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -181,30 +201,39 @@ class CategoriesController extends ApiController
      *   path="/api/category_trees/{category_tree}/categories/{category}",
      *   summary="Get single category",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category_tree",
      *     parameter="category_tree",
      *     description="Category tree id"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category",
      *     parameter="category",
      *     description="Category id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -217,27 +246,28 @@ class CategoriesController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Display the specified resource.
-     *
-     * @param  \Motor\Admin\Models\Category  $record
-     * @return \Motor\Admin\Http\Resources\CategoryResource
      */
     public function show($parent, Category $record): CategoryResource // Typecase on parent fails with a type error
     {
         $result = CategoryService::show($record)
-                                 ->getResult();
+            ->getResult();
 
         return (new CategoryResource($result))->additional(['message' => 'Category read']);
     }
@@ -247,34 +277,45 @@ class CategoriesController extends ApiController
      *   tags={"CategoriesController"},
      *   path="/api/category_trees/{category_tree}/categories/{category}",
      *   summary="Update an existing category",
+     *
      *   @OA\RequestBody(
+     *
      *     @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
      *   ),
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category_tree",
      *     parameter="category_tree",
      *     description="Category tree id"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category",
      *     parameter="category",
      *     description="Category id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -287,28 +328,28 @@ class CategoriesController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Update the specified resource in storage.
-     *
-     * @param  \Motor\Admin\Http\Requests\Api\CategoryRequest  $request
-     * @param  \Motor\Admin\Models\Category  $record
-     * @return \Motor\Admin\Http\Resources\CategoryResource
      */
     public function update(CategoryRequest $request, $parent, Category $record): CategoryResource
     {
         $result = CategoryService::update($record, $request)
-                                 ->getResult();
+            ->getResult();
 
         return (new CategoryResource($result))->additional(['message' => 'Category updated']);
     }
@@ -319,30 +360,39 @@ class CategoriesController extends ApiController
      *   path="/api/category_trees/{category_tree}/categories/{category}",
      *   summary="Delete a category",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category_tree",
      *     parameter="category_tree",
      *     description="Category tree id"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="category",
      *     parameter="category",
      *     description="Category id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="message",
      *         type="string",
@@ -350,20 +400,27 @@ class CategoriesController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   ),
+     *
      *   @OA\Response(
      *     response="400",
      *     description="Bad request",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="message",
      *         type="string",
@@ -374,14 +431,11 @@ class CategoriesController extends ApiController
      * )
      *
      * Remove the specified resource from storage.
-     *
-     * @param  \Motor\Admin\Models\Category  $record
-     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Category $record): JsonResponse
     {
         $result = CategoryService::delete($record)
-                                 ->getResult();
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'Category deleted']);

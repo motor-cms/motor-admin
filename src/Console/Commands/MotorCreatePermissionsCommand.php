@@ -28,8 +28,6 @@ class MotorCreatePermissionsCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -38,7 +36,7 @@ class MotorCreatePermissionsCommand extends Command
 
             // Check if the group exists
             $permissionGroup = PermissionGroup::where('name', $name)
-                                              ->first();
+                ->first();
             if (is_null($permissionGroup)) {
                 $permissionGroup = new PermissionGroup();
                 $this->info('Creating permission group for '.$name);
@@ -54,7 +52,7 @@ class MotorCreatePermissionsCommand extends Command
 
                 // Check if the permission exists
                 $permission = Permission::where('name', $name.'.'.$value)
-                                        ->first();
+                    ->first();
                 if (is_null($permission)) {
                     $this->info('Creating permission for '.$name.' > '.$value);
                     $permission = new Permission();

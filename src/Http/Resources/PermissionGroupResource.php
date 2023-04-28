@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="PermissionGroupResource",
+ *
  *   @OA\Property(
  *     property="id",
  *     type="integer",
@@ -23,6 +24,7 @@ namespace Motor\Admin\Http\Resources;
  *   @OA\Property(
  *     property="permissions",
  *     type="array",
+ *
  *     @OA\Items(
  *       ref="#/components/schemas/PermissionResource"
  *     )
@@ -35,7 +37,6 @@ class PermissionGroupResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {

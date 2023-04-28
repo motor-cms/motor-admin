@@ -17,6 +17,7 @@ use Illuminate\Routing\Controller as BaseController;
  *       "altText": "Logo"
  *     }
  *   },
+ *
  *   @OA\Contact(
  *     email="me@dfox.info"
  *   )
@@ -28,16 +29,15 @@ use Illuminate\Routing\Controller as BaseController;
  *   example={"error": "Unauthenticated"},
  *   description="The user is not authorized to make this request"
  * )
- *
  * @OA\Schema(
  *   schema="NotFound",
  *   type="json",
  *   example={"message": "Record not found"},
  *   description="The record was not found in the database"
  * )
- *
  * @OA\Schema(
  *   schema="FileUpload",
+ *
  *   @OA\Property(
  *     property="dataUrl",
  *     type="string",
@@ -54,6 +54,7 @@ use Illuminate\Routing\Controller as BaseController;
  *
  * @OA\Schema(
  *   schema="PaginationLinks",
+ *
  *   @OA\Property(
  *     property="first",
  *     type="string",
@@ -78,6 +79,7 @@ use Illuminate\Routing\Controller as BaseController;
  *
  * @OA\Schema(
  *   schema="PaginationMeta",
+ *
  *   @OA\Property(
  *     property="current_page",
  *     type="integer",
@@ -116,7 +118,9 @@ use Illuminate\Routing\Controller as BaseController;
  *   @OA\Property(
  *     property="links",
  *     type="array",
+ *
  *     @OA\Items(
+ *
  *       @OA\Property(
  *         property="url",
  *         type="'null',string",

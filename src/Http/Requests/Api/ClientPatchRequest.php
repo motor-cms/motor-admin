@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="ClientPatchRequest",
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -76,8 +77,6 @@ class ClientPatchRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -86,8 +85,6 @@ class ClientPatchRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {

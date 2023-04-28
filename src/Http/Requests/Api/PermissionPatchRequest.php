@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="PermissionPatchRequest",
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -24,11 +25,8 @@ use Motor\Admin\Http\Requests\Request;
  */
 class PermissionPatchRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -37,8 +35,6 @@ class PermissionPatchRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {

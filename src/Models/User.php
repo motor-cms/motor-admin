@@ -60,6 +60,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User wherePasswordLastChangedAt($value)
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasMedia
@@ -81,24 +82,20 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media|null  $media
-     *
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-             ->width(400)
-             ->height(400);
+            ->width(400)
+            ->height(400);
         $this->addMediaConversion('preview')
-             ->width(400)
-             ->height(400);
+            ->width(400)
+            ->height(400);
     }
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = ['name', 'email'];
 
@@ -125,9 +122,6 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));

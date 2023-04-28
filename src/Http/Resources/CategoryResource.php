@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="CategoryResource",
+ *
  *   @OA\Property(
  *     property="id",
  *     type="integer",
@@ -43,6 +44,7 @@ namespace Motor\Admin\Http\Resources;
  *   @OA\Property(
  *     property="children",
  *     type="array",
+ *
  *     @OA\Items(
  *       ref="#/components/schemas/CategoryResource"
  *     )
@@ -55,7 +57,6 @@ class CategoryResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {
@@ -71,7 +72,7 @@ class CategoryResource extends BaseResource
             '_lft'      => (int) $this->_lft,
             '_rgt'      => (int) $this->_rgt,
             'level'     => (int) $this->ancestors()
-                                      ->count(),
+                ->count(),
             'children'  => CategoryResource::collection($this->whenLoaded('children')),
         ];
     }

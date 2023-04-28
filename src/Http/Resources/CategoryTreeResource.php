@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="CategoryTreeResource",
+ *
  *   @OA\Property(
  *     property="id",
  *     type="integer",
@@ -23,6 +24,7 @@ namespace Motor\Admin\Http\Resources;
  *   @OA\Property(
  *     property="children",
  *     type="array",
+ *
  *     @OA\Items(
  *       ref="#/components/schemas/CategoryResource"
  *     )
@@ -35,7 +37,6 @@ class CategoryTreeResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {

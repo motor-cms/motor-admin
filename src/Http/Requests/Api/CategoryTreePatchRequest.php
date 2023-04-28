@@ -10,6 +10,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="CategoryTreePatchRequest",
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -27,8 +28,6 @@ class CategoryTreePatchRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -37,8 +36,6 @@ class CategoryTreePatchRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -51,9 +48,9 @@ class CategoryTreePatchRequest extends Request
                 Rule::unique('categories')
                     ->where(function ($query) use ($request) {
                         return $query->where('scope', $request->scope)
-                                     ->where('parent_id', null)
-                                     ->where('id', '!=', $request->route()
-                                                                 ->originalParameter('category'));
+                            ->where('parent_id', null)
+                            ->where('id', '!=', $request->route()
+                                ->originalParameter('category'));
                     }),
             ],
         ];
