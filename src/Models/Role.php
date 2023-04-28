@@ -3,6 +3,7 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -37,6 +38,7 @@ class Role extends \Spatie\Permission\Models\Role
 {
     use Searchable;
     use Filterable;
+    use HasShortflakePrimary;
 
     /**
      * Searchable columns for the searchable trait

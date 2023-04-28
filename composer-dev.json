@@ -25,6 +25,7 @@
     "kalnoy/nestedset": "^6.0",
     "laravel/horizon": "^5.0",
     "darkaonline/l5-swagger": "^8.0",
+    "kra8/laravel-snowflake": "^v2.2",
     "richan-fongdasen/eloquent-blameable": "^1.9.0"
   },
   "require-dev": {

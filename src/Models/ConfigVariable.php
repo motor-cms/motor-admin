@@ -4,6 +4,7 @@ namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
@@ -47,6 +48,7 @@ class ConfigVariable extends Model
     use Searchable;
     use Filterable;
     use BlameableTrait;
+    use HasShortflakePrimary;
 
     /**
      * Searchable columns for the searchable trait

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NestedSet;
 use Kalnoy\Nestedset\NodeTrait;
 use Kalnoy\Nestedset\QueryBuilder;
+use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Core\Traits\Filterable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
@@ -92,6 +93,7 @@ class Category extends Model
     use Filterable;
     use BlameableTrait;
     use NodeTrait;
+    use HasShortflakePrimary;
 
     /**
      * Searchable columns for the searchable trait

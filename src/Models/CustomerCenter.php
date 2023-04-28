@@ -5,6 +5,7 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Admin\Database\Factories\ClientFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
@@ -35,6 +36,7 @@ class CustomerCenter extends Model
     use Searchable;
     use Filterable;
     use HasFactory;
+    use HasShortflakePrimary;
 
     /**
      * Searchable columns for the searchable trait
