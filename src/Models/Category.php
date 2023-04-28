@@ -3,11 +3,13 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NestedSet;
 use Kalnoy\Nestedset\NodeTrait;
 use Kalnoy\Nestedset\QueryBuilder;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\CategoryFactory;
 use Motor\Core\Traits\Filterable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
@@ -94,6 +96,7 @@ class Category extends Model
     use Filterable;
     use BlameableTrait;
     use NodeTrait;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -112,6 +115,11 @@ class Category extends Model
         'name',
         'scope',
     ];
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
+    }
 
     /**
      * Get searchable columns defined on the model.

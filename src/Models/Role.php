@@ -3,7 +3,9 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\RoleFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -39,6 +41,7 @@ class Role extends \Spatie\Permission\Models\Role
 {
     use Searchable;
     use Filterable;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -58,4 +61,9 @@ class Role extends \Spatie\Permission\Models\Role
         'name',
         'guard_name',
     ];
+
+    protected static function newFactory(): RoleFactory
+    {
+        return RoleFactory::new();
+    }
 }

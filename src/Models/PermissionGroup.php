@@ -3,8 +3,10 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\PermissionGroupFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -37,6 +39,7 @@ class PermissionGroup extends Model
 {
     use Searchable;
     use Filterable;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -55,6 +58,11 @@ class PermissionGroup extends Model
         'name',
         'sort_position',
     ];
+
+    protected static function newFactory(): PermissionGroupFactory
+    {
+        return PermissionGroupFactory::new();
+    }
 
     public function permissions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

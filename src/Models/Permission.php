@@ -3,7 +3,9 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\PermissionFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 
@@ -45,6 +47,7 @@ class Permission extends \Spatie\Permission\Models\Permission
 {
     use Searchable;
     use Filterable;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -65,6 +68,11 @@ class Permission extends \Spatie\Permission\Models\Permission
         'name',
         'guard_name',
     ];
+
+    protected static function newFactory(): PermissionFactory
+    {
+        return PermissionFactory::new();
+    }
 
     public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

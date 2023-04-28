@@ -3,8 +3,10 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\ConfigVariableFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
@@ -49,6 +51,7 @@ class ConfigVariable extends Model
     use Searchable;
     use Filterable;
     use BlameableTrait;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -73,4 +76,9 @@ class ConfigVariable extends Model
         'name',
         'value',
     ];
+
+    protected static function newFactory(): ConfigVariableFactory
+    {
+        return ConfigVariableFactory::new();
+    }
 }
