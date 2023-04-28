@@ -1,6 +1,12 @@
 <?php
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as DoctrineSchemaManager;
+use Doctrine\DBAL\Types\IntegerType;
+use Illuminate\Console\Command;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder as SchemaBuilder;
 
 return new class extends Migration
 {
@@ -10,13 +16,6 @@ return new class extends Migration
         $transformer->transform();
     }
 };
-
-use Doctrine\DBAL\Types\IntegerType;
-use Illuminate\Console\Command;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder as SchemaBuilder;
 
 class Transformer
 {
