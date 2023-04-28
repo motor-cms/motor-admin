@@ -30,6 +30,7 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|PermissionGroup whereName($value)
  * @method static Builder|PermissionGroup whereSortPosition($value)
  * @method static Builder|PermissionGroup whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class PermissionGroup extends Model
@@ -40,8 +41,6 @@ class PermissionGroup extends Model
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = [
         'name',
@@ -57,9 +56,6 @@ class PermissionGroup extends Model
         'sort_position',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function permissions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(config('motor-admin.models.permission'), 'permission_group_id');

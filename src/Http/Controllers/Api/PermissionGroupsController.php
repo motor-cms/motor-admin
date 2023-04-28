@@ -26,21 +26,28 @@ class PermissionGroupsController extends ApiController
      *   path="/api/permission_groups",
      *   summary="Get permission group collection",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="array",
+     *
      *         @OA\Items(ref="#/components/schemas/PermissionGroupResource")
      *       ),
+     *
      *       @OA\Property(
      *         property="meta",
      *         ref="#/components/schemas/PaginationMeta"
@@ -56,16 +63,16 @@ class PermissionGroupsController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   )
      * )
      *
      * Display a listing of the resource.
-     *
-     * @return \Motor\Admin\Http\Resources\PermissionGroupCollection
      */
     public function index(): PermissionGroupCollection
     {
@@ -80,20 +87,27 @@ class PermissionGroupsController extends ApiController
      *   tags={"PermissionGroupsController"},
      *   path="/api/permission_groups",
      *   summary="Create new permission group",
+     *
      *   @OA\RequestBody(
+     *
      *     @OA\JsonContent(ref="#/components/schemas/PermissionGroupRequest")
      *   ),
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -106,22 +120,23 @@ class PermissionGroupsController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Store a newly created resource in storage.
-     *
-     * @param  \Motor\Admin\Http\Requests\Api\PermissionGroupRequest  $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function store(PermissionGroupRequest $request): JsonResponse
     {
@@ -139,23 +154,30 @@ class PermissionGroupsController extends ApiController
      *   path="/api/permission_groups/{permission_group}",
      *   summary="Get single permission group",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="permission_group",
      *     parameter="permission_group",
      *     description="Permission group id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -168,22 +190,23 @@ class PermissionGroupsController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Display the specified resource.
-     *
-     * @param  \Motor\Admin\Models\PermissionGroup  $permissionGroup
-     * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
     public function show(PermissionGroup $permissionGroup): PermissionGroupResource
     {
@@ -198,27 +221,36 @@ class PermissionGroupsController extends ApiController
      *   tags={"PermissionGroupsController"},
      *   path="/api/permission_groups/{permission_group}",
      *   summary="Update an existing permission group",
+     *
      *   @OA\RequestBody(
+     *
      *     @OA\JsonContent(ref="#/components/schemas/PermissionGroupRequest")
      *   ),
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="permission_group",
      *     parameter="permission_group",
      *     description="Permission group id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="data",
      *         type="object",
@@ -231,23 +263,25 @@ class PermissionGroupsController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   )
      * )
      *
      * Update the specified resource in storage.
      *
-     * @param  \Motor\Admin\Http\Requests\Api\PermissionGroupRequest  $request
      * @param  \Motor\Admin\Models\Permission  $permissionGroup
-     * @return \Motor\Admin\Http\Resources\PermissionGroupResource
      */
     public function update(PermissionGroupRequest $request, PermissionGroup $permissionGroup): PermissionGroupResource
     {
@@ -263,7 +297,7 @@ class PermissionGroupsController extends ApiController
             //We need to reassemble the name with the new prefix, so we implode the array
             $newPermissionName = implode('.', $permissionNameExploded);
             //We set the new name of the permission with the new prefix
-            $permission->name = $result->name . '.' . $newPermissionName;
+            $permission->name = $result->name.'.'.$newPermissionName;
             //We save the permission
             $permission->save();
         }
@@ -277,23 +311,30 @@ class PermissionGroupsController extends ApiController
      *   path="/api/permission_groups/{permission_group}",
      *   summary="Delete a permission group",
      *   security={ {"sanctum": {} }},
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="string"),
      *     in="header",
      *     name="Accept",
      *     example="application/json"
      *   ),
+     *
      *   @OA\Parameter(
+     *
      *     @OA\Schema(type="integer"),
      *     in="path",
      *     name="permission_group",
      *     parameter="permission_group",
      *     description="Permission group id"
      *   ),
+     *
      *   @OA\Response(
      *     response=200,
      *     description="Success",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="message",
      *         type="string",
@@ -301,20 +342,27 @@ class PermissionGroupsController extends ApiController
      *       )
      *     )
      *   ),
+     *
      *   @OA\Response(
      *     response="403",
      *     description="Access denied",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
      *   ),
+     *
      *   @OA\Response(
      *     response="404",
      *     description="Not found",
+     *
      *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
      *   ),
+     *
      *   @OA\Response(
      *     response="400",
      *     description="Bad request",
+     *
      *     @OA\JsonContent(
+     *
      *       @OA\Property(
      *         property="message",
      *         type="string",
@@ -325,9 +373,6 @@ class PermissionGroupsController extends ApiController
      * )
      *
      * Remove the specified resource from storage.
-     *
-     * @param  \Motor\Admin\Models\PermissionGroup  $permissionGroup
-     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(PermissionGroup $permissionGroup): JsonResponse
     {

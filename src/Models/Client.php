@@ -58,6 +58,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @method static Builder|Client whereUpdatedBy($value)
  * @method static Builder|Client whereWebsite($value)
  * @method static Builder|Client whereZip($value)
+ *
  * @mixin \Eloquent
  */
 class Client extends Model
@@ -70,8 +71,6 @@ class Client extends Model
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = ['name'];
 
@@ -95,9 +94,6 @@ class Client extends Model
         'description',
     ];
 
-    /**
-     * @return \Motor\Admin\Database\Factories\ClientFactory
-     */
     protected static function newFactory(): ClientFactory
     {
         return ClientFactory::new();

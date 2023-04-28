@@ -37,40 +37,34 @@ abstract class BaseService
      * Basic create method.
      * Usually called by an API
      *
-     * @param  \Illuminate\Http\Request|array  $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function create(Request|array $request): BaseService
     {
         return (new static())->setRequest($request)
-                             ->doCreate();
+            ->doCreate();
     }
 
     /**
      * Basic update method.
      * Usually called by an API
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $record
-     * @param  \Illuminate\Http\Request|array  $request
      * @return \Motor\Admin\Services\BaseService
      */
     public static function update(Model $record, Request|array $request): BaseService
     {
         return (new static())->setRequest($request)
-                             ->setRecord($record)
-                             ->doUpdate();
+            ->setRecord($record)
+            ->doUpdate();
     }
 
     /**
      * Simple wrapper to return the given record
-     *
-     * @param $record
-     * @return mixed
      */
     public static function show($record): mixed
     {
         return (new static())->setRecord($record)
-                             ->doShow();
+            ->doShow();
     }
 
     /**
@@ -79,7 +73,6 @@ abstract class BaseService
      *
      * @param  string  $alias
      * @param  null  $sorting
-     * @return BaseService
      */
     public static function collection($alias = '', $sorting = null): BaseService
     {
@@ -105,14 +98,11 @@ abstract class BaseService
 
     /**
      * Simple wrapper around the delete method of the record
-     *
-     * @param $record
-     * @return mixed
      */
     public static function delete($record): mixed
     {
         return (new static())->setRecord($record)
-                             ->doDelete();
+            ->doDelete();
     }
 
     /**
@@ -122,7 +112,7 @@ abstract class BaseService
     {
         $this->filter->add(new SearchRenderer('search'));
         $this->filter->add(new PerPageRenderer('per_page'))
-                     ->setup();
+            ->setup();
     }
 
     /**
@@ -138,8 +128,6 @@ abstract class BaseService
 
     /**
      * Returns the result of create/update/delete/record methods
-     *
-     * @return mixed
      */
     public function getResult(): mixed
     {
@@ -148,8 +136,6 @@ abstract class BaseService
 
     /**
      * Returns the paginator for the model
-     *
-     * @return mixed
      */
     public function getPaginator(): mixed
     {
@@ -158,14 +144,13 @@ abstract class BaseService
         $query = $this->applySorting($query);
 
         return $query->paginate($this->getFilter()
-                                     ->get('per_page')
-                                     ->getValue());
+            ->get('per_page')
+            ->getValue());
     }
 
     /**
      * Set sorting array
      *
-     * @param  array  $sorting
      * @return $this
      */
     public function setSorting(array $sorting): static
@@ -177,9 +162,6 @@ abstract class BaseService
 
     /**
      * Add custom sorting, if available
-     *
-     * @param $query
-     * @return mixed
      */
     public function applySorting($query): mixed
     {
@@ -223,7 +205,7 @@ abstract class BaseService
             $model = isset($query->model) ? $query->model : $query->getModel();
 
             return $query->orderBy($model
-                    ->getTable().'.'.$this->sortableField, $this->sortableDirection);
+                ->getTable().'.'.$this->sortableField, $this->sortableDirection);
 
         }
 
@@ -232,9 +214,6 @@ abstract class BaseService
 
     /**
      * Add custom scopes to query
-     *
-     * @param $query
-     * @return mixed
      */
     public function applyScopes($query): mixed
     {
@@ -314,7 +293,6 @@ abstract class BaseService
     /**
      * Sets a record
      *
-     * @param  Model  $record
      * @return $this
      */
     public function setRecord(Model $record): static
@@ -327,7 +305,6 @@ abstract class BaseService
     /**
      * Sets a request object
      *
-     * @param  \Illuminate\Http\Request|array  $request
      * @return $this
      */
     public function setRequest(Request|array $request): static
@@ -353,8 +330,6 @@ abstract class BaseService
     /**
      * Handles file uploads either with a UploadedFile object or a base64 encoded file
      *
-     * @param $file
-     * @param  string  $identifier
      * @param  null  $collection
      * @param  null  $record
      * @param  false  $addToCollection
@@ -401,7 +376,7 @@ abstract class BaseService
 
         if ($file instanceof UploadedFile && $file->isValid()) {
             $record->addMedia($file)
-                   ->toMediaCollection($collection, 'media');
+                ->toMediaCollection($collection, 'media');
         } else {
             if ($this->isValidBase64(Arr::get($this->data, $identifier.'.dataUrl'))) {
                 $image = base64_decode(Arr::get($this->data, $identifier.'.dataUrl'));
@@ -414,9 +389,9 @@ abstract class BaseService
                 fwrite($handle, $image);
                 fclose($handle);
                 $record->addMedia($tempFilename)
-                       ->setName($name)
-                       ->setFileName($name)
-                       ->toMediaCollection($collection, 'media');
+                    ->setName($name)
+                    ->setFileName($name)
+                    ->toMediaCollection($collection, 'media');
             }
         }
 
@@ -425,9 +400,6 @@ abstract class BaseService
 
     /**
      * Helper method to check if a file upload field is base64 encoded
-     *
-     * @param $string
-     * @return bool
      */
     protected function isValidBase64($string): bool
     {

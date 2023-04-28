@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="UserPostRequest",
+ *
  *   @OA\Property(
  *     property="client_id",
  *     type="integer",
@@ -33,23 +34,29 @@ use Motor\Admin\Http\Requests\Request;
  *   @OA\Property(
  *     property="roles",
  *     type="array",
+ *
  *     @OA\Items(
  *       anyOf={
+ *
  *         @OA\Schema(type="integer")
  *       }
  *     ),
  *     example="[1,2,3]"
  *   ),
+ *
  *   @OA\Property(
  *     property="permissions",
  *     type="array",
+ *
  *     @OA\Items(
  *       anyOf={
+ *
  *         @OA\Schema(type="integer")
  *       }
  *     ),
  *     example="[1,2,3]"
  *   ),
+ *
  *   @OA\Property(
  *     property="avatar",
  *     type="object",
@@ -61,11 +68,8 @@ use Motor\Admin\Http\Requests\Request;
  */
 class UserPostRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -74,8 +78,6 @@ class UserPostRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {

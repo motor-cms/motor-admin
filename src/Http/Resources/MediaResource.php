@@ -5,6 +5,7 @@ namespace Motor\Admin\Http\Resources;
 /**
  * @OA\Schema(
  *   schema="MediaResourceConversions",
+ *
  *   @OA\Property(
  *     property="thumb",
  *     type="string",
@@ -19,6 +20,7 @@ namespace Motor\Admin\Http\Resources;
  *
  * @OA\Schema(
  *   schema="MediaResource",
+ *
  *   @OA\Property(
  *     property="collection",
  *     type="string",
@@ -77,7 +79,6 @@ class MediaResource extends BaseResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
     public function toArray($request): array
     {

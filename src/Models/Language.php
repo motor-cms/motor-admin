@@ -33,6 +33,7 @@ use Motor\Core\Traits\Searchable;
  * @method static Builder|Language whereIso6391($value)
  * @method static Builder|Language whereNativeName($value)
  * @method static Builder|Language whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Language extends Model
@@ -44,8 +45,6 @@ class Language extends Model
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = ['iso_639_1', 'native_name', 'english_name'];
 

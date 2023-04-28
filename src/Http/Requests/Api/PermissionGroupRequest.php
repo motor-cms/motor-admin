@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="PermissionGroupRequest",
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -19,11 +20,8 @@ use Motor\Admin\Http\Requests\Request;
  */
 class PermissionGroupRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -32,8 +30,6 @@ class PermissionGroupRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {

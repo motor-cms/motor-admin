@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\ConfigVariable;
-use Motor\Admin\Models\PermissionGroup;
 
 /**
  * Class MotorServiceProvider

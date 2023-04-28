@@ -86,6 +86,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @method static QueryBuilder|Category whereUpdatedBy($value)
  * @method static QueryBuilder|Category withDepth(string $as = 'depth')
  * @method static QueryBuilder|Category withoutRoot()
+ *
  * @mixin \Eloquent
  */
 class Category extends Model
@@ -97,8 +98,6 @@ class Category extends Model
 
     /**
      * Searchable columns for the searchable trait
-     *
-     * @var array
      */
     protected array $searchableColumns = [
         'name',
@@ -116,17 +115,12 @@ class Category extends Model
 
     /**
      * Get searchable columns defined on the model.
-     *
-     * @return array
      */
     public function getSearchableColumns(): array
     {
         return (property_exists($this, 'searchableColumns')) ? $this->searchableColumns : [];
     }
 
-    /**
-     * @return array
-     */
     protected function getScopeAttributes(): array
     {
         return ['scope'];

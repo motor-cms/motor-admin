@@ -10,13 +10,6 @@ use Spatie\MediaLibrary\HasMedia;
  */
 class MediaHelper
 {
-    /**
-     * @param  \Spatie\MediaLibrary\HasMedia  $record
-     * @param  string  $identifier
-     * @param  bool  $base64
-     * @param  array  $conversions
-     * @return array
-     */
     public static function getFileInformation(
         HasMedia $record,
         string $identifier,

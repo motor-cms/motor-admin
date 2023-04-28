@@ -10,6 +10,7 @@ use Motor\Admin\Http\Requests\Request;
  *
  * @OA\Schema(
  *   schema="CategoryTreePostRequest",
+ *
  *   @OA\Property(
  *     property="name",
  *     type="string",
@@ -25,11 +26,8 @@ use Motor\Admin\Http\Requests\Request;
  */
 class CategoryTreePostRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -38,8 +36,6 @@ class CategoryTreePostRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -52,7 +48,7 @@ class CategoryTreePostRequest extends Request
                 Rule::unique('categories')
                     ->where(function ($query) use ($request) {
                         return $query->where('scope', $request->scope)
-                                     ->where('parent_id', null);
+                            ->where('parent_id', null);
                     }),
             ],
         ];
