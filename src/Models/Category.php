@@ -121,6 +121,9 @@ class Category extends Model
         return (property_exists($this, 'searchableColumns')) ? $this->searchableColumns : [];
     }
 
+    /**
+     * @return string[]
+     */
     protected function getScopeAttributes(): array
     {
         return ['scope'];
