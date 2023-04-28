@@ -3,7 +3,8 @@
 namespace Motor\Admin\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Motor\Admin\Models\Client;
+use Motor\Admin\Models\User;
 
 /**
  * Class ClientsTableSeeder
@@ -17,12 +18,11 @@ class ClientsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('clients')->insert([
-            'name'       => 'Default',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-            'created_by' => 1,
-            'updated_by' => 1,
-        ]);
+        Client::factory()
+            ->create([
+                'name'       => 'Default',
+                'created_by' => User::first(),
+                'updated_by' => User::first(),
+            ]);
     }
 }

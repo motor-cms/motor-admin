@@ -76,7 +76,7 @@ class User extends Authenticatable implements HasMedia
 
     protected string $guard_name = 'web';
 
-    protected static function newFactory()
+    protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }

@@ -3,7 +3,7 @@
 namespace Motor\Admin\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Motor\Admin\Models\Role;
 
 /**
  * Class UsersTableSeeder
@@ -17,9 +17,10 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            'name'       => 'SuperAdmin',
-            'guard_name' => 'web',
-        ]);
+        Role::factory()
+            ->create([
+                'name'       => 'SuperAdmin',
+                'guard_name' => 'web',
+            ]);
     }
 }

@@ -3,8 +3,10 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Admin\Database\Factories\EmailTemplateFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
@@ -65,6 +67,7 @@ class EmailTemplate extends Model
     use Searchable;
     use BlameableTrait;
     use Filterable;
+    use HasFactory;
     use HasShortflakePrimary;
 
     /**
@@ -86,6 +89,11 @@ class EmailTemplate extends Model
         'default_cc_email',
         'default_bcc_email',
     ];
+
+    protected static function newFactory(): EmailTemplateFactory
+    {
+        return EmailTemplateFactory::new();
+    }
 
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
