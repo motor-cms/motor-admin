@@ -17,15 +17,13 @@ class UserFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name'           => $this->faker->name,
             'email'          => $this->faker->unique()->safeEmail,
-            'password'       => ! isset($password) ?: $password = bcrypt('secret'),
+            'password'       => ! isset($password) ?: bcrypt('secret'),
             'api_token'      => Str::random(60),
             'remember_token' => Str::random(10),
         ];

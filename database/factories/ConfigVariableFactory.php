@@ -3,6 +3,7 @@
 namespace Motor\Admin\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Motor\Admin\Models\ConfigVariable;
 
 class ConfigVariableFactory extends Factory
@@ -16,13 +17,15 @@ class ConfigVariableFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => $this->faker->word,
+            'package'      => Str::kebab($this->faker->word),
+            'group'        => Str::kebab($this->faker->word),
+            'name'         => Str::kebab($this->faker->word),
+            'value'        => $this->faker->word,
+            'is_invisible' => false,
         ];
     }
 }

@@ -14,14 +14,12 @@ class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $user = User::factory()->create([
             'name'       => 'Motor Admin',
-            'email'      => 'motor@esmaili.info',
+            'email'      => 'admin@motor-cms.com',
             'password'   => bcrypt('admin'),
             'api_token'  => Str::random(60),
         ]);

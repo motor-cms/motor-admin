@@ -79,6 +79,7 @@ class EmailTemplate extends Model
         'client_id',
         'language_id',
         'name',
+        'slug',
         'subject',
         'body_text',
         'body_html',

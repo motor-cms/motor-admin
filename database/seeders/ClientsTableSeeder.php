@@ -13,10 +13,8 @@ class ClientsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         Client::factory()
             ->create([
