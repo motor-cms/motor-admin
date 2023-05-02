@@ -8,10 +8,8 @@ class MotorAdminDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             RolesTableSeeder::class,
@@ -19,6 +17,9 @@ class MotorAdminDatabaseSeeder extends Seeder
             ClientsTableSeeder::class,
             LanguagesTableSeeder::class,
             PermissionsTableSeeder::class,
+            ConfigVariablesTableSeeder::class,
+            EmailTemplatesTableSeeder::class,
+            CategoriesTableSeeder::class,
         ]);
     }
 }

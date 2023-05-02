@@ -19,10 +19,8 @@ class EmailTemplateFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'client_id'               => Client::factory()->make()->id,

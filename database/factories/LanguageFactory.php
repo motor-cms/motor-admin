@@ -17,10 +17,8 @@ class LanguageFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'iso_639_1'    => Str::random(2),

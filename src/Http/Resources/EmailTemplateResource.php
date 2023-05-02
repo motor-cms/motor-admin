@@ -37,6 +37,11 @@ namespace Motor\Admin\Http\Resources;
  *     example="My email template"
  *   ),
  *   @OA\Property(
+ *     property="slug",
+ *     type="string",
+ *     example="my-email-template"
+ *   ),
+ *   @OA\Property(
  *     property="subject",
  *     type="string",
  *     example="My email subject"
@@ -101,6 +106,7 @@ class EmailTemplateResource extends BaseResource
             'language'                => new LanguageResource($this->language),
             'language_id'             => (int) $this->language_id,
             'name'                    => $this->name,
+            'slug'                    => $this->slug,
             'subject'                 => $this->subject,
             'body_text'               => $this->body_text,
             'body_html'               => $this->body_html,

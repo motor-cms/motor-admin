@@ -26,6 +26,11 @@ use Motor\Admin\Http\Requests\Request;
  *     example="My email template"
  *   ),
  *   @OA\Property(
+ *     property="slug",
+ *     type="string",
+ *     example="my-email-template"
+ *   ),
+ *   @OA\Property(
  *     property="subject",
  *     type="string",
  *     example="My email subject"
@@ -93,6 +98,7 @@ class EmailTemplatePatchRequest extends Request
             'client_id'               => 'nullable|integer',
             'language_id'             => 'nullable|integer',
             'name'                    => 'nullable',
+            'slug'                    => 'nullable',
             'subject'                 => 'nullable',
             'body_text'               => 'nullable',
             'body_html'               => 'nullable',
