@@ -264,9 +264,9 @@ class CategoriesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show($parent, Category $record): CategoryResource // Typecase on parent fails with a type error
+    public function show(Category $categoryTree, Category $category): CategoryResource
     {
-        $result = CategoryService::show($record)
+        $result = CategoryService::show($category)
             ->getResult();
 
         return (new CategoryResource($result))->additional(['message' => 'Category read']);
@@ -346,9 +346,9 @@ class CategoriesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, $parent, Category $record): CategoryResource
+    public function update(CategoryRequest $request, Category $categoryTree, Category $category): CategoryResource
     {
-        $result = CategoryService::update($record, $request)
+        $result = CategoryService::update($category, $request)
             ->getResult();
 
         return (new CategoryResource($result))->additional(['message' => 'Category updated']);
@@ -432,9 +432,9 @@ class CategoriesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $record): JsonResponse
+    public function destroy(Category $category): JsonResponse
     {
-        $result = CategoryService::delete($record)
+        $result = CategoryService::delete($category)
             ->getResult();
 
         if ($result) {

@@ -208,9 +208,9 @@ class EmailTemplatesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(EmailTemplate $record): EmailTemplateResource
+    public function show(EmailTemplate $emailTemplate): EmailTemplateResource
     {
-        $result = EmailTemplateService::show($record)
+        $result = EmailTemplateService::show($emailTemplate)
             ->getResult();
 
         return (new EmailTemplateResource($result))->additional(['message' => 'Email template read']);
@@ -281,9 +281,9 @@ class EmailTemplatesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(EmailTemplatePatchRequest $request, EmailTemplate $record): EmailTemplateResource
+    public function update(EmailTemplatePatchRequest $request, EmailTemplate $emailTemplate): EmailTemplateResource
     {
-        $result = EmailTemplateService::update($record, $request)
+        $result = EmailTemplateService::update($emailTemplate, $request)
             ->getResult();
 
         return (new EmailTemplateResource($result))->additional(['message' => 'Email template updated']);
@@ -358,9 +358,9 @@ class EmailTemplatesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(EmailTemplate $record): JsonResponse
+    public function destroy(EmailTemplate $emailTemplate): JsonResponse
     {
-        $result = EmailTemplateService::delete($record)
+        $result = EmailTemplateService::delete($emailTemplate)
             ->getResult();
 
         if ($result) {

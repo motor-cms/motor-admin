@@ -217,9 +217,9 @@ class CategoryTreesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(Category $record): CategoryTreeResource
+    public function show(Category $categoryTree): CategoryTreeResource
     {
-        $result = CategoryService::show($record)
+        $result = CategoryService::show($categoryTree)
             ->getResult();
 
         return (new CategoryTreeResource($result->load('children')))->additional(['message' => 'Category tree read']);
@@ -290,9 +290,9 @@ class CategoryTreesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(CategoryTreePatchRequest $request, Category $record): CategoryTreeResource
+    public function update(CategoryTreePatchRequest $request, Category $categoryTree): CategoryTreeResource
     {
-        $result = CategoryService::update($record, $request)
+        $result = CategoryService::update($categoryTree, $request)
             ->getResult();
 
         return (new CategoryTreeResource($result))->additional(['message' => 'Category tree updated']);
@@ -367,9 +367,9 @@ class CategoryTreesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $record): JsonResponse
+    public function destroy(Category $categoryTree): JsonResponse
     {
-        $result = CategoryService::delete($record)
+        $result = CategoryService::delete($categoryTree)
             ->getResult();
 
         if ($result) {

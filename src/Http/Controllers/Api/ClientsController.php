@@ -208,9 +208,9 @@ class ClientsController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(Client $record): ClientResource
+    public function show(Client $client): ClientResource
     {
-        $result = ClientService::show($record)
+        $result = ClientService::show($client)
             ->getResult();
 
         return (new ClientResource($result))->additional(['message' => 'Client read']);
@@ -281,9 +281,9 @@ class ClientsController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(ClientPatchRequest $request, Client $record): ClientResource
+    public function update(ClientPatchRequest $request, Client $client): ClientResource
     {
-        $result = ClientService::update($record, $request)
+        $result = ClientService::update($client, $request)
             ->getResult();
 
         return (new ClientResource($result))->additional(['message' => 'Client updated']);
@@ -358,9 +358,9 @@ class ClientsController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $record): JsonResponse
+    public function destroy(Client $client): JsonResponse
     {
-        $result = ClientService::delete($record)
+        $result = ClientService::delete($client)
             ->getResult();
 
         if ($result) {

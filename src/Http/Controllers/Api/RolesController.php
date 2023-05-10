@@ -208,9 +208,9 @@ class RolesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(Role $record): RoleResource
+    public function show(Role $role): RoleResource
     {
-        $result = RoleService::show($record)
+        $result = RoleService::show($role)
             ->getResult();
 
         return (new RoleResource($result))->additional(['message' => 'Role read']);
@@ -281,9 +281,9 @@ class RolesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(RolePatchRequest $request, Role $record): RoleResource
+    public function update(RolePatchRequest $request, Role $role): RoleResource
     {
-        $result = RoleService::update($record, $request)
+        $result = RoleService::update($role, $request)
             ->getResult();
 
         return (new RoleResource($result))->additional(['message' => 'Role updated']);
@@ -358,9 +358,9 @@ class RolesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $record): JsonResponse
+    public function destroy(Role $role): JsonResponse
     {
-        $result = RoleService::delete($record)
+        $result = RoleService::delete($role)
             ->getResult();
 
         if ($result) {

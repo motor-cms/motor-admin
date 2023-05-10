@@ -208,9 +208,9 @@ class UsersController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(User $record): UserResource
+    public function show(User $user): UserResource
     {
-        $result = UserService::show($record)
+        $result = UserService::show($user)
             ->getResult();
 
         return (new UserResource($result))->additional(['message' => 'User read']);
@@ -281,9 +281,9 @@ class UsersController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(UserPatchRequest $request, User $record): UserResource
+    public function update(UserPatchRequest $request, User $user): UserResource
     {
-        $result = UserService::update($record, $request)
+        $result = UserService::update($user, $request)
             ->getResult();
 
         return (new UserResource($result))->additional(['message' => 'User updated']);
@@ -358,9 +358,9 @@ class UsersController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(User $record): JsonResponse
+    public function destroy(User $user): JsonResponse
     {
-        $result = UserService::delete($record)
+        $result = UserService::delete($user)
             ->getResult();
 
         if ($result) {

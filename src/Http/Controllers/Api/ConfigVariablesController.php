@@ -207,9 +207,9 @@ class ConfigVariablesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(ConfigVariable $record): ConfigVariableResource
+    public function show(ConfigVariable $configVariable): ConfigVariableResource
     {
-        $result = ConfigVariableService::show($record)
+        $result = ConfigVariableService::show($configVariable)
             ->getResult();
 
         return (new ConfigVariableResource($result))->additional(['message' => 'Config variable read']);
@@ -280,9 +280,9 @@ class ConfigVariablesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(ConfigVariableRequest $request, ConfigVariable $record): ConfigVariableResource
+    public function update(ConfigVariableRequest $request, ConfigVariable $configVariable): ConfigVariableResource
     {
-        $result = ConfigVariableService::update($record, $request)
+        $result = ConfigVariableService::update($configVariable, $request)
             ->getResult();
 
         return (new ConfigVariableResource($result))->additional(['message' => 'Config variable updated']);
@@ -357,9 +357,9 @@ class ConfigVariablesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(ConfigVariable $record): JsonResponse
+    public function destroy(ConfigVariable $configVariable): JsonResponse
     {
-        $result = ConfigVariableService::delete($record)
+        $result = ConfigVariableService::delete($configVariable)
             ->getResult();
 
         if ($result) {

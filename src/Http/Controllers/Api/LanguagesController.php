@@ -207,9 +207,9 @@ class LanguagesController extends ApiController
      *
      * Display the specified resource.
      */
-    public function show(Language $record): LanguageResource
+    public function show(Language $language): LanguageResource
     {
-        $result = LanguageService::show($record)
+        $result = LanguageService::show($language)
             ->getResult();
 
         return (new LanguageResource($result))->additional(['message' => 'Language read']);
@@ -280,9 +280,9 @@ class LanguagesController extends ApiController
      *
      * Update the specified resource in storage.
      */
-    public function update(LanguageRequest $request, Language $record): LanguageResource
+    public function update(LanguageRequest $request, Language $language): LanguageResource
     {
-        $result = LanguageService::update($record, $request)
+        $result = LanguageService::update($language, $request)
             ->getResult();
 
         return (new LanguageResource($result))->additional(['message' => 'Language updated']);
@@ -357,9 +357,9 @@ class LanguagesController extends ApiController
      *
      * Remove the specified resource from storage.
      */
-    public function destroy(Language $record): JsonResponse
+    public function destroy(Language $language): JsonResponse
     {
-        $result = LanguageService::delete($record)
+        $result = LanguageService::delete($language)
             ->getResult();
 
         if ($result) {
