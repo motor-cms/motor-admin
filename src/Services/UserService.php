@@ -14,12 +14,12 @@ class UserService extends BaseService
 {
     protected $model = User::class;
 
-    public function filters()
+    public function filters(): void
     {
         $this->filter->addClientFilter();
     }
 
-    public function beforeCreate()
+    public function beforeCreate(): void
     {
         if (Auth::user()->client_id > 0) {
             $this->record->client_id = Auth::user()->client_id;
@@ -33,13 +33,13 @@ class UserService extends BaseService
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    public function afterCreate()
+    public function afterCreate(): void
     {
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
     }
 
-    public function beforeUpdate()
+    public function beforeUpdate(): void
     {
         // Special case to filter out the users api token when calling over the api
         if (Arr::get($this->data, 'api_token')) {
@@ -53,20 +53,20 @@ class UserService extends BaseService
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    public function afterUpdate()
+    public function afterUpdate(): void
     {
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
     }
 
-    private function updateClientId()
+    private function updateClientId(): void
     {
         if (! Arr::get($this->data, 'client_id')) {
             $this->data['client_id'] = null;
         }
     }
 
-    private function updatePassword()
+    private function updatePassword(): void
     {
         if (Arr::get($this->data, 'password') == '') {
             unset($this->data['password']);
@@ -79,18 +79,15 @@ class UserService extends BaseService
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function uploadFiles()
+    private function uploadFiles(): void
     {
         $this->uploadFile(Arr::get($this->data, 'avatar'), 'avatar');
     }
 
-    private function syncRolesAndPermissions()
+    private function syncRolesAndPermissions(): void
     {
         if (Arr::get($this->data, 'roles')) {
             $this->record->syncRoles(Arr::get($this->data, 'roles', []));
         }
-        //if (Arr::get($this->data, 'permissions')) {
-        //    $this->record->syncPermissions(Arr::get($this->data, 'permissions', []));
-        //}
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
+use Motor\Admin\Console\Commands\MotorCreateScoutIndexCommand;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\ConfigVariable;
 
@@ -58,6 +59,9 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
         $this->mergeConfigFrom(__DIR__.'/../../config/blameable.php', 'blameable');
         $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
+
+        $config = $this->app['config']->get('scout', []);
+        $this->app['config']->set('scout', array_replace_recursive(require __DIR__.'/../../config/scout.php', $config));
     }
 
     /**
@@ -129,6 +133,7 @@ class MotorServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MotorCreatePermissionsCommand::class,
+                MotorCreateScoutIndexCommand::class,
             ]);
         }
     }

@@ -3,6 +3,7 @@
 namespace Motor\Admin\Services;
 
 use Motor\Admin\Models\Category;
+use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
  * Class CategoryService
@@ -11,8 +12,10 @@ class CategoryService extends BaseService
 {
     protected $model = Category::class;
 
-    public function filters()
+    public function filters(): void
     {
+        $this->filter->add(new WhereRenderer('parent_id'));
+
         $searchFilter = $this->getFilter()
             ->get('search');
         $model = $this->model;
@@ -22,17 +25,17 @@ class CategoryService extends BaseService
         $searchFilter->setSearchableColumns($model->getSearchableColumns());
     }
 
-    public function beforeCreate()
+    public function beforeCreate(): void
     {
         $this->setTreePosition();
     }
 
-    public function beforeUpdate()
+    public function beforeUpdate(): void
     {
         $this->setTreePosition();
     }
 
-    protected function setTreePosition()
+    protected function setTreePosition(): void
     {
         // Get previous sibling (if it exists)
         $node = Category::find($this->request->get('previous_sibling_id'));

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\PermissionGroupFactory;
 use Motor\Core\Traits\Filterable;
-use Motor\Core\Traits\Searchable;
 
 /**
  * Motor\Admin\Models\PermissionGroup
@@ -43,11 +43,12 @@ class PermissionGroup extends Model
     use HasShortflakePrimary;
 
     /**
-     * Searchable columns for the searchable trait
+     * Get the name of the index associated with the model.
      */
-    protected array $searchableColumns = [
-        'name',
-    ];
+    public function searchableAs(): string
+    {
+        return 'motor_admin_permission_groups_index';
+    }
 
     /**
      * The attributes that are mass assignable.

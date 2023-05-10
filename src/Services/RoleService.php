@@ -13,14 +13,14 @@ class RoleService extends BaseService
 {
     protected $model = Role::class;
 
-    public function afterCreate()
+    public function afterCreate(): void
     {
         foreach (Arr::get($this->data, 'permissions', []) as $permission) {
             $this->record->givePermissionTo(Permission::find((int) $permission));
         }
     }
 
-    public function afterUpdate()
+    public function afterUpdate(): void
     {
         foreach (Permission::all() as $permission) {
             $this->record->revokePermissionTo($permission);

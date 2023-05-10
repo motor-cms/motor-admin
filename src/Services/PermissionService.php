@@ -3,6 +3,7 @@
 namespace Motor\Admin\Services;
 
 use Motor\Admin\Models\Permission;
+use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
  * Class PermissionService
@@ -10,4 +11,9 @@ use Motor\Admin\Models\Permission;
 class PermissionService extends BaseService
 {
     protected $model = Permission::class;
+
+    public function filters(): void
+    {
+        $this->filter->add(new WhereRenderer('permission_group_id'));
+    }
 }
