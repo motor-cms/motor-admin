@@ -8,9 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\UserFactory;
 use Motor\Core\Traits\Filterable;
-use Motor\Core\Traits\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -65,7 +65,6 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements HasMedia
 {
-    use Searchable;
     use HasRoles;
     use Filterable;
     use Notifiable;
@@ -73,8 +72,32 @@ class User extends Authenticatable implements HasMedia
     use HasFactory;
     use HasApiTokens;
     use HasShortflakePrimary;
+    use Searchable;
 
     protected string $guard_name = 'web';
+
+    /**
+     * Get the name of the index associated with the model.
+     */
+    public function searchableAs(): string
+    {
+        return 'motor_admin_users_index';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id'        => (int) $this->id,
+            'client_id' => $this->client_id,
+            'name'      => $this->name,
+            'email'     => $this->email,
+        ];
+    }
 
     protected static function newFactory(): UserFactory
     {
@@ -93,11 +116,6 @@ class User extends Authenticatable implements HasMedia
             ->width(400)
             ->height(400);
     }
-
-    /**
-     * Searchable columns for the searchable trait
-     */
-    protected array $searchableColumns = ['name', 'email'];
 
     /**
      * The attributes that are mass assignable.

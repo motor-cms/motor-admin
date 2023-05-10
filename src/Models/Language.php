@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\LanguageFactory;
 use Motor\Core\Traits\Filterable;
-use Motor\Core\Traits\Searchable;
 
 /**
  * Motor\Admin\Models\Language
@@ -44,9 +44,12 @@ class Language extends Model
     use HasShortflakePrimary;
 
     /**
-     * Searchable columns for the searchable trait
+     * Get the name of the index associated with the model.
      */
-    protected array $searchableColumns = ['iso_639_1', 'native_name', 'english_name'];
+    public function searchableAs(): string
+    {
+        return 'motor_admin_languages_index';
+    }
 
     /**
      * The attributes that are mass assignable.

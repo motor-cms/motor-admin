@@ -5,9 +5,9 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\RoleFactory;
 use Motor\Core\Traits\Filterable;
-use Motor\Core\Traits\Searchable;
 
 /**
  * Motor\Admin\Models\Role
@@ -45,12 +45,12 @@ class Role extends \Spatie\Permission\Models\Role
     use HasShortflakePrimary;
 
     /**
-     * Searchable columns for the searchable trait
+     * Get the name of the index associated with the model.
      */
-    protected array $searchableColumns = [
-        'name',
-        'guard_name',
-    ];
+    public function searchableAs(): string
+    {
+        return 'motor_admin_roles_index';
+    }
 
     /**
      * The attributes that are mass assignable.

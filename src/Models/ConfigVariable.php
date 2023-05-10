@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ConfigVariableFactory;
 use Motor\Core\Traits\Filterable;
-use Motor\Core\Traits\Searchable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
 /**
@@ -55,15 +55,12 @@ class ConfigVariable extends Model
     use HasShortflakePrimary;
 
     /**
-     * Searchable columns for the searchable trait
+     * Get the name of the index associated with the model.
      */
-    protected array $searchableColumns = [
-        'package',
-        'group',
-        'name',
-        'value',
-        'is_invisible',
-    ];
+    public function searchableAs(): string
+    {
+        return 'motor_admin_config_variables_index';
+    }
 
     /**
      * The attributes that are mass assignable.

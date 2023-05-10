@@ -11,6 +11,7 @@ use Kalnoy\Nestedset\QueryBuilder;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Admin\Database\Factories\CategoryFactory;
 use Motor\Core\Traits\Filterable;
+use Motor\Core\Traits\Searchable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
 /**
@@ -93,6 +94,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class Category extends Model
 {
+    use Searchable; // we can't use Scout here because it collides with the NodeTrait
     use Filterable;
     use BlameableTrait;
     use NodeTrait;

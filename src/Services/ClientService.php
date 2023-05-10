@@ -13,17 +13,17 @@ class ClientService extends BaseService
 {
     protected $model = Client::class;
 
-    public function beforeCreate()
+    public function beforeCreate(): void
     {
         $this->createSlug();
     }
 
-    public function beforeUpdate()
+    public function beforeUpdate(): void
     {
         $this->createSlug();
     }
 
-    private function createSlug()
+    private function createSlug(): void
     {
         if (Arr::get($this->data, 'slug') == '') {
             $this->data['slug'] = Str::slug($this->data['name']);

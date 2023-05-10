@@ -12,7 +12,7 @@ class ProfileEditService extends BaseService
 {
     protected $model = User::class;
 
-    public function beforeUpdate()
+    public function beforeUpdate(): void
     {
         if (Arr::get($this->data, 'password') == '') {
             unset($this->data['password']);
@@ -21,7 +21,7 @@ class ProfileEditService extends BaseService
         }
     }
 
-    public function afterUpdate()
+    public function afterUpdate(): void
     {
         $this->uploadFile($this->request->file('avatar'), 'avatar');
     }
