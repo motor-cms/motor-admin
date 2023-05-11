@@ -144,4 +144,13 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
+
+
+    /**
+     * Checks if user is admin
+     * @return bool
+     */
+    public function isAdmin(): bool {
+        return $this->hasRole(['SuperAdmin']);
+    }
 }
