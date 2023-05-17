@@ -18,7 +18,7 @@ class ClientPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->hasRole('SuperAdmin')) {
+        if ($user->hasRole(['SuperAdmin', 'Editor', 'Writer'])) {
             return true;
         }
     }

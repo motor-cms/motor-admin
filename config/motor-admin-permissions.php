@@ -87,4 +87,10 @@ return [
             'read',
         ],
     ],
+
+    'builder_pages'   => [
+        'values' => [
+            'publisher',
+        ],
+    ],
 ];

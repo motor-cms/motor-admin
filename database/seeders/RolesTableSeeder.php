@@ -20,5 +20,17 @@ class RolesTableSeeder extends Seeder
                 'name'       => 'SuperAdmin',
                 'guard_name' => 'web',
             ]);
+
+        Role::factory()
+            ->create([
+                'name'       => 'Editor',
+                'guard_name' => 'web',
+            ]);
+
+        Role::factory()
+            ->create([
+                'name'       => 'Writer',
+                'guard_name' => 'web',
+            ]);
     }
 }
