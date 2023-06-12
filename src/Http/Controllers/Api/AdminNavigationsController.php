@@ -33,7 +33,7 @@ class AdminNavigationsController extends ApiController
                 $items[200]['items'][$navigation_position] = [
                     'slug' => $content_type->name,
                     'icon' => 'fa fa-plus',
-                    'route' => 'admin.motor-content-type.show.' . $content_type->id,
+                    'route' => 'admin.motor-content-type.' . $content_type->id,
                     'roles' => ['SuperAdmin'],
                     'permissions' => [],
                     'aliases' => [],
