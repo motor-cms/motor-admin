@@ -38,6 +38,8 @@ Route::group([
         ],
     ]);
 
+    Route::get('category_trees/scope/{scope}', [CategoryTreesController::class, 'byScope'])
+        ->name('category_trees.by_slug');
     Route::get('profile', [ProfileEditController::class, 'me'])
         ->name('profile.read');
     Route::put('profile', [ProfileEditController::class, 'update'])
