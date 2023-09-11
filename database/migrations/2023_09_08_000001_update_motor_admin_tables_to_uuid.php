@@ -1,6 +1,11 @@
 <?php
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as DoctrineSchemaManager;
+use Illuminate\Console\Command;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder as SchemaBuilder;
 
 return new class extends Migration
 {
@@ -13,12 +18,6 @@ return new class extends Migration
 
     }
 };
-
-use Illuminate\Console\Command;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder as SchemaBuilder;
 
 class UuidTransformer
 {
