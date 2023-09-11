@@ -1,6 +1,7 @@
 <?php
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as DoctrineSchemaManager;
+use Doctrine\DBAL\Types\IntegerType;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Migrations\Migration;
@@ -11,15 +12,12 @@ return new class extends Migration
 {
     public function up()
     {
-        $transformer = new UuidTransformer(DB::connection());
+        $transformer = new Transformer2(DB::connection());
         $transformer->transform();
-
-        // Handle special cases
-
     }
 };
 
-class UuidTransformer
+class Transformer2
 {
     protected Connection $connection;
 
@@ -33,16 +31,11 @@ class UuidTransformer
 
     private array $foreignKeysConstraintsInfo = [];
 
-    private array $excludedTables = ['migrations'];
-
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
         $this->doctrineSchemaManager = $connection->getDoctrineSchemaManager();
         $this->schemaBuilder = $connection->getSchemaBuilder();
-
-        // This handles enums
-        $this->connection->getDoctrineConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
     }
 
     /**
@@ -69,12 +62,7 @@ class UuidTransformer
             // it will be impossible to restore the constraint after deleting it.
             // So, we check this before doing any action.
             if ($this->hasConstraintAnomaly($constraint)) {
-                $this->message(
-                    "Foreign key constraint anomaly: [{$constraint['name']}] "
-                    ."{$constraint['table']}.{$constraint['column']} references "
-                    ."{$constraint['relatedTable']}.{$constraint['relatedColumn']}",
-                    'error'
-                );
+                $this->message("Foreign key constraint anomaly: [{$constraint['name']}] "."{$constraint['table']}.{$constraint['column']} references "."{$constraint['relatedTable']}.{$constraint['relatedColumn']}", 'error');
 
                 $hasConstraintAnomaly = true;
             }
@@ -94,14 +82,13 @@ class UuidTransformer
             });
         }
 
-        // CHANGE id to uuid type
+        // CHANGE INT TO BIGINT
 
         foreach ($this->intColumnsInfo as $column) {
-            $this->message("Change id from BIGING / Autoincrement to UUID for {$column['table']}.{$column['column']}");
+            $this->message("Change INT to BIGINT for {$column['table']}.{$column['column']}");
 
             $this->schemaBuilder->table($column['table'], function (Blueprint $blueprint) use ($column) {
-                $blueprint
-                    ->uuid($column['column'])
+                $blueprint->unsignedBigInteger($column['column'], $column['autoIncrement'])
                     ->nullable($column['nullable'])
                     ->default($column['default'])
                     ->change();
@@ -114,8 +101,7 @@ class UuidTransformer
             $this->message("Restore foreign on {$constraint['table']}.{$constraint['column']}");
 
             $this->schemaBuilder->table($constraint['table'], function (Blueprint $blueprint) use ($constraint) {
-                $blueprint
-                    ->foreign($constraint['column'], $constraint['name'])
+                $blueprint->foreign($constraint['column'], $constraint['name'])
                     ->references($constraint['relatedColumn'])
                     ->on($constraint['relatedTable'])
                     ->onDelete($constraint['onDelete'])
@@ -135,11 +121,6 @@ class UuidTransformer
         $this->foreignKeysConstraintsInfo = [];
 
         foreach ($this->doctrineSchemaManager->listTables() as $table) {
-
-            if (in_array($table->getName(), $this->excludedTables)) {
-                continue;
-            }
-
             $tableIntColumnsNames = [];
 
             // GET TABLE KEYS COLUMNS NAMES
@@ -159,27 +140,23 @@ class UuidTransformer
             // GET UNSIGNED INTEGER COLUMNS NAMES AND INFOS
 
             foreach ($table->getColumns() as $column) {
-                // keep only unsigned integer columns that are a key
-                if (! $column->getType() instanceof \Doctrine\DBAL\Types\BigIntType
-                    || ! $column->getUnsigned()
-                    || ! in_array($column->getName(), $tableKeysColumnsNames)) {
-
-                    if (! str_ends_with($column->getName(), '_id') && ! in_array($column->getName(), ['created_by', 'updated_by', 'deleted_by'])) {
-                        continue;
-                        //var_dump("FOUND A BITCH - ".$column->getName());
-                    }
-
-                    //var_dump("SKIPPED - ". $column->getName() . '('.(string)(!$column->getType() instanceof \Doctrine\DBAL\Types\BigIntType).','.(string)!$column->getUnsigned().','.(string)(!in_array($column->getName(), $tableKeysColumnsNames).')'));
-
+                if (! $column->getType() instanceof IntegerType
+                || (! str_ends_with($column->getName(), '_id') &&
+                    ! in_array($column->getName(), [
+                        'created_by',
+                        'updated_by',
+                        'deleted_by',
+                    ]))
+                ) {
+                    continue;
                 }
-
                 $tableIntColumnsNames[] = $column->getName();
 
                 $this->intColumnsInfo[] = [
-                    'table' => $table->getName(),
-                    'column' => $column->getName(),
-                    'nullable' => ! $column->getNotnull(),
-                    'default' => $column->getDefault(),
+                    'table'         => $table->getName(),
+                    'column'        => $column->getName(),
+                    'nullable'      => ! $column->getNotnull(),
+                    'default'       => $column->getDefault(),
                     'autoIncrement' => $column->getAutoincrement(),
                 ];
             }
@@ -193,13 +170,13 @@ class UuidTransformer
                 }
 
                 $this->foreignKeysConstraintsInfo[] = [
-                    'name' => $foreignKey->getName(),
-                    'table' => $foreignKey->getLocalTableName(),
-                    'column' => $foreignKey->getLocalColumns()[0],
-                    'relatedTable' => $foreignKey->getForeignTableName(),
+                    'name'          => $foreignKey->getName(),
+                    'table'         => $foreignKey->getLocalTableName(),
+                    'column'        => $foreignKey->getLocalColumns()[0],
+                    'relatedTable'  => $foreignKey->getForeignTableName(),
                     'relatedColumn' => $foreignKey->getForeignColumns()[0],
-                    'onUpdate' => $foreignKey->onUpdate(),
-                    'onDelete' => $foreignKey->onDelete(),
+                    'onUpdate'      => $foreignKey->onUpdate(),
+                    'onDelete'      => $foreignKey->onDelete(),
                 ];
             }
         }
@@ -210,12 +187,10 @@ class UuidTransformer
      */
     private function hasConstraintAnomaly(array $constraint): bool
     {
-        return $this->connection
-            ->table($constraint['table'])
+        return $this->connection->table($constraint['table'])
             ->whereNotNull($constraint['column'])
             ->whereNotIn($constraint['column'], function ($query) use ($constraint) {
-                $query
-                    ->from($constraint['relatedTable'])
+                $query->from($constraint['relatedTable'])
                     ->select($constraint['relatedColumn']);
             })
             ->exists();
