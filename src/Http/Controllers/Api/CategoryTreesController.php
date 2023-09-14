@@ -224,6 +224,74 @@ class CategoryTreesController extends ApiController
 
         return (new CategoryTreeResource($result->load('children')))->additional(['message' => 'Category tree read']);
     }
+    /**
+     * @OA\Get (
+     *   tags={"CategoryTreesController"},
+     *   path="/api/category_trees/{category}",
+     *   summary="Get single category tree",
+     *   security={ {"sanctum": {} }},
+     *
+     *   @OA\Parameter(
+     *
+     *     @OA\Schema(type="string"),
+     *     in="header",
+     *     name="Accept",
+     *     example="application/json"
+     *   ),
+     *
+     *   @OA\Parameter(
+     *
+     *     @OA\Schema(type="integer"),
+     *     in="path",
+     *     name="category",
+     *     parameter="category",
+     *     description="Category tree id"
+     *   ),
+     *
+     *   @OA\Response(
+     *     response=200,
+     *     description="Success",
+     *
+     *     @OA\JsonContent(
+     *
+     *       @OA\Property(
+     *         property="data",
+     *         type="object",
+     *         ref="#/components/schemas/CategoryTreeResource"
+     *       ),
+     *       @OA\Property(
+     *         property="message",
+     *         type="string",
+     *         example="Category tree read"
+     *       )
+     *     )
+     *   ),
+     *
+     *   @OA\Response(
+     *     response="403",
+     *     description="Access denied",
+     *
+     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
+     *   ),
+     *
+     *   @OA\Response(
+     *     response="404",
+     *     description="Not found",
+     *
+     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
+     *   )
+     * )
+     *
+     * Display the specified resource.
+     */
+    public function byScope(string $scope): CategoryTreeResource
+    {
+        $categoryTree = Category::where('scope', $scope)->firstOrFail();
+        $result = CategoryService::show($categoryTree)
+            ->getResult();
+
+        return (new CategoryTreeResource($result->load('children')))->additional(['message' => 'Category tree read']);
+    }
 
     /**
      * @OA\Put (
