@@ -6,6 +6,7 @@ use Motor\Admin\Http\Controllers\Api\CategoriesController;
 use Motor\Admin\Http\Controllers\Api\CategoryTreesController;
 use Motor\Admin\Http\Controllers\Api\ClientsController;
 use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
+use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
@@ -21,6 +22,7 @@ Route::group([
 ], static function () {
     Route::apiResource('users', UsersController::class);
     Route::apiResource('clients', ClientsController::class);
+    Route::apiResource('domains', DomainsController::class);
     Route::apiResource('languages', LanguagesController::class);
     Route::apiResource('roles', RolesController::class);
     Route::apiResource('permission_groups', PermissionGroupsController::class);
