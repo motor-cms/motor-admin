@@ -15,6 +15,7 @@ class MotorAdminDatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             UsersTableSeeder::class,
             ClientsTableSeeder::class,
+            DomainsTableSeeder::class,
             LanguagesTableSeeder::class,
             PermissionsTableSeeder::class,
             ConfigVariablesTableSeeder::class,
