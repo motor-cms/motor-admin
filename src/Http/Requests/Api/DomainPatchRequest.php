@@ -81,7 +81,7 @@ class DomainPatchRequest extends Request
             'protocol'   => 'required',
             'host'       => 'required',
             'port'       => 'required',
-            'path'       => 'nullable',
+            'path'       => 'required',
             'target'     => 'nullable',
             'parameters' => 'nullable',
         ];
