@@ -42,6 +42,14 @@ return [
                     'permissions' => ['clients.read'],
                     'name'        => 'motor-admin.clients.clients',
                 ],
+                125 => [
+                    'slug'        => 'domains',
+                    'icon'        => 'fa fa-plus',
+                    'route'       => 'admin.motor-admin.domains',
+                    'roles'       => ['SuperAdmin'],
+                    'permissions' => ['domains.read'],
+                    'name'        => 'motor-admin.domains.domains',
+                ],
                 130 => [
                     'slug'        => 'email_templates',
                     'icon'        => 'fa fa-plus',
