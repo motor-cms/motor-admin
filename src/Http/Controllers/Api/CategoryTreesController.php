@@ -224,11 +224,12 @@ class CategoryTreesController extends ApiController
 
         return (new CategoryTreeResource($result->load('children')))->additional(['message' => 'Category tree read']);
     }
+
     /**
      * @OA\Get (
      *   tags={"CategoryTreesController"},
-     *   path="/api/category_trees/{category}",
-     *   summary="Get single category tree",
+     *   path="/api/category_trees/scope/{scope}",
+     *   summary="Get single category tree by scope",
      *   security={ {"sanctum": {} }},
      *
      *   @OA\Parameter(
@@ -243,9 +244,9 @@ class CategoryTreesController extends ApiController
      *
      *     @OA\Schema(type="integer"),
      *     in="path",
-     *     name="category",
-     *     parameter="category",
-     *     description="Category tree id"
+     *     name="scope",
+     *     parameter="scope",
+     *     description="Category tree scope"
      *   ),
      *
      *   @OA\Response(
