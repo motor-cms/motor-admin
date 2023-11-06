@@ -6,10 +6,10 @@ use Motor\Admin\Http\Requests\Request;
 use OpenApi\Annotations as OA;
 
 /**
- * Class DomainPatchRequest
+ * Class DomainPostRequest
  *
  * @OA\Schema(
- *   schema="DamainPatchRequest",
+ *   schema="DomainPostRequest",
  *
  *   @OA\Property(
  *     property="client_id",

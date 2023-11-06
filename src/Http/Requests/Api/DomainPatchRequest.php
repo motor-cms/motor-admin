@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
  * Class DomainPatchRequest
  *
  * @OA\Schema(
- *   schema="DamainPatchRequest",
+ *   schema="DomainPatchRequest",
  *
  *   @OA\Property(
  *     property="client_id",
@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
  *   @OA\Property(
  *     property="name",
  *     type="string",
- *     example="example.com htts config"
+ *     example="example.com https config"
  *   ),
  *   @OA\Property(
  *     property="protocol",
