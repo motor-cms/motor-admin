@@ -38,7 +38,7 @@ return [
                 'sortableAttributes'   => ['languages.id', 'created_at', 'updated_at', 'id', 'native_name', 'english_name'],
             ],
             \Motor\Admin\Models\EmailTemplate::class   => [
-                'filterableAttributes' => ['client_id'],
+                'filterableAttributes' => ['email_templates.client_id', 'client_id'],
                 'sortableAttributes'   => ['email_templates.id', 'created_at', 'updated_at', 'id', 'name', 'slug'],
             ],
             \Motor\Admin\Models\ConfigVariable::class   => [
@@ -48,6 +48,10 @@ return [
             \Motor\Admin\Models\Client::class   => [
                 'filterableAttributes' => [],
                 'sortableAttributes'   => ['clients.id', 'created_at', 'updated_at', 'id', 'name'],
+            ],
+            \Motor\Admin\Models\Domain::class   => [
+                'filterableAttributes' => [],
+                'sortableAttributes'   => ['domains.id', 'created_at', 'updated_at', 'id', 'name'],
             ],
         ],
     ],

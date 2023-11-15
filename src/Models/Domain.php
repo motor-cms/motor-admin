@@ -1,4 +1,5 @@
 <?php
+
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,5 +67,10 @@ class Domain extends Model
     protected static function newFactory(): DomainFactory
     {
         return DomainFactory::new();
+    }
+
+    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(config('motor-admin.models.client'));
     }
 }
