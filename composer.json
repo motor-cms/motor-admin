@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": "^8.1",
-    "motor-cms/motor-core": "^2.1",
+    "motor-cms/motor-core": "^2.3",
     "intervention/imagecache": "^2.4",
     "laravel/sanctum": "^3.2",
     "doctrine/dbal": "^3.0",
