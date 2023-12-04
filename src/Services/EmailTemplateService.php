@@ -33,6 +33,6 @@ class EmailTemplateService extends BaseService
 
     protected function createSlug(): void
     {
-        $this->slug = Str::kebab($this->name);
+        $this->slug = Str::kebab($this->record->name);
     }
 }
