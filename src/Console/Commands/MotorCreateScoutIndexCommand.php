@@ -3,7 +3,6 @@
 namespace Motor\Admin\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 
 /**
  * Class MotorCreatePermissionsCommand
@@ -31,12 +30,10 @@ class MotorCreateScoutIndexCommand extends Command
     {
         $this->call('scout:sync-index-settings');
 
-        foreach (config('scout.meilisearch.index-settings', []) as $class => $config) {
+        foreach (config('scout.meilisearch.index-settings', []) as $model => $config) {
 
-            // For some reason (bug perhaps) we can't use $this->call or Artisan::call here, because scout throws an error
-            $command = "scout:import \"{$class}\"";
-
-            $this->info(shell_exec('php artisan '.$command));
+            $this->call('scout:flush', ['model' => $model]);
+            $this->call('scout:import', ['model' => $model]);
         }
     }
 }
