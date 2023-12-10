@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\DomainFactory;
+use Motor\Builder\Models\SearchConfig;
 use Motor\Core\Traits\Filterable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
@@ -72,5 +73,10 @@ class Domain extends Model
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
+    }
+
+    public function searchConfigs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SearchConfig::class);
     }
 }
