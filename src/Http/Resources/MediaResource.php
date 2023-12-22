@@ -88,7 +88,11 @@ class MediaResource extends BaseResource
         if (! is_null($this->generated_conversions)) {
             foreach ($this->generated_conversions as $conversion => $status) {
                 if ($status) {
-                    $conversions[$conversion] = asset($this->getUrl($conversion));
+                    if ($this->mime_type === 'image/gif') {
+                        $conversions[$conversion] = asset($this->getUrl());
+                    } else {
+                        $conversions[$conversion] = asset($this->getUrl($conversion));
+                    }
                 }
             }
         }
