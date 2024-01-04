@@ -2,6 +2,8 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use OpenApi\Annotations as OA;
+
 /**
  * @OA\Schema(
  *   schema="EmailTemplateResource",
@@ -87,6 +89,18 @@ namespace Motor\Admin\Http\Resources;
  *     type="string",
  *     description="Comma separated list of email addresses",
  *     example="bcc1@motor-cms.com,bcc2.motor-cms.com"
+ *   ),
+ *   @OA\Property(
+ *     property="default_replyto_email",
+ *     type="string",
+ *     description="default reply to address",
+ *     example="replyto@motor-cms.com"
+ *   ),
+ *   @OA\Property(
+ *     property="default_replyto_name",
+ *     type="string",
+ *     description="default reply to name",
+ *     example="Motor User"
  *   )
  * )
  */
@@ -95,7 +109,7 @@ class EmailTemplateResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function toArray($request): array
     {
@@ -116,6 +130,8 @@ class EmailTemplateResource extends BaseResource
             'default_recipient_email' => $this->default_recipient_email,
             'default_cc_email'        => $this->default_cc_email,
             'default_bcc_email'       => $this->default_bcc_email,
+            'default_replyto_email'   => $this->default_replyto_email,
+            'default_replyto_name'    => $this->default_replyto_name,
         ];
     }
 }

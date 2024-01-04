@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Requests\Api;
 
 use Motor\Admin\Http\Requests\Request;
+use OpenApi\Annotations as OA;
 
 /**
  * Class EmailTemplatePatchRequest
@@ -76,6 +77,18 @@ use Motor\Admin\Http\Requests\Request;
  *     type="string",
  *     description="Comma separated list of email addresses",
  *     example="bcc1@motor-cms.com,bcc2.motor-cms.com"
+ *   ),
+ *   @OA\Property(
+ *     property="default_replyto_email",
+ *     type="string",
+ *     description="default reply to address",
+ *     example="replyto@motor-cms.com"
+ *   ),
+ *   @OA\Property(
+ *     property="default_replyto_name",
+ *     type="string",
+ *     description="default reply to name",
+ *     example="Motor User"
  *   )
  * )
  */
@@ -108,6 +121,8 @@ class EmailTemplatePatchRequest extends Request
             'default_recipient_email' => 'nullable|email',
             'default_cc_email'        => 'nullable',
             'default_bcc_email'       => 'nullable',
+            'default_replyto_email'   => 'nullable',
+            'default_replyto_email'   => 'nullable',
         ];
     }
 }
