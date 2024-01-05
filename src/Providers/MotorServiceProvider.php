@@ -43,6 +43,7 @@ class MotorServiceProvider extends ServiceProvider
         $this->migrations();
         $this->navigationItems();
         merge_local_config_with_db_configuration_variables('motor-admin');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'motor-admin');
     }
 
     /**

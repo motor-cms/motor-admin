@@ -8,12 +8,14 @@ use Motor\Admin\Http\Controllers\Api\ClientsController;
 use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
 use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
+use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
 use Motor\Admin\Http\Controllers\Api\PermissionsController;
 use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
+use Motor\Admin\Http\Middleware\EkproAuth;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'bindings'],
@@ -29,6 +31,10 @@ Route::group([
     Route::apiResource('permissions', PermissionsController::class);
     Route::get('permissions_items/{id}', [PermissionsController::class, 'items']);
     Route::apiResource('email_templates', EmailTemplatesController::class);
+
+    // Dont use sanctum auth for this route, use static token
+    Route::post('email_templates/send', [EmailTemplatesSendController::class, 'send'])->withoutMiddleware(['auth:sanctum'])->middleware(EkproAuth::class);
+
     Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
         'parameters' => [
             'category_trees' => 'category',
