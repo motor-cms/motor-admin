@@ -97,6 +97,8 @@ class EmailTemplate extends Model
         'default_recipient_email',
         'default_cc_email',
         'default_bcc_email',
+        'default_replyto_name',
+        'default_replyto_email',
     ];
 
     protected static function newFactory(): EmailTemplateFactory
