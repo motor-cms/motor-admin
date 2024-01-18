@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\EmailTemplate;
 
@@ -19,20 +20,19 @@ class EmailTemplateService extends BaseService
 
     public function beforeCreate(): void
     {
-        if (empty($this->slug)) {
-            $this->createSlug();
-        }
+        $this->createSlug();
     }
 
     public function beforeUpdate(): void
     {
-        if (empty($this->slug)) {
-            $this->createSlug();
-        }
+        $this->createSlug();
     }
 
     protected function createSlug(): void
     {
-        $this->slug = Str::kebab($this->record->name);
+        $slug = Arr::get($this->data, 'slug');
+        if (is_null($slug)) {
+            $this->data['slug'] = Str::kebab(Arr::get($this->data, 'name'));
+        }
     }
 }
