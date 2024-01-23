@@ -10,29 +10,16 @@ use Motor\Admin\Models\EmailTemplate;
 
 class Email extends Mailable
 {
-    /**
-     * @var string
-     */
     protected string $contentHtml = '';
 
-    /**
-     * @var string
-     */
     protected string $contentText = '';
 
-    /**
-     * @param \Motor\Admin\Models\EmailTemplate $emailTemplate
-     * @param array $requestData
-     */
     public function __construct(
         public EmailTemplate $emailTemplate,
         public array $requestData = [],
     ) {
     }
 
-    /**
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
     public function envelope(): Envelope
     {
         // Set sender from email template or request data
@@ -47,15 +34,15 @@ class Email extends Mailable
         $toEmail = $this->requestData['recipient_email'] ?? $this->emailTemplate['default_recipient_email'];
 
         // Set replyto from email template or request data
-        $replyToName  = $this->requestData['replyto_name'] ?? $this->emailTemplate['default_replyto_name'];
-        $replyToEmail = $this->requestData['replyto_email'] ?? $this->emailTemplate['default_replyto_email'];
+        $replyToName  = $this->requestData['replyto_name'] ?? $this->emailTemplate['default_replyto_name'] ?? '';
+        $replyToEmail = $this->requestData['replyto_email'] ?? $this->emailTemplate['default_replyto_email'] ?? '';
 
         return new Envelope(
             from: new Address($senderEmail, $senderName),
-            to: [ new Address($toEmail, $toName) ],
-            cc: $this->buildAddressArray($this->requestData['cc_email'] ?? $this->emailTemplate['default_cc_email']),
-            bcc: $this->buildAddressArray($this->requestData['bcc_email'] ?? $this->emailTemplate['default_bcc_email']),
-            replyTo: [ new Address($replyToEmail, $replyToName) ],
+            to: [new Address($toEmail, $toName)],
+            cc: $this->buildAddressArray($this->requestData['cc_email'] ?? $this->emailTemplate['default_cc_email'] ?? ''),
+            bcc: $this->buildAddressArray($this->requestData['bcc_email'] ?? $this->emailTemplate['default_bcc_email'] ?? ''),
+            replyTo: [new Address($replyToEmail, $replyToName)],
             subject: $subject,
         );
     }
@@ -78,19 +65,15 @@ class Email extends Mailable
         }
 
         return new Content(view: 'motor-admin::emails.html_template', text: 'motor-admin::emails.plaintext_template', with: [
-                'contentHtml' => $this->contentHtml,
-                'contentText' => $this->contentText,
-            ]);
+            'contentHtml' => $this->contentHtml,
+            'contentText' => $this->contentText,
+        ]);
     }
 
-    /**
-     * @param string $givenAddresses
-     * @return array|null
-     */
-    protected function buildAddressArray(string $givenAddresses): array|null
+    protected function buildAddressArray(string|null $givenAddresses): array|null
     {
         // If no addresses are given, return null
-        if (empty($givenAddresses)) {
+        if (empty($givenAddresses) || is_null($givenAddresses)) {
             return null;
         }
 
