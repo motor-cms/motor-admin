@@ -48,6 +48,24 @@ class Domain extends Model
         return 'motor_admin_domains_index';
     }
 
+    public function toSearchableArray(): array
+    {
+        $array = [
+            'client_id' => $this->client_id,
+            'name'     => $this->name,
+            'protocol' => $this->protocol,
+            'host'     => $this->host,
+            'port'     => $this->port,
+            'path'     => $this->path,
+            'target'   => $this->target,
+            'is_active' => $this->is_active,
+        ];
+
+        // Customize the data array...
+
+        return $array;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
