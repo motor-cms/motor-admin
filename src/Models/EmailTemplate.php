@@ -91,6 +91,7 @@ class EmailTemplate extends Model
         'subject',
         'body_text',
         'body_html',
+        'has_body_html',
         'default_sender_name',
         'default_sender_email',
         'default_recipient_name',

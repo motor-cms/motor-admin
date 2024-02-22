@@ -64,8 +64,8 @@ class Email extends Mailable
             }
         }
 
-        return new Content(view: 'motor-admin::emails.html_template', text: 'motor-admin::emails.plaintext_template', with: [
-            'contentHtml' => $this->contentHtml,
+        return new Content(view: $this->emailTemplate->has_body_html ? 'motor-admin::emails.html_template' : false, text: 'motor-admin::emails.plaintext_template', with: [
+            'contentHtml' => $this->emailTemplate->has_body_html ? $this->contentHtml : '',
             'contentText' => $this->contentText,
         ]);
     }

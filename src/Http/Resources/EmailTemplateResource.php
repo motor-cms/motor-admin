@@ -109,7 +109,7 @@ class EmailTemplateResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      */
     public function toArray($request): array
     {
@@ -124,6 +124,7 @@ class EmailTemplateResource extends BaseResource
             'subject'                 => $this->subject,
             'body_text'               => $this->body_text,
             'body_html'               => $this->body_html,
+            'has_body_html'           => (bool) $this->has_body_html,
             'default_sender_name'     => $this->default_sender_name,
             'default_sender_email'    => $this->default_sender_email,
             'default_recipient_name'  => $this->default_recipient_name,
