@@ -29,7 +29,7 @@ class AdminNavigationsController extends ApiController
                 'name' => 'motor-content-type.content-types.content_types',
                 'items' => []
             ];
-            CustomContentType::all()->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
+            CustomContentType::all()->where('type','page')->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
                 $items[200]['items'][$navigation_position] = [
                     'slug' => $content_type->name,
                     'icon' => 'fa fa-plus',
