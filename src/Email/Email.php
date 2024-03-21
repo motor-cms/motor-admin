@@ -58,6 +58,10 @@ class Email extends Mailable
 
         // Replace placeholders like {FOO}
         if (isset($this->requestData['text_replace_data']) && $this->requestData['text_replace_data']) {
+
+            $this->contentHtml = str_replace('{ALLE_FORMULARFELDER}', implode("<br/>\n", $this->requestData['text_replace_data']), $this->contentHtml);
+            $this->contentText = str_replace('{ALLE_FORMULARFELDER}', implode("\n", $this->requestData['text_replace_data']), $this->contentText);
+
             foreach ($this->requestData['text_replace_data'] as $key => $value) {
                 $this->contentHtml = str_replace('{'.strtoupper($key).'}', $value, $this->contentHtml);
                 $this->contentText = str_replace('{'.strtoupper($key).'}', $value, $this->contentText);
