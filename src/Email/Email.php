@@ -52,8 +52,13 @@ class Email extends Mailable
      */
     protected function content(): Content
     {
-        // Set text from email template
-        $this->contentHtml = $this->requestData['body_html'] ?? $this->emailTemplate['body_html'] ?? '';
+        $this->contentHtml = $this->requestData['body_html'] ?? '';
+
+        if ($this->emailTemplate['has_body_html'] && !empty($this->emailTemplate['body_html'])) {
+            // Set text from email template
+            $this->contentHtml = $this->emailTemplate['body_html'];
+        }
+
         $this->contentText = $this->requestData['body_text'] ?? $this->emailTemplate['body_text'] ?? '';
 
         // Replace placeholders like {FOO}
