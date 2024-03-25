@@ -6,6 +6,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Support\Facades\Log;
 use Motor\Admin\Models\EmailTemplate;
 
 class Email extends Mailable
@@ -52,12 +53,15 @@ class Email extends Mailable
      */
     protected function content(): Content
     {
+        Log::info('EmailTemplateSendPostRequest: ' . json_encode($this->requestData));
         $this->contentHtml = $this->requestData['body_html'] ?? '';
 
         if ($this->emailTemplate['has_body_html'] && !empty($this->emailTemplate['body_html'])) {
             // Set text from email template
             $this->contentHtml = $this->emailTemplate['body_html'];
         }
+
+        Log::info("EmailTemplateSendPostRequest: contentHTML = " . $this->contentHtml);
 
         $this->contentText = $this->requestData['body_text'] ?? $this->emailTemplate['body_text'] ?? '';
 
