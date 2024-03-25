@@ -6,10 +6,10 @@ use Motor\Admin\Http\Requests\Request;
 use OpenApi\Annotations as OA;
 
 /**
- * Class EmailTemplatePostRequest
+ * Class EmailTemplateSendPostRequest
  *
  * @OA\Schema(
- *   schema="EmailTemplatePostRequest",
+ *   schema="EmailTemplateSendPostRequest",
  *
  *   @OA\Property(
  *     property="client_id",
@@ -20,11 +20,6 @@ use OpenApi\Annotations as OA;
  *     property="language_id",
  *     type="integer",
  *     example="2"
- *   ),
- *   @OA\Property(
- *     property="slug",
- *     type="string",
- *     example="order-received-email"
  *   ),
  *   @OA\Property(
  *     property="slug",
@@ -82,7 +77,11 @@ use OpenApi\Annotations as OA;
  *      property="data",
  *      type="array",
  *      description="Key value pairs of data that can be used in the email template",
- *      example="{FOO: 'bar'}"
+ *      example="{FOO: 'bar'}",
+ *     @OA\Items(
+ *     type="string",
+ *     example="FOO: 'bar'"
+ *    )
  *    ),
  *   required={"slug", "client_id", "language_id"}
  * )
