@@ -81,6 +81,7 @@ class Domain extends Model
         'target',
         'parameters',
         'is_active',
+        'target_http_status_code'
     ];
 
     protected static function newFactory(): DomainFactory
