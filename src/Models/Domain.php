@@ -8,6 +8,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
+use Motor\Builder\Models\SeoRedirect;
 use Motor\Core\Traits\Filterable;
 use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
@@ -96,5 +97,10 @@ class Domain extends Model
     public function searchConfigs(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SearchConfig::class);
+    }
+
+    public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SeoRedirect::class);
     }
 }
