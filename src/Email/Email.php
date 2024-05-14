@@ -4,9 +4,12 @@ namespace Motor\Admin\Email;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Motor\Admin\Models\EmailTemplate;
 
 class Email extends Mailable
@@ -53,15 +56,15 @@ class Email extends Mailable
      */
     protected function content(): Content
     {
-        Log::info('EmailTemplateSendPostRequest: ' . json_encode($this->requestData));
+        Log::info('EmailTemplateSendPostRequest: '.json_encode($this->requestData));
         $this->contentHtml = $this->requestData['body_html'] ?? '';
 
-        if ($this->emailTemplate['has_body_html'] && !empty($this->emailTemplate['body_html'])) {
+        if ($this->emailTemplate['has_body_html'] && ! empty($this->emailTemplate['body_html'])) {
             // Set text from email template
             $this->contentHtml = $this->emailTemplate['body_html'];
         }
 
-        Log::info("EmailTemplateSendPostRequest: contentHTML = " . $this->contentHtml);
+        Log::info('EmailTemplateSendPostRequest: contentHTML = '.$this->contentHtml);
 
         $this->contentText = $this->requestData['body_text'] ?? $this->emailTemplate['body_text'] ?? '';
 
@@ -81,6 +84,28 @@ class Email extends Mailable
             'contentHtml' => $this->emailTemplate->has_body_html ? $this->contentHtml : '',
             'contentText' => $this->contentText,
         ]);
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        $attachments = [];
+        foreach (Arr::get($this->requestData, 'files_data', []) as $field => $attachment) {
+            $attachment = json_decode($attachment, true);
+            $name = $field.'_'.$attachment['name'];
+            $split = explode(';', $attachment['url']);
+            $mimeType = Str::substr($split[0], 5);
+
+            $fileData = base64_decode(Str::substr($split[1], 7));
+
+            $attachments[] = Attachment::fromData(fn () => $fileData, $name)->withMime($mimeType);
+        }
+
+        return $attachments;
     }
 
     protected function buildAddressArray(string|null $givenAddresses): array|null
