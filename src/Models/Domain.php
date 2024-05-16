@@ -84,6 +84,12 @@ class Domain extends Model
         'is_active',
     ];
 
+
+    public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SeoRedirect::class);
+    }
+
     protected static function newFactory(): DomainFactory
     {
         return DomainFactory::new();
@@ -97,10 +103,5 @@ class Domain extends Model
     public function searchConfigs(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SearchConfig::class);
-    }
-
-    public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(SeoRedirect::class);
     }
 }
