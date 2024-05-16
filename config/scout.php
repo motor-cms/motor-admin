@@ -50,7 +50,7 @@ return [
                 'sortableAttributes'   => ['clients.id', 'created_at', 'updated_at', 'id', 'name'],
             ],
             \Motor\Admin\Models\Domain::class   => [
-                'filterableAttributes' => [],
+                'filterableAttributes' => ['client_id'],
                 'sortableAttributes'   => ['domains.id', 'created_at', 'updated_at', 'id', 'name'],
             ],
         ],
