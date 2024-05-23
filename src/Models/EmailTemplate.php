@@ -78,6 +78,15 @@ class EmailTemplate extends Model
         return 'motor_admin_email_templates_index';
     }
 
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'client.name' => $this->client?->name,
+            'language.english_name' => $this->language->english_name,
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *

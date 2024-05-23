@@ -58,6 +58,14 @@ class Permission extends \Spatie\Permission\Models\Permission
         return 'motor_admin_permissions_index';
     }
 
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'guard_name' => $this->guard_name,
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
