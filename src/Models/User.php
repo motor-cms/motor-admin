@@ -93,7 +93,8 @@ class User extends Authenticatable implements HasMedia
     {
         return [
             'id'        => (int) $this->id,
-            'client_id' => $this->client_id,
+			'client_id' => $this->client_id,
+			'client.name' => $this->client?->name,
             'name'      => $this->name,
             'email'     => $this->email,
         ];

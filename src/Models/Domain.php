@@ -53,6 +53,7 @@ class Domain extends Model
     {
         $array = [
             'client_id' => $this->client_id,
+            'client.name' =>$this->client->name,
             'name'     => $this->name,
             'protocol' => $this->protocol,
             'host'     => $this->host,

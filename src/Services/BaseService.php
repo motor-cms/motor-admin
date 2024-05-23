@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Motor\Core\Filter\Filter;
 use Motor\Core\Filter\Renderers\PerPageRenderer;
+use Motor\Core\Filter\Renderers\SortRenderer;
 use Motor\Core\Filter\Renderers\SearchRenderer;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -111,6 +112,7 @@ abstract class BaseService
     public function defaultFilters()
     {
         $this->filter->add(new SearchRenderer('search'));
+        $this->filter->add(new SortRenderer('sort'));
         $this->filter->add(new PerPageRenderer('per_page'))
             ->setup();
     }
@@ -180,7 +182,7 @@ abstract class BaseService
             $join = true;
             $joinExists = false;
 
-            $joins = $query->getQuery()->joins;
+            $joins = $query->query->joins;
             if ($joins == null) {
                 $joinExists = false;
             } else {
@@ -204,8 +206,8 @@ abstract class BaseService
             // Checking if we're using Eloquent Builder, which has a getModel() method or the Scout builder, which only has a model property
             $model = isset($query->model) ? $query->model : $query->getModel();
 
-            return $query->orderBy($model
-                ->getTable().'.'.$this->sortableField, $this->sortableDirection);
+            return $query->orderBy(
+                $this->sortableField, $this->sortableDirection);
 
         }
 
