@@ -93,8 +93,6 @@ class User extends Authenticatable implements HasMedia
     {
         return [
             'id'        => (int) $this->id,
-			'client_id' => $this->client_id,
-			'client.name' => $this->client?->name,
             'name'      => $this->name,
             'email'     => $this->email,
         ];
@@ -141,9 +139,9 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function clients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(config('motor-admin.models.client'));
+        return $this->belongsToMany(Client::class, 'users_client', 'user_id', 'client_id');
     }
 
 
