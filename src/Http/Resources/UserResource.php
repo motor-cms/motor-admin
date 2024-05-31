@@ -67,8 +67,7 @@ class UserResource extends BaseResource
     {
         return [
             'id'          => (int) $this->id,
-            'client'      => new ClientResource($this->client),
-            'client_id'   => $this->client_id,
+            'clients'      =>ClientResource::collection($this->clients),
             'roles'       => RoleResource::collection($this->roles),
             'permissions' => PermissionResource::collection($this->permissions),
             'name'        => $this->name,

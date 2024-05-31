@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ClientFactory;
@@ -101,6 +102,11 @@ class Client extends Model
     public function domains(): HasMany
     {
         return $this->hasMany(Domain::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_client', 'client_id', 'user_id');
     }
 
     protected static function newFactory(): ClientFactory

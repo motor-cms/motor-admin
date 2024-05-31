@@ -22,10 +22,9 @@ class UserService extends BaseService
     public function beforeCreate(): void
     {
         if (Auth::user()->client_id > 0) {
-            $this->record->client_id = Auth::user()->client_id;
+            $this->record->clients = [Auth::user()->client_id];
         }
         $this->data['api_token'] = Str::random(60);
-        $this->updateClientId();
         $this->updatePassword();
     }
 
@@ -35,6 +34,7 @@ class UserService extends BaseService
      */
     public function afterCreate(): void
     {
+        $this->syncClients();
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
     }
@@ -45,7 +45,6 @@ class UserService extends BaseService
         if (Arr::get($this->data, 'api_token')) {
             unset($this->data['api_token']);
         }
-        $this->updateClientId();
         $this->updatePassword();
     }
 
@@ -55,15 +54,9 @@ class UserService extends BaseService
      */
     public function afterUpdate(): void
     {
+        $this->syncClients();
         $this->syncRolesAndPermissions();
         $this->uploadFiles();
-    }
-
-    private function updateClientId(): void
-    {
-        if (! Arr::get($this->data, 'client_id')) {
-            $this->data['client_id'] = null;
-        }
     }
 
     private function updatePassword(): void
@@ -82,6 +75,13 @@ class UserService extends BaseService
     private function uploadFiles(): void
     {
         $this->uploadFile(Arr::get($this->data, 'avatar'), 'avatar');
+    }
+
+    private function syncClients(): void
+    {
+        if (Arr::get($this->data, 'clients')) {
+            $this->record->clients()->sync(Arr::get($this->data, 'clients', []));
+        }
     }
 
     private function syncRolesAndPermissions(): void
