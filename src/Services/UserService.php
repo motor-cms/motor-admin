@@ -79,7 +79,7 @@ class UserService extends BaseService
 
     private function syncClients(): void
     {
-        if (Arr::get($this->data, 'clients')) {
+        if (Arr::has($this->data, 'clients')) {
             $this->record->clients()->sync(Arr::get($this->data, 'clients', []));
         }
     }
