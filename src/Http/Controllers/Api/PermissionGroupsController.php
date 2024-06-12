@@ -287,20 +287,21 @@ class PermissionGroupsController extends ApiController
     {
         $result = PermissionGroupService::update($permissionGroup, $request)
             ->getResult();
-
-        $permissions = $result->permissions()->get();
-        foreach ($permissions as $permission) {
-            // We want to replace the prefix of the permission, so we need to explode the name
-            $permissionNameExploded = explode('.', $permission->name);
-            //We removed the prefix before the dot, so we need to remove it from the array
-            array_shift($permissionNameExploded);
-            //We need to reassemble the name with the new prefix, so we implode the array
-            $newPermissionName = implode('.', $permissionNameExploded);
-            //We set the new name of the permission with the new prefix
-            $permission->name = $result->name.'.'.$newPermissionName;
-            //We save the permission
-            $permission->save();
-        }
+        
+        /* edit permission names
+        * $permissions = $result->permissions()->get();
+        * foreach ($permissions as $permission) {
+        *     // We want to replace the prefix of the permission, so we need to explode the name
+        *     $permissionNameExploded = explode('.', $permission->name);
+        *     //We removed the prefix before the dot, so we need to remove it from the array
+        *     array_shift($permissionNameExploded);
+        *     //We need to reassemble the name with the new prefix, so we implode the array
+        *     $newPermissionName = implode('.', $permissionNameExploded);
+        *     //We set the new name of the permission with the new prefix
+        *     $permission->name = $result->name.'.'.$newPermissionName;
+        *     //We save the permission
+        *     $permission->save();
+		}*/
 
         return (new PermissionGroupResource($result))->additional(['message' => 'Permission group updated']);
     }
