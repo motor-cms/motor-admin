@@ -69,7 +69,7 @@ return [
                 150 => [
                     'slug'        => 'permissions',
                     'icon'        => 'fa fa-plus',
-                    'route'       => 'admin.motor-admin.permissions',
+                    'route'       => 'admin.motor-admin.permission-groups',
                     'roles'       => ['SuperAdmin'],
                     'permissions' => ['permissions.read'],
                     'name'        => 'motor-admin.permissions.permissions',
