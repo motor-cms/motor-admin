@@ -72,8 +72,6 @@ class DomainResource extends BaseResource
             'host'       => $this->host,
             'port'       => $this->port,
             'path'       => $this->path,
-            'target'     => $this->target,
-            'parameters' => $this->parameters,
         ];
     }
 }
