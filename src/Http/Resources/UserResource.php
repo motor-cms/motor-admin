@@ -69,7 +69,7 @@ class UserResource extends BaseResource
             'id'          => (int) $this->id,
             'clients'      =>ClientResource::collection($this->clients),
             'roles'       => RoleResource::collection($this->roles),
-            'permissions' => PermissionResource::collection($this->permissions),
+            'permissions' => PermissionResource::collection($this->roles->flatMap->permissions->unique('id')),
             'name'        => $this->name,
             'email'       => $this->email,
             'avatar'      => new MediaResource($this->getFirstMedia('avatar')),
