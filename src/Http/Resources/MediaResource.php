@@ -2,8 +2,6 @@
 
 namespace Motor\Admin\Http\Resources;
 
-use Motor\Admin\Helpers\Filesize;
-
 /**
  * @OA\Schema(
  *   schema="MediaResourceConversions",
@@ -102,7 +100,7 @@ class MediaResource extends BaseResource
             'name'        => $this->name,
             'file_name'   => $this->file_name,
             'size'        => (int) $this->size,
-            'size_human'  => Filesize::bytesToHuman((int) $this->size),
+            'size_human'  => $this->human_readable_size,
             'mime_type'   => $this->mime_type,
             'url'         => $this->getFullUrl(),
             'path'        => $this->getPath(),
