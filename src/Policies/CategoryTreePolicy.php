@@ -30,7 +30,7 @@ class CategoryTreePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('category_tree.read');
+        return $user->hasPermissionTo('category_trees.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class CategoryTreePolicy
      */
     public function view(User $user, Category $category)
     {
-        return $user->hasPermissionTo('category_tree.read');
+        return $user->hasPermissionTo('category_trees.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class CategoryTreePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('category_tree.write');
+        return $user->hasPermissionTo('category_trees.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class CategoryTreePolicy
      */
     public function update(User $user, Category $category)
     {
-        return $user->hasPermissionTo('category_tree.write');
+        return $user->hasPermissionTo('category_trees.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class CategoryTreePolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->hasPermissionTo('category_tree.delete');
+        return $user->hasPermissionTo('category_trees.delete');
     }
 
     /**

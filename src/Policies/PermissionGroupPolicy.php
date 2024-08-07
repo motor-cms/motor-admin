@@ -30,7 +30,7 @@ class PermissionGroupPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('permission_group.read');
+        return $user->hasPermissionTo('permission_groups.read');
     }
 
     /**
@@ -41,7 +41,7 @@ class PermissionGroupPolicy
     public function view(User $user, PermissionGroup $permissionGroup)
     {
 
-        return $user->hasPermissionTo('permission_group.read');
+        return $user->hasPermissionTo('permission_groups.read');
     }
 
     /**

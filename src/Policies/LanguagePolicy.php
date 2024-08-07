@@ -30,7 +30,7 @@ class LanguagePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('language.read');
+        return $user->hasPermissionTo('languages.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class LanguagePolicy
      */
     public function view(User $user, Language $language)
     {
-        return $user->hasPermissionTo('language.read');
+        return $user->hasPermissionTo('languages.read');
     }
 
     /**

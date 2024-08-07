@@ -30,7 +30,7 @@ class ConfigVariablePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('config_variable.read');
+        return $user->hasPermissionTo('config_variables.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class ConfigVariablePolicy
      */
     public function view(User $user, ConfigVariable $configVariable)
     {
-        return $user->hasPermissionTo('config_variable.read');
+        return $user->hasPermissionTo('config_variables.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class ConfigVariablePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('config_variable.write');
+        return $user->hasPermissionTo('config_variables.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class ConfigVariablePolicy
      */
     public function update(User $user, ConfigVariable $configVariable)
     {
-        return $user->hasPermissionTo('config_variable.write');
+        return $user->hasPermissionTo('config_variables.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class ConfigVariablePolicy
      */
     public function delete(User $user, ConfigVariable $configVariable)
     {
-        return $user->hasPermissionTo('config_variable.delete');
+        return $user->hasPermissionTo('config_variables.delete');
     }
 
     /**
