@@ -25,9 +25,7 @@ class DomainsTableSeeder extends Seeder
                   'protocol'   => 'http',
                   'host'       => 'localhost',
                   'port'       => '80',
-                  'path'       => '/',
-                  'target'     => '',
-                  'parameters' => '',
+                  'path'       => '/'
               ]);
 
         Domain::factory()
