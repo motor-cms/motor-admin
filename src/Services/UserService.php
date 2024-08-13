@@ -12,6 +12,8 @@ use Motor\Admin\Models\User;
  */
 class UserService extends BaseService
 {
+    protected array $loadColumns = ['clients', 'roles'];
+
     protected $model = User::class;
 
     public function filters(): void

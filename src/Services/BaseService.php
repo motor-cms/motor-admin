@@ -26,6 +26,8 @@ abstract class BaseService
 
     protected $record;
 
+    protected array $loadColumns = [];
+
     protected array $data = [];
 
     protected $result;
@@ -144,6 +146,9 @@ abstract class BaseService
         $query = ($this->model)::filteredByMultiple($this->getFilter());
         $query = $this->applyScopes($query);
         $query = $this->applySorting($query);
+        if (!empty($this->loadColumns)) {
+            $query = $query->query(fn($query) => $query = $query->with($this->loadColumns));
+        }
 
         return $query->paginate($this->getFilter()
             ->get('per_page')
