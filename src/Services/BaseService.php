@@ -9,8 +9,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Motor\Core\Filter\Filter;
 use Motor\Core\Filter\Renderers\PerPageRenderer;
-use Motor\Core\Filter\Renderers\SortRenderer;
 use Motor\Core\Filter\Renderers\SearchRenderer;
+use Motor\Core\Filter\Renderers\SortRenderer;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
@@ -146,8 +146,8 @@ abstract class BaseService
         $query = ($this->model)::filteredByMultiple($this->getFilter());
         $query = $this->applyScopes($query);
         $query = $this->applySorting($query);
-        if (!empty($this->loadColumns)) {
-            $query = $query->query(fn($query) => $query = $query->with($this->loadColumns));
+        if (! empty($this->loadColumns)) {
+            $query = $query->query(fn ($query) => $query = $query->with($this->loadColumns));
         }
 
         return $query->paginate($this->getFilter()
