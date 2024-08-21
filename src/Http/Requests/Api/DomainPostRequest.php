@@ -82,8 +82,6 @@ class DomainPostRequest extends Request
             'host'       => 'required',
             'port'       => 'required',
             'path'       => 'required',
-            'target'     => 'nullable',
-            'parameters' => 'nullable',
         ];
     }
 }

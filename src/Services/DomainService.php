@@ -13,5 +13,8 @@ class DomainService extends BaseService
     {
         $this->filter->addClientFilter();
     }
+
+    protected array $loadColumns = ['client'];
+
     protected $model = Domain::class;
 }

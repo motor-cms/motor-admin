@@ -82,8 +82,6 @@ class DomainPatchRequest extends Request
             'host'       => 'required',
             'port'       => 'required',
             'path'       => 'required',
-            'target'     => 'nullable',
-            'parameters' => 'nullable',
         ];
     }
 }
