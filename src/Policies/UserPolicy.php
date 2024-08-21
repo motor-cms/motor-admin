@@ -50,6 +50,7 @@ class UserPolicy
     public function create(User $user)
     {
         $newRoles = request()->roles;
+
         return $user->hasPermissionTo('users.write') && $user->hasRole($newRoles);
     }
 
@@ -63,6 +64,7 @@ class UserPolicy
         $newRoles = request()->roles;
         $allowed = $user->hasRole($newRoles)
             || $user->hasRole($model->getRoleNames());
+
         return ($user->id === $model->id || $user->hasPermissionTo('users.write')) && $allowed;
     }
 
@@ -73,7 +75,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-         
+
         return $user->hasPermissionTo('users.delete') && $user->hasRole($model->getRoleNames());
     }
 
