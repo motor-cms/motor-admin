@@ -23,8 +23,6 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $host
  * @property int $port
  * @property string $path
- * @property string $target
- * @property string $parameters
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
@@ -53,12 +51,12 @@ class Domain extends Model
     {
         $array = [
             'client_id' => $this->client_id,
+            'client.name' =>$this->client->name,
             'name'     => $this->name,
             'protocol' => $this->protocol,
             'host'     => $this->host,
             'port'     => $this->port,
             'path'     => $this->path,
-            'target'   => $this->target,
             'is_active' => $this->is_active,
         ];
 
@@ -79,8 +77,6 @@ class Domain extends Model
         'host',
         'port',
         'path',
-        'target',
-        'parameters',
         'is_active',
     ];
 
