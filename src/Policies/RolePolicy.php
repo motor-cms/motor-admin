@@ -30,7 +30,7 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('role.read');
+        return $user->hasPermissionTo('roles.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        return $user->hasPermissionTo('role.read');
+        return $user->hasPermissionTo('roles.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('role.write');
+        return $user->hasPermissionTo('roles.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasPermissionTo('role.write');
+        return $user->hasPermissionTo('roles.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermissionTo('role.delete');
+        return $user->hasPermissionTo('roles.delete');
     }
 
     /**
