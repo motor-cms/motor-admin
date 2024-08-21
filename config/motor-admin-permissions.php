@@ -19,6 +19,13 @@ return [
             'delete',
         ],
     ],
+    'domains'          => [
+        'values' => [
+            'read',
+            'write',
+            'delete',
+        ],
+    ],
     'users'            => [
         'values' => [
             'read',
