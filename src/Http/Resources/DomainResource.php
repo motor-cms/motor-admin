@@ -48,6 +48,11 @@ use OpenApi\Annotations as OA;
  *     type="string",
  *     example="contact"
  *   ),
+ *     @OA\Property(
+ *     property="target_http_status_code",
+ *     type="string",
+ *     example="301"
+ *  ),
  *   @OA\Property(
  *     property="parameters",
  *     type="string",
@@ -72,6 +77,9 @@ class DomainResource extends BaseResource
             'host'       => $this->host,
             'port'       => $this->port,
             'path'       => $this->path,
+            'target'     => $this->target,
+            'parameters' => $this->parameters,
+            'target_http_status_code' => $this->target_http_status_code,
         ];
     }
 }
