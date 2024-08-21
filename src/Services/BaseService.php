@@ -398,7 +398,7 @@ abstract class BaseService
                 $record->addMedia($tempFilename)
                     ->setName($name)
                     ->setFileName($name)
-                    ->toMediaCollection($collection, 'media');
+                    ->toMediaCollection($collection, config('media-library.disk_name'));
             }
         }
 
