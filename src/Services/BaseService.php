@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Motor\Core\Filter\Filter;
 use Motor\Core\Filter\Renderers\PerPageRenderer;
 use Motor\Core\Filter\Renderers\SearchRenderer;
+use Motor\Core\Filter\Renderers\SortRenderer;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
@@ -24,6 +25,8 @@ abstract class BaseService
     protected $model;
 
     protected $record;
+
+    protected array $loadColumns = [];
 
     protected array $data = [];
 
@@ -111,6 +114,7 @@ abstract class BaseService
     public function defaultFilters()
     {
         $this->filter->add(new SearchRenderer('search'));
+        $this->filter->add(new SortRenderer('sort'));
         $this->filter->add(new PerPageRenderer('per_page'))
             ->setup();
     }
@@ -142,6 +146,9 @@ abstract class BaseService
         $query = ($this->model)::filteredByMultiple($this->getFilter());
         $query = $this->applyScopes($query);
         $query = $this->applySorting($query);
+        if (! empty($this->loadColumns)) {
+            $query = $query->query(fn ($query) => $query = $query->with($this->loadColumns));
+        }
 
         return $query->paginate($this->getFilter()
             ->get('per_page')
@@ -180,7 +187,7 @@ abstract class BaseService
             $join = true;
             $joinExists = false;
 
-            $joins = $query->getQuery()->joins;
+            $joins = $query->query->joins;
             if ($joins == null) {
                 $joinExists = false;
             } else {
@@ -204,8 +211,8 @@ abstract class BaseService
             // Checking if we're using Eloquent Builder, which has a getModel() method or the Scout builder, which only has a model property
             $model = isset($query->model) ? $query->model : $query->getModel();
 
-            return $query->orderBy($model
-                ->getTable().'.'.$this->sortableField, $this->sortableDirection);
+            return $query->orderBy(
+                $this->sortableField, $this->sortableDirection);
 
         }
 
@@ -391,7 +398,7 @@ abstract class BaseService
                 $record->addMedia($tempFilename)
                     ->setName($name)
                     ->setFileName($name)
-                    ->toMediaCollection($collection, 'media');
+                    ->toMediaCollection($collection, config('media-library.disk_name'));
             }
         }
 
