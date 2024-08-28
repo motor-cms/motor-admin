@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class AddMimeTypeToMediaTable
  */
-class AddMimeTypeToMediaTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -32,4 +32,4 @@ class AddMimeTypeToMediaTable extends Migration
             $table->dropColumn('mime_type');
         });
     }
-}
+};

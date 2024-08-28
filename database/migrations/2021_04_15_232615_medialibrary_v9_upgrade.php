@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaLibraryV9Upgrade extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -51,4 +51,4 @@ class MediaLibraryV9Upgrade extends Migration
             $table->dropColumn('generated_conversions');
         });
     }
-}
+};

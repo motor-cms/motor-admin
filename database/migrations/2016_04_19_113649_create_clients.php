@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreateClients
  */
-class CreateClients extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -44,4 +44,4 @@ class CreateClients extends Migration
     {
         Schema::drop('clients');
     }
-}
+};
