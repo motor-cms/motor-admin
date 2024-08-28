@@ -13,7 +13,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('domains', function (Blueprint $table) {
-            $table->unsignedSmallInteger('target_http_status_code')->nullable()->after('target');
+            $table->unsignedSmallInteger('target_http_status_code')->nullable()->after('path');
         });
     }
 
