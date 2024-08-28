@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreatePasswordResetsTable
  */
-class CreatePasswordResetsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -31,4 +31,4 @@ class CreatePasswordResetsTable extends Migration
     {
         Schema::drop('password_resets');
     }
-}
+};

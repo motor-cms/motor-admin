@@ -94,12 +94,12 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class Category extends Model
 {
-    use Searchable; // we can't use Scout here because it collides with the NodeTrait
+    use BlameableTrait; // we can't use Scout here because it collides with the NodeTrait
     use Filterable;
-    use BlameableTrait;
-    use NodeTrait;
     use HasFactory;
     use HasShortflakePrimary;
+    use NodeTrait;
+    use Searchable;
 
     /**
      * Searchable columns for the searchable trait
@@ -147,7 +147,7 @@ class Category extends Model
     protected static function booted()
     {
         static::addGlobalScope('defaultOrder', function (Builder $builder) {
-            $builder->orderBy(NestedSet::LFT, 'ASC');
+            $builder->orderBy(NestedSet::LFT);
         });
     }
 }

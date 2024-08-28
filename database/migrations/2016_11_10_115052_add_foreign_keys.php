@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class AddForeignKeys
  */
-class AddForeignKeys extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class AddForeignKeys extends Migration
             $table->dropIndex(['client_id']);
         });
     }
-}
+};

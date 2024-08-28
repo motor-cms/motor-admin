@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreatePermissionTables
  */
-class CreatePermissionTables extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -96,4 +96,4 @@ class CreatePermissionTables extends Migration
         Schema::drop($config['roles']);
         Schema::drop($config['permissions']);
     }
-}
+};

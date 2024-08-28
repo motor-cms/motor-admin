@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class CreatePermissionGroupTable
  */
-class CreatePermissionGroupTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -43,4 +43,4 @@ class CreatePermissionGroupTable extends Migration
 
         Schema::dropIfExists('permission_groups');
     }
-}
+};

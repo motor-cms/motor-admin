@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class AddColumnToMediaTable
  */
-class AddColumnToMediaTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -32,4 +32,4 @@ class AddColumnToMediaTable extends Migration
             $table->dropColumn('responsive_images');
         });
     }
-}
+};
