@@ -80,17 +80,37 @@ class DomainPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id' => 'required',
-            'is_active' => 'required',
-            'name' => 'required',
-            'protocol' => 'required',
-            'host' => 'required',
-            'port' => 'required',
-            'path' => 'required',
-            'target' => 'nullable',
-            'parameters' => 'nullable',
+            'client_id' => [
+                'required',
+            ],
+            'is_active' => [
+                'required',
+            ],
+            'name' => [
+                'required',
+            ],
+            'protocol' => [
+                'required',
+            ],
+            'host' => [
+                'required',
+            ],
+            'port' => [
+                'required',
+            ],
+            'path' => [
+                'required',
+            ],
+            'target' => [
+                'nullable',
+            ],
+            'parameters' => [
+                'nullable',
+            ],
             // 'target_http_status_code' must be required only if target is not null
-            'target_http_status_code' => 'required_if_accepted:target',
+            'target_http_status_code' => [
+                'required_if_accepted:target',
+            ],
         ];
     }
 }
