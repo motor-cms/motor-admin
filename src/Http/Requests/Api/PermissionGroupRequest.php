@@ -34,7 +34,9 @@ class PermissionGroupRequest extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => [
+                'required',
+            ],
         ];
     }
 }

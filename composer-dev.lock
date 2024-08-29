@@ -137,16 +137,16 @@
         },
         {
             "name": "darkaonline/l5-swagger",
-            "version": "8.6.1",
+            "version": "8.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarkaOnLine/L5-Swagger.git",
-                "reference": "44bab2467f69c3ec6f17f0b207e9cfcb7074f1b3"
+                "reference": "9d72140330b5df4379b907d9582bf90b34ae59a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/44bab2467f69c3ec6f17f0b207e9cfcb7074f1b3",
-                "reference": "44bab2467f69c3ec6f17f0b207e9cfcb7074f1b3",
+                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/9d72140330b5df4379b907d9582bf90b34ae59a2",
+                "reference": "9d72140330b5df4379b907d9582bf90b34ae59a2",
                 "shasum": ""
             },
             "require": {
@@ -205,7 +205,7 @@
             ],
             "support": {
                 "issues": "https://github.com/DarkaOnLine/L5-Swagger/issues",
-                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.6.1"
+                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.6.2"
             },
             "funding": [
                 {
@@ -213,7 +213,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-09T05:01:05+00:00"
+            "time": "2024-08-29T08:02:07+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1285,7 +1285,7 @@
             },
             "require": {
                 "illuminate/support": "^6.3|^7.0|^8.0|^9.0|^10.0|^11.0",
-                "php": "^8.3"
+                "php": "^8.2"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0",
@@ -1371,7 +1371,7 @@
                 "monolog/monolog": "^3.0",
                 "nesbot/carbon": "^2.72.2|^3.0",
                 "nunomaduro/termwind": "^2.0",
-                "php": "^8.3",
+                "php": "^8.2",
                 "psr/container": "^1.1.1|^2.0.1",
                 "psr/log": "^1.0|^2.0|^3.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
@@ -1697,7 +1697,7 @@
                 "illuminate/contracts": "^11.0",
                 "illuminate/database": "^11.0",
                 "illuminate/support": "^11.0",
-                "php": "^8.3",
+                "php": "^8.2",
                 "symfony/console": "^7.0"
             },
             "require-dev": {
@@ -2627,7 +2627,7 @@
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.3",
+                "php": "^8.2",
                 "symfony/console": "^7.0.4"
             },
             "require-dev": {
@@ -3618,7 +3618,7 @@
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0",
-                "php": "^8.3"
+                "php": "^8.2"
             },
             "require-dev": {
                 "amphp/parallel": "^1.4.3|^2.2",

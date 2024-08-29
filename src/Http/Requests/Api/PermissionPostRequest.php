@@ -39,8 +39,12 @@ class PermissionPostRequest extends Request
     public function rules(): array
     {
         return [
-            'name'       => 'required',
-            'guard_name' => 'required',
+            'name'       => [
+                'required',
+            ],
+            'guard_name' => [
+                'required',
+            ],
         ];
     }
 }

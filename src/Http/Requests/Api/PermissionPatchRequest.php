@@ -39,8 +39,12 @@ class PermissionPatchRequest extends Request
     public function rules(): array
     {
         return [
-            'name'       => 'required',
-            'guard_name' => 'nullable',
+            'name'       => [
+                'required',
+            ],
+            'guard_name' => [
+                'nullable',
+            ],
         ];
     }
 }
