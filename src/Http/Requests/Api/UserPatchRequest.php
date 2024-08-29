@@ -86,9 +86,11 @@ class UserPatchRequest extends Request
     public function rules()
     {
         return [
-            'client_id' => [
+            'clients' => [
                 'nullable',
-                'integer',
+                'array',
+            ],
+            'clients.*' => [
                 'exists:clients,id',
             ],
             'name' => [
@@ -102,6 +104,9 @@ class UserPatchRequest extends Request
             'roles' => [
                 'nullable',
                 'array',
+            ],
+            'roles.*' => [
+                'exists:roles,id',
             ],
             'permissions' => [
                 'nullable',
