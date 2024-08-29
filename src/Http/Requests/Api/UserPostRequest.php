@@ -82,16 +82,19 @@ class UserPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'      => [
+            'clients'      => [
                 'nullable',
-                'integer',
-                'exists:clients,id',
+                'array',
+            ],
+            'clients.*'      => [
+                'exists:clients,id'
             ],
             'name'           => [
                 'required',
             ],
             'email'          => [
                 'required',
+                'email',
                 'unique:users',
             ],
             'password'       => [
@@ -101,6 +104,9 @@ class UserPostRequest extends Request
             'roles'          => [
                 'nullable',
                 'array',
+            ],
+            'roles.*' => [
+                'exists:roles,id',
             ],
             'permissions'    => [
                 'nullable',
