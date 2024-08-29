@@ -3,6 +3,7 @@
 namespace Motor\Admin\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class MotorAdminDatabaseSeeder extends Seeder
 {
@@ -11,6 +12,9 @@ class MotorAdminDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Artisan::call('scout:delete-all-indexes');
+        Artisan::call('scout:sync-index-settings');
+
         $this->call([
             RolesTableSeeder::class,
             UsersTableSeeder::class,
@@ -21,7 +25,7 @@ class MotorAdminDatabaseSeeder extends Seeder
             ConfigVariablesTableSeeder::class,
             EmailTemplatesTableSeeder::class,
             CategoriesTableSeeder::class,
-            RolesPermissionsDatabaseSeeder::class
+            RolesPermissionsDatabaseSeeder::class,
         ]);
     }
 }
