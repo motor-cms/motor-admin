@@ -101,12 +101,6 @@ class DomainPostRequest extends Request
             'path' => [
                 'required',
             ],
-            'target' => [
-                'nullable',
-            ],
-            'parameters' => [
-                'nullable',
-            ],
             // 'target_http_status_code' must be required only if target is not null
             'target_http_status_code' => [
                 'required_if_accepted:target',
