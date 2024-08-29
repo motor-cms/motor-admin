@@ -21,7 +21,7 @@ describe('User', function () {
         $this->asAdmin()->post('/api/users', $new_user)->assertStatus(201);
     })->fail();
     it('can create User', function () {
-        $role = Role::where('name', 'SuperAdmin')->first();
+        $usercount = User::count();
         $new_user = [
             'avatar' => [
                 'dataUrl' => "UDEKMyAzCjEgMSAxCjAgMSAwCjAgMSAwCg==",
@@ -31,17 +31,15 @@ describe('User', function () {
             "email" => "test3@test.de",
             "name" => "TestUser3",
             "password" => "testtest",
-            "roles" => [
-                0 => $role->id,
-            ]
+            "roles" => [Role::whereName('SuperAdmin')->first()->id],
 
         ];
         $response = $this->asAdmin()->post('/api/users', $new_user);
         $response->assertStatus(201);
-        expect(User::count())->toBe(4);
+        expect(User::count() - $usercount)->toBe(1);
     });
     it("can't create Users with invalid clients", function () {
-        $this->asAdmin()->post('/api/users', [
+        $this->asAdmin()->withJsonHeaders()->post('/api/users', [
             "email" => "test2@test.de",
             "name" => "test2",
             "password" => "awrftwaftawtf",
@@ -80,9 +78,10 @@ describe('User', function () {
             )
     );
     it('can delete a user', function () {
+        $usercount = User::count();
         $this->asAdmin()->delete('/api/users/' . User::whereEmail("writer@motor-cms.com")->first()->id)
             ->assertStatus(200);
-        expect(User::count())->toBe(2);
+        expect($usercount - User::count())->toBe(1);
     });
     it(
         'can modify a user',
