@@ -110,11 +110,11 @@ class EmailTemplatePatchRequest extends Request
         return [
             'client_id'               => [
                 'nullable',
-                'integer',
+                'exists:clients,id',
             ],
             'language_id'             => [
                 'nullable',
-                'integer',
+                'exists:languages,id',
             ],
             'name'                    => [
                 'nullable',

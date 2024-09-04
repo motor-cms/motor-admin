@@ -26,7 +26,7 @@ describe('Role', function () {
                 'guard_name' => 'web',
                 'permissions' => [0]
             ])->assertStatus(422);
-        expect(Role::count() - $rolecount)->toBe(1);
+        expect(Role::count() - $rolecount)->toBe(0);
     });
     it("can't create an empty Role", function () {
         $rolecount = Role::count();

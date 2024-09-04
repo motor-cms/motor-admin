@@ -47,6 +47,10 @@ class RolePostRequest extends Request
             ],
             'permissions' => [
                 'nullable',
+                'array'
+            ],
+            'permissions.*' => [
+                'exists:permissions,id'
             ],
         ];
     }

@@ -26,7 +26,7 @@ describe('EmailTemplate', function () {
                 'name' => 'test',
                 'subject' => 'subject',
             ])->assertStatus(422);
-        expect(EmailTemplate::count() - $emailTemplatecount)->toBe(1);
+        expect(EmailTemplate::count() - $emailTemplatecount)->toBe(0);
     });
     it("can't create an EmailTemplate with an invalid language", function () {
         $emailTemplatecount = EmailTemplate::count();
@@ -37,7 +37,7 @@ describe('EmailTemplate', function () {
                 'name' => 'test',
                 'subject' => 'subject',
             ])->assertStatus(422);
-        expect(EmailTemplate::count() - $emailTemplatecount)->toBe(1);
+        expect(EmailTemplate::count() - $emailTemplatecount)->toBe(0);
     });
     it("can't create an empty EmailTemplate", function () {
         $emailTemplatecount = EmailTemplate::count();

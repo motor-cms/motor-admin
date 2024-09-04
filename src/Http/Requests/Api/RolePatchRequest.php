@@ -45,6 +45,13 @@ class RolePatchRequest extends Request
             'guard_name' => [
                 'nullable',
             ],
+            'permissions' => [
+                'nullable',
+                'array'
+            ],
+            'permissions.*' => [
+                'exists:permissions,id'
+            ],
         ];
     }
 }
