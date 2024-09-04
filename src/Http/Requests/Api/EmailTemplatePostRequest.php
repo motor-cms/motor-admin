@@ -111,11 +111,11 @@ class EmailTemplatePostRequest extends Request
         return [
             'client_id'               => [
                 'required',
-                'integer',
+                'exists:clients,id',
             ],
             'language_id'             => [
                 'required',
-                'integer',
+                'exists:languages,id',
             ],
             'name'                    => [
                 'required',

@@ -31,7 +31,7 @@ describe('Domain', function () {
                 'port' => 80,
                 'path' => '/',
             ])->assertStatus(422);
-        expect(Domain::count() - $domaincount)->toBe(1);
+        expect(Domain::count() - $domaincount)->toBe(0);
     });
     it("can't create an empty Domain", function () {
         $domaincount = Domain::count();

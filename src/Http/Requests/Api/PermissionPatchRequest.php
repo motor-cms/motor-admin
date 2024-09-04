@@ -45,6 +45,10 @@ class PermissionPatchRequest extends Request
             'guard_name' => [
                 'nullable',
             ],
+            'permission_group_id' => [
+                'nullable',
+                'exists:permission_groups,id'
+            ],
         ];
     }
 }

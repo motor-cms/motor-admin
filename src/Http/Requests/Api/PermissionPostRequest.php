@@ -45,6 +45,10 @@ class PermissionPostRequest extends Request
             'guard_name' => [
                 'required',
             ],
+            'permission_group_id' => [
+                'nullable',
+                'exists:permission_groups,id'
+            ],
         ];
     }
 }
