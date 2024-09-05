@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
 
@@ -68,6 +69,16 @@ describe('Client', function () {
         $this->asAdmin()->delete('/api/clients/'.Client::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($clientcount - Client::count())->toBe(1);
-        shell_exec('php artisan migrate:fresh --seed');
+        //shell_exec('php artisan migrate:fresh --seed');
+        Artisan::call('migrate:fresh', '--seed');
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/clients')->assertStatus(403);
+            $this->asBasic()->getJson('/api/clients/'. Client::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/clients', [])->assertStatus(403);
+            $this->asBasic()->put('/api/clients/'. Client::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/clients/'. Client::first()->id)->assertStatus(403);
+        }
+    );
 });

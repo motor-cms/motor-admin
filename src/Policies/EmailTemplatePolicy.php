@@ -60,7 +60,7 @@ class EmailTemplatePolicy
      */
     public function update(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.write');
+        return $user->hasPermissionTo('email_templates.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class EmailTemplatePolicy
      */
     public function delete(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.write');
+        return $user->hasPermissionTo('email_templates.write');
     }
 
     /**
@@ -80,7 +80,7 @@ class EmailTemplatePolicy
      */
     public function restore(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.delete');
+        return $user->hasPermissionTo('email_templates.delete');
     }
 
     /**

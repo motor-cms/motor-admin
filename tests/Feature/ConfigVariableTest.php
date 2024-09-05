@@ -70,4 +70,13 @@ describe('ConfigVariable', function () {
             ->assertStatus(200);
         expect($configvariablecount - ConfigVariable::count())->toBe(1);
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/config_variables')->assertStatus(403);
+            $this->asBasic()->getJson('/api/config_variables/'. ConfigVariable::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/config_variables', [])->assertStatus(403);
+            $this->asBasic()->put('/api/config_variables/'. ConfigVariable::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/config_variables/'. ConfigVariable::first()->id)->assertStatus(403);
+        }
+    );
 });

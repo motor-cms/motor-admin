@@ -6,6 +6,22 @@ use Motor\Admin\Models\User;
 use Motor\Admin\Models\Client;
 
 describe('User', function () {
+    it("can get all Users")
+        ->asAdmin()
+        ->getJson('/api/users')
+        ->assertStatus(200)
+        ->assertJson(fn(AssertableJson $json) => $json->has(
+            'data',
+            4,
+            fn(AssertableJson $data) =>
+            $data
+                ->has('id')
+                ->has('email')
+                ->has('clients')
+                ->has('roles')
+                ->has('name')
+                ->etc()
+        )->etc());
     it('checks if Avatar is an image', function () {
         $new_user = [
             'avatar' => [
@@ -46,22 +62,6 @@ describe('User', function () {
             "clients" => [0],
         ])->assertStatus(422);
     });
-    it("can get all Users")
-        ->asAdmin()
-        ->getJson('/api/users')
-        ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
-            'data',
-            4,
-            fn(AssertableJson $data) =>
-            $data
-                ->has('id')
-                ->has('email')
-                ->has('clients')
-                ->has('roles')
-                ->has('name')
-                ->etc()
-        )->etc());
     it(
         'can get a specific User',
         fn() => $this->asAdmin()->getJson('/api/users/' . $this->admin()->id)
@@ -95,4 +95,38 @@ describe('User', function () {
             ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
             $data->where('name', 'Motor Admin 2')->etc())->etc())
     );
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/users')->assertStatus(403);
+            $this->asBasic()->getJson('/api/users/'. $this->admin()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/users', [
+                'clients' => [Client::first()->id],
+                'email' => "test2@test.de",
+                'password ' => "test",
+                'roles' => [],
+            ])->assertStatus(403);
+            $this->asBasic()->put('/api/users/'. $this->admin()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/users/'. $this->admin()->id)->assertStatus(403);
+        }
+    );
+    it(
+        "can edit oneself", function() {
+            $this->asBasic()->put('/api/users/'. $this->basic()->id, [
+                "email" => "auth@motor-cms.com",
+                "name" => "changed",
+                "roles" => [],
+            ])->assertStatus(200);
+        }
+    );
+    it(
+        "can't give oneself more privileges", function() {
+            $this->asBasic()->put('/api/users/'. $this->basic()->id, [
+                "email" => "auth@motor-cms.com",
+                "name" => "changed",
+                "roles" => [Role::where('name', 'Writer')->first()],
+            ])->assertStatus(403);
+        }
+    );
+
+
 });

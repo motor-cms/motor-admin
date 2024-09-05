@@ -23,7 +23,7 @@ describe('EmailTemplate', function () {
             ->post('/api/email_templates', [
                 'client_id' => 0,
                 'language_id' => Language::first()->id,
-                'name' => 'test',
+                'name' => 'test2',
                 'subject' => 'subject',
             ])->assertStatus(422);
         expect(EmailTemplate::count() - $emailTemplatecount)->toBe(0);
@@ -34,7 +34,7 @@ describe('EmailTemplate', function () {
             ->post('/api/email_templates', [
                 'client_id' => Client::first()->id,
                 'language_id' => 0,
-                'name' => 'test',
+                'name' => 'test3',
                 'subject' => 'subject',
             ])->assertStatus(422);
         expect(EmailTemplate::count() - $emailTemplatecount)->toBe(0);
@@ -104,4 +104,13 @@ describe('EmailTemplate', function () {
             ->assertStatus(200);
         expect($emailTemplatecount - EmailTemplate::count())->toBe(1);
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/email_templates')->assertStatus(403);
+            $this->asBasic()->getJson('/api/email_templates/'. EmailTemplate::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/email_templates', [])->assertStatus(403);
+            $this->asBasic()->put('/api/email_templates/'. EmailTemplate::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/email_templates/'. EmailTemplate::first()->id)->assertStatus(403);
+        }
+    );
 });

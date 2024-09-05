@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Support\Facades\Artisan;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\Domain;
 
@@ -25,7 +26,7 @@ describe('Domain', function () {
             ->post('/api/domains', [
                 'client_id' => 0,
                 'is_active' => true,
-                'name' => 'test',
+                'name' => 'test2',
                 'protocol' => 'https',
                 'host' => ' localhost',
                 'port' => 80,
@@ -93,5 +94,15 @@ describe('Domain', function () {
         $this->asAdmin()->delete('/api/domains/' . Domain::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($domaincount - Domain::count())->toBe(1);
+        Artisan::call('migrate:fresh --seed');
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/domains')->assertStatus(403);
+            $this->asBasic()->getJson('/api/domains/'. Domain::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/domains', [])->assertStatus(403);
+            $this->asBasic()->put('/api/domains/'. Domain::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/domains/'. Domain::first()->id)->assertStatus(403);
+        }
+    );
 });

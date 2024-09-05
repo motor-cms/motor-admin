@@ -48,4 +48,13 @@ describe('Language', function () {
             ->assertStatus(200);
         expect($languagecount - Language::count())->toBe(1);
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/languages')->assertStatus(403);
+            $this->asBasic()->getJson('/api/languages/'. Language::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/languages', [])->assertStatus(403);
+            $this->asBasic()->put('/api/languages/'. Language::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/languages/'. Language::first()->id)->assertStatus(403);
+        }
+    );
 });

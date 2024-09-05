@@ -156,4 +156,18 @@ describe('Permission', function () {
             ->assertStatus(200);
         expect($permissioncount - Permission::count())->toBe(1);
     });
+    it(
+        "can't do anything without permissions", function() {
+            $this->asBasic()->getJson('/api/permission_groups')->assertStatus(403);
+            $this->asBasic()->getJson('/api/permissions')->assertStatus(403);
+            $this->asBasic()->getJson('/api/permission_groups/'. PermissionGroup::first()->id)->assertStatus(403);
+            $this->asBasic()->getJson('/api/permissions/'. Permission::first()->id)->assertStatus(403);
+            $this->asBasic()->post('/api/permission_groups', [])->assertStatus(403);
+            $this->asBasic()->post('/api/permissions', [])->assertStatus(403);
+            $this->asBasic()->put('/api/permission_groups/'. PermissionGroup::first()->id, [])->assertStatus(403);
+            $this->asBasic()->put('/api/permissions/'. Permission::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/permission_groups/'. PermissionGroup::first()->id)->assertStatus(403);
+            $this->asBasic()->delete('/api/permissions/'. Permission::first()->id)->assertStatus(403);
+        }
+    );
 });

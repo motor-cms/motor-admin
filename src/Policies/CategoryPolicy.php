@@ -70,7 +70,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->hasPermissionTo('category.delete');
+        return $user->hasPermissionTo('categories.delete');
     }
 
     /**

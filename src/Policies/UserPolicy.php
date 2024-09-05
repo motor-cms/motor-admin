@@ -62,8 +62,12 @@ class UserPolicy
     public function update(User $user, User $model)
     {
         $newRoles = request()->roles;
-        $allowed = $user->hasRole($newRoles)
-            || $user->hasRole($model->getRoleNames());
+        $allowed = true;
+        if ($newRoles) {
+            $allowed = $user->hasRole($newRoles)
+                || $user->hasRole($model->getRoleNames());
+        } else {
+        }
 
         return ($user->id === $model->id || $user->hasPermissionTo('users.write')) && $allowed;
     }
