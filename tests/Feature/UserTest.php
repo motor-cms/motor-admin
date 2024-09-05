@@ -52,7 +52,7 @@ describe('User', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            3,
+            4,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')

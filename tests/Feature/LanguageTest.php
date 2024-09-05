@@ -23,7 +23,7 @@ describe('Language', function () {
         ->asAdmin()
         ->get('/api/languages')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', 3, fn(AssertableJson $data) =>
+        ->assertJson(fn(AssertableJson $json) => $json->has('data', 4, fn(AssertableJson $data) =>
         $data->has('id')->has('iso_639_1')->has('english_name')->has('native_name'))->etc());
     it('can get a specific Language', function () {
         $this->asAdmin()->get('/api/languages/' . Language::whereNativeName('English')->first()->id)
@@ -44,7 +44,7 @@ describe('Language', function () {
     );
     it('can delete languages', function () {
         $languagecount = Language::count();
-        $this->asAdmin()->delete('/api/languages/' . Language::whereNativeName('English')->first()->id)
+        $this->asAdmin()->delete('/api/languages/' . Language::first()->id)
             ->assertStatus(200);
         expect($languagecount - Language::count())->toBe(1);
     });

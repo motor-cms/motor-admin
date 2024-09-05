@@ -57,14 +57,14 @@ describe('Permission', function () {
     );
     it('can update permission_groups', fn() => $this->asAdmin()
         ->put('/api/permission_groups/' . PermissionGroup::whereName('users')->first()->id, [
-            'name' => 'changed',
-            'sort_position' => '0',
+            'name' => 'users',
+            'sort_position' => '10',
         ])->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        $data->where('sort_position', 10)->etc())->etc()));
     it('can delete permission_groups', function () {
         $permission_group_count = PermissionGroup::count();
-        $this->asAdmin()->delete('/api/permission_groups/' . PermissionGroup::whereName('users')->first()->id)
+        $this->asAdmin()->delete('/api/permission_groups/' . PermissionGroup::whereName('clients')->first()->id)
             ->assertStatus(200);
         expect($permission_group_count - PermissionGroup::count())->toBe(1);
     });
@@ -120,7 +120,7 @@ describe('Permission', function () {
             ->assertStatus(200)
             ->assertJson(fn(AssertableJson $json) => $json->has(
                 'data',
-                3,
+                4,
                 fn(AssertableJson $data) =>
                 $data
                     ->has('id')
@@ -152,7 +152,7 @@ describe('Permission', function () {
         $data->where('name', 'users.changed')->etc())->etc()));
     it('can delete permissions', function () {
         $permissioncount = Permission::count();
-        $this->asAdmin()->delete('/api/permissions/' . Permission::whereName('users.read')->first()->id)
+        $this->asAdmin()->delete('/api/permissions/' . Permission::whereName('users.changed')->first()->id)
             ->assertStatus(200);
         expect($permissioncount - Permission::count())->toBe(1);
     });

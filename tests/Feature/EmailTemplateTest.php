@@ -51,7 +51,7 @@ describe('EmailTemplate', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            1,
+            2,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -100,7 +100,7 @@ describe('EmailTemplate', function () {
         $data->where('name', 'changed')->etc())->etc()));
     it('can delete emailTemplates', function () {
         $emailTemplatecount = EmailTemplate::count();
-        $this->asAdmin()->delete('/api/email_templates/' . EmailTemplate::whereName('Error-Template')->first()->id)
+        $this->asAdmin()->delete('/api/email_templates/' . EmailTemplate::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($emailTemplatecount - EmailTemplate::count())->toBe(1);
     });

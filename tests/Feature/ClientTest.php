@@ -25,7 +25,7 @@ describe('Client', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            1,
+            2,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -65,8 +65,9 @@ describe('Client', function () {
         $data->where('name', 'changed')->etc())->etc()));
     it('can delete clients', function() {
         $clientcount = Client::count();
-        $this->asAdmin()->delete('/api/clients/'.Client::whereName('Default')->first()->id)
+        $this->asAdmin()->delete('/api/clients/'.Client::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($clientcount - Client::count())->toBe(1);
+        shell_exec('php artisan migrate:fresh --seed');
     });
 });

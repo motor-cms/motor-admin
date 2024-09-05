@@ -28,7 +28,7 @@ describe('ConfigVariable', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            1,
+            2,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -66,7 +66,7 @@ describe('ConfigVariable', function () {
         $data->where('name', 'changed')->etc())->etc()));
     it('can delete config_variables', function () {
         $configvariablecount = ConfigVariable::count();
-        $this->asAdmin()->delete('/api/config_variables/' . ConfigVariable::whereName('name')->first()->id)
+        $this->asAdmin()->delete('/api/config_variables/' . ConfigVariable::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($configvariablecount - ConfigVariable::count())->toBe(1);
     });

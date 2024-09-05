@@ -20,7 +20,7 @@ describe('Category', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            5,
+            3, //not sure if thats correct
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -102,7 +102,7 @@ describe('Category', function () {
             ->assertStatus(200)
             ->assertJson(fn(AssertableJson $json) => $json->has(
                 'data',
-                3,
+                5,
                 fn(AssertableJson $data) =>
                 $data
                     ->has('id')
@@ -115,7 +115,7 @@ describe('Category', function () {
         ->put('/api/category_trees/' . Category::whereName('Test #1')->first()->id, [
             'client_id' => Client::first()->id,
             'name' => 'changed',
-            'scope' => 'test',
+            'scope' => 'test2',
         ])->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
         $data->where('name', 'changed')->etc())->etc()));

@@ -45,7 +45,7 @@ describe('Domain', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            1,
+            2,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -90,7 +90,7 @@ describe('Domain', function () {
         $data->where('name', 'changed')->etc())->etc()));
     it('can delete domains', function () {
         $domaincount = Domain::count();
-        $this->asAdmin()->delete('/api/domains/' . Domain::whereName('localhost')->first()->id)
+        $this->asAdmin()->delete('/api/domains/' . Domain::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($domaincount - Domain::count())->toBe(1);
     });

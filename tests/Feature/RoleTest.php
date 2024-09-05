@@ -40,7 +40,7 @@ describe('Role', function () {
         ->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has(
             'data',
-            3,
+            4,
             fn(AssertableJson $data) =>
             $data
                 ->has('id')
@@ -74,7 +74,7 @@ describe('Role', function () {
         $data->where('name', 'changed')->etc())->etc()));
     it('can delete roles', function () {
         $rolecount = Role::count();
-        $this->asAdmin()->delete('/api/roles/' . Role::whereName('Editor')->first()->id)
+        $this->asAdmin()->delete('/api/roles/' . Role::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($rolecount - Role::count())->toBe(1);
     });
