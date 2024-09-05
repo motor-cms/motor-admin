@@ -79,7 +79,7 @@ class MotorServiceProvider extends ServiceProvider
     public function permissions()
     {
         $config = $this->app['config']->get('motor-admin-permissions', []);
-        $this->app['config']->set('motor-admin-permissions', array_replace_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
+        $this->app['config']->set('motor-admin-permissions', array_merge_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
     }
 
     /**
