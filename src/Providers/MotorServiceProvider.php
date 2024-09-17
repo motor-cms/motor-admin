@@ -145,6 +145,6 @@ class MotorServiceProvider extends ServiceProvider
     public function navigationItems()
     {
         $config = $this->app['config']->get('motor-admin-navigation', []);
-        $this->app['config']->set('motor-admin-navigation', array_merge_recursive(require __DIR__ . '/../../config/motor-admin-navigation.php', $config));
+        $this->app['config']->set('motor-admin-navigation', array_replace_recursive(require __DIR__ . '/../../config/motor-admin-navigation.php', $config));
     }
 }
