@@ -30,7 +30,7 @@ class MotorServiceProvider extends ServiceProvider
         Response::macro('attachment', static function ($content, $filename, $format = 'application/json') {
             $headers = [
                 'Content-type'        => $format,
-                'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
             ];
 
             return Response::make($content, 200, $headers);
@@ -43,7 +43,7 @@ class MotorServiceProvider extends ServiceProvider
         $this->migrations();
         $this->navigationItems();
         merge_local_config_with_db_configuration_variables('motor-admin');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'motor-admin');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'motor-admin');
     }
 
     /**
@@ -53,16 +53,16 @@ class MotorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../../config/ide-helper.php', 'ide-helper');
-        $this->mergeConfigFrom(__DIR__.'/../../config/media-library.php', 'medialibrary');
-        $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin.php', 'motor-admin');
-        $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
-        $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__.'/../../config/blameable.php', 'blameable');
-        $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/ide-helper.php', 'ide-helper');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/media-library.php', 'medialibrary');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/motor-admin.php', 'motor-admin');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/motor-admin-project.php', 'motor-admin-project');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/permission.php', 'permission');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/blameable.php', 'blameable');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/snowflake.php', 'snowflake');
 
         $config = $this->app['config']->get('scout', []);
-        $this->app['config']->set('scout', array_replace_recursive(require __DIR__.'/../../config/scout.php', $config));
+        $this->app['config']->set('scout', array_merge_recursive(require __DIR__ . '/../../config/scout.php', $config));
     }
 
     /**
@@ -70,7 +70,7 @@ class MotorServiceProvider extends ServiceProvider
      */
     public function migrations()
     {
-        $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../database/migrations'));
     }
 
     /**
@@ -79,7 +79,7 @@ class MotorServiceProvider extends ServiceProvider
     public function permissions()
     {
         $config = $this->app['config']->get('motor-admin-permissions', []);
-        $this->app['config']->set('motor-admin-permissions', array_replace_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
+        $this->app['config']->set('motor-admin-permissions', array_merge_recursive(require __DIR__ . '/../../config/motor-admin-permissions.php', $config));
     }
 
     /**
@@ -88,7 +88,7 @@ class MotorServiceProvider extends ServiceProvider
     public function routes()
     {
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../../routes/api.php';
+            require __DIR__ . '/../../routes/api.php';
         }
     }
 
@@ -145,6 +145,6 @@ class MotorServiceProvider extends ServiceProvider
     public function navigationItems()
     {
         $config = $this->app['config']->get('motor-admin-navigation', []);
-        $this->app['config']->set('motor-admin-navigation', array_replace_recursive(require __DIR__.'/../../config/motor-admin-navigation.php', $config));
+        $this->app['config']->set('motor-admin-navigation', array_replace_recursive(require __DIR__ . '/../../config/motor-admin-navigation.php', $config));
     }
 }
