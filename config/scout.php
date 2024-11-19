@@ -63,6 +63,11 @@ return [
                 'sortableAttributes'   => ['domains.id', 'client.name', 'is_active', 'host', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
+            \Motor\Admin\Models\AISystemPrompt::class => [
+                'filterableAttributes' => ['client_id'],
+                'sortableAttributes'   => ['client.name', 'created_at', 'updated_at', 'id', 'name'],
+                'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
+            ],
         ],
     ],
 ];
