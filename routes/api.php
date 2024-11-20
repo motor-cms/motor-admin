@@ -1,7 +1,7 @@
 <?php
 
 use Motor\Admin\Http\Controllers\Api\AdminNavigationsController;
-use Motor\Admin\Http\Controllers\Api\AISystemPromptcontroller;
+use Motor\Admin\Http\Controllers\Api\AISystemPromptController;
 use Motor\Admin\Http\Controllers\Api\Auth\AuthController;
 use Motor\Admin\Http\Controllers\Api\CategoriesController;
 use Motor\Admin\Http\Controllers\Api\CategoryTreesController;
@@ -33,7 +33,7 @@ Route::group([
     Route::apiResource('permissions', PermissionsController::class);
     Route::get('permissions_items/{id}', [PermissionsController::class, 'items']);
     Route::apiResource('email_templates', EmailTemplatesController::class);
-    Route::apiResource('ai_system_prompts', AISystemPromptcontroller::class);
+    Route::apiResource('ai_system_prompts', AISystemPromptController::class);
     Route::post('ai_help', [AIHelpController::class, 'store']);
 
     // Dont use sanctum auth for this route, use static token
