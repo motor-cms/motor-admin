@@ -97,8 +97,6 @@ class MediaResource extends BaseResource
             }
         }
 
-        ds($conversions);
-
         return [
             'collection'  => $this->collection_name,
             'name'        => $this->name,
