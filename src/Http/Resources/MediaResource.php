@@ -85,14 +85,16 @@ class MediaResource extends BaseResource
      */
     public function toArray($request): array
     {
+        URL::forceRootUrl(config('app.url'));
+
         $conversions = [];
         if (! is_null($this->generated_conversions)) {
             foreach ($this->generated_conversions as $conversion => $status) {
                 if ($status) {
                     if ($this->mime_type === 'image/gif') {
-                        $conversions[$conversion] = URL::forceRootUrl(config('app.url')).$this->getUrl();
+                        $conversions[$conversion] = url($this->getUrl());
                     } else {
-                        $conversions[$conversion] = URL::forceRootUrl(config('app.url')).$this->getUrl($conversion);
+                        $conversions[$conversion] = url($this->getUrl($conversion));
                     }
                 }
             }
@@ -105,7 +107,7 @@ class MediaResource extends BaseResource
             'size'        => (int) $this->size,
             'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
-            'url'         => URL::forceRootUrl(config('app.url')).$this->getUrl(),
+            'url'         => url($this->getUrl()),
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,

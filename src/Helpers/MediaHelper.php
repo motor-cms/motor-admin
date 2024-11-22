@@ -22,12 +22,13 @@ class MediaHelper
         $items = $record->getMedia($identifier);
 
         $host = config('app.url');
+        URL::forceRootUrl(config('app.url'));
 
         //$host = ( isset($_SERVER['HTTPS']) ? "https" : "http" ) . "://".$_SERVER['HTTP_HOST'];
 
         if (isset($items[0])) {
-            $data['file_original'] = URL::forceRootUrl(config('app.url')).$items[0]->getUrl();
-            $data['file_original_relative'] = str_replace($host, '', URL::forceRootUrl(config('app.url')).$items[0]->getUrl());
+            $data['file_original'] = url($items[0]->getUrl());
+            $data['file_original_relative'] = str_replace($host, '', url($items[0]->getUrl()));
             $data['file_size'] = $items[0]->size;
             $data['name'] = $items[0]->name;
             $data['file_name'] = $items[0]->file_name;
@@ -39,7 +40,7 @@ class MediaHelper
             }
 
             foreach ($conversions as $conversion) {
-                $data[$conversion] = URL::forceRootUrl(config('app.url')).$items[0]->getUrl($conversion);
+                $data[$conversion] = url($items[0]->getUrl($conversion));
             }
         }
 
