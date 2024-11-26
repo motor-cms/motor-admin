@@ -66,7 +66,6 @@ class UserPolicy
         if ($newRoles) {
             $allowed = $user->hasRole($newRoles)
                 || $user->hasRole($model->getRoleNames());
-        } else {
         }
 
         return ($user->id === $model->id || $user->hasPermissionTo('users.write')) && $allowed;
