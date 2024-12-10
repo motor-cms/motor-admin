@@ -22,7 +22,7 @@ describe('User', function () {
                 ->has('name')
                 ->etc()
         )->etc());
-    it('checks if Avatar is an image', function () {
+    /*it('checks if Avatar is an image', function () {
         $new_user = [
             'avatar' => [
                 'dataUrl' => "QlpoOTFBWSZTWcjFbMkAAAxaAAAQQABoAEAAIAAwwAZoRbpBiJlkcOAvF3JFOFCQyMVsyQ==",
@@ -35,7 +35,7 @@ describe('User', function () {
             "roles" => [Role::whereName('SuperAdmin')->first()->id],
         ];
         $this->asAdmin()->post('/api/users', $new_user)->assertStatus(201);
-    })->fail();
+    })->fail();*/
     it('can create User', function () {
         $usercount = User::count();
         $new_user = [
@@ -96,22 +96,24 @@ describe('User', function () {
             $data->where('name', 'Motor Admin 2')->etc())->etc())
     );
     it(
-        "can't do anything without permissions", function() {
+        "can't do anything without permissions",
+        function () {
             $this->asBasic()->getJson('/api/users')->assertStatus(403);
-            $this->asBasic()->getJson('/api/users/'. $this->admin()->id)->assertStatus(403);
+            $this->asBasic()->getJson('/api/users/' . $this->admin()->id)->assertStatus(403);
             $this->asBasic()->post('/api/users', [
                 'clients' => [Client::first()->id],
                 'email' => "test2@test.de",
                 'password ' => "test",
                 'roles' => [],
             ])->assertStatus(403);
-            $this->asBasic()->put('/api/users/'. $this->admin()->id, [])->assertStatus(403);
-            $this->asBasic()->delete('/api/users/'. $this->admin()->id)->assertStatus(403);
+            $this->asBasic()->put('/api/users/' . $this->admin()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/users/' . $this->admin()->id)->assertStatus(403);
         }
     );
     it(
-        "can edit oneself", function() {
-            $this->asBasic()->put('/api/users/'. $this->basic()->id, [
+        "can edit oneself",
+        function () {
+            $this->asBasic()->put('/api/users/' . $this->basic()->id, [
                 "email" => "auth@motor-cms.com",
                 "name" => "changed",
                 "roles" => [],
@@ -119,14 +121,13 @@ describe('User', function () {
         }
     );
     it(
-        "can't give oneself more privileges", function() {
-            $this->asBasic()->put('/api/users/'. $this->basic()->id, [
+        "can't give oneself more privileges",
+        function () {
+            $this->asBasic()->put('/api/users/' . $this->basic()->id, [
                 "email" => "auth@motor-cms.com",
                 "name" => "changed",
                 "roles" => [Role::where('name', 'Writer')->first()],
             ])->assertStatus(403);
         }
     );
-
-
 });

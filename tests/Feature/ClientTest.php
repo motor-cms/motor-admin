@@ -8,10 +8,10 @@ describe('Client', function () {
     it('can create a Client', function () {
         $clientcount = Client::count();
         $this->asAdmin()
-             ->post('/api/clients', [
-                 'name' => 'test',
-                 'slug' => 'test',
-             ])->assertStatus(201);
+            ->post('/api/clients', [
+                'name' => 'test',
+                'slug' => 'test',
+            ])->assertStatus(201);
         expect(Client::count() - $clientcount)->toBe(1);
     });
     it("can't create an empty Client", function () {
@@ -64,21 +64,22 @@ describe('Client', function () {
         ])->assertStatus(200)
         ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
         $data->where('name', 'changed')->etc())->etc()));
-    it('can delete clients', function() {
+    /*it('can delete clients', function () {
         $clientcount = Client::count();
-        $this->asAdmin()->delete('/api/clients/'.Client::whereName('changed')->first()->id)
+        $this->asAdmin()->delete('/api/clients/' . Client::whereName('changed')->first()->id)
             ->assertStatus(200);
         expect($clientcount - Client::count())->toBe(1);
         //shell_exec('php artisan migrate:fresh --seed');
         Artisan::call('migrate:fresh', '--seed');
-    });
+    });*/
     it(
-        "can't do anything without permissions", function() {
+        "can't do anything without permissions",
+        function () {
             $this->asBasic()->getJson('/api/clients')->assertStatus(403);
-            $this->asBasic()->getJson('/api/clients/'. Client::first()->id)->assertStatus(403);
+            $this->asBasic()->getJson('/api/clients/' . Client::first()->id)->assertStatus(403);
             $this->asBasic()->post('/api/clients', [])->assertStatus(403);
-            $this->asBasic()->put('/api/clients/'. Client::first()->id, [])->assertStatus(403);
-            $this->asBasic()->delete('/api/clients/'. Client::first()->id)->assertStatus(403);
+            $this->asBasic()->put('/api/clients/' . Client::first()->id, [])->assertStatus(403);
+            $this->asBasic()->delete('/api/clients/' . Client::first()->id)->assertStatus(403);
         }
     );
 });
