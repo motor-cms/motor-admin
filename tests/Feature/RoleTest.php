@@ -13,8 +13,8 @@ describe('Role', function () {
                 'name' => 'test',
                 'guard_name' => 'web',
                 'permissions' => [
-                    Permission::first()->id
-                ]
+                    Permission::first()->id,
+                ],
             ])->assertStatus(201);
         expect(Role::count() - $rolecount)->toBe(1);
     });
@@ -24,7 +24,7 @@ describe('Role', function () {
             ->post('/api/roles', [
                 'name' => 'test',
                 'guard_name' => 'web',
-                'permissions' => [0]
+                'permissions' => [0],
             ])->assertStatus(422);
         expect(Role::count() - $rolecount)->toBe(0);
     });
@@ -38,11 +38,10 @@ describe('Role', function () {
         ->asAdmin()
         ->get('/api/roles')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             3,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('guard_name')
@@ -51,30 +50,27 @@ describe('Role', function () {
         )->etc());
     it(
         'can get a specific Role',
-        fn() =>
-        $this->asAdmin()->get('/api/roles/' . Role::whereName('Editor')->first()->id)
+        fn () => $this->asAdmin()->get('/api/roles/'.Role::whereName('Editor')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('guard_name')
                     ->has('permissions')
             )->etc())
     );
-    it('can update roles', fn() => $this->asAdmin()
-        ->put('/api/roles/' . Role::whereName('Editor')->first()->id, [
+    it('can update roles', fn () => $this->asAdmin()
+        ->put('/api/roles/'.Role::whereName('Editor')->first()->id, [
             'client_id' => Client::first()->id,
             'name' => 'changed',
             'guard_name' => 'web',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete roles', function () {
         $rolecount = Role::count();
-        $this->asAdmin()->delete('/api/roles/' . Role::whereName('Editor')->first()->id)
+        $this->asAdmin()->delete('/api/roles/'.Role::whereName('Editor')->first()->id)
             ->assertStatus(200);
         expect($rolecount - Role::count())->toBe(1);
     });

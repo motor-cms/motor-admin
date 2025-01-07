@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Testing\Fluent\AssertableJson;
-use Motor\Admin\Models\Client;
 use Motor\Admin\Models\Category;
+use Motor\Admin\Models\Client;
 
 describe('Category', function () {
     it('can create a category tree', function () {
@@ -18,11 +18,10 @@ describe('Category', function () {
         ->asAdmin()
         ->get('/api/category_trees')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             5,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('scope')
@@ -30,18 +29,15 @@ describe('Category', function () {
         )->etc());
     it(
         'can get a specific Category tree',
-        fn() =>
-        $this->asAdmin()->get('/api/category_trees/' . Category::whereName('Default')->first()->id)
+        fn () => $this->asAdmin()->get('/api/category_trees/'.Category::whereName('Default')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('scope')
-                    ->has('children', 3, fn(AssertableJson $json) =>
-                    $json
+                    ->has('children', 3, fn (AssertableJson $json) => $json
                         ->has('name')
                         ->has('id')
                         ->etc())
@@ -52,8 +48,8 @@ describe('Category', function () {
     it('can create a subcategory', function () {
         $categorycount = Category::count();
         $this->asAdmin()
-            ->post('/api/category_trees/' . Category::whereName("Default")->first()->id . '/categories', [
-                'parent_id' => Category::whereName("Default")->first()->id,
+            ->post('/api/category_trees/'.Category::whereName('Default')->first()->id.'/categories', [
+                'parent_id' => Category::whereName('Default')->first()->id,
                 'name' => 'test',
             ])->assertStatus(201);
         expect(Category::count() - $categorycount)->toBe(1);
@@ -62,8 +58,8 @@ describe('Category', function () {
         $categorycount = Category::count();
         $this->asAdmin()
             ->withJsonHeaders()
-            ->post('/api/category_trees/' . Category::whereName("Media")->first()->id . '/categories', [
-                'parent_id' => Category::whereName("Default")->first()->id,
+            ->post('/api/category_trees/'.Category::whereName('Media')->first()->id.'/categories', [
+                'parent_id' => Category::whereName('Default')->first()->id,
                 'name' => 'test',
             ])->assertStatus(422);
         expect(Category::count() - $categorycount)->toBe(1);
@@ -82,7 +78,7 @@ describe('Category', function () {
         $this->asAdmin()->withJsonHeaders()
             ->post('/api/category_trees', [
                 'previous_sibling_id' => 0,
-                'parent_id' => Category::whereName("Default")->first()->id,
+                'parent_id' => Category::whereName('Default')->first()->id,
                 'name' => 'test',
             ])->assertStatus(422);
         expect(Category::count() - $categorycount)->toBe(0);
@@ -95,28 +91,25 @@ describe('Category', function () {
     });
     it(
         'can get all Categorys',
-        fn() =>
-        $this
+        fn () => $this
             ->asAdmin()
-            ->get('/api/category_trees/' . Category::whereName("Default")->first()->id . '/categories')
+            ->get('/api/category_trees/'.Category::whereName('Default')->first()->id.'/categories')
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
                 3,
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('scope')
                     ->etc()
             )->etc())
     );
-    it('can update categories', fn() => $this->asAdmin()
-        ->put('/api/category_trees/' . Category::whereName('Test #1')->first()->id, [
+    it('can update categories', fn () => $this->asAdmin()
+        ->put('/api/category_trees/'.Category::whereName('Test #1')->first()->id, [
             'client_id' => Client::first()->id,
             'name' => 'changed',
             'scope' => 'test',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
 });

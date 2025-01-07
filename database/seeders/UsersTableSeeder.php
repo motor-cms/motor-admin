@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
             'name'       => 'Authenticated', // This user should only be able to log in.
             'email'      => 'auth@motor-cms.com',
             'password'   => bcrypt('auth'),
-            'api_token'  => Str::random(60)
+            'api_token'  => Str::random(60),
         ]);
     }
 }

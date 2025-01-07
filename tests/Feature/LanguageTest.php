@@ -23,28 +23,27 @@ describe('Language', function () {
         ->asAdmin()
         ->get('/api/languages')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', 3, fn(AssertableJson $data) =>
-        $data->has('id')->has('iso_639_1')->has('english_name')->has('native_name'))->etc());
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', 3, fn (AssertableJson $data) => $data->has('id')->has('iso_639_1')->has('english_name')->has('native_name'))->etc());
     it('can get a specific Language', function () {
-        $this->asAdmin()->get('/api/languages/' . Language::whereNativeName('English')->first()->id)
+        $this->asAdmin()->get('/api/languages/'.Language::whereNativeName('English')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) => $data->where('iso_639_1', 'en')->etc()
+                fn (AssertableJson $data) => $data->where('iso_639_1', 'en')->etc()
             )->etc());
     });
     it(
         'can update languages',
-        fn() => $this->asAdmin()->put('/api/languages/' . Language::whereNativeName('English')->first()->id, [
+        fn () => $this->asAdmin()->put('/api/languages/'.Language::whereNativeName('English')->first()->id, [
             'english_name' => 'english',
             'native_name' => 'testlang',
             'iso_639_1' => 'af',
-        ])->assertStatus(200)->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) => $data
+        ])->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data
             ->where('native_name', 'testlang')->etc())->etc())
     );
     it('can delete languages', function () {
         $languagecount = Language::count();
-        $this->asAdmin()->delete('/api/languages/' . Language::whereNativeName('English')->first()->id)
+        $this->asAdmin()->delete('/api/languages/'.Language::whereNativeName('English')->first()->id)
             ->assertStatus(200);
         expect($languagecount - Language::count())->toBe(1);
     });

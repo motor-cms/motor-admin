@@ -87,7 +87,7 @@ class UserPostRequest extends Request
                 'array',
             ],
             'clients.*'      => [
-                'exists:clients,id'
+                'exists:clients,id',
             ],
             'name'           => [
                 'required',

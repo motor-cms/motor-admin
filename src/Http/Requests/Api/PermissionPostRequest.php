@@ -47,7 +47,7 @@ class PermissionPostRequest extends Request
             ],
             'permission_group_id' => [
                 'nullable',
-                'exists:permission_groups,id'
+                'exists:permission_groups,id',
             ],
         ];
     }

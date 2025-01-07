@@ -1,6 +1,5 @@
 <?php
 
-use Doctrine\DBAL\Types\IntegerType;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Migrations\Migration;
@@ -124,25 +123,25 @@ class Transformer2
             $tableKeysColumnsNames = [];
 
             // primary keys...
-            if ($primaryKey = array_values(array_filter(Schema::getIndexes($table["name"]), function($index) {
-                return $index["primary"];
+            if ($primaryKey = array_values(array_filter(Schema::getIndexes($table['name']), function ($index) {
+                return $index['primary'];
             }))) {
                 if (count($primaryKey) > 0) {
-                    $tableKeysColumnsNames = $primaryKey[0]["columns"];
+                    $tableKeysColumnsNames = $primaryKey[0]['columns'];
                 }
             }
 
             // ... + foreign keys
-            foreach (Schema::getForeignKeys($table["name"]) as $foreignKey) {
-                $tableKeysColumnsNames = array_merge($tableKeysColumnsNames, $foreignKey["columns"]);
+            foreach (Schema::getForeignKeys($table['name']) as $foreignKey) {
+                $tableKeysColumnsNames = array_merge($tableKeysColumnsNames, $foreignKey['columns']);
             }
 
             // GET UNSIGNED INTEGER COLUMNS NAMES AND INFOS
 
-            foreach (Schema::getColumns($table["name"]) as $column) {
-                if (! $column["type_name"] === "int"
-                || (! str_ends_with($column["name"], '_id') &&
-                    ! in_array($column["name"], [
+            foreach (Schema::getColumns($table['name']) as $column) {
+                if (! $column['type_name'] === 'int'
+                || (! str_ends_with($column['name'], '_id') &&
+                    ! in_array($column['name'], [
                         'created_by',
                         'updated_by',
                         'deleted_by',
@@ -150,33 +149,33 @@ class Transformer2
                 ) {
                     continue;
                 }
-                $tableIntColumnsNames[] = $column["name"];
+                $tableIntColumnsNames[] = $column['name'];
 
                 $this->intColumnsInfo[] = [
-                    'table' => $table["name"],
-                    'column' => $column["name"],
-                    'nullable' => $column["nullable"],
-                    'default' => $column["default"],
-                    'autoIncrement' => $column["auto_increment"],
+                    'table' => $table['name'],
+                    'column' => $column['name'],
+                    'nullable' => $column['nullable'],
+                    'default' => $column['default'],
+                    'autoIncrement' => $column['auto_increment'],
                 ];
             }
 
             // GET FOREIGN KEYS CONSTRAINTS INFOS
 
-            foreach (Schema::getForeignKeys($table["name"]) as $foreignKey) {
+            foreach (Schema::getForeignKeys($table['name']) as $foreignKey) {
                 // keep only foreign keys that are unsigned integer
-                if (! in_array($foreignKey["columns"][0], $tableIntColumnsNames)) {
+                if (! in_array($foreignKey['columns'][0], $tableIntColumnsNames)) {
                     continue;
                 }
 
                 $this->foreignKeysConstraintsInfo[] = [
-                    'name' => $foreignKey["name"],
-                    'table' => $table["name"],
-                    'column' => $foreignKey["columns"][0],
-                    'relatedTable' => $foreignKey["foreign_table"],
-                    'relatedColumn' => $foreignKey["foreign_columns"][0],
-                    'onUpdate' => $foreignKey["on_update"],
-                    'onDelete' => $foreignKey["on_delete"],
+                    'name' => $foreignKey['name'],
+                    'table' => $table['name'],
+                    'column' => $foreignKey['columns'][0],
+                    'relatedTable' => $foreignKey['foreign_table'],
+                    'relatedColumn' => $foreignKey['foreign_columns'][0],
+                    'onUpdate' => $foreignKey['on_update'],
+                    'onDelete' => $foreignKey['on_delete'],
                 ];
             }
         }

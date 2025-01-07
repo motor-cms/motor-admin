@@ -7,10 +7,10 @@ describe('Client', function () {
     it('can create a Client', function () {
         $clientcount = Client::count();
         $this->asAdmin()
-             ->post('/api/clients', [
-                 'name' => 'test',
-                 'slug' => 'test',
-             ])->assertStatus(201);
+            ->post('/api/clients', [
+                'name' => 'test',
+                'slug' => 'test',
+            ])->assertStatus(201);
         expect(Client::count() - $clientcount)->toBe(1);
     });
     it("can't create an empty Client", function () {
@@ -23,11 +23,10 @@ describe('Client', function () {
         ->asAdmin()
         ->get('/api/clients')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             1,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('slug')
@@ -35,13 +34,11 @@ describe('Client', function () {
         )->etc());
     it(
         'can get a specific Client',
-        fn() =>
-        $this->asAdmin()->get('/api/clients/' . Client::whereName('Default')->first()->id)
+        fn () => $this->asAdmin()->get('/api/clients/'.Client::whereName('Default')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('slug')
@@ -57,13 +54,12 @@ describe('Client', function () {
                     ->has('contact_email')
             )->etc())
     );
-    it('can update clients', fn() => $this->asAdmin()
-        ->put('/api/clients/' . Client::whereName('Default')->first()->id, [
-            'name' => 'changed'
+    it('can update clients', fn () => $this->asAdmin()
+        ->put('/api/clients/'.Client::whereName('Default')->first()->id, [
+            'name' => 'changed',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
-    it('can delete clients', function() {
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
+    it('can delete clients', function () {
         $clientcount = Client::count();
         $this->asAdmin()->delete('/api/clients/'.Client::whereName('Default')->first()->id)
             ->assertStatus(200);

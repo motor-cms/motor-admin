@@ -26,11 +26,10 @@ describe('ConfigVariable', function () {
         ->asAdmin()
         ->get('/api/config_variables')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             1,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('package')
@@ -40,13 +39,11 @@ describe('ConfigVariable', function () {
         )->etc());
     it(
         'can get a specific ConfigVariable',
-        fn() =>
-        $this->asAdmin()->get('/api/config_variables/' . ConfigVariable::whereName('name')->first()->id)
+        fn () => $this->asAdmin()->get('/api/config_variables/'.ConfigVariable::whereName('name')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('package')
                     ->has('group')
@@ -55,18 +52,17 @@ describe('ConfigVariable', function () {
                     ->etc()
             )->etc())
     );
-    it('can update config_variables', fn() => $this->asAdmin()
-        ->put('/api/config_variables/' . ConfigVariable::whereName('name')->first()->id, [
-            'package' => "test",
+    it('can update config_variables', fn () => $this->asAdmin()
+        ->put('/api/config_variables/'.ConfigVariable::whereName('name')->first()->id, [
+            'package' => 'test',
             'name' => 'changed',
             'group' => 'https',
             'value' => ' name',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete config_variables', function () {
         $configvariablecount = ConfigVariable::count();
-        $this->asAdmin()->delete('/api/config_variables/' . ConfigVariable::whereName('name')->first()->id)
+        $this->asAdmin()->delete('/api/config_variables/'.ConfigVariable::whereName('name')->first()->id)
             ->assertStatus(200);
         expect($configvariablecount - ConfigVariable::count())->toBe(1);
     });

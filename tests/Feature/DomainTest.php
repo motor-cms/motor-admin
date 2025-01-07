@@ -43,11 +43,10 @@ describe('Domain', function () {
         ->asAdmin()
         ->get('/api/domains')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             1,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('client')
@@ -55,13 +54,11 @@ describe('Domain', function () {
         )->etc());
     it(
         'can get a specific Domain',
-        fn() =>
-        $this->asAdmin()->get('/api/domains/' . Domain::whereName('localhost')->first()->id)
+        fn () => $this->asAdmin()->get('/api/domains/'.Domain::whereName('localhost')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('client')
                     ->has('client_id')
@@ -76,8 +73,8 @@ describe('Domain', function () {
                     ->has('target_http_status_code')
             )->etc())
     );
-    it('can update domains', fn() => $this->asAdmin()
-        ->put('/api/domains/' . Domain::whereName('localhost')->first()->id, [
+    it('can update domains', fn () => $this->asAdmin()
+        ->put('/api/domains/'.Domain::whereName('localhost')->first()->id, [
             'client_id' => Client::first()->id,
             'is_active' => true,
             'name' => 'changed',
@@ -86,11 +83,10 @@ describe('Domain', function () {
             'port' => 80,
             'path' => '/',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete domains', function () {
         $domaincount = Domain::count();
-        $this->asAdmin()->delete('/api/domains/' . Domain::whereName('localhost')->first()->id)
+        $this->asAdmin()->delete('/api/domains/'.Domain::whereName('localhost')->first()->id)
             ->assertStatus(200);
         expect($domaincount - Domain::count())->toBe(1);
     });
