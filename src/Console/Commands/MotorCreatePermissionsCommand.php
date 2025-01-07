@@ -38,7 +38,7 @@ class MotorCreatePermissionsCommand extends Command
             $permissionGroup = PermissionGroup::where('name', $name)
                 ->first();
             if (is_null($permissionGroup)) {
-                $permissionGroup = new PermissionGroup();
+                $permissionGroup = new PermissionGroup;
                 $this->info('Creating permission group for '.$name);
             } else {
                 $this->info('Updating permission group for '.$name);
@@ -55,7 +55,7 @@ class MotorCreatePermissionsCommand extends Command
                     ->first();
                 if (is_null($permission)) {
                     $this->info('Creating permission for '.$name.' > '.$value);
-                    $permission = new Permission();
+                    $permission = new Permission;
                     $permission->name = $name.'.'.$value;
                     $permission->guard_name = 'web';
                     $permission->permission_group_id = $permissionGroup->id;

@@ -25,11 +25,10 @@ describe('Permission', function () {
         ->asAdmin()
         ->get('/api/permission_groups')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             25,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('sort_position')
@@ -37,34 +36,30 @@ describe('Permission', function () {
         )->etc());
     it(
         'can get a specific PermissionGroup',
-        fn() =>
-        $this->asAdmin()->get('/api/permission_groups/' . PermissionGroup::whereName('users')->first()->id)
+        fn () => $this->asAdmin()->get('/api/permission_groups/'.PermissionGroup::whereName('users')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('sort_position')
-                    ->has('permissions', 3, fn(AssertableJson $permissions) =>
-                    $permissions
+                    ->has('permissions', 3, fn (AssertableJson $permissions) => $permissions
                         ->has('id')
                         ->has('name')
                         ->has('guard_name')
                         ->etc())
             )->etc())
     );
-    it('can update permission_groups', fn() => $this->asAdmin()
-        ->put('/api/permission_groups/' . PermissionGroup::whereName('users')->first()->id, [
+    it('can update permission_groups', fn () => $this->asAdmin()
+        ->put('/api/permission_groups/'.PermissionGroup::whereName('users')->first()->id, [
             'name' => 'changed',
             'sort_position' => '0',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete permission_groups', function () {
         $permission_group_count = PermissionGroup::count();
-        $this->asAdmin()->delete('/api/permission_groups/' . PermissionGroup::whereName('users')->first()->id)
+        $this->asAdmin()->delete('/api/permission_groups/'.PermissionGroup::whereName('users')->first()->id)
             ->assertStatus(200);
         expect($permission_group_count - PermissionGroup::count())->toBe(1);
     });
@@ -101,11 +96,10 @@ describe('Permission', function () {
         ->get('/api/permissions')
         ->assertStatus(200)
         ->assertJson(
-            fn(AssertableJson $json) => $json->has(
+            fn (AssertableJson $json) => $json->has(
                 'data',
                 25,
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('guard_name')
@@ -114,15 +108,13 @@ describe('Permission', function () {
         );
     it(
         'can get all Permissions of a group',
-        fn() =>
-        $this->asAdmin()
-            ->get('/api/permissions_items/' . PermissionGroup::whereName('users')->first()->id)
+        fn () => $this->asAdmin()
+            ->get('/api/permissions_items/'.PermissionGroup::whereName('users')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
                 3,
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('guard_name')
@@ -131,28 +123,25 @@ describe('Permission', function () {
     );
     it(
         'can get a specific Permission',
-        fn() =>
-        $this->asAdmin()->get('/api/permissions/' . Permission::whereName('users.read')->first()->id)
+        fn () => $this->asAdmin()->get('/api/permissions/'.Permission::whereName('users.read')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('name')
                     ->has('guard_name')
             )->etc())
     );
-    it('can update permissions', fn() => $this->asAdmin()
-        ->put('/api/permissions/' . Permission::whereName('users.read')->first()->id, [
+    it('can update permissions', fn () => $this->asAdmin()
+        ->put('/api/permissions/'.Permission::whereName('users.read')->first()->id, [
             'guard_name' => 'web',
             'name' => 'users.changed',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'users.changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'users.changed')->etc())->etc()));
     it('can delete permissions', function () {
         $permissioncount = Permission::count();
-        $this->asAdmin()->delete('/api/permissions/' . Permission::whereName('users.read')->first()->id)
+        $this->asAdmin()->delete('/api/permissions/'.Permission::whereName('users.read')->first()->id)
             ->assertStatus(200);
         expect($permissioncount - Permission::count())->toBe(1);
     });

@@ -21,8 +21,7 @@ class Email extends Mailable
     public function __construct(
         public EmailTemplate $emailTemplate,
         public array $requestData = [],
-    ) {
-    }
+    ) {}
 
     public function envelope(): Envelope
     {
@@ -108,7 +107,7 @@ class Email extends Mailable
         return $attachments;
     }
 
-    protected function buildAddressArray(string|null $givenAddresses): array|null
+    protected function buildAddressArray(?string $givenAddresses): ?array
     {
         // If no addresses are given, return null
         if (empty($givenAddresses) || is_null($givenAddresses)) {

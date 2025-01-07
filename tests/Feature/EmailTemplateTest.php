@@ -49,11 +49,10 @@ describe('EmailTemplate', function () {
         ->asAdmin()
         ->get('/api/email_templates')
         ->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has(
+        ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
             1,
-            fn(AssertableJson $data) =>
-            $data
+            fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')
                 ->has('client')
@@ -61,13 +60,11 @@ describe('EmailTemplate', function () {
         )->etc());
     it(
         'can get a specific EmailTemplate',
-        fn() =>
-        $this->asAdmin()->get('/api/email_templates/' . EmailTemplate::whereName('Error-Template')->first()->id)
+        fn () => $this->asAdmin()->get('/api/email_templates/'.EmailTemplate::whereName('Error-Template')->first()->id)
             ->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn(AssertableJson $data) =>
-                $data
+                fn (AssertableJson $data) => $data
                     ->has('id')
                     ->has('client')
                     ->has('client_id')
@@ -89,18 +86,17 @@ describe('EmailTemplate', function () {
                     ->has('default_replyto_name')
             )->etc())
     );
-    it('can update emailTemplates', fn() => $this->asAdmin()
-        ->put('/api/email_templates/' . EmailTemplate::whereName('Error-Template')->first()->id, [
+    it('can update emailTemplates', fn () => $this->asAdmin()
+        ->put('/api/email_templates/'.EmailTemplate::whereName('Error-Template')->first()->id, [
             'client_id' => Client::first()->id,
             'language_id' => Language::first()->id,
             'name' => 'changed',
             'subject' => 'subject',
         ])->assertStatus(200)
-        ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $data) =>
-        $data->where('name', 'changed')->etc())->etc()));
+        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete emailTemplates', function () {
         $emailTemplatecount = EmailTemplate::count();
-        $this->asAdmin()->delete('/api/email_templates/' . EmailTemplate::whereName('Error-Template')->first()->id)
+        $this->asAdmin()->delete('/api/email_templates/'.EmailTemplate::whereName('Error-Template')->first()->id)
             ->assertStatus(200);
         expect($emailTemplatecount - EmailTemplate::count())->toBe(1);
     });

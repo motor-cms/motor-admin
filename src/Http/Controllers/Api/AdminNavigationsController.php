@@ -19,7 +19,7 @@ class AdminNavigationsController extends ApiController
         $items = config('motor-admin-navigation.items');
         ksort($items);
         $customContentQuery = CustomContentType::all()->where('type', 'page');
-        if (class_exists(CustomContentType::class) && !$customContentQuery->isEmpty()) {
+        if (class_exists(CustomContentType::class) && ! $customContentQuery->isEmpty()) {
             $navigation_position = 200;
             $items[$navigation_position] = [
                 'slug' => 'custom-content-type',
@@ -28,13 +28,13 @@ class AdminNavigationsController extends ApiController
                 'roles' => ['SuperAdmin'],
                 'permissions' => [],
                 'name' => 'motor-content-type.content-types.content_types',
-                'items' => []
+                'items' => [],
             ];
             $customContentQuery->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
                 $items[200]['items'][$navigation_position] = [
                     'slug' => $content_type->name,
                     'icon' => 'fa fa-plus',
-                    'route' => 'admin.motor-content-type.' . $content_type->id,
+                    'route' => 'admin.motor-content-type.'.$content_type->id,
                     'roles' => ['SuperAdmin'],
                     'permissions' => [],
                     'aliases' => [],
@@ -43,6 +43,7 @@ class AdminNavigationsController extends ApiController
                 $navigation_position++;
             });
         }
+
         return response()->json(['data' => $items]);
     }
 }

@@ -47,10 +47,10 @@ class RolePatchRequest extends Request
             ],
             'permissions' => [
                 'nullable',
-                'array'
+                'array',
             ],
             'permissions.*' => [
-                'exists:permissions,id'
+                'exists:permissions,id',
             ],
         ];
     }

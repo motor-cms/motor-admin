@@ -39,24 +39,20 @@ abstract class BaseService
     /**
      * Basic create method.
      * Usually called by an API
-     *
-     * @return \Motor\Admin\Services\BaseService
      */
     public static function create(Request|array $request): BaseService
     {
-        return (new static())->setRequest($request)
+        return (new static)->setRequest($request)
             ->doCreate();
     }
 
     /**
      * Basic update method.
      * Usually called by an API
-     *
-     * @return \Motor\Admin\Services\BaseService
      */
     public static function update(Model $record, Request|array $request): BaseService
     {
-        return (new static())->setRequest($request)
+        return (new static)->setRequest($request)
             ->setRecord($record)
             ->doUpdate();
     }
@@ -66,7 +62,7 @@ abstract class BaseService
      */
     public static function show($record): mixed
     {
-        return (new static())->setRecord($record)
+        return (new static)->setRecord($record)
             ->doShow();
     }
 
@@ -79,7 +75,7 @@ abstract class BaseService
      */
     public static function collection($alias = '', $sorting = null): BaseService
     {
-        $instance = new static();
+        $instance = new static;
         $instance->filter = new Filter($alias);
         $instance->defaultFilters();
         $instance->filters();
@@ -104,7 +100,7 @@ abstract class BaseService
      */
     public static function delete($record): mixed
     {
-        return (new static())->setRecord($record)
+        return (new static)->setRecord($record)
             ->doDelete();
     }
 
@@ -250,7 +246,7 @@ abstract class BaseService
      */
     public function doCreate(): static
     {
-        $this->record = new $this->model();
+        $this->record = new $this->model;
         $this->beforeCreate();
         $this->record->fill($this->data);
         $this->result = $this->record->save();
@@ -432,63 +428,45 @@ abstract class BaseService
     /**
      * Stub for the filters method of the child class
      */
-    public function filters()
-    {
-    }
+    public function filters() {}
 
     /**
      * Stub for the beforeCreate method of the child class
      */
-    public function beforeCreate()
-    {
-    }
+    public function beforeCreate() {}
 
     /**
      * Stub for the afterCreate method of the child class
      */
-    public function afterCreate()
-    {
-    }
+    public function afterCreate() {}
 
     /**
      * Stub for the beforeUpdate method of the child class
      */
-    public function beforeUpdate()
-    {
-    }
+    public function beforeUpdate() {}
 
     /**
      * Stub for the afterUpdate method of the child class
      */
-    public function afterUpdate()
-    {
-    }
+    public function afterUpdate() {}
 
     /**
      * Stub for the beforeDelete method of the child class
      */
-    public function beforeDelete()
-    {
-    }
+    public function beforeDelete() {}
 
     /**
      * Stub for the afterDelete method of the child class
      */
-    public function afterDelete()
-    {
-    }
+    public function afterDelete() {}
 
     /**
      * Stub for the beforeShow method of the child class
      */
-    public function beforeShow()
-    {
-    }
+    public function beforeShow() {}
 
     /**
      * Stub for the afterShow method of the child class
      */
-    public function afterShow()
-    {
-    }
+    public function afterShow() {}
 }
