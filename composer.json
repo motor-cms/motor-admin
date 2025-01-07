@@ -20,14 +20,15 @@
     "spatie/laravel-collection-macros": "^7.14",
     "spatie/laravel-permission": "^6.9",
     "kalnoy/nestedset": "^6.0.4",
-    "laravel/horizon": "^5.27",
+    "laravel/horizon": "^5.30",
     "olssonm/l5-very-basic-auth": "^7.1",
     "darkaonline/l5-swagger": "^8.6",
     "kra8/laravel-snowflake": "^v2.3",
     "richan-fongdasen/eloquent-blameable": "^1.10"
   },
   "require-dev": {
-    "pestphp/pest": "^2.35"
+    "pestphp/pest": "^3.7",
+    "pestphp/pest-plugin-laravel": "^3.0"
   },
   "autoload": {
     "psr-4": {
@@ -48,7 +49,7 @@
       ]
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "config": {
     "allow-plugins": {
