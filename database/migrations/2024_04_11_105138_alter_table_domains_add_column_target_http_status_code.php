@@ -12,8 +12,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('domains', function (Blueprint $table) {
-            $table->unsignedSmallInteger('target_http_status_code')->nullable()->after('path');
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            //$table->timestamp('expires_at')->nullable()->after('last_used_at');
         });
     }
 
@@ -24,8 +24,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('domains', function (Blueprint $table) {
-            $table->dropColumn('target_http_status_code');
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            //$table->dropColumn('expires_at');
         });
     }
 };

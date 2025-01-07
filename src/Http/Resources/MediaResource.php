@@ -2,6 +2,9 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Motor\Admin\Helpers\Filesize;
+use URL;
+
 /**
  * @OA\Schema(
  *   schema="MediaResourceConversions",
@@ -82,14 +85,16 @@ class MediaResource extends BaseResource
      */
     public function toArray($request): array
     {
+        URL::forceRootUrl(config('app.url'));
+
         $conversions = [];
         if (! is_null($this->generated_conversions)) {
             foreach ($this->generated_conversions as $conversion => $status) {
                 if ($status) {
                     if ($this->mime_type === 'image/gif') {
-                        $conversions[$conversion] = asset($this->getUrl());
+                        $conversions[$conversion] = url($this->getUrl());
                     } else {
-                        $conversions[$conversion] = asset($this->getUrl($conversion));
+                        $conversions[$conversion] = url($this->getUrl($conversion));
                     }
                 }
             }
@@ -100,9 +105,9 @@ class MediaResource extends BaseResource
             'name'        => $this->name,
             'file_name'   => $this->file_name,
             'size'        => (int) $this->size,
-            'size_human'  => $this->human_readable_size,
+            'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
-            'url'         => $this->getFullUrl(),
+            'url'         => url($this->getUrl()),
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,
