@@ -28,7 +28,7 @@
     "richan-fongdasen/eloquent-blameable": "^1.10"
   },
   "require-dev": {
-    "pestphp/pest": "^2.35"
+    "pestphp/pest": "^2.35",
     "pestphp/pest-plugin-laravel": "^2.4"
   },
   "autoload": {
