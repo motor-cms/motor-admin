@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class CreateMediaTable
  */
-class CreateMediaTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -36,4 +36,4 @@ class CreateMediaTable extends Migration
     {
         Schema::drop('media');
     }
-}
+};

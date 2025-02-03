@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class UpdatePermissionTables
  */
-class UpdatePermissionTables extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -121,4 +121,4 @@ class UpdatePermissionTables extends Migration
             $table->dropColumn('guard_name');
         });
     }
-}
+};

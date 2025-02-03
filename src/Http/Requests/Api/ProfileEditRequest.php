@@ -51,10 +51,20 @@ class ProfileEditRequest extends Request
     public function rules(): array
     {
         return [
-            'name'     => 'required',
-            'email'    => 'required|email',
-            'password' => 'nullable|min:8',
-            'avatar'   => 'nullable',
+            'name'     => [
+                'required',
+            ],
+            'email'    => [
+                'required',
+                'email',
+            ],
+            'password' => [
+                'nullable',
+                'min:8',
+            ],
+            'avatar'   => [
+                'nullable',
+            ],
         ];
     }
 }
