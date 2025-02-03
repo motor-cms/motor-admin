@@ -89,18 +89,47 @@ class ClientPatchRequest extends Request
     public function rules(): array
     {
         return [
-            'name'               => 'required',
-            'slug'               => 'nullable',
-            'address'            => 'nullable',
-            'zip'                => 'nullable',
-            'city'               => 'nullable',
-            'country_iso_3166_1' => 'nullable|min:2|max:2',
-            'website'            => 'nullable|url',
-            'description'        => 'nullable',
-            'is_active'          => 'nullable|boolean',
-            'contact_name'       => 'nullable',
-            'contact_email'      => 'nullable|email',
-            'contact_phone'      => 'nullable',
+            'name'               => [
+                'required',
+            ],
+            'slug'               => [
+                'nullable',
+            ],
+            'address'            => [
+                'nullable',
+            ],
+            'zip'                => [
+                'nullable',
+            ],
+            'city'               => [
+                'nullable',
+            ],
+            'country_iso_3166_1' => [
+                'nullable',
+                'min:2',
+                'max:2',
+            ],
+            'website'            => [
+                'nullable',
+                'url',
+            ],
+            'description'        => [
+                'nullable',
+            ],
+            'is_active'          => [
+                'nullable',
+                'boolean',
+            ],
+            'contact_name'       => [
+                'nullable',
+            ],
+            'contact_email'      => [
+                'nullable',
+                'email',
+            ],
+            'contact_phone'      => [
+                'nullable',
+            ],
         ];
     }
 }

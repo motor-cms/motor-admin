@@ -75,13 +75,28 @@ class DomainPatchRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'  => 'required',
-            'is_active'  => 'required',
-            'name'       => 'required',
-            'protocol'   => 'required',
-            'host'       => 'required',
-            'port'       => 'required',
-            'path'       => 'required',
+            'client_id'  => [
+                'required',
+                'exists:clients,id',
+            ],
+            'is_active'  => [
+                'required',
+            ],
+            'name'       => [
+                'required',
+            ],
+            'protocol'   => [
+                'required',
+            ],
+            'host'       => [
+                'required',
+            ],
+            'port'       => [
+                'required',
+            ],
+            'path'       => [
+                'required',
+            ],
         ];
     }
 }

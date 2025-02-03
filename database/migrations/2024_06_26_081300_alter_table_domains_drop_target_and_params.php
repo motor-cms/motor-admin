@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('domains', function (Blueprint $table) {
             $table->string('target')->nullable()->after('path');
-            $table->string('parameters')->nullable()->after('target');
+            $table->string('parameters')->nullable()->after('path');
         });
     }
 };

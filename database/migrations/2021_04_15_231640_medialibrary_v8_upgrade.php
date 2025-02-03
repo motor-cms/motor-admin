@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MedialibraryV8Upgrade extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -37,4 +37,4 @@ class MedialibraryV8Upgrade extends Migration
             $table->dropColumn('conversions_disk');
         });
     }
-}
+};
