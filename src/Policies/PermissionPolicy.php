@@ -30,7 +30,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('permissions.read');
+        return $user->hasPermissionTo('permission.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class PermissionPolicy
      */
     public function view(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo('permissions.read');
+        return $user->hasPermissionTo('permission.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class PermissionPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('permissions.write');
+        return $user->hasPermissionTo('permission.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo('permissions.write');
+        return $user->hasPermissionTo('permission.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo('permissions.delete');
+        return $user->hasPermissionTo('permission.delete');
     }
 
     /**

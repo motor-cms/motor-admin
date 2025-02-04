@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class AddStreetToClientsTable
  */
-return new class extends Migration
+class AddStreetToClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -32,4 +32,4 @@ return new class extends Migration
             $table->dropColumn('address');
         });
     }
-};
+}

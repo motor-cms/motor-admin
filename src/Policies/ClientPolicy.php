@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('clients.read');
+        return $user->hasPermissionTo('client.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client)
     {
-        return $user->hasPermissionTo('clients.read');
+        return $user->hasPermissionTo('client.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class ClientPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('clients.write');
+        return $user->hasPermissionTo('client.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        return $user->hasPermissionTo('clients.read');
+        return $user->hasPermissionTo('client.read');
     }
 
     /**
@@ -70,7 +70,7 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        return $user->hasPermissionTo('clients.delete');
+        return $user->hasPermissionTo('client.delete');
     }
 
     /**

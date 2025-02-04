@@ -51,11 +51,6 @@ use OpenApi\Annotations as OA;
  *     type="string",
  *     example="contact"
  *   ),
- *     @OA\Property(
- *     property="target_http_status_code",
- *     type="string",
- *     example="301"
- * ),
  *   @OA\Property(
  *     property="parameters",
  *     type="string",
@@ -80,32 +75,13 @@ class DomainPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id' => [
-                'required',
-                'exists:clients,id',
-            ],
-            'is_active' => [
-                'required',
-            ],
-            'name' => [
-                'required',
-            ],
-            'protocol' => [
-                'required',
-            ],
-            'host' => [
-                'required',
-            ],
-            'port' => [
-                'required',
-            ],
-            'path' => [
-                'required',
-            ],
-            // 'target_http_status_code' must be required only if target is not null
-            'target_http_status_code' => [
-                'required_if_accepted:target',
-            ],
+            'client_id'  => 'required',
+            'is_active'  => 'required',
+            'name'       => 'required',
+            'protocol'   => 'required',
+            'host'       => 'required',
+            'port'       => 'required',
+            'path'       => 'required',
         ];
     }
 }

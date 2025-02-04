@@ -78,7 +78,6 @@ use OpenApi\Annotations as OA;
  *      type="array",
  *      description="Key value pairs of data that can be used in the email template",
  *      example="{FOO: 'bar'}",
- *
  *     @OA\Items(
  *     type="string",
  *     example="FOO: 'bar'"
@@ -103,56 +102,21 @@ class EmailTemplateSendPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'         => [
-                'required',
-                'integer',
-            ],
-            'language_id'       => [
-                'required',
-                'integer',
-            ],
-            'slug'              => [
-                'required',
-            ],
-            'subject'           => [
-                'nullable',
-            ],
-            'body_text'         => [
-                'nullable',
-            ],
-            'body_html'         => [
-                'nullable',
-            ],
-            'sender_name'       => [
-                'nullable',
-            ],
-            'sender_email'      => [
-                'nullable',
-                'email',
-            ],
-            'recipient_name'    => [
-                'nullable',
-            ],
-            'recipient_email'   => [
-                'nullable',
-                'email',
-            ],
-            'cc_email'          => [
-                'nullable',
-            ],
-            'bcc_email'         => [
-                'nullable',
-            ],
-            'replyto_email'     => [
-                'nullable',
-            ],
-            'replyto_name'      => [
-                'nullable',
-            ],
-            'text_replace_data' => [
-                'nullable',
-                'array',
-            ],
+            'client_id'         => 'required|integer',
+            'language_id'       => 'required|integer',
+            'slug'              => 'required',
+            'subject'           => 'nullable',
+            'body_text'         => 'nullable',
+            'body_html'         => 'nullable',
+            'sender_name'       => 'nullable',
+            'sender_email'      => 'nullable|email',
+            'recipient_name'    => 'nullable',
+            'recipient_email'   => 'nullable|email',
+            'cc_email'          => 'nullable',
+            'bcc_email'         => 'nullable',
+            'replyto_email'     => 'nullable',
+            'replyto_name'      => 'nullable',
+            'text_replace_data' => 'nullable|array',
         ];
     }
 }

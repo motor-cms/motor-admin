@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::factory()->create([
+        $user = User::factory()->create([
             'name'       => 'Motor Admin',
             'email'      => 'admin@motor-cms.com',
             'password'   => bcrypt('admin'),
@@ -26,9 +26,9 @@ class UsersTableSeeder extends Seeder
 
         $role = Role::where('name', 'SuperAdmin')->first();
 
-        $admin->assignRole($role);
+        $user->assignRole($role);
 
-        $editor = User::factory()->create([
+        $writer = User::factory()->create([
             'name'       => 'Editor', // This user will be able to publish pages
             'email'      => 'editor@motor-cms.com',
             'password'   => bcrypt('editor'),
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
 
         $role = Role::where('name', 'Editor')->first();
 
-        $editor->assignRole($role);
+        $writer->assignRole($role);
 
         $writer = User::factory()->create([
             'name'       => 'Writer', // This user will not be able to publish pages
@@ -49,12 +49,5 @@ class UsersTableSeeder extends Seeder
         $role = Role::where('name', 'Writer')->first();
 
         $writer->assignRole($role);
-
-        User::factory()->create([
-            'name'       => 'Authenticated', // This user should only be able to log in.
-            'email'      => 'auth@motor-cms.com',
-            'password'   => bcrypt('auth'),
-            'api_token'  => Str::random(60)
-        ]);
     }
 }

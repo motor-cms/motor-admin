@@ -144,11 +144,12 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Client::class, 'users_client', 'user_id', 'client_id');
     }
 
+
     /**
      * Checks if user is admin
+     * @return bool
      */
-    public function isAdmin(): bool
-    {
+    public function isAdmin(): bool {
         return $this->hasRole(['SuperAdmin']);
     }
 }

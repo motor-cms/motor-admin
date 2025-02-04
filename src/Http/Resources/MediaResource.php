@@ -105,7 +105,7 @@ class MediaResource extends BaseResource
             'name'        => $this->name,
             'file_name'   => $this->file_name,
             'size'        => (int) $this->size,
-            'size_human'  => $this->human_readable_size,
+            'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
             'url'         => url($this->getUrl()),
             'path'        => $this->getPath(),

@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreateLanguages
  */
-return new class extends Migration
+class CreateLanguages extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ return new class extends Migration
     {
         Schema::drop('languages');
     }
-};
+}

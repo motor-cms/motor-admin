@@ -30,7 +30,7 @@ class EmailTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('email_templates.read');
+        return $user->hasPermissionTo('email_template.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class EmailTemplatePolicy
      */
     public function view(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_templates.read');
+        return $user->hasPermissionTo('email_template.read');
     }
 
     /**

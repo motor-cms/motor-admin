@@ -108,55 +108,21 @@ class EmailTemplatePatchRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'               => [
-                'nullable',
-                'exists:clients,id',
-            ],
-            'language_id'             => [
-                'nullable',
-                'exists:languages,id',
-            ],
-            'name'                    => [
-                'nullable',
-            ],
-            'slug'                    => [
-                'nullable',
-            ],
-            'subject'                 => [
-                'nullable',
-            ],
-            'body_text'               => [
-                'nullable',
-            ],
-            'body_html'               => [
-                'nullable',
-            ],
-            'default_sender_name'     => [
-                'nullable',
-            ],
-            'default_sender_email'    => [
-                'nullable',
-                'email',
-            ],
-            'default_recipient_name'  => [
-                'nullable',
-            ],
-            'default_recipient_email' => [
-                'nullable',
-                'email',
-            ],
-            'default_cc_email'        => [
-                'nullable',
-            ],
-            'default_bcc_email'       => [
-                'nullable',
-            ],
-            'default_replyto_email'   => [
-                'nullable',
-            ],
-            'default_replyto_email'   => [
-                'nullable',
-            ],
+            'client_id'               => 'nullable|integer',
+            'language_id'             => 'nullable|integer',
+            'name'                    => 'nullable',
+            'slug'                    => 'nullable',
+            'subject'                 => 'nullable',
+            'body_text'               => 'nullable',
+            'body_html'               => 'nullable',
+            'default_sender_name'     => 'nullable',
+            'default_sender_email'    => 'nullable|email',
+            'default_recipient_name'  => 'nullable',
+            'default_recipient_email' => 'nullable|email',
+            'default_cc_email'        => 'nullable',
+            'default_bcc_email'       => 'nullable',
+            'default_replyto_email'   => 'nullable',
+            'default_replyto_email'   => 'nullable',
         ];
     }
 }

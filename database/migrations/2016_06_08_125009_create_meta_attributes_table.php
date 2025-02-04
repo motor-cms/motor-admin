@@ -2,12 +2,11 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 /**
  * @codeCoverageIgnore
  */
-return new class extends Migration
+class CreateMetaAttributesTable extends Migration
 {
     /**
      * Meta attributes table name.
@@ -25,7 +24,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create($this->table, function (Blueprint $table) {
+        \Schema::create($this->table, function (Blueprint $table) {
             $table->increments('meta_id');
             $table->string('meta_key');
             $table->longText('meta_value');
@@ -35,7 +34,7 @@ return new class extends Migration
             // Laravel doesn't handle index length, so we need raw statement for this one
         });
 
-        Schema::getConnection()->statement(
+        \Schema::getConnection()->statement(
             'create index meta_attributes_index_value on meta_attributes (meta_key, meta_value(20))'
         );
     }
@@ -47,6 +46,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop($this->table);
+        \Schema::drop($this->table);
     }
-};
+}
