@@ -7,7 +7,7 @@ use Kalnoy\Nestedset\NestedSet;
 /**
  * Class CreateCategoriesTable
  */
-return new class extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -39,4 +39,4 @@ return new class extends Migration
     {
         Schema::drop('categories');
     }
-};
+}

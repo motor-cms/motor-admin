@@ -82,47 +82,15 @@ class UserPostRequest extends Request
     public function rules(): array
     {
         return [
-            'clients'      => [
-                'nullable',
-                'array',
-            ],
-            'clients.*'      => [
-                'exists:clients,id'
-            ],
-            'name'           => [
-                'required',
-            ],
-            'email'          => [
-                'required',
-                'email',
-                'unique:users',
-            ],
-            'password'       => [
-                'required',
-                'min:8',
-            ],
-            'roles'          => [
-                'nullable',
-                'array',
-            ],
-            'roles.*' => [
-                'exists:roles,id',
-            ],
-            'permissions'    => [
-                'nullable',
-                'array',
-            ],
-            'avatar'         => [
-                'nullable',
-            ],
-            'avatar.dataUrl' => [
-                'nullable',
-                'string',
-            ],
-            'avatar.name'    => [
-                'nullable',
-                'string',
-            ],
+            'client_id'      => 'nullable|integer|exists:clients,id',
+            'name'           => 'required',
+            'email'          => 'required|unique:users',
+            'password'       => 'required|min:8',
+            'roles'          => 'nullable|array',
+            'permissions'    => 'nullable|array',
+            'avatar'         => 'nullable',
+            'avatar.dataUrl' => 'nullable|string',
+            'avatar.name'    => 'nullable|string',
         ];
     }
 }

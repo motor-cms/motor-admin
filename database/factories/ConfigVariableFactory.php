@@ -21,10 +21,10 @@ class ConfigVariableFactory extends Factory
     public function definition(): array
     {
         return [
-            'package'      => Str::kebab($this->faker->word()),
-            'group'        => Str::kebab($this->faker->word()),
-            'name'         => Str::kebab($this->faker->word()),
-            'value'        => $this->faker->word(),
+            'package'      => Str::kebab($this->faker->word),
+            'group'        => Str::kebab($this->faker->word),
+            'name'         => Str::kebab($this->faker->word),
+            'value'        => $this->faker->word,
             'is_invisible' => false,
         ];
     }

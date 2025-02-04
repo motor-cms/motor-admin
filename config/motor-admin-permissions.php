@@ -19,13 +19,6 @@ return [
             'delete',
         ],
     ],
-    'domains'          => [
-        'values' => [
-            'read',
-            'write',
-            'delete',
-        ],
-    ],
     'users'            => [
         'values' => [
             'read',
@@ -34,13 +27,6 @@ return [
         ],
     ],
     'languages'        => [
-        'values' => [
-            'read',
-            'write',
-            'delete',
-        ],
-    ],
-    'ai_system_prompts'  => [
         'values' => [
             'read',
             'write',

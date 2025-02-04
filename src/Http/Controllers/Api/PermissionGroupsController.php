@@ -287,7 +287,7 @@ class PermissionGroupsController extends ApiController
     {
         $result = PermissionGroupService::update($permissionGroup, $request)
             ->getResult();
-
+        
         /* edit permission names
         * $permissions = $result->permissions()->get();
         * foreach ($permissions as $permission) {
@@ -301,7 +301,7 @@ class PermissionGroupsController extends ApiController
         *     $permission->name = $result->name.'.'.$newPermissionName;
         *     //We save the permission
         *     $permission->save();
-        }*/
+		}*/
 
         return (new PermissionGroupResource($result))->additional(['message' => 'Permission group updated']);
     }

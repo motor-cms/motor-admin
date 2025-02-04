@@ -13,7 +13,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->bigInteger('parent_id')->nullable()->change();
+            $table->bigInteger('parent_id')->change();
         });
     }
 

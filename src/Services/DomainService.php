@@ -9,12 +9,6 @@ use Motor\Admin\Models\Domain;
  */
 class DomainService extends BaseService
 {
-    public function filters()
-    {
-        $this->filter->addClientFilter();
-    }
-
     protected array $loadColumns = ['client'];
-
     protected $model = Domain::class;
 }

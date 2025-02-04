@@ -44,17 +44,9 @@ class LanguageRequest extends Request
     public function rules(): array
     {
         return [
-            'iso_639_1'    => [
-                'required',
-                'min:2',
-                'max:2',
-            ],
-            'english_name' => [
-                'required',
-            ],
-            'native_name'  => [
-                'required',
-            ],
+            'iso_639_1'    => 'required|min:2|max:2',
+            'english_name' => 'required',
+            'native_name'  => 'required',
         ];
     }
 }

@@ -3,9 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-/**
- * Class CreateEmailTemplates
- */
 return new class extends Migration
 {
     /**
@@ -15,12 +12,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ai_system_prompts', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('prompt');
-            $table->foreignId('client_id')->nullable()->constrained();
-            $table->timestamps();
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            //$table->timestamp('expires_at')->nullable()->after('last_used_at');
         });
     }
 
@@ -31,6 +24,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('ai_system_prompt');
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            //$table->dropColumn('expires_at');
+        });
     }
 };

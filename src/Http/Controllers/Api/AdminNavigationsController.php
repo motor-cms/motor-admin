@@ -18,8 +18,7 @@ class AdminNavigationsController extends ApiController
     {
         $items = config('motor-admin-navigation.items');
         ksort($items);
-        $customContentQuery = CustomContentType::all()->where('type', 'page');
-        if (class_exists(CustomContentType::class) && !$customContentQuery->isEmpty()) {
+        if (class_exists(CustomContentType::class)) {
             $navigation_position = 200;
             $items[$navigation_position] = [
                 'slug' => 'custom-content-type',
@@ -30,7 +29,7 @@ class AdminNavigationsController extends ApiController
                 'name' => 'motor-content-type.content-types.content_types',
                 'items' => []
             ];
-            $customContentQuery->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
+            CustomContentType::all()->where('type','page')->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
                 $items[200]['items'][$navigation_position] = [
                     'slug' => $content_type->name,
                     'icon' => 'fa fa-plus',

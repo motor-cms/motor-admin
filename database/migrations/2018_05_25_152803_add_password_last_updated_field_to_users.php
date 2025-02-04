@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class AddPasswordLastUpdatedFieldToUsers
  */
-return new class extends Migration
+class AddPasswordLastUpdatedFieldToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -32,4 +32,4 @@ return new class extends Migration
             $table->dropColumn('password_last_changed_at');
         });
     }
-};
+}

@@ -49,18 +49,10 @@ class ConfigVariableRequest extends Request
     public function rules(): array
     {
         return [
-            'package' => [
-                'required',
-            ],
-            'group'   => [
-                'required',
-            ],
-            'name'    => [
-                'required',
-            ],
-            'value'   => [
-                'required',
-            ],
+            'package' => 'required',
+            'group'   => 'required',
+            'name'    => 'required',
+            'value'   => 'required',
         ];
     }
 }

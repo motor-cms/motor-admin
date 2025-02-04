@@ -42,9 +42,7 @@ class CategoryTreePostRequest extends Request
         $request = $this;
 
         return [
-            'name'  => [
-                'required',
-            ],
+            'name'  => 'required',
             'scope' => [
                 'required',
                 Rule::unique('categories')

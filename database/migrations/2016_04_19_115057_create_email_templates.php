@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreateEmailTemplates
  */
-return new class extends Migration
+class CreateEmailTemplates extends Migration
 {
     /**
      * Run the migrations.
@@ -48,4 +48,4 @@ return new class extends Migration
     {
         Schema::drop('email_templates');
     }
-};
+}

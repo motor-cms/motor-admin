@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class AddClientIdToUsers
  */
-return new class extends Migration
+class AddClientIdToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -31,4 +31,4 @@ return new class extends Migration
             $table->dropColumn('client_id');
         });
     }
-};
+}

@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class CreateConfigVariablesTable
  */
-return new class extends Migration
+class CreateConfigVariablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -38,4 +38,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('config_variables');
     }
-};
+}

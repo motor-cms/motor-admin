@@ -1,7 +1,6 @@
 <?php
 
 use Motor\Admin\Http\Controllers\Api\AdminNavigationsController;
-use Motor\Admin\Http\Controllers\Api\AISystemPromptController;
 use Motor\Admin\Http\Controllers\Api\Auth\AuthController;
 use Motor\Admin\Http\Controllers\Api\CategoriesController;
 use Motor\Admin\Http\Controllers\Api\CategoryTreesController;
@@ -10,7 +9,6 @@ use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
 use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
-use Motor\Admin\Http\Controllers\Api\AIHelpController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
 use Motor\Admin\Http\Controllers\Api\PermissionsController;
@@ -33,8 +31,6 @@ Route::group([
     Route::apiResource('permissions', PermissionsController::class);
     Route::get('permissions_items/{id}', [PermissionsController::class, 'items']);
     Route::apiResource('email_templates', EmailTemplatesController::class);
-    Route::apiResource('ai_system_prompts', AISystemPromptController::class);
-    Route::post('ai_help', [AIHelpController::class, 'store']);
 
     // Dont use sanctum auth for this route, use static token
     Route::post('email_templates/send', [EmailTemplatesSendController::class, 'send'])->withoutMiddleware(['auth:sanctum'])->middleware(EkproAuth::class);
@@ -57,6 +53,7 @@ Route::group([
     Route::put('profile', [ProfileEditController::class, 'update'])
         ->name('profile.update');
     Route::apiResource('config_variables', ConfigVariablesController::class);
+
 });
 
 Route::post('/api/auth/register', [AuthController::class, 'register']);
