@@ -5,8 +5,8 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ClientFactory;
@@ -66,10 +66,10 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
 class Client extends Model
 {
     use BlameableTrait;
-    use Searchable;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use Searchable;
 
     /**
      * Get the name of the index associated with the model.

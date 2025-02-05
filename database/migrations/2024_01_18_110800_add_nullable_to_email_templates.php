@@ -29,7 +29,5 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-    }
+    public function down() {}
 };

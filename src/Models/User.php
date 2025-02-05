@@ -65,13 +65,13 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements HasMedia
 {
-    use HasRoles;
     use Filterable;
-    use Notifiable;
-    use InteractsWithMedia;
-    use HasFactory;
     use HasApiTokens;
+    use HasFactory;
+    use HasRoles;
     use HasShortflakePrimary;
+    use InteractsWithMedia;
+    use Notifiable;
     use Searchable;
 
     protected string $guard_name = 'web';
@@ -106,7 +106,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->width(400)
@@ -144,12 +144,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Client::class, 'users_client', 'user_id', 'client_id');
     }
 
-
     /**
      * Checks if user is admin
-     * @return bool
      */
-    public function isAdmin(): bool {
+    public function isAdmin(): bool
+    {
         return $this->hasRole(['SuperAdmin']);
     }
 }

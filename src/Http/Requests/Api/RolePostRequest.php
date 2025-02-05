@@ -39,9 +39,19 @@ class RolePostRequest extends Request
     public function rules(): array
     {
         return [
-            'name'       => 'required',
-            'guard_name' => 'required',
-            'permissions' => 'nullable',
+            'name'       => [
+                'required',
+            ],
+            'guard_name' => [
+                'required',
+            ],
+            'permissions' => [
+                'nullable',
+                'array',
+            ],
+            'permissions.*' => [
+                'exists:permissions,id',
+            ],
         ];
     }
 }

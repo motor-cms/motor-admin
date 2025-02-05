@@ -18,7 +18,6 @@ class BaseResource extends JsonResource
      * Create a new anonymous resource collection.
      *
      * @param  mixed  $resource
-     * @return \Motor\Admin\Http\Resources\AnonymousResourceCollection
      */
     public static function collection($resource): AnonymousResourceCollection
     {

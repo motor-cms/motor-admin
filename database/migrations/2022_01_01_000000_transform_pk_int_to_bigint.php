@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\DBAL\Schema\AbstractSchemaManager as DoctrineSchemaManager;
-use Doctrine\DBAL\Types\IntegerType;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Migrations\Migration;
@@ -21,8 +19,6 @@ class Transformer
 {
     protected Connection $connection;
 
-    protected DoctrineSchemaManager $doctrineSchemaManager;
-
     protected SchemaBuilder $schemaBuilder;
 
     protected ?Command $command = null;
@@ -34,7 +30,6 @@ class Transformer
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->doctrineSchemaManager = $connection->getDoctrineSchemaManager();
         $this->schemaBuilder = $connection->getSchemaBuilder();
     }
 
@@ -127,7 +122,7 @@ class Transformer
         $this->intColumnsInfo = [];
         $this->foreignKeysConstraintsInfo = [];
 
-        foreach ($this->doctrineSchemaManager->listTables() as $table) {
+        foreach (Schema::getTables() as $table) {
             $tableIntColumnsNames = [];
 
             // GET TABLE KEYS COLUMNS NAMES
@@ -135,53 +130,56 @@ class Transformer
             $tableKeysColumnsNames = [];
 
             // primary keys...
-            if ($primaryKey = $table->getPrimaryKey()) {
-                $tableKeysColumnsNames = $primaryKey->getColumns();
+            if ($primaryKey = array_values(array_filter(Schema::getIndexes($table['name']), function ($index) {
+                return $index['primary'];
+            }))) {
+                if (count($primaryKey) > 0) {
+                    $tableKeysColumnsNames = $primaryKey[0]['columns'];
+                }
             }
 
             // ... + foreign keys
-            foreach ($table->getForeignKeys() as $foreignKey) {
-                $tableKeysColumnsNames = array_merge($tableKeysColumnsNames, $foreignKey->getLocalColumns());
+            foreach (Schema::getForeignKeys($table['name']) as $foreignKey) {
+                $tableKeysColumnsNames = array_merge($tableKeysColumnsNames, $foreignKey['columns']);
             }
 
             // GET UNSIGNED INTEGER COLUMNS NAMES AND INFOS
 
-            foreach ($table->getColumns() as $column) {
+            foreach (Schema::getColumns($table['name']) as $column) {
                 // keep only unsigned integer columns that are a key
-                if (! $column->getType() instanceof IntegerType
-                    || ! $column->getUnsigned()
-                    || ! in_array($column->getName(), $tableKeysColumnsNames)) {
-
+                if (! ($column['type_name'] === 'int'
+                   && str_contains($column['type'], 'unsigned'))
+                    || ! in_array($column['name'], $tableKeysColumnsNames)) {
                     continue;
                 }
 
-                $tableIntColumnsNames[] = $column->getName();
+                $tableIntColumnsNames[] = $column['name'];
 
                 $this->intColumnsInfo[] = [
-                    'table' => $table->getName(),
-                    'column' => $column->getName(),
-                    'nullable' => ! $column->getNotnull(),
-                    'default' => $column->getDefault(),
-                    'autoIncrement' => $column->getAutoincrement(),
+                    'table' => $table['name'],
+                    'column' => $column['name'],
+                    'nullable' => $column['nullable'],
+                    'default' => $column['default'],
+                    'autoIncrement' => $column['auto_increment'],
                 ];
             }
 
             // GET FOREIGN KEYS CONSTRAINTS INFOS
 
-            foreach ($table->getForeignKeys() as $foreignKey) {
+            foreach (Schema::getForeignKeys($table['name']) as $foreignKey) {
                 // keep only foreign keys that are unsigned integer
-                if (! in_array($foreignKey->getLocalColumns()[0], $tableIntColumnsNames)) {
+                if (! in_array($foreignKey['columns'][0], $tableIntColumnsNames)) {
                     continue;
                 }
 
                 $this->foreignKeysConstraintsInfo[] = [
-                    'name' => $foreignKey->getName(),
-                    'table' => $foreignKey->getLocalTableName(),
-                    'column' => $foreignKey->getLocalColumns()[0],
-                    'relatedTable' => $foreignKey->getForeignTableName(),
-                    'relatedColumn' => $foreignKey->getForeignColumns()[0],
-                    'onUpdate' => $foreignKey->onUpdate(),
-                    'onDelete' => $foreignKey->onDelete(),
+                    'name' => $foreignKey['name'],
+                    'table' => $table['name'],
+                    'column' => $foreignKey['columns'][0],
+                    'relatedTable' => $foreignKey['foreign_table'],
+                    'relatedColumn' => $foreignKey['foreign_columns'][0],
+                    'onUpdate' => $foreignKey['on_update'],
+                    'onDelete' => $foreignKey['on_delete'],
                 ];
             }
         }

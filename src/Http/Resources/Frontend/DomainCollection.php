@@ -1,8 +1,8 @@
 <?php
 
-namespace Motor\Admin\Http\Resources;
+namespace Motor\Admin\Http\Resources\Frontend;
 
-class DomainCollection extends BaseCollection
+class DomainCollection extends \Motor\Admin\Http\Resources\BaseCollection
 {
     /**
      * Transform the resource collection into an array.
