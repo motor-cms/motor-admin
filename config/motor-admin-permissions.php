@@ -33,6 +33,13 @@ return [
             'delete',
         ],
     ],
+    'ai_system_prompts'  => [
+        'values' => [
+            'read',
+            'write',
+            'delete',
+        ],
+    ],
     'email_templates'  => [
         'values' => [
             'read',
