@@ -9,6 +9,7 @@ use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
 use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
+use Motor\Admin\Http\Controllers\Api\Frontend\DomainsController as FrontendDomainsController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
 use Motor\Admin\Http\Controllers\Api\PermissionsController;
@@ -69,4 +70,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/api/admin_navigations', [AdminNavigationsController::class, 'index'])
         ->name('admin_navigations.index');
+});
+
+Route::group([
+    'middleware' => ['bindings'],
+    'prefix'     => 'api/frontend',
+], static function () {
+    Route::get('domains/get_active_domains', [FrontendDomainsController::class, 'index']);
 });

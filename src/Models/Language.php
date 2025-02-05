@@ -38,10 +38,10 @@ use Motor\Core\Traits\Filterable;
  */
 class Language extends Model
 {
-    use Searchable;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use Searchable;
 
     /**
      * Get the name of the index associated with the model.

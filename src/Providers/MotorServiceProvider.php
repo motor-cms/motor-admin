@@ -62,7 +62,7 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
 
         $config = $this->app['config']->get('scout', []);
-        $this->app['config']->set('scout', array_replace_recursive(require __DIR__.'/../../config/scout.php', $config));
+        $this->app['config']->set('scout', array_merge_recursive(require __DIR__.'/../../config/scout.php', $config));
     }
 
     /**
@@ -79,7 +79,7 @@ class MotorServiceProvider extends ServiceProvider
     public function permissions()
     {
         $config = $this->app['config']->get('motor-admin-permissions', []);
-        $this->app['config']->set('motor-admin-permissions', array_replace_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
+        $this->app['config']->set('motor-admin-permissions', array_merge_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
     }
 
     /**

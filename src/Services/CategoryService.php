@@ -20,7 +20,7 @@ class CategoryService extends BaseService
             ->get('search');
         $model = $this->model;
         if (! is_object($this->model)) {
-            $model = new $this->model();
+            $model = new $this->model;
         }
         $searchFilter->setSearchableColumns($model->getSearchableColumns());
     }

@@ -34,10 +34,10 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
 class Domain extends Model
 {
     use BlameableTrait;
-    use Searchable;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use Searchable;
 
     /**
      * Get the name of the index associated with the model.
