@@ -30,8 +30,6 @@ class DomainFactory extends Factory
             'host'       => $this->faker->domainName,
             'port'       => array_rand([80, 443]),
             'path'       => '/',
-            'target'     => '',
-            'parameters' => '',
             'created_by' => User::factory()
                                 ->make()->id,
             'updated_by' => User::factory()

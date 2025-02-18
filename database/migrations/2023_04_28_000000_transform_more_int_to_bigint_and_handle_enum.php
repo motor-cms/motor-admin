@@ -97,6 +97,11 @@ class Transformer
             $this->message("Change INT to BIGINT for {$column['table']}.{$column['column']}");
 
             $this->schemaBuilder->table($column['table'], function (Blueprint $blueprint) use ($column) {
+
+                if ($column['column'] == 'parent_id') {
+                    $column['nullable'] = true;
+                }
+
                 $blueprint
                     ->unsignedBigInteger($column['column'], $column['autoIncrement'])
                     ->nullable($column['nullable'])

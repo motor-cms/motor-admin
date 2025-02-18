@@ -22,7 +22,6 @@ class CategoryFactory extends Factory
         return [
             'name'      => $this->faker->word,
             'scope'     => $this->faker->word,
-            'parent_id' => null,
         ];
     }
 }
