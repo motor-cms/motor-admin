@@ -11,6 +11,7 @@ use Motor\Core\Filter\Filter;
 use Motor\Core\Filter\Renderers\PerPageRenderer;
 use Motor\Core\Filter\Renderers\SearchRenderer;
 use Motor\Core\Filter\Renderers\SortRenderer;
+use Motor\Media\Events\FileUploaded;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
@@ -380,6 +381,7 @@ abstract class BaseService
         if ($file instanceof UploadedFile && $file->isValid()) {
             $record->addMedia($file)
                 ->toMediaCollection($collection, 'media');
+            FileUploaded::dispatch($record);
         } else {
             if ($this->isValidBase64(Arr::get($this->data, $identifier.'.dataUrl'))) {
                 $image = base64_decode(Arr::get($this->data, $identifier.'.dataUrl'));
@@ -395,6 +397,7 @@ abstract class BaseService
                     ->setName($name)
                     ->setFileName($name)
                     ->toMediaCollection($collection, 'media');
+                FileUploaded::dispatch($record);
             }
         }
 
