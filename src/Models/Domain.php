@@ -4,6 +4,7 @@ namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\DomainFactory;
@@ -80,6 +81,14 @@ class Domain extends Model
         'is_active',
     ];
 
+    public function scopeActiveDomainByHostPortScheme(Builder $query, string $host, int $port, string $schema): Builder
+    {
+        return $query->where('is_active', true)
+            ->where('host', $host)
+            ->where('port', $port)
+            ->where('protocol', $schema);
+    }
+
     protected static function newFactory(): DomainFactory
     {
         return DomainFactory::new();
@@ -98,5 +107,10 @@ class Domain extends Model
     public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SeoRedirect::class);
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
     }
 }
