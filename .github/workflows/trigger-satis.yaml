@@ -16,6 +16,6 @@ jobs:
       - name: Invoke build hook for satis
         uses: zzzze/webhook-trigger@master
         with:
-          data: "{\"event_type\":\"build\"}"
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          options: "-H \"Authorization: token ${{ secrets.ACCESS_TOKEN }}\""
+          data: "{\"package\":\"motor-cms/motor-builder\"}"
+          webhook_url: ${{ secrets.SATIS_WEBHOOK_URL }}
+          options: "--user ${{ secrets.USERNAME }}:${{ secrets.PASSWORD }}"
