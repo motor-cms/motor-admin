@@ -10,5 +10,6 @@ use Motor\Admin\Models\Domain;
 class DomainService extends BaseService
 {
     protected array $loadColumns = ['client'];
+
     protected $model = Domain::class;
 }

@@ -9,11 +9,12 @@ use Motor\Core\Traits\Filterable;
 
 class AISystemPrompt extends Model
 {
-    use Searchable;
     use Filterable;
     use HasShortflakePrimary;
+    use Searchable;
 
-    protected $table = "ai_system_prompts";
+    protected $table = 'ai_system_prompts';
+
     /**
      * Get the name of the index associated with the model.
      */

@@ -19,8 +19,8 @@ class AIHelpPostRequest extends Request
             ],
             'system_prompt' => [
                 'required',
-                'exists:ai_system_prompts,id'
-            ]
+                'exists:ai_system_prompts,id',
+            ],
         ];
     }
 }
