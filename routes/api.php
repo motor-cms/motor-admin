@@ -1,6 +1,7 @@
 <?php
 
 use Motor\Admin\Http\Controllers\Api\AdminNavigationsController;
+use Motor\Admin\Http\Controllers\Api\AIHelpController;
 use Motor\Admin\Http\Controllers\Api\AISystemPromptController;
 use Motor\Admin\Http\Controllers\Api\Auth\AuthController;
 use Motor\Admin\Http\Controllers\Api\CategoriesController;
@@ -11,7 +12,6 @@ use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
 use Motor\Admin\Http\Controllers\Api\Frontend\DomainsController as FrontendDomainsController;
-use Motor\Admin\Http\Controllers\Api\AIHelpController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
 use Motor\Admin\Http\Controllers\Api\PermissionsController;

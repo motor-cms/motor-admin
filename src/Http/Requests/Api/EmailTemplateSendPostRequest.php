@@ -78,6 +78,7 @@ use OpenApi\Annotations as OA;
  *      type="array",
  *      description="Key value pairs of data that can be used in the email template",
  *      example="{FOO: 'bar'}",
+ *
  *     @OA\Items(
  *     type="string",
  *     example="FOO: 'bar'"
