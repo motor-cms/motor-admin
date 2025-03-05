@@ -18,6 +18,7 @@ class AISystemPromptController extends ApiController
     public function index(): AISystemPromptCollection
     {
         $paginator = AISystemPromptService::collection()->getPaginator();
+
         return (new AISystemPromptCollection($paginator))->additional(['message' => 'Ai System prompt collection read']);
     }
 
@@ -26,19 +27,21 @@ class AISystemPromptController extends ApiController
         $result = AISystemPromptService::create($request)->getResult();
 
         return (new AISystemPromptResource($result))->additional(['message' => 'Ai system prompt created'])
-                                                    ->response()
-                                                    ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     public function show(AISystemPrompt $aiSystemPrompt): AISystemPromptResource
     {
         $result = AISystemPromptService::show($aiSystemPrompt)->getResult();
+
         return (new AISystemPromptResource($result))->additional(['message' => 'Ai system prompt read']);
     }
 
     public function update(AISystemPromptPatchRequest $request, AISystemPrompt $aiSystemPrompt): AISystemPromptResource
     {
         $result = AISystemPromptService::update($aiSystemPrompt, $request)->getResult();
+
         return (new AISystemPromptResource($result))->additional(['message' => 'Ai system prompt updated']);
     }
 
