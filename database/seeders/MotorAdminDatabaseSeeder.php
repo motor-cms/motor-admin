@@ -21,7 +21,7 @@ class MotorAdminDatabaseSeeder extends Seeder
             ConfigVariablesTableSeeder::class,
             EmailTemplatesTableSeeder::class,
             CategoriesTableSeeder::class,
-            RolesPermissionsDatabaseSeeder::class
+            RolesPermissionsDatabaseSeeder::class,
         ]);
     }
 }
