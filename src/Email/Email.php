@@ -61,11 +61,12 @@ class Email extends Mailable
         if ($this->emailTemplate['has_body_html'] && ! empty($this->emailTemplate['body_html'])) {
             // Set text from email template
             $this->contentHtml = $this->emailTemplate['body_html'];
+            Log::info('EmailTemplateSendPostRequest: contentHTML = '.$this->contentHtml);
         }
 
-        Log::info('EmailTemplateSendPostRequest: contentHTML = '.$this->contentHtml);
 
         $this->contentText = $this->requestData['body_text'] ?? $this->emailTemplate['body_text'] ?? '';
+        Log::info('EmailTemplateSendPostRequest: contentText = '.$this->contentText);
 
         // Replace placeholders like {FOO}
         if (isset($this->requestData['text_replace_data']) && $this->requestData['text_replace_data']) {
