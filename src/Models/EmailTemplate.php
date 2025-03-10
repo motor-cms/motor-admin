@@ -82,6 +82,7 @@ class EmailTemplate extends Model
     {
         return [
             'name' => $this->name,
+            'client_id' => (int) $this->client_id,
             'client.name' => $this->client?->name,
             'language.english_name' => $this->language->english_name,
         ];
