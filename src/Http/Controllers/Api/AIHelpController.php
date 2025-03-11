@@ -12,9 +12,7 @@ class AIHelpController extends ApiController
 {
     public function store(AIHelpPostRequest $request): JsonResponse
     {
-        ds($request);
         $system_prompt = AISystemPrompt::find($request->system_prompt);
-        ds($system_prompt);
         $message = config('ai.provider').'is not a valid provider';
         switch (config('ai.provider')) {
             case 'openai':
