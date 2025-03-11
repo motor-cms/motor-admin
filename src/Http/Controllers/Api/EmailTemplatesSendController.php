@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Motor\Admin\Email\Email;
 use Motor\Admin\Http\Controllers\Controller;
@@ -28,7 +29,8 @@ class EmailTemplatesSendController extends Controller
             ->first();
 
         if (! is_null($emailTemplate)) {
-            Mail::send(new Email($emailTemplate, $request->all()));
+            $data = Mail::send(new Email($emailTemplate, $request->all()));
+            Log::info('Email sent with template', ["template" => $emailTemplate, "returnData" => $data]);
 
             return new JsonResponse($emailTemplate);
         }
