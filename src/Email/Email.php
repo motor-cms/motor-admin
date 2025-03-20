@@ -75,8 +75,8 @@ class Email extends Mailable
             $this->contentText = str_replace('{ALLE_FORMULARFELDER}', implode("\n", $this->requestData['text_replace_data']), $this->contentText);
 
             foreach ($this->requestData['text_replace_data'] as $key => $value) {
-                $this->contentHtml = str_replace('{'.mb_strtoupper($key, 'UTF-8').'}', $value, $this->contentHtml);
-                $this->contentText = str_replace('{'.mb_strtoupper($key, 'UTF-8').'}', $value, $this->contentText);
+                $this->contentHtml = str_replace('{'.mb_strtoupper($key, 'UTF-8').'}', $this->decodeJsonOrReturnOriginal($value), $this->contentHtml);
+                $this->contentText = str_replace('{'.mb_strtoupper($key, 'UTF-8').'}', $this->decodeJsonOrReturnOriginal($value), $this->contentText);
             }
         }
 
@@ -131,4 +131,18 @@ class Email extends Mailable
 
         return $addresses;
     }
+
+    /**
+     * @param $input
+     * @return mixed
+     */
+    protected function decodeJsonOrReturnOriginal($input): mixed
+    {
+        if (json_validate($input)) {
+            $decoded = json_decode($input, true);
+            return is_array($decoded) ? implode(', ', $decoded) : $decoded;
+        }
+        return $input;
+    }
+
 }
