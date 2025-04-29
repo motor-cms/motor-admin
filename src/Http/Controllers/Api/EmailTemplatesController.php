@@ -2,7 +2,9 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest;
 use Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest;
@@ -14,7 +16,7 @@ use Motor\Admin\Services\EmailTemplateService;
 /**
  * Class EmailTemplatesController
  */
-class EmailTemplatesController extends ApiController
+class EmailTemplatesController extends Controller
 {
     protected string $model = EmailTemplate::class;
 
@@ -74,8 +76,11 @@ class EmailTemplatesController extends ApiController
      *
      * Display a listing of the resource.
      */
-    public function index(): EmailTemplateCollection
+    public function index(Request $request): EmailTemplateCollection
     {
+        if ($request->user()->cannot('viewAny', $this->model)) {
+            abort(403);
+        }
         $paginator = EmailTemplateService::collection()
             ->getPaginator();
 
