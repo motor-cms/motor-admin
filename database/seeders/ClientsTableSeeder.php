@@ -19,6 +19,7 @@ class ClientsTableSeeder extends Seeder
         Client::factory()
             ->create([
                 'name'       => 'Default',
+                'slug'       => 'default',
                 'created_by' => User::first(),
                 'updated_by' => User::first(),
             ]);

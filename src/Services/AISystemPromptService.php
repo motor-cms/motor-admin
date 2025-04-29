@@ -4,7 +4,7 @@ namespace Motor\Admin\Services;
 
 use Motor\Admin\Models\AISystemPrompt;
 
-class AiSystemPromptService extends BaseService
+class AISystemPromptService extends BaseService
 {
     protected array $loadColumns = ['client'];
 

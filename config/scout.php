@@ -40,22 +40,22 @@ return [
             ],
             \Motor\Admin\Models\Language::class        => [
                 'filterableAttributes' => [],
-                'sortableAttributes'   => ['languages.id', 'created_at', 'updated_at', 'id', 'native_name', 'english_name', 'iso_639_1'],
+                'sortableAttributes'   => ['languages.id', 'is_active', 'created_at', 'updated_at', 'id', 'native_name', 'english_name', 'iso_639_1'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\EmailTemplate::class   => [
                 'filterableAttributes' => ['email_templates.client_id', 'client_id'],
-                'sortableAttributes'   => ['email_templates.id', 'language.english_name', 'client.name', 'created_at', 'updated_at', 'id', 'name', 'slug'],
+                'sortableAttributes'   => ['email_templates.id', 'is_active', 'language.english_name', 'client.name', 'created_at', 'updated_at', 'id', 'name', 'slug'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\ConfigVariable::class   => [
                 'filterableAttributes' => ['package', 'group'],
-                'sortableAttributes'   => ['config_variables.id', 'value', 'created_at', 'updated_at', 'id', 'name', 'package', 'group'],
+                'sortableAttributes'   => ['config_variables.id', 'value', 'is_active', 'created_at', 'updated_at', 'id', 'name', 'package', 'group'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Client::class   => [
                 'filterableAttributes' => [],
-                'sortableAttributes'   => ['clients.id', 'value', 'slug', 'contact_name', 'created_at', 'updated_at', 'id', 'name'],
+                'sortableAttributes'   => ['clients.id', 'value', 'is_active', 'slug', 'contact_name', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Domain::class   => [
