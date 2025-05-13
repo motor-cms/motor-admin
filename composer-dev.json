@@ -15,6 +15,7 @@
   ],
   "require": {
     "php": "^8.4",
+    "ext-intl": "*",
     "laravel/sanctum": "^4.0",
     "laravel/scout": "^10.0",
     "symfony/intl": "^7.1",
@@ -50,5 +51,10 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }

@@ -2,10 +2,9 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Motor\Admin\Http\Controllers\ApiController;
+use Motor\Admin\Http\Requests\Api\EmailTemplateGetRequest;
 use Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest;
 use Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest;
 use Motor\Admin\Http\Resources\EmailTemplateCollection;
@@ -16,67 +15,20 @@ use Motor\Admin\Services\EmailTemplateService;
 /**
  * Class EmailTemplatesController
  */
-class EmailTemplatesController extends Controller
+class EmailTemplatesController extends ApiController
 {
     protected string $model = EmailTemplate::class;
 
     protected string $modelResource = 'email_template';
 
     /**
-     * @OA\Get (
-     *   tags={"EmailTemplatesController"},
-     *   path="/api/email_templates",
-     *   summary="Get email template collection",
-     *   security={ {"sanctum": {} }},
+     * List/search all records
      *
-     *   @OA\Parameter(
+     * This will return a paginated response. Some limited search operations are also possible.
      *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="array",
-     *
-     *         @OA\Items(ref="#/components/schemas/EmailTemplateResource")
-     *       ),
-     *
-     *       @OA\Property(
-     *         property="meta",
-     *         ref="#/components/schemas/PaginationMeta"
-     *       ),
-     *       @OA\Property(
-     *         property="links",
-     *         ref="#/components/schemas/PaginationLinks"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Collection read"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   )
-     * )
-     *
-     * Display a listing of the resource.
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<EmailTemplateCollection>>
      */
-    public function index(Request $request): EmailTemplateCollection
+    public function index(EmailTemplateGetRequest $request): EmailTemplateCollection
     {
         if ($request->user()->cannot('viewAny', $this->model)) {
             abort(403);
@@ -84,284 +36,46 @@ class EmailTemplatesController extends Controller
         $paginator = EmailTemplateService::collection()
             ->getPaginator();
 
-        return (new EmailTemplateCollection($paginator))->additional(['message' => 'Email template collection read']);
+        return new EmailTemplateCollection($paginator)->additional(['message' => 'Email template collection read']);
     }
 
     /**
-     * @OA\Post (
-     *   tags={"EmailTemplatesController"},
-     *   path="/api/email_templates",
-     *   summary="Create new email template",
-     *
-     *   @OA\RequestBody(
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplatePostRequest")
-     *   ),
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/EmailTemplateResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Email template created"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Store a newly created resource in storage.
+     * Create record
      */
     public function store(EmailTemplatePostRequest $request): JsonResponse
     {
         $result = EmailTemplateService::create($request)
             ->getResult();
 
-        return (new EmailTemplateResource($result))->additional(['message' => 'Email template created'])
-            ->response()
-            ->setStatusCode(201);
+        return new EmailTemplateResource($result)->additional(['message' => 'Email template created'])
+                                                 ->response()
+                                                 ->setStatusCode(201);
     }
 
     /**
-     * @OA\Get (
-     *   tags={"EmailTemplatesController"},
-     *   path="/api/email_templates/{email_template}",
-     *   summary="Get single email template",
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="email_template",
-     *     parameter="email_template",
-     *     description="Email template id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/EmailTemplateResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Email template read"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Display the specified resource.
+     * Get a single record
      */
     public function show(EmailTemplate $emailTemplate): EmailTemplateResource
     {
         $result = EmailTemplateService::show($emailTemplate)
             ->getResult();
 
-        return (new EmailTemplateResource($result))->additional(['message' => 'Email template read']);
+        return new EmailTemplateResource($result)->additional(['message' => 'Email template read']);
     }
 
     /**
-     * @OA\Put (
-     *   tags={"EmailTemplatesController"},
-     *   path="/api/email_templates/{email_template}",
-     *   summary="Update an existing email template",
-     *
-     *   @OA\RequestBody(
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/EmailTemplatePatchRequest")
-     *   ),
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="email_template",
-     *     parameter="email_template",
-     *     description="Email template id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/EmailTemplateResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Email template updated"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Update the specified resource in storage.
+     * Update record
      */
     public function update(EmailTemplatePatchRequest $request, EmailTemplate $emailTemplate): EmailTemplateResource
     {
         $result = EmailTemplateService::update($emailTemplate, $request)
             ->getResult();
 
-        return (new EmailTemplateResource($result))->additional(['message' => 'Email template updated']);
+        return new EmailTemplateResource($result)->additional(['message' => 'Email template updated']);
     }
 
     /**
-     * @OA\Delete (
-     *   tags={"EmailTemplatesController"},
-     *   path="/api/email_templates/{email_template}",
-     *   summary="Delete an email template",
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="email_template",
-     *     parameter="email_template",
-     *     description="Email template id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Email template deleted"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="400",
-     *     description="Bad request",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Problem deleting email template"
-     *       )
-     *     )
-     *   )
-     * )
-     *
-     * Remove the specified resource from storage.
+     * Delete record
      */
     public function destroy(EmailTemplate $emailTemplate): JsonResponse
     {

@@ -25,9 +25,9 @@ class DomainFactory extends Factory
             'client_id'  => Client::factory()
                 ->make()->id,
             'is_active'  => true,
-            'name'       => $this->faker->domainName,
+            'name'       => $this->faker->domainName(),
             'protocol'   => array_rand(['http', 'https']),
-            'host'       => $this->faker->domainName,
+            'host'       => $this->faker->domainName(),
             'port'       => array_rand([80, 443]),
             'path'       => '/',
             'created_by' => User::factory()

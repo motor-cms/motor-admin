@@ -6,10 +6,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\AIHelpPostRequest;
+use Motor\Admin\Http\Resources\AIHelpResource;
 use Motor\Admin\Models\AISystemPrompt;
 
 class AIHelpController extends ApiController
 {
+    /**
+     * Return AI help response
+     *
+     * Supports several providers (OpenAI, Anthropic, Google, Groq)
+     */
     public function store(AIHelpPostRequest $request): JsonResponse
     {
         $system_prompt = AISystemPrompt::find($request->system_prompt);
@@ -82,8 +88,11 @@ class AIHelpController extends ApiController
                 break;
         }
 
-        return response()->json([
-            'message' => $message,
-        ]);
+        $m = new \stdClass();
+        $m->message = $message;
+
+        return new AIHelpResource($m)->additional(['message' => 'Ai Help message returned'])
+                                     ->response()
+                                     ->setStatusCode(200);
     }
 }

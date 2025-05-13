@@ -3,7 +3,7 @@
 namespace Motor\Admin\Helpers;
 
 use Spatie\MediaLibrary\HasMedia;
-use URL;
+use Illuminate\Support\Facades\URL;
 
 use function GuzzleHttp\Psr7\mimetype_from_filename;
 

@@ -2,60 +2,6 @@
 
 namespace Motor\Admin\Http\Resources;
 
-/**
- * @OA\Schema(
- *   schema="UserResource",
- *
- *   @OA\Property(
- *     property="id",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="client",
- *     type="object",
- *     ref="#/components/schemas/ClientResource"
- *   ),
- *   @OA\Property(
- *     property="client_id",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="roles",
- *     type="array",
- *
- *     @OA\Items(
- *       ref="#/components/schemas/RoleResource"
- *     ),
- *   ),
- *
- *   @OA\Property(
- *     property="permissions",
- *     type="array",
- *
- *     @OA\Items(
- *       ref="#/components/schemas/PermissionResource"
- *     ),
- *   ),
- *
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="My beautiful user name"
- *   ),
- *   @OA\Property(
- *     property="email",
- *     type="string",
- *     example="user@domain.com"
- *   ),
- *   @OA\Property(
- *     property="avatar",
- *     type="object",
- *     ref="#/components/schemas/MediaResource"
- *   )
- * )
- */
 class UserResource extends BaseResource
 {
     /**
