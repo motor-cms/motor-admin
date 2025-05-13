@@ -147,7 +147,7 @@ class Category extends Model
     protected static function booted()
     {
         static::addGlobalScope('defaultOrder', function (Builder $builder) {
-            $builder->orderBy(NestedSet::LFT, 'ASC');
+            $builder->orderBy(NestedSet::LFT);
         });
     }
 }

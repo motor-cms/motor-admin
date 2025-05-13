@@ -13,6 +13,7 @@
   ],
   "require": {
     "php": "^8.4",
+    "ext-intl": "*",
     "motor-cms/motor-core": "^4.0",
     "laravel/sanctum": "^4.0",
     "laravel/scout": "^10.0",

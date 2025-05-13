@@ -2,32 +2,6 @@
 
 namespace Motor\Admin\Http\Resources;
 
-/**
- * @OA\Schema(
- *   schema="LanguageResource",
- *
- *   @OA\Property(
- *     property="id",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="iso_639_1",
- *     type="string",
- *     example="de"
- *   ),
- *   @OA\Property(
- *     property="english_name",
- *     type="string",
- *     example="German"
- *   ),
- *   @OA\Property(
- *     property="native_name",
- *     type="string",
- *     example="Deutsch"
- *   )
- * )
- */
 class LanguageResource extends BaseResource
 {
     /**

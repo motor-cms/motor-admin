@@ -55,7 +55,7 @@ return [
             ],
             \Motor\Admin\Models\Client::class   => [
                 'filterableAttributes' => [],
-                'sortableAttributes'   => ['clients.id', 'value', 'is_active', 'slug', 'contact_name', 'created_at', 'updated_at', 'id', 'name'],
+                'sortableAttributes'   => ['language.english_name', 'clients.id', 'value', 'is_active', 'slug', 'contact_name', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules' => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Domain::class   => [

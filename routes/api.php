@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')
          Route::apiResource('roles', RolesController::class);
          Route::apiResource('permission_groups', PermissionGroupsController::class);
          Route::apiResource('permissions', PermissionsController::class);
-         Route::get('permissions_items/{id}', [PermissionsController::class, 'items']);
+         Route::get('permissions_items/{permission_group}', [PermissionsController::class, 'items']);
          Route::apiResource('email_templates', EmailTemplatesController::class);
          Route::apiResource('ai_system_prompts', AISystemPromptController::class);
          Route::post('ai_help', [AIHelpController::class, 'store']);

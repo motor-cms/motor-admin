@@ -4,24 +4,12 @@ namespace Motor\Admin\Http\Requests\Api;
 
 use Motor\Admin\Http\Requests\Request;
 
-/**
- * Class PermissionGroupRequest
- *
- * @OA\Schema(
- *   schema="PermissionGroupRequest",
- *
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="administration"
- *   ),
- *   required={"name"},
- * )
- */
-class PermissionGroupRequest extends Request
+class PaginatedGetRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -30,11 +18,21 @@ class PermissionGroupRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array[]
      */
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'search'      => [
+                'string',
+            ],
+            'page'       => [
+                'integer',
+            ],
+            'per_page'   => [
+                'integer',
+            ],
         ];
     }
 }

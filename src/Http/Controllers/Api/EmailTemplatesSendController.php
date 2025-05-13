@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Motor\Admin\Email\Email;
-use Motor\Admin\Http\Controllers\Controller;
+use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\EmailTemplateSendPostRequest;
 use Motor\Admin\Models\EmailTemplate;
 use Motor\Admin\Services\EmailTemplateService;
@@ -14,12 +14,15 @@ use Motor\Admin\Services\EmailTemplateService;
 /**
  * Class EmailTemplatesController
  */
-class EmailTemplatesSendController extends Controller
+class EmailTemplatesSendController extends ApiController
 {
     protected string $model = EmailTemplate::class;
 
     protected string $modelResource = 'email_template';
 
+    /**
+     * Send email with template
+     */
     public function send(EmailTemplateSendPostRequest $request, EmailTemplateService $emailTemplateService): JsonResponse
     {
         $emailTemplate = EmailTemplate::where('slug', $request->get('slug'))

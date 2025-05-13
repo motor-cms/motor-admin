@@ -12,7 +12,11 @@ use Motor\ContentType\Models\CustomContentType;
 class AdminNavigationsController extends ApiController
 {
     /**
-     * Display a listing of the resource.
+     * Get all navigation items for the admin frontend
+     *
+     * Returns a multidimensional array with nested items
+     *
+     * @response array{data: array{slug: string, icon: string, route: string|null, roles:array{string}, permissions: array{string}, name:string, items:array{slug: string, icon: string, route: string|null, roles:array{string}, permissions: array{string}, aliases: array{string}, name:string}[]}[]}
      */
     public function index(): JsonResponse
     {
