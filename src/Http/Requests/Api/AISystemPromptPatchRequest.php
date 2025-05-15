@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class AISystemPromptPatchRequest extends AISystemPromptPostRequest
-{
-}
+class AISystemPromptPatchRequest extends AISystemPromptPostRequest {}

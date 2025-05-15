@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class PermissionPatchRequest extends PermissionPostRequest
-{
-}
+class PermissionPatchRequest extends PermissionPostRequest {}

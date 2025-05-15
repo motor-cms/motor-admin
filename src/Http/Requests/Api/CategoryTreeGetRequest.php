@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class CategoryTreeGetRequest extends PaginatedGetRequest
-{
-}
+class CategoryTreeGetRequest extends PaginatedGetRequest {}

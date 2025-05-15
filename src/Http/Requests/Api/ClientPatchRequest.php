@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class ClientPatchRequest extends ClientPostRequest
-{
-}
+class ClientPatchRequest extends ClientPostRequest {}

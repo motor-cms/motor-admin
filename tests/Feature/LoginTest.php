@@ -4,7 +4,7 @@ use Motor\Admin\Database\Seeders\UsersTableSeeder;
 
 it('logs the user in', function () {
     $seeder = new UsersTableSeeder;
-    //$seeder->run();
+    // $seeder->run();
     $response = $this->post('/api/auth/login', [
         'email' => 'admin@motor-cms.com',
         'password' => 'admin',
@@ -16,5 +16,5 @@ it('logs the user in', function () {
         'message',
         'data' => ['token'],
     ]);
-    //expect($response->baseResponse->original["data"])->toHaveProperty('token');
+    // expect($response->baseResponse->original["data"])->toHaveProperty('token');
 });

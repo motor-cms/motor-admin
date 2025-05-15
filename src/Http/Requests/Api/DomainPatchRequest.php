@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class DomainPatchRequest extends DomainPostRequest
-{
-}
+class DomainPatchRequest extends DomainPostRequest {}

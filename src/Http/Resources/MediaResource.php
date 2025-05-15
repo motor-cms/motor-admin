@@ -2,8 +2,8 @@
 
 namespace Motor\Admin\Http\Resources;
 
-use Motor\Admin\Helpers\Filesize;
 use Illuminate\Support\Facades\URL;
+use Motor\Admin\Helpers\Filesize;
 
 class MediaResource extends BaseResource
 {

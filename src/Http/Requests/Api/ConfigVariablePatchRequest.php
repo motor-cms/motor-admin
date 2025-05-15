@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class ConfigVariablePatchRequest extends ConfigVariablePostRequest
-{
-}
+class ConfigVariablePatchRequest extends ConfigVariablePostRequest {}

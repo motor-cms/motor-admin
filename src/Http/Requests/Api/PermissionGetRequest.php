@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class PermissionGetRequest extends PaginatedGetRequest
-{
-}
+class PermissionGetRequest extends PaginatedGetRequest {}

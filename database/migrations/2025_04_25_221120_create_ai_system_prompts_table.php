@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('ai_system_prompts')) {
+        if (! Schema::hasTable('ai_system_prompts')) {
             Schema::create('ai_system_prompts', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('config_variables')) {
+        if (! Schema::hasTable('config_variables')) {
             Schema::create('config_variables', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('package');

@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class EmailTemplatePatchRequest extends EmailTemplatePostRequest
-{
-}
+class EmailTemplatePatchRequest extends EmailTemplatePostRequest {}

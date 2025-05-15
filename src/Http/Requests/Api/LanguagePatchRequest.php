@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class LanguagePatchRequest extends LanguagePostRequest
-{
-}
+class LanguagePatchRequest extends LanguagePostRequest {}

@@ -64,7 +64,6 @@ class Email extends Mailable
             Log::info('EmailTemplateSendPostRequest: contentHTML = '.$this->contentHtml);
         }
 
-
         $this->contentText = $this->requestData['body_text'] ?? $this->emailTemplate['body_text'] ?? '';
         Log::info('EmailTemplateSendPostRequest: contentText = '.$this->contentText);
 
@@ -132,17 +131,14 @@ class Email extends Mailable
         return $addresses;
     }
 
-    /**
-     * @param $input
-     * @return mixed
-     */
     protected function decodeJsonOrReturnOriginal($input): mixed
     {
         if (json_validate($input)) {
             $decoded = json_decode($input, true);
+
             return is_array($decoded) ? implode(', ', $decoded) : $decoded;
         }
+
         return $input;
     }
-
 }

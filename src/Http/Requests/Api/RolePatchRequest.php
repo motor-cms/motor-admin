@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class RolePatchRequest extends RolePostRequest
-{
-}
+class RolePatchRequest extends RolePostRequest {}
