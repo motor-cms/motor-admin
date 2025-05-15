@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('languages')) {
+        if (! Schema::hasTable('languages')) {
             Schema::create('languages', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('iso_639_1', 2);

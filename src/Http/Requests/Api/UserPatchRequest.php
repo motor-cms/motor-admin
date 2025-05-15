@@ -8,8 +8,6 @@ class UserPatchRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -18,8 +16,6 @@ class UserPatchRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -38,7 +34,7 @@ class UserPatchRequest extends Request
                 'required',
                 'email',
                 \Illuminate\Validation\Rule::unique('users')
-                                           ->ignore($this->route('user')),
+                    ->ignore($this->route('user')),
             ],
             'password'       => [
                 'nullable',

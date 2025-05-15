@@ -12,9 +12,9 @@ class UserGetRequest extends PaginatedGetRequest
     public function rules(): array
     {
         return parent::rules() + [
-                'client_id' => [
-                    'exists:clients,id',
-                ],
-            ];
+            'client_id' => [
+                'exists:clients,id',
+            ],
+        ];
     }
 }

@@ -29,14 +29,13 @@ class EmailTemplatesSendController extends ApiController
             ->where('language_id', $request->get('language_id'))
             ->whereNull('deleted_by')
             ->first();
-            // TODO: removed client filter cause template could not be found cause it was not found for client, cause the slugs must be unique in mysql
-            // we need to migrate the DB to non unique slugs and handle the client_id slug uniqueness over the request
-            // client->where('client_id', $request->get('client_id'))
-
+        // TODO: removed client filter cause template could not be found cause it was not found for client, cause the slugs must be unique in mysql
+        // we need to migrate the DB to non unique slugs and handle the client_id slug uniqueness over the request
+        // client->where('client_id', $request->get('client_id'))
 
         if (! is_null($emailTemplate)) {
             $data = Mail::send(new Email($emailTemplate, $request->all()));
-            Log::info('Email sent with template', ["template" => $emailTemplate, "returnData" => $data]);
+            Log::info('Email sent with template', ['template' => $emailTemplate, 'returnData' => $data]);
 
             return new JsonResponse($emailTemplate);
         }

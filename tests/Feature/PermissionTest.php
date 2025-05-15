@@ -5,7 +5,7 @@ use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\PermissionGroup;
 
 describe('Permission', function () {
-    //Groups
+    // Groups
     it('can create a PermissionGroup', function () {
         $permission_group_count = PermissionGroup::count();
         $this->asAdmin()
@@ -64,7 +64,7 @@ describe('Permission', function () {
         expect($permission_group_count - PermissionGroup::count())->toBe(1);
     });
 
-    //Permissions
+    // Permissions
     it('can create a Permission', function () {
         $permissioncount = Permission::count();
         $this->asAdmin()

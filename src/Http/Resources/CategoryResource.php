@@ -11,9 +11,9 @@ class CategoryResource extends BaseResource
      */
     public function toArray($request): array
     {
-        //if ($request->route()->compiled->getStaticPrefix() === '/api/category_trees') {
+        // if ($request->route()->compiled->getStaticPrefix() === '/api/category_trees') {
         $this->load('children');
-        //}
+        // }
 
         return [
             'id'        => (int) $this->id,

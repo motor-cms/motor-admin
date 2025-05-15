@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('health_check_result_history_items')) {
+        if (! Schema::hasTable('health_check_result_history_items')) {
             Schema::create('health_check_result_history_items', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('check_name');

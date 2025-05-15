@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class AISystemPromptGetRequest extends PaginatedGetRequest
-{
-}
+class AISystemPromptGetRequest extends PaginatedGetRequest {}

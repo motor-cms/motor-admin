@@ -2,8 +2,8 @@
 
 namespace Motor\Admin\Helpers;
 
-use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\URL;
+use Spatie\MediaLibrary\HasMedia;
 
 use function GuzzleHttp\Psr7\mimetype_from_filename;
 
@@ -24,7 +24,7 @@ class MediaHelper
         $host = config('app.url');
         URL::forceRootUrl(config('app.url'));
 
-        //$host = ( isset($_SERVER['HTTPS']) ? "https" : "http" ) . "://".$_SERVER['HTTP_HOST'];
+        // $host = ( isset($_SERVER['HTTPS']) ? "https" : "http" ) . "://".$_SERVER['HTTP_HOST'];
 
         if (isset($items[0])) {
             $data['file_original'] = url($items[0]->getUrl());

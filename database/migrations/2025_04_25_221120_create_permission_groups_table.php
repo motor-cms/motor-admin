@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('permission_groups')) {
+        if (! Schema::hasTable('permission_groups')) {
             Schema::create('permission_groups', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');

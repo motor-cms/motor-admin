@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class LanguageGetRequest extends PaginatedGetRequest
-{
-}
+class LanguageGetRequest extends PaginatedGetRequest {}
