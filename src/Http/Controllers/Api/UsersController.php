@@ -12,7 +12,6 @@ use Motor\Admin\Http\Resources\UserResource;
 use Motor\Admin\Models\User;
 use Motor\Admin\Services\UserService;
 
-
 /**
  * Class UsersController
  */
@@ -32,7 +31,7 @@ class UsersController extends ApiController
     public function index(UserGetRequest $request): UserCollection
     {
         $paginator = UserService::collection()
-                                ->getPaginator();
+            ->getPaginator();
 
         return new UserCollection($paginator)->additional(['message' => 'User collection read']);
     }
@@ -43,11 +42,11 @@ class UsersController extends ApiController
     public function store(UserPostRequest $request): JsonResponse
     {
         $result = UserService::create($request)
-                             ->getResult();
+            ->getResult();
 
         return new UserResource($result)->additional(['message' => 'User created'])
-                                        ->response()
-                                        ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -56,7 +55,7 @@ class UsersController extends ApiController
     public function show(User $user): UserResource
     {
         $result = UserService::show($user)
-                             ->getResult();
+            ->getResult();
 
         return new UserResource($result)->additional(['message' => 'User read']);
     }
@@ -67,7 +66,7 @@ class UsersController extends ApiController
     public function update(UserPatchRequest $request, User $user): UserResource
     {
         $result = UserService::update($user, $request)
-                             ->getResult();
+            ->getResult();
 
         return new UserResource($result)->additional(['message' => 'User updated']);
     }
@@ -78,7 +77,7 @@ class UsersController extends ApiController
     public function destroy(User $user): JsonResponse
     {
         $result = UserService::delete($user)
-                             ->getResult();
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'User deleted']);

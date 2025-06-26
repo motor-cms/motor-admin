@@ -22,16 +22,16 @@ class CategoryRequest extends Request
     public function rules(): array
     {
         return [
-            'name'                => [
+            'name' => [
                 'required',
             ],
-            'parent_id'           => [
+            'parent_id' => [
                 'required',
             ],
             'previous_sibling_id' => [
                 'nullable',
             ],
-            'next_sibling_id'     => [
+            'next_sibling_id' => [
                 'nullable',
             ],
         ];

@@ -33,7 +33,7 @@ class PermissionsController extends ApiController
     public function index(PermissionGetRequest $request): PermissionCollection
     {
         $paginator = PermissionService::collection()
-                                      ->getPaginator();
+            ->getPaginator();
 
         return new PermissionCollection($paginator)->additional(['message' => 'Permission collection read']);
     }
@@ -44,11 +44,11 @@ class PermissionsController extends ApiController
     public function store(PermissionPostRequest $request): JsonResponse
     {
         $result = PermissionService::create($request)
-                                   ->getResult();
+            ->getResult();
 
         return new PermissionResource($result)->additional(['message' => 'Permission created'])
-                                              ->response()
-                                              ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -57,7 +57,7 @@ class PermissionsController extends ApiController
     public function show(Permission $permission): PermissionResource
     {
         $result = PermissionService::show($permission)
-                                   ->getResult();
+            ->getResult();
 
         return new PermissionResource($result)->additional(['message' => 'Permission read']);
     }
@@ -68,7 +68,7 @@ class PermissionsController extends ApiController
     public function update(PermissionPatchRequest $request, Permission $permission): PermissionResource
     {
         $result = PermissionService::update($permission, $request)
-                                   ->getResult();
+            ->getResult();
 
         return new PermissionResource($result)->additional(['message' => 'Permission updated']);
     }
@@ -79,7 +79,7 @@ class PermissionsController extends ApiController
     public function destroy(Permission $permission): JsonResponse
     {
         $result = PermissionService::delete($permission)
-                                   ->getResult();
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'Permission deleted']);
@@ -98,7 +98,7 @@ class PermissionsController extends ApiController
     public function items(PermissionListGetRequest $request, PermissionGroup $permissionGroup): PermissionCollection
     {
         $paginator = Permission::where('permission_group_id', $permissionGroup->id)
-                               ->paginate(25);
+            ->paginate(25);
 
         return new PermissionCollection($paginator)->additional(['message' => 'Permission collection read']);
     }

@@ -28,19 +28,19 @@ class DomainPostRequest extends Request
             'is_active' => [
                 'required',
             ],
-            'name'      => [
+            'name' => [
                 'required',
             ],
-            'protocol'  => [
+            'protocol' => [
                 'required',
             ],
-            'host'      => [
+            'host' => [
                 'required',
             ],
-            'port'      => [
+            'port' => [
                 'required',
             ],
-            'path'      => [
+            'path' => [
                 'required',
             ],
         ];

@@ -7,7 +7,6 @@ use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\LanguageGetRequest;
 use Motor\Admin\Http\Requests\Api\LanguagePatchRequest;
 use Motor\Admin\Http\Requests\Api\LanguagePostRequest;
-use Motor\Admin\Http\Requests\Api\LanguageRequest;
 use Motor\Admin\Http\Resources\LanguageCollection;
 use Motor\Admin\Http\Resources\LanguageResource;
 use Motor\Admin\Models\Language;
@@ -32,7 +31,7 @@ class LanguagesController extends ApiController
     public function index(LanguageGetRequest $request): LanguageCollection
     {
         $paginator = LanguageService::collection()
-                                    ->getPaginator();
+            ->getPaginator();
 
         return new LanguageCollection($paginator)->additional(['message' => 'Language collection read']);
     }
@@ -43,11 +42,11 @@ class LanguagesController extends ApiController
     public function store(LanguagePostRequest $request): JsonResponse
     {
         $result = LanguageService::create($request)
-                                 ->getResult();
+            ->getResult();
 
         return new LanguageResource($result)->additional(['message' => 'Language created'])
-                                            ->response()
-                                            ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -56,7 +55,7 @@ class LanguagesController extends ApiController
     public function show(Language $language): LanguageResource
     {
         $result = LanguageService::show($language)
-                                 ->getResult();
+            ->getResult();
 
         return new LanguageResource($result)->additional(['message' => 'Language read']);
     }
@@ -67,7 +66,7 @@ class LanguagesController extends ApiController
     public function update(LanguagePatchRequest $request, Language $language): LanguageResource
     {
         $result = LanguageService::update($language, $request)
-                                 ->getResult();
+            ->getResult();
 
         return new LanguageResource($result)->additional(['message' => 'Language updated']);
     }
@@ -78,7 +77,7 @@ class LanguagesController extends ApiController
     public function destroy(Language $language): JsonResponse
     {
         $result = LanguageService::delete($language)
-                                 ->getResult();
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'Language deleted']);

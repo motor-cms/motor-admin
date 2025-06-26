@@ -10,13 +10,13 @@ describe('User', function () {
         $new_user = [
             'avatar' => [
                 'dataUrl' => 'QlpoOTFBWSZTWcjFbMkAAAxaAAAQQABoAEAAIAAwwAZoRbpBiJlkcOAvF3JFOFCQyMVsyQ==',
-                'name' => 'test.pbm',
+                'name'    => 'test.pbm',
             ],
-            'clients' => [Client::first()->id],
-            'email' => 'test@test.de',
-            'name' => 'TestUser',
+            'clients'  => [Client::first()->id],
+            'email'    => 'test@test.de',
+            'name'     => 'TestUser',
             'password' => 'testtest',
-            'roles' => [Role::whereName('SuperAdmin')->first()->id],
+            'roles'    => [Role::whereName('SuperAdmin')->first()->id],
         ];
         $this->asAdmin()->post('/api/users', $new_user)->assertStatus(201);
     })->fail();
@@ -25,13 +25,13 @@ describe('User', function () {
         $new_user = [
             'avatar' => [
                 'dataUrl' => 'UDEKMyAzCjEgMSAxCjAgMSAwCjAgMSAwCg==',
-                'name' => 'test.pbm',
+                'name'    => 'test.pbm',
             ],
-            'clients' => [Client::first()->id],
-            'email' => 'test3@test.de',
-            'name' => 'TestUser3',
+            'clients'  => [Client::first()->id],
+            'email'    => 'test3@test.de',
+            'name'     => 'TestUser3',
             'password' => 'testtest',
-            'roles' => [Role::whereName('SuperAdmin')->first()->id],
+            'roles'    => [Role::whereName('SuperAdmin')->first()->id],
 
         ];
         $response = $this->asAdmin()->post('/api/users', $new_user);
@@ -40,10 +40,10 @@ describe('User', function () {
     });
     it("can't create Users with invalid clients", function () {
         $this->asAdmin()->withJsonHeaders()->post('/api/users', [
-            'email' => 'test2@test.de',
-            'name' => 'test2',
+            'email'    => 'test2@test.de',
+            'name'     => 'test2',
             'password' => 'awrftwaftawtf',
-            'clients' => [0],
+            'clients'  => [0],
         ])->assertStatus(422);
     });
     it('can get all Users')
@@ -86,7 +86,7 @@ describe('User', function () {
         'can modify a user',
         fn () => $this->asAdmin()->put('/api/users/'.$this->admin()->id, [
             'email' => 'admin@motor-cms.com',
-            'name' => 'Motor Admin 2',
+            'name'  => 'Motor Admin 2',
             'roles' => [Role::whereName('SuperAdmin')->first()->id],
         ])
             ->assertStatus(200)

@@ -61,7 +61,7 @@ class Permission extends \Spatie\Permission\Models\Permission
     public function toSearchableArray(): array
     {
         return [
-            'name' => $this->name,
+            'name'       => $this->name,
             'guard_name' => $this->guard_name,
         ];
     }

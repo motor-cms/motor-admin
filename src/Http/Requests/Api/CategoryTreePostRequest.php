@@ -23,7 +23,7 @@ class CategoryTreePostRequest extends Request
         $request = $this;
 
         return [
-            'name'  => [
+            'name' => [
                 'required',
             ],
             'scope' => [

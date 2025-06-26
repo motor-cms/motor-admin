@@ -45,8 +45,8 @@ class PermissionGroupsController extends ApiController
             ->getResult();
 
         return new PermissionGroupResource($result)->additional(['message' => 'Permission group created'])
-                                                   ->response()
-                                                   ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

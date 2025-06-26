@@ -3,7 +3,6 @@
 namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Kalnoy\Nestedset\NestedSet;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\CategoryGetRequest;
@@ -67,8 +66,8 @@ class CategoriesController extends ApiController
             ->getResult();
 
         return new CategoryResource($result)->additional(['message' => 'Category created'])
-                                            ->response()
-                                            ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

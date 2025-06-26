@@ -15,7 +15,6 @@ class DomainsController extends ApiController
 
     /**
      * List all active domains
-     *
      */
     public function index(): DomainCollection
     {

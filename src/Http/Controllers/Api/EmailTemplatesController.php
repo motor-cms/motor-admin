@@ -48,8 +48,8 @@ class EmailTemplatesController extends ApiController
             ->getResult();
 
         return new EmailTemplateResource($result)->additional(['message' => 'Email template created'])
-                                                 ->response()
-                                                 ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

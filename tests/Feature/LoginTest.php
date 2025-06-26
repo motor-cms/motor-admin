@@ -6,7 +6,7 @@ it('logs the user in', function () {
     $seeder = new UsersTableSeeder;
     // $seeder->run();
     $response = $this->post('/api/auth/login', [
-        'email' => 'admin@motor-cms.com',
+        'email'    => 'admin@motor-cms.com',
         'password' => 'admin',
     ]);
 

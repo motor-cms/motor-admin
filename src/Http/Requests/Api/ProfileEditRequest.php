@@ -22,10 +22,10 @@ class ProfileEditRequest extends Request
     public function rules(): array
     {
         return [
-            'name'     => [
+            'name' => [
                 'required',
             ],
-            'email'    => [
+            'email' => [
                 'required',
                 'email',
             ],
@@ -33,7 +33,7 @@ class ProfileEditRequest extends Request
                 'nullable',
                 'min:8',
             ],
-            'avatar'   => [
+            'avatar' => [
                 'nullable',
             ],
         ];

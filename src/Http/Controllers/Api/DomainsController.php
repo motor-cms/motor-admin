@@ -45,8 +45,8 @@ class DomainsController extends ApiController
             ->getResult();
 
         return new DomainResource($result)->additional(['message' => 'Domain created'])
-                                          ->response()
-                                          ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

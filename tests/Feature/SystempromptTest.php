@@ -8,7 +8,7 @@ describe('AiSystemPrompt', function () {
         $languagecount = AiSystemPrompt::count();
         $this->asAdmin()
             ->post('/api/ai_system_prompts', [
-                'name' => 'testprompt',
+                'name'   => 'testprompt',
                 'prompt' => 'Das ist eine Testprompt',
             ])
             ->assertStatus(201);
@@ -33,7 +33,7 @@ describe('AiSystemPrompt', function () {
     it(
         'can update ai_system_prompts',
         fn () => $this->asAdmin()->put('/api/ai_system_prompts/'.AiSystemPrompt::whereName('testprompt')->first()->id, [
-            'name' => 'changed',
+            'name'   => 'changed',
             'prompt' => 'changed',
         ])->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data
             ->where('name', 'changed')->etc())->etc())

@@ -24,7 +24,7 @@ class CategoryResource extends BaseResource
             '_rgt'      => (int) $this->_rgt,
             'level'     => (int) $this->ancestors()
                 ->count(),
-            'children'  => CategoryResource::collection($this->whenLoaded('children')),
+            'children' => CategoryResource::collection($this->whenLoaded('children')),
         ];
     }
 }

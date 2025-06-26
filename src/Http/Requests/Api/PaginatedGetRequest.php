@@ -22,13 +22,13 @@ class PaginatedGetRequest extends Request
     public function rules(): array
     {
         return [
-            'search'      => [
+            'search' => [
                 'string',
             ],
-            'page'       => [
+            'page' => [
                 'integer',
             ],
-            'per_page'   => [
+            'per_page' => [
                 'integer',
             ],
         ];

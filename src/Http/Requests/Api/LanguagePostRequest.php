@@ -22,7 +22,7 @@ class LanguagePostRequest extends Request
     public function rules(): array
     {
         return [
-            'iso_639_1'    => [
+            'iso_639_1' => [
                 'required',
                 'min:2',
                 'max:2',
@@ -30,7 +30,7 @@ class LanguagePostRequest extends Request
             'english_name' => [
                 'required',
             ],
-            'native_name'  => [
+            'native_name' => [
                 'required',
             ],
         ];

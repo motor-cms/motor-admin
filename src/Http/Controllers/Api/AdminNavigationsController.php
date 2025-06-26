@@ -26,23 +26,23 @@ class AdminNavigationsController extends ApiController
         if (class_exists(CustomContentType::class) && ! $customContentQuery->isEmpty()) {
             $navigation_position = 200;
             $items[$navigation_position] = [
-                'slug' => 'custom-content-type',
-                'icon' => 'file',
-                'route' => null,
-                'roles' => ['SuperAdmin'],
+                'slug'        => 'custom-content-type',
+                'icon'        => 'file',
+                'route'       => null,
+                'roles'       => ['SuperAdmin'],
                 'permissions' => [],
-                'name' => 'motor-content-type.content-types.content_types',
-                'items' => [],
+                'name'        => 'motor-content-type.content-types.content_types',
+                'items'       => [],
             ];
             $customContentQuery->each(function (CustomContentType $content_type) use (&$navigation_position, &$items) {
                 $items[200]['items'][$navigation_position] = [
-                    'slug' => $content_type->name,
-                    'icon' => 'fa fa-plus',
-                    'route' => 'admin.motor-content-type.'.$content_type->id,
-                    'roles' => ['SuperAdmin'],
+                    'slug'        => $content_type->name,
+                    'icon'        => 'fa fa-plus',
+                    'route'       => 'admin.motor-content-type.'.$content_type->id,
+                    'roles'       => ['SuperAdmin'],
                     'permissions' => [],
-                    'aliases' => [],
-                    'name' => $content_type->name,
+                    'aliases'     => [],
+                    'name'        => $content_type->name,
                 ];
                 $navigation_position++;
             });

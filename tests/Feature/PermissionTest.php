@@ -10,7 +10,7 @@ describe('Permission', function () {
         $permission_group_count = PermissionGroup::count();
         $this->asAdmin()
             ->post('/api/permission_groups', [
-                'name' => 'test',
+                'name'          => 'test',
                 'sort_position' => '0',
             ])->assertStatus(201);
         expect(PermissionGroup::count() - $permission_group_count)->toBe(1);
@@ -53,7 +53,7 @@ describe('Permission', function () {
     );
     it('can update permission_groups', fn () => $this->asAdmin()
         ->put('/api/permission_groups/'.PermissionGroup::whereName('users')->first()->id, [
-            'name' => 'changed',
+            'name'          => 'changed',
             'sort_position' => '0',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
@@ -70,8 +70,8 @@ describe('Permission', function () {
         $this->asAdmin()
             ->post('/api/permissions', [
                 'permission_group_id' => PermissionGroup::whereName('users')->first()->id,
-                'name' => 'test',
-                'guard_name' => 'web',
+                'name'                => 'test',
+                'guard_name'          => 'web',
             ])->assertStatus(201);
         expect(Permission::count() - $permissioncount)->toBe(1);
     });
@@ -80,8 +80,8 @@ describe('Permission', function () {
         $this->asAdmin()->withJsonHeaders()
             ->post('/api/permissions', [
                 'permission_group_id' => 0,
-                'name' => 'test',
-                'guard_name' => 'web',
+                'name'                => 'test',
+                'guard_name'          => 'web',
             ])->assertStatus(422);
         expect(Permission::count() - $permissioncount)->toBe(0);
     });
@@ -136,7 +136,7 @@ describe('Permission', function () {
     it('can update permissions', fn () => $this->asAdmin()
         ->put('/api/permissions/'.Permission::whereName('users.read')->first()->id, [
             'guard_name' => 'web',
-            'name' => 'users.changed',
+            'name'       => 'users.changed',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'users.changed')->etc())->etc()));
     it('can delete permissions', function () {

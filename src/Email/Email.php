@@ -26,18 +26,18 @@ class Email extends Mailable
     public function envelope(): Envelope
     {
         // Set sender from email template or request data
-        $senderName  = $this->requestData['sender_name'] ?? $this->emailTemplate['default_sender_name'];
+        $senderName = $this->requestData['sender_name'] ?? $this->emailTemplate['default_sender_name'];
         $senderEmail = $this->requestData['sender_email'] ?? $this->emailTemplate['default_sender_email'];
 
         // Set subject from email template or request data
-        $subject     = $this->requestData['subject'] ?? $this->emailTemplate['subject'];
+        $subject = $this->requestData['subject'] ?? $this->emailTemplate['subject'];
 
         // Set recipient from email template or request data
-        $toName  = $this->requestData['recipient_name'] ?? $this->emailTemplate['default_recipient_name'];
+        $toName = $this->requestData['recipient_name'] ?? $this->emailTemplate['default_recipient_name'];
         $toEmail = $this->requestData['recipient_email'] ?? $this->emailTemplate['default_recipient_email'];
 
         // Set replyto from email template or request data
-        $replyToName  = $this->requestData['replyto_name'] ?? $this->emailTemplate['default_replyto_name'] ?? '';
+        $replyToName = $this->requestData['replyto_name'] ?? $this->emailTemplate['default_replyto_name'] ?? '';
         $replyToEmail = $this->requestData['replyto_email'] ?? $this->emailTemplate['default_replyto_email'] ?? '';
 
         return new Envelope(

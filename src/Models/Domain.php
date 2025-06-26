@@ -51,14 +51,14 @@ class Domain extends Model
     public function toSearchableArray(): array
     {
         $array = [
-            'client_id' => $this->client_id,
-            'client.name' =>$this->client->name,
-            'name'     => $this->name,
-            'protocol' => $this->protocol,
-            'host'     => $this->host,
-            'port'     => $this->port,
-            'path'     => $this->path,
-            'is_active' => $this->is_active,
+            'client_id'   => $this->client_id,
+            'client.name' => $this->client->name,
+            'name'        => $this->name,
+            'protocol'    => $this->protocol,
+            'host'        => $this->host,
+            'port'        => $this->port,
+            'path'        => $this->path,
+            'is_active'   => $this->is_active,
         ];
 
         // Customize the data array...

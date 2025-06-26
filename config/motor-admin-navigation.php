@@ -2,7 +2,7 @@
 
 return [
     'items' => [
-        0   => [
+        0 => [
             'slug'        => 'dashboard',
             'icon'        => 'home',
             'route'       => 'admin.dashboard',

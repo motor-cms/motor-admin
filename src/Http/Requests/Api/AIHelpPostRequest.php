@@ -22,7 +22,7 @@ class AIHelpPostRequest extends Request
     public function rules(): array
     {
         return [
-            'prompt'        => [
+            'prompt' => [
                 'required',
             ],
             'system_prompt' => [

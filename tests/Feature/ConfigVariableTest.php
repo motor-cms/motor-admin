@@ -8,10 +8,10 @@ describe('ConfigVariable', function () {
         $configvariablecount = ConfigVariable::count();
         $this->asAdmin()
             ->post('/api/config_variables', [
-                'name' => 'test',
-                'package' => 'https',
-                'group' => ' name',
-                'value' => 80,
+                'name'         => 'test',
+                'package'      => 'https',
+                'group'        => ' name',
+                'value'        => 80,
                 'is_invisible' => false,
             ])->assertStatus(201);
         expect(ConfigVariable::count() - $configvariablecount)->toBe(1);
@@ -55,9 +55,9 @@ describe('ConfigVariable', function () {
     it('can update config_variables', fn () => $this->asAdmin()
         ->put('/api/config_variables/'.ConfigVariable::whereName('name')->first()->id, [
             'package' => 'test',
-            'name' => 'changed',
-            'group' => 'https',
-            'value' => ' name',
+            'name'    => 'changed',
+            'group'   => 'https',
+            'value'   => ' name',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete config_variables', function () {
