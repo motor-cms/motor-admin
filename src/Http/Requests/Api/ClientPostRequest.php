@@ -22,19 +22,19 @@ class ClientPostRequest extends Request
     public function rules(): array
     {
         return [
-            'name'               => [
+            'name' => [
                 'required',
             ],
-            'slug'               => [
+            'slug' => [
                 'required',
             ],
-            'address'            => [
+            'address' => [
                 'nullable',
             ],
-            'zip'                => [
+            'zip' => [
                 'nullable',
             ],
-            'city'               => [
+            'city' => [
                 'nullable',
             ],
             'country_iso_3166_1' => [
@@ -42,25 +42,25 @@ class ClientPostRequest extends Request
                 'min:2',
                 'max:2',
             ],
-            'website'            => [
+            'website' => [
                 'nullable',
                 'url',
             ],
-            'description'        => [
+            'description' => [
                 'nullable',
             ],
-            'is_active'          => [
+            'is_active' => [
                 'nullable',
                 'boolean',
             ],
-            'contact_name'       => [
+            'contact_name' => [
                 'nullable',
             ],
-            'contact_email'      => [
+            'contact_email' => [
                 'nullable',
                 'email',
             ],
-            'contact_phone'      => [
+            'contact_phone' => [
                 'nullable',
             ],
         ];

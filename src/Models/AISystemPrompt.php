@@ -31,9 +31,9 @@ class AISystemPrompt extends Model
     public function toSearchableArray(): array
     {
         return [
-            'id'        => (int) $this->id,
-            'name'      => $this->name,
-            'prompt'     => $this->prompt,
+            'id'     => (int) $this->id,
+            'name'   => $this->name,
+            'prompt' => $this->prompt,
         ];
     }
 

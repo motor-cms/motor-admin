@@ -11,11 +11,11 @@ describe('Domain', function () {
             ->post('/api/domains', [
                 'client_id' => Client::first()->id,
                 'is_active' => true,
-                'name' => 'test',
-                'protocol' => 'https',
-                'host' => ' localhost',
-                'port' => 80,
-                'path' => '/',
+                'name'      => 'test',
+                'protocol'  => 'https',
+                'host'      => ' localhost',
+                'port'      => 80,
+                'path'      => '/',
             ])->assertStatus(201);
         expect(Domain::count() - $domaincount)->toBe(1);
     });
@@ -25,11 +25,11 @@ describe('Domain', function () {
             ->post('/api/domains', [
                 'client_id' => 0,
                 'is_active' => true,
-                'name' => 'test',
-                'protocol' => 'https',
-                'host' => ' localhost',
-                'port' => 80,
-                'path' => '/',
+                'name'      => 'test',
+                'protocol'  => 'https',
+                'host'      => ' localhost',
+                'port'      => 80,
+                'path'      => '/',
             ])->assertStatus(422);
         expect(Domain::count() - $domaincount)->toBe(0);
     });
@@ -77,11 +77,11 @@ describe('Domain', function () {
         ->put('/api/domains/'.Domain::whereName('localhost')->first()->id, [
             'client_id' => Client::first()->id,
             'is_active' => true,
-            'name' => 'changed',
-            'protocol' => 'https',
-            'host' => ' localhost',
-            'port' => 80,
-            'path' => '/',
+            'name'      => 'changed',
+            'protocol'  => 'https',
+            'host'      => ' localhost',
+            'port'      => 80,
+            'path'      => '/',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete domains', function () {

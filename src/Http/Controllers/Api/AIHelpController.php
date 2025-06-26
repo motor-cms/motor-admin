@@ -28,14 +28,14 @@ class AIHelpController extends ApiController
                         ? 'https://api.openai.com/v1/chat/completions'
                         : 'https://api.groq.com/openai/v1/chat/completions',
                     [
-                        'model' => config('ai.model', 'gpt-4o-mini'),
+                        'model'    => config('ai.model', 'gpt-4o-mini'),
                         'messages' => [
                             [
-                                'role' => 'system',
+                                'role'    => 'system',
                                 'content' => $system_prompt->prompt,
                             ],
                             [
-                                'role' => 'user',
+                                'role'    => 'user',
                                 'content' => $request->prompt,
                             ],
                         ],
@@ -69,15 +69,15 @@ class AIHelpController extends ApiController
                 break;
             case 'anthropic':
                 $response = Http::withHeaders([
-                    'x-api-key' => config('ai.api_key'),
+                    'x-api-key'         => config('ai.api_key'),
                     'anthropic-version' => config('ai_api_version', '2023-06-01'),
                 ])->post('https://api.anthropic.com/v1/messages', [
-                    'model' => config('ai.model', 'claude-3-5-sonnet-20241022'),
+                    'model'      => config('ai.model', 'claude-3-5-sonnet-20241022'),
                     'max_tokens' => 2048,
-                    'system' => $system_prompt->prompt,
-                    'messages' => [
+                    'system'     => $system_prompt->prompt,
+                    'messages'   => [
                         [
-                            'role' => 'user',
+                            'role'    => 'user',
                             'content' => $request->prompt,
                         ],
                     ],
@@ -88,11 +88,11 @@ class AIHelpController extends ApiController
                 break;
         }
 
-        $m = new \stdClass();
+        $m = new \stdClass;
         $m->message = $message;
 
         return new AIHelpResource($m)->additional(['message' => 'Ai Help message returned'])
-                                     ->response()
-                                     ->setStatusCode(200);
+            ->response()
+            ->setStatusCode(200);
     }
 }

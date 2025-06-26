@@ -7,7 +7,6 @@ use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\ConfigVariableGetRequest;
 use Motor\Admin\Http\Requests\Api\ConfigVariablePatchRequest;
 use Motor\Admin\Http\Requests\Api\ConfigVariablePostRequest;
-use Motor\Admin\Http\Requests\Api\ConfigVariableRequest;
 use Motor\Admin\Http\Resources\ConfigVariableCollection;
 use Motor\Admin\Http\Resources\ConfigVariableResource;
 use Motor\Admin\Models\ConfigVariable;
@@ -46,8 +45,8 @@ class ConfigVariablesController extends ApiController
             ->getResult();
 
         return new ConfigVariableResource($result)->additional(['message' => 'Config variable created'])
-                                                  ->response()
-                                                  ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

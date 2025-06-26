@@ -22,7 +22,7 @@ class DomainFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id'  => Client::factory()
+            'client_id' => Client::factory()
                 ->make()->id,
             'is_active'  => true,
             'name'       => $this->faker->domainName(),

@@ -54,8 +54,8 @@ class CategoryTreesController extends ApiController
             ->getResult();
 
         return new CategoryTreeResource($result)->additional(['message' => 'Category tree created'])
-                                                ->response()
-                                                ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

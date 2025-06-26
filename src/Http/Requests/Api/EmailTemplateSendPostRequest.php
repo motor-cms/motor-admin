@@ -22,50 +22,50 @@ class EmailTemplateSendPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'         => [
+            'client_id' => [
                 'required',
                 'integer',
             ],
-            'language_id'       => [
+            'language_id' => [
                 'required',
                 'integer',
             ],
-            'slug'              => [
+            'slug' => [
                 'required',
             ],
-            'subject'           => [
+            'subject' => [
                 'nullable',
             ],
-            'body_text'         => [
+            'body_text' => [
                 'nullable',
             ],
-            'body_html'         => [
+            'body_html' => [
                 'nullable',
             ],
-            'sender_name'       => [
+            'sender_name' => [
                 'nullable',
             ],
-            'sender_email'      => [
-                'nullable',
-                'email',
-            ],
-            'recipient_name'    => [
-                'nullable',
-            ],
-            'recipient_email'   => [
+            'sender_email' => [
                 'nullable',
                 'email',
             ],
-            'cc_email'          => [
+            'recipient_name' => [
                 'nullable',
             ],
-            'bcc_email'         => [
+            'recipient_email' => [
+                'nullable',
+                'email',
+            ],
+            'cc_email' => [
                 'nullable',
             ],
-            'replyto_email'     => [
+            'bcc_email' => [
                 'nullable',
             ],
-            'replyto_name'      => [
+            'replyto_email' => [
+                'nullable',
+            ],
+            'replyto_name' => [
                 'nullable',
             ],
             'text_replace_data' => [

@@ -22,14 +22,14 @@ class AISystemPromptPostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'      => [
+            'client_id' => [
                 'nullable',
                 'exists:clients,id',
             ],
-            'name'           => [
+            'name' => [
                 'required',
             ],
-            'prompt'           => [
+            'prompt' => [
                 'required',
             ],
         ];

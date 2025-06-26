@@ -38,8 +38,8 @@ class AISystemPromptController extends ApiController
         $result = AISystemPromptService::create($request)->getResult();
 
         return new AISystemPromptResource($result)->additional(['message' => 'Ai system prompt created'])
-                                                  ->response()
-                                                  ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

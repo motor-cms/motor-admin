@@ -20,41 +20,41 @@ class UserPatchRequest extends Request
     public function rules(): array
     {
         return [
-            'clients'      => [
+            'clients' => [
                 'nullable',
                 'array',
             ],
-            'clients.*'      => [
+            'clients.*' => [
                 'exists:clients,id',
             ],
-            'name'           => [
+            'name' => [
                 'required',
             ],
-            'email'          => [
+            'email' => [
                 'required',
                 'email',
                 \Illuminate\Validation\Rule::unique('users')
                     ->ignore($this->route('user')),
             ],
-            'password'       => [
+            'password' => [
                 'nullable',
                 'min:8',
             ],
-            'roles'          => [
+            'roles' => [
                 'nullable',
                 'array',
             ],
             'roles.*' => [
                 'exists:roles,id',
             ],
-            'permissions'    => [
+            'permissions' => [
                 'nullable',
                 'array',
             ],
-            'permissions.*'    => [
+            'permissions.*' => [
                 'exists:permissions,id',
             ],
-            'avatar'         => [
+            'avatar' => [
                 'nullable',
             ],
             'avatar.dataUrl' => [

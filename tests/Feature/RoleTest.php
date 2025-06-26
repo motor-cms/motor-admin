@@ -10,8 +10,8 @@ describe('Role', function () {
         $rolecount = Role::count();
         $this->asAdmin()
             ->post('/api/roles', [
-                'name' => 'test',
-                'guard_name' => 'web',
+                'name'        => 'test',
+                'guard_name'  => 'web',
                 'permissions' => [
                     Permission::first()->id,
                 ],
@@ -22,8 +22,8 @@ describe('Role', function () {
         $rolecount = Role::count();
         $this->asAdmin()->withJsonHeaders()
             ->post('/api/roles', [
-                'name' => 'test',
-                'guard_name' => 'web',
+                'name'        => 'test',
+                'guard_name'  => 'web',
                 'permissions' => [0],
             ])->assertStatus(422);
         expect(Role::count() - $rolecount)->toBe(0);
@@ -63,8 +63,8 @@ describe('Role', function () {
     );
     it('can update roles', fn () => $this->asAdmin()
         ->put('/api/roles/'.Role::whereName('Editor')->first()->id, [
-            'client_id' => Client::first()->id,
-            'name' => 'changed',
+            'client_id'  => Client::first()->id,
+            'name'       => 'changed',
             'guard_name' => 'web',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));

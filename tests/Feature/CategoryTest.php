@@ -10,7 +10,7 @@ describe('Category', function () {
         $this->asAdmin()
             ->post('/api/category_trees', [
                 'scope' => 'test',
-                'name' => 'test',
+                'name'  => 'test',
             ])->assertStatus(201);
         expect(Category::count() - $categorycount)->toBe(1);
     });
@@ -50,7 +50,7 @@ describe('Category', function () {
         $this->asAdmin()
             ->post('/api/category_trees/'.Category::whereName('Default')->first()->id.'/categories', [
                 'parent_id' => Category::whereName('Default')->first()->id,
-                'name' => 'test',
+                'name'      => 'test',
             ])->assertStatus(201);
         expect(Category::count() - $categorycount)->toBe(1);
     });
@@ -60,7 +60,7 @@ describe('Category', function () {
             ->withJsonHeaders()
             ->post('/api/category_trees/'.Category::whereName('Media')->first()->id.'/categories', [
                 'parent_id' => Category::whereName('Default')->first()->id,
-                'name' => 'test',
+                'name'      => 'test',
             ])->assertStatus(422);
         expect(Category::count() - $categorycount)->toBe(1);
     });
@@ -69,7 +69,7 @@ describe('Category', function () {
         $this->asAdmin()->withJsonHeaders()
             ->post('/api/category_trees', [
                 'parent_id' => 0,
-                'name' => 'test',
+                'name'      => 'test',
             ])->assertStatus(422);
         expect(Category::count() - $categorycount)->toBe(0);
     });
@@ -78,8 +78,8 @@ describe('Category', function () {
         $this->asAdmin()->withJsonHeaders()
             ->post('/api/category_trees', [
                 'previous_sibling_id' => 0,
-                'parent_id' => Category::whereName('Default')->first()->id,
-                'name' => 'test',
+                'parent_id'           => Category::whereName('Default')->first()->id,
+                'name'                => 'test',
             ])->assertStatus(422);
         expect(Category::count() - $categorycount)->toBe(0);
     });
@@ -108,8 +108,8 @@ describe('Category', function () {
     it('can update categories', fn () => $this->asAdmin()
         ->put('/api/category_trees/'.Category::whereName('Test #1')->first()->id, [
             'client_id' => Client::first()->id,
-            'name' => 'changed',
-            'scope' => 'test',
+            'name'      => 'changed',
+            'scope'     => 'test',
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
 });

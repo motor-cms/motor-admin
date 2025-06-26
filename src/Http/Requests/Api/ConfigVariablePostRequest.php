@@ -25,13 +25,13 @@ class ConfigVariablePostRequest extends Request
             'package' => [
                 'required',
             ],
-            'group'   => [
+            'group' => [
                 'required',
             ],
-            'name'    => [
+            'name' => [
                 'required',
             ],
-            'value'   => [
+            'value' => [
                 'required',
             ],
         ];

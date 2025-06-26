@@ -45,8 +45,8 @@ class ClientsController extends ApiController
             ->getResult();
 
         return new ClientResource($result)->additional(['message' => 'Client created'])
-                                          ->response()
-                                          ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

@@ -23,7 +23,7 @@ class CategoryTreePatchRequest extends Request
         $request = $this;
 
         return [
-            'name'  => [
+            'name' => [
                 'required',
             ],
             'scope' => [

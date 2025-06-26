@@ -22,53 +22,53 @@ class EmailTemplatePostRequest extends Request
     public function rules(): array
     {
         return [
-            'client_id'               => [
+            'client_id' => [
                 'required',
                 'integer',
             ],
-            'language_id'             => [
+            'language_id' => [
                 'required',
                 'integer',
             ],
-            'name'                    => [
+            'name' => [
                 'required',
             ],
-            'slug'                    => [
+            'slug' => [
                 'nullable',
             ],
-            'subject'                 => [
+            'subject' => [
                 'required',
             ],
-            'body_text'               => [
+            'body_text' => [
                 'nullable',
             ],
-            'body_html'               => [
+            'body_html' => [
                 'nullable',
             ],
-            'default_sender_name'     => [
+            'default_sender_name' => [
                 'nullable',
             ],
-            'default_sender_email'    => [
+            'default_sender_email' => [
                 'nullable',
                 'email',
             ],
-            'default_recipient_name'  => [
+            'default_recipient_name' => [
                 'nullable',
             ],
             'default_recipient_email' => [
                 'nullable',
                 'email',
             ],
-            'default_cc_email'        => [
+            'default_cc_email' => [
                 'nullable',
             ],
-            'default_bcc_email'       => [
+            'default_bcc_email' => [
                 'nullable',
             ],
-            'default_replyto_name'    => [
+            'default_replyto_name' => [
                 'nullable',
             ],
-            'default_replyto_email'   => [
+            'default_replyto_email' => [
                 'nullable',
             ],
         ];

@@ -31,7 +31,7 @@ class RolesController extends ApiController
     public function index(RoleGetRequest $request): RoleCollection
     {
         $paginator = RoleService::collection()
-                                ->getPaginator();
+            ->getPaginator();
 
         return new RoleCollection($paginator)->additional(['message' => 'Role collection read']);
     }
@@ -42,11 +42,11 @@ class RolesController extends ApiController
     public function store(RolePostRequest $request): JsonResponse
     {
         $result = RoleService::create($request)
-                             ->getResult();
+            ->getResult();
 
         return new RoleResource($result)->additional(['message' => 'Role created'])
-                                        ->response()
-                                        ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -55,7 +55,7 @@ class RolesController extends ApiController
     public function show(Role $role): RoleResource
     {
         $result = RoleService::show($role)
-                             ->getResult();
+            ->getResult();
 
         return new RoleResource($result)->additional(['message' => 'Role read']);
     }
@@ -66,7 +66,7 @@ class RolesController extends ApiController
     public function update(RolePatchRequest $request, Role $role): RoleResource
     {
         $result = RoleService::update($role, $request)
-                             ->getResult();
+            ->getResult();
 
         return new RoleResource($result)->additional(['message' => 'Role updated']);
     }
@@ -77,7 +77,7 @@ class RolesController extends ApiController
     public function destroy(Role $role): JsonResponse
     {
         $result = RoleService::delete($role)
-                             ->getResult();
+            ->getResult();
 
         if ($result) {
             return response()->json(['message' => 'Role deleted']);

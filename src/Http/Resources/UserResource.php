@@ -13,7 +13,7 @@ class UserResource extends BaseResource
     {
         return [
             'id'          => (int) $this->id,
-            'clients'      =>ClientResource::collection($this->clients),
+            'clients'     => ClientResource::collection($this->clients),
             'roles'       => RoleResource::collection($this->roles),
             'permissions' => PermissionResource::collection($this->roles->flatMap->permissions->unique('id')),
             'name'        => $this->name,
