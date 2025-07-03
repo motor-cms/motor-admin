@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Language;
+
+pest()->group('Language')->use(RefreshDatabase::class);
 
 describe('Language', function () {
     it('can create a Language', function () {

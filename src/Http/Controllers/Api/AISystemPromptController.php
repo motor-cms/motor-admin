@@ -16,6 +16,9 @@ class AISystemPromptController extends ApiController
 {
     protected string $model = AISystemPrompt::class;
 
+    protected string $modelResource = 'ai_system_prompt';
+
+
     /**
      * List/search all records
      *
