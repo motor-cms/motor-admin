@@ -2,9 +2,11 @@
 
 namespace Motor\Admin\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Motor\Admin\Database\Factories\AiSystemPromptFactory;
 use Motor\Core\Traits\Filterable;
 
 class AISystemPrompt extends Model
@@ -12,6 +14,7 @@ class AISystemPrompt extends Model
     use Filterable;
     use HasShortflakePrimary;
     use Searchable;
+    use HasFactory;
 
     protected $table = 'ai_system_prompts';
 
@@ -51,5 +54,10 @@ class AISystemPrompt extends Model
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
+    }
+
+    protected static function newFactory(): AiSystemPromptFactory
+    {
+        return AiSystemPromptFactory::new();
     }
 }

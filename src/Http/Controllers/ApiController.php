@@ -13,13 +13,13 @@ class ApiController extends BaseController
 
     protected string $model = '';
 
-    // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct()
     {
-        // if ($this->model && $this->modelResource) {
-        //    $this->authorizeResource($this->model, $this->modelResource);
-        // }
-        // \Locale::setDefault(config('app.locale'));
+         if ($this->model && $this->modelResource) {
+            $this->authorizeResource($this->model, $this->modelResource);
+         }
+         \Locale::setDefault(config('app.locale'));
     }
 }
