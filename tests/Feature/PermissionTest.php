@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\PermissionGroup;
+
+pest()->group('Permission')->use(RefreshDatabase::class);
 
 describe('Permission', function () {
     // Groups

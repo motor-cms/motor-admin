@@ -3,8 +3,9 @@
 namespace Motor\Admin\Http\Requests\Api;
 
 use Motor\Admin\Http\Requests\Request;
+use Motor\Admin\Rules\MatchScope;
 
-class CategoryRequest extends Request
+class CategoryPostRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +28,8 @@ class CategoryRequest extends Request
             ],
             'parent_id' => [
                 'required',
+                'exists:categories,id',
+                new MatchScope($this->get('scope')),
             ],
             'previous_sibling_id' => [
                 'nullable',

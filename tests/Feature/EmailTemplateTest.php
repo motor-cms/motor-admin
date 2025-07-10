@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\EmailTemplate;
 use Motor\Admin\Models\Language;
+
+pest()->group('EmailTemplate')->use(RefreshDatabase::class);
 
 describe('EmailTemplate', function () {
     it('can create a EmailTemplate', function () {
