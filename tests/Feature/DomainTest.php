@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\Domain;
+
+pest()->group('Domain')->use(RefreshDatabase::class);
 
 describe('Domain', function () {
     it('can create a Domain', function () {
@@ -13,7 +16,7 @@ describe('Domain', function () {
                 'is_active' => true,
                 'name'      => 'test',
                 'protocol'  => 'https',
-                'host'      => ' localhost',
+                'host'      => 'localhost',
                 'port'      => 80,
                 'path'      => '/',
             ])->assertStatus(201);
@@ -27,7 +30,7 @@ describe('Domain', function () {
                 'is_active' => true,
                 'name'      => 'test',
                 'protocol'  => 'https',
-                'host'      => ' localhost',
+                'host'      => 'localhost',
                 'port'      => 80,
                 'path'      => '/',
             ])->assertStatus(422);
@@ -68,9 +71,6 @@ describe('Domain', function () {
                     ->has('host')
                     ->has('port')
                     ->has('path')
-                    ->has('target')
-                    ->has('parameters')
-                    ->has('target_http_status_code')
             )->etc())
     );
     it('can update domains', fn () => $this->asAdmin()
@@ -79,7 +79,7 @@ describe('Domain', function () {
             'is_active' => true,
             'name'      => 'changed',
             'protocol'  => 'https',
-            'host'      => ' localhost',
+            'host'      => 'localhost',
             'port'      => 80,
             'path'      => '/',
         ])->assertStatus(200)

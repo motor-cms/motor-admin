@@ -149,8 +149,8 @@ abstract class BaseService
         }
 
         return $query->paginate($this->getFilter()
-            ->get('per_page')
-            ->getValue());
+                                     ->get('per_page')
+                                     ->getValue() ?? 25);
     }
 
     /**

@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Kalnoy\Nestedset\NestedSet;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\CategoryGetRequest;
+use Motor\Admin\Http\Requests\Api\CategoryPatchRequest;
+use Motor\Admin\Http\Requests\Api\CategoryPostRequest;
 use Motor\Admin\Http\Requests\Api\CategoryRequest;
 use Motor\Admin\Http\Resources\CategoryCollection;
 use Motor\Admin\Http\Resources\CategoryResource;
@@ -60,7 +62,7 @@ class CategoriesController extends ApiController
     /**
      * Create record
      */
-    public function store(CategoryRequest $request): JsonResponse
+    public function store(CategoryPostRequest $request): JsonResponse
     {
         $result = CategoryService::create($request)
             ->getResult();
@@ -84,7 +86,7 @@ class CategoriesController extends ApiController
     /**
      * Update record
      */
-    public function update(CategoryRequest $request, Category $categoryTree, Category $category): CategoryResource
+    public function update(CategoryPatchRequest $request, Category $categoryTree, Category $category): CategoryResource
     {
         $result = CategoryService::update($category, $request)
             ->getResult();

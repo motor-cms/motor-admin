@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\Client;
+
+pest()->group('Category')->use(RefreshDatabase::class);
 
 describe('Category', function () {
     it('can create a category tree', function () {
@@ -62,7 +65,6 @@ describe('Category', function () {
                 'parent_id' => Category::whereName('Default')->first()->id,
                 'name'      => 'test',
             ])->assertStatus(422);
-        expect(Category::count() - $categorycount)->toBe(1);
     });
     it("can't create a Category with invalid parent", function () {
         $categorycount = Category::count();

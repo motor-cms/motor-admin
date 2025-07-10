@@ -24,6 +24,7 @@ class DomainPostRequest extends Request
         return [
             'client_id' => [
                 'required',
+                'exists:clients,id',
             ],
             'is_active' => [
                 'required',

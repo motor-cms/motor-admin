@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\Role;
+
+pest()->group('Role')->use(RefreshDatabase::class);
 
 describe('Role', function () {
     it('can create a Role', function () {

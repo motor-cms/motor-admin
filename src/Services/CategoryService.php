@@ -37,6 +37,12 @@ class CategoryService extends BaseService
 
     protected function setTreePosition(): void
     {
+        // Check if the record and the parent have the same scope
+        if (isset($this->record->scope) && $this->request->get('parent_id')) {
+            $parent = Category::find($this->request->get('parent_id'));
+            dd($parent);
+        }
+
         // Get previous sibling (if it exists)
         $node = Category::find($this->request->get('previous_sibling_id'));
 

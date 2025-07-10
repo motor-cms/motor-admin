@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\ConfigVariable;
+
+pest()->group('ConfigVariable')->use(RefreshDatabase::class);
 
 describe('ConfigVariable', function () {
     it('can create a ConfigVariable', function () {
