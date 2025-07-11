@@ -24,7 +24,7 @@ class DomainsTableSeeder extends Seeder
                 'name'      => 'localhost',
                 'protocol'  => 'http',
                 'host'      => 'localhost',
-                'port'      => '80',
+                'port'      => '81',
                 'path'      => '/',
             ]);
 
