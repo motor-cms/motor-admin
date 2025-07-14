@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    use \Motor\Core\Traits\CheckForeignKeys;
+
     /**
      * Run the migrations.
      */
@@ -13,8 +16,14 @@ return new class extends Migration
     {
         if (Schema::hasTable('email_templates')) {
             Schema::table('email_templates', function (Blueprint $table) {
-                $table->foreign(['client_id'])->references(['id'])->on('clients')->onUpdate('no action')->onDelete('cascade');
-                $table->foreign(['language_id'])->references(['id'])->on('languages')->onUpdate('no action')->onDelete('set null');
+
+                if (! $this->getForeignKeyByColumns('email_templates', ['client_id'])) {
+                    $table->foreign(['client_id'])->references(['id'])->on('clients')->onUpdate('no action')->onDelete('cascade');
+                }
+
+                if (! $this->getForeignKeyByColumns('email_templates', ['language_id'])) {
+                    $table->foreign(['language_id'])->references(['id'])->on('languages')->onUpdate('no action')->onDelete('set null');
+                }
             });
         }
     }

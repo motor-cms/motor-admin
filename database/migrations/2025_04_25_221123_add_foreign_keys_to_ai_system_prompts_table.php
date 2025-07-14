@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    use \Motor\Core\Traits\CheckForeignKeys;
+
     /**
      * Run the migrations.
      */
@@ -13,7 +15,9 @@ return new class extends Migration
     {
         if (Schema::hasTable('ai_system_prompts')) {
             Schema::table('ai_system_prompts', function (Blueprint $table) {
-                $table->foreign(['client_id'])->references(['id'])->on('clients')->onUpdate('no action')->onDelete('no action');
+                if (! $this->getForeignKeyByColumns('ai_system_prompts', ['client_id'])) {
+                    $table->foreign(['client_id'])->references(['id'])->on('clients')->onUpdate('no action')->onDelete('no action');
+                }
             });
         }
     }

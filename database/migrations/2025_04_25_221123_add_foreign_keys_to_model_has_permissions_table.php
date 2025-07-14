@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    use \Motor\Core\Traits\CheckForeignKeys;
+
     /**
      * Run the migrations.
      */
@@ -13,7 +16,11 @@ return new class extends Migration
     {
         if (Schema::hasTable('model_has_permissions')) {
             Schema::table('model_has_permissions', function (Blueprint $table) {
-                $table->foreign(['permission_id'])->references(['id'])->on('permissions')->onUpdate('no action')->onDelete('cascade');
+
+                if (! $this->getForeignKeyByColumns('model_has_permissions', ['permission_id'])) {
+                    $table->foreign(['permission_id'])->references(['id'])->on('permissions')->onUpdate('no action')->onDelete('cascade');
+                }
+
             });
         }
     }
