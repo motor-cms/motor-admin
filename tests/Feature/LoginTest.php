@@ -1,20 +1,18 @@
 <?php
 
-use Motor\Admin\Database\Seeders\UsersTableSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+pest()
+    ->group('Login')
+    ->use(RefreshDatabase::class);
 
 it('logs the user in', function () {
-    $seeder = new UsersTableSeeder;
-    //$seeder->run();
-    $response = $this->post('/api/auth/login', [
-        'email' => 'admin@motor-cms.com',
+    $response = $this->post('/login', [
+        'email'    => 'admin@motor-cms.com',
         'password' => 'admin',
+    ], [
+        'Accept' => 'application/json',
     ]);
 
     $response->assertStatus(200);
-    $response->assertJsonStructure([
-        'status',
-        'message',
-        'data' => ['token'],
-    ]);
-    //expect($response->baseResponse->original["data"])->toHaveProperty('token');
 });

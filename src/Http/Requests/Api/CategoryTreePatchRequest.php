@@ -5,25 +5,6 @@ namespace Motor\Admin\Http\Requests\Api;
 use Illuminate\Validation\Rule;
 use Motor\Admin\Http\Requests\Request;
 
-/**
- * Class CategoryTreePatchRequest
- *
- * @OA\Schema(
- *   schema="CategoryTreePatchRequest",
- *
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="New category tree"
- *   ),
- *   @OA\Property(
- *     property="scope",
- *     type="string",
- *     example="new-category-scope"
- *   ),
- *   required={"name", "scope"},
- * )
- */
 class CategoryTreePatchRequest extends Request
 {
     /**
@@ -42,7 +23,9 @@ class CategoryTreePatchRequest extends Request
         $request = $this;
 
         return [
-            'name'  => 'required',
+            'name' => [
+                'required',
+            ],
             'scope' => [
                 'required',
                 Rule::unique('categories')
