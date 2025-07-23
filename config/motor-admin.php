@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'models'            => [
+    'models' => [
         'client'           => Motor\Admin\Models\Client::class,
         'language'         => Motor\Admin\Models\Language::class,
         'user'             => Motor\Admin\Models\User::class,

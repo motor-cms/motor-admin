@@ -127,7 +127,7 @@ return [
     |
     */
 
-    'interfaces'                  => [
+    'interfaces' => [
 
     ],
 
@@ -157,7 +157,7 @@ return [
     |  ),
     |
     */
-    'custom_db_types'             => [
+    'custom_db_types' => [
 
     ],
 
@@ -195,7 +195,7 @@ return [
     | Cast the given "real type" to the given "type".
     |
     */
-    'type_overrides'              => [
+    'type_overrides' => [
         'integer' => 'int',
         'boolean' => 'bool',
     ],
@@ -209,6 +209,6 @@ return [
     | magic methods and properties.
     |
     */
-    'include_class_docblocks'     => false,
+    'include_class_docblocks' => false,
 
 ];

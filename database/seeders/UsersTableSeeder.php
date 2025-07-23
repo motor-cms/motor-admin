@@ -18,10 +18,10 @@ class UsersTableSeeder extends Seeder
     public function run(): void
     {
         $admin = User::factory()->create([
-            'name'       => 'Motor Admin',
-            'email'      => 'admin@motor-cms.com',
-            'password'   => bcrypt('admin'),
-            'api_token'  => Str::random(60),
+            'name'      => 'Motor Admin',
+            'email'     => 'admin@motor-cms.com',
+            'password'  => bcrypt('admin'),
+            'api_token' => Str::random(60),
         ]);
 
         $role = Role::where('name', 'SuperAdmin')->first();
@@ -29,10 +29,10 @@ class UsersTableSeeder extends Seeder
         $admin->assignRole($role);
 
         $editor = User::factory()->create([
-            'name'       => 'Editor', // This user will be able to publish pages
-            'email'      => 'editor@motor-cms.com',
-            'password'   => bcrypt('editor'),
-            'api_token'  => Str::random(60),
+            'name'      => 'Editor', // This user will be able to publish pages
+            'email'     => 'editor@motor-cms.com',
+            'password'  => bcrypt('editor'),
+            'api_token' => Str::random(60),
         ]);
 
         $role = Role::where('name', 'Editor')->first();
@@ -40,10 +40,10 @@ class UsersTableSeeder extends Seeder
         $editor->assignRole($role);
 
         $writer = User::factory()->create([
-            'name'       => 'Writer', // This user will not be able to publish pages
-            'email'      => 'writer@motor-cms.com',
-            'password'   => bcrypt('writer'),
-            'api_token'  => Str::random(60),
+            'name'      => 'Writer', // This user will not be able to publish pages
+            'email'     => 'writer@motor-cms.com',
+            'password'  => bcrypt('writer'),
+            'api_token' => Str::random(60),
         ]);
 
         $role = Role::where('name', 'Writer')->first();
@@ -51,10 +51,10 @@ class UsersTableSeeder extends Seeder
         $writer->assignRole($role);
 
         User::factory()->create([
-            'name'       => 'Authenticated', // This user should only be able to log in.
-            'email'      => 'auth@motor-cms.com',
-            'password'   => bcrypt('auth'),
-            'api_token'  => Str::random(60),
+            'name'      => 'Authenticated', // This user should only be able to log in.
+            'email'     => 'auth@motor-cms.com',
+            'password'  => bcrypt('auth'),
+            'api_token' => Str::random(60),
         ]);
     }
 }
