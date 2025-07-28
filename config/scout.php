@@ -59,7 +59,7 @@ return [
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Domain::class => [
-                'filterableAttributes' => [],
+                'filterableAttributes' => ['domains.client_id', 'client_id'],
                 'sortableAttributes'   => ['domains.id', 'client.name', 'is_active', 'host', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],

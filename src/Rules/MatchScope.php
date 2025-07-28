@@ -14,7 +14,7 @@ class MatchScope implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $parent = Category::find($value);
-        $categoryTree = Category::find(request()->route()->parameter('category_tree'));
+        $categoryTree = Category::find(request()->route()->parameter('category_tree'))->first();
         if (!is_null($parent) && !is_null($categoryTree)) {
             if ($parent->scope !== $categoryTree->scope) {
                 $fail('Scopes do not match');
