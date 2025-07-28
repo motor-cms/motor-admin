@@ -58,11 +58,12 @@ describe('Category', function () {
         expect(Category::count() - $categorycount)->toBe(1);
     });
     it("can't create a subcategory with a wrong parent id", function () {
-        $categorycount = Category::count();
+        $categoryTreeId = Category::whereName('Media')->first();
+        $parentId = Category::whereName('Default')->first();
         $this->asAdmin()
             ->withJsonHeaders()
-            ->post('/api/category_trees/'.Category::whereName('Media')->first()->id.'/categories', [
-                'parent_id' => Category::whereName('Default')->first()->id,
+            ->post('/api/category_trees/'.$categoryTreeId.'/categories', [
+                'parent_id' => $parentId,
                 'name'      => 'test',
             ])->assertStatus(422);
     });
