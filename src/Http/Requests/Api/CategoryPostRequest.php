@@ -29,7 +29,7 @@ class CategoryPostRequest extends Request
             'parent_id' => [
                 'required',
                 'exists:categories,id',
-                new MatchScope($this->get('scope')),
+                new MatchScope,
             ],
             'previous_sibling_id' => [
                 'nullable',
