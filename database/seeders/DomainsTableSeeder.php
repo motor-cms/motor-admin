@@ -19,13 +19,13 @@ class DomainsTableSeeder extends Seeder
         // Create testdomains here
         Domain::factory()
             ->create([
-                'client_id'  => Client::first()->id,
-                'is_active'  => true,
-                'name'       => 'localhost',
-                'protocol'   => 'http',
-                'host'       => 'localhost',
-                'port'       => '80',
-                'path'       => '/',
+                'client_id' => Client::first()->id,
+                'is_active' => true,
+                'name'      => 'localhost',
+                'protocol'  => 'http',
+                'host'      => 'localhost',
+                'port'      => '81',
+                'path'      => '/',
             ]);
 
         Domain::factory()

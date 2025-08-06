@@ -4,6 +4,7 @@ namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
+use Motor\Admin\Http\Requests\Api\UserGetRequest;
 use Motor\Admin\Http\Requests\Api\UserPatchRequest;
 use Motor\Admin\Http\Requests\Api\UserPostRequest;
 use Motor\Admin\Http\Resources\UserCollection;
@@ -21,342 +22,57 @@ class UsersController extends ApiController
     protected string $modelResource = 'user';
 
     /**
-     * @OA\Get (
-     *   tags={"UsersController"},
-     *   path="/api/users",
-     *   summary="Get user collection",
-     *   security={ {"sanctum": {} }},
+     * List/search all records
      *
-     *   @OA\Parameter(
+     * This will return a paginated response. Some limited search operations are also possible.
      *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="array",
-     *
-     *         @OA\Items(ref="#/components/schemas/UserResource")
-     *       ),
-     *
-     *       @OA\Property(
-     *         property="meta",
-     *         ref="#/components/schemas/PaginationMeta"
-     *       ),
-     *       @OA\Property(
-     *         property="links",
-     *         ref="#/components/schemas/PaginationLinks"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Collection read"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   )
-     * )
-     *
-     * Display a listing of the resource.
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<UserResource>>
      */
-    public function index(): UserCollection
+    public function index(UserGetRequest $request): UserCollection
     {
         $paginator = UserService::collection()
             ->getPaginator();
 
-        return (new UserCollection($paginator))->additional(['message' => 'User collection read']);
+        return new UserCollection($paginator)->additional(['message' => 'User collection read']);
     }
 
     /**
-     * @OA\Post (
-     *   tags={"UsersController"},
-     *   path="/api/users",
-     *   summary="Create new user",
-     *
-     *   @OA\RequestBody(
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/UserPostRequest")
-     *   ),
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/UserResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="User created"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Store a newly created resource in storage.
+     * Create record
      */
     public function store(UserPostRequest $request): JsonResponse
     {
         $result = UserService::create($request)
             ->getResult();
 
-        return (new UserResource($result))->additional(['message' => 'User created'])
+        return new UserResource($result)->additional(['message' => 'User created'])
             ->response()
             ->setStatusCode(201);
     }
 
     /**
-     * @OA\Get (
-     *   tags={"UsersController"},
-     *   path="/api/users/{user}",
-     *   summary="Get single user",
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="user",
-     *     parameter="user",
-     *     description="User id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/UserResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="User read"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Display the specified resource.
+     * Get a single record
      */
     public function show(User $user): UserResource
     {
         $result = UserService::show($user)
             ->getResult();
 
-        return (new UserResource($result))->additional(['message' => 'User read']);
+        return new UserResource($result)->additional(['message' => 'User read']);
     }
 
     /**
-     * @OA\Put (
-     *   tags={"UsersController"},
-     *   path="/api/users/{user}",
-     *   summary="Update an existing user",
-     *
-     *   @OA\RequestBody(
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/UserPatchRequest")
-     *   ),
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="user",
-     *     parameter="user",
-     *     description="User id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="data",
-     *         type="object",
-     *         ref="#/components/schemas/UserResource"
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="User updated"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   )
-     * )
-     *
-     * Update the specified resource in storage.
+     * Update record
      */
     public function update(UserPatchRequest $request, User $user): UserResource
     {
         $result = UserService::update($user, $request)
             ->getResult();
 
-        return (new UserResource($result))->additional(['message' => 'User updated']);
+        return new UserResource($result)->additional(['message' => 'User updated']);
     }
 
     /**
-     * @OA\Delete (
-     *   tags={"UsersController"},
-     *   path="/api/users/{user}",
-     *   summary="Delete a user",
-     *   security={ {"sanctum": {} }},
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="string"),
-     *     in="header",
-     *     name="Accept",
-     *     example="application/json"
-     *   ),
-     *
-     *   @OA\Parameter(
-     *
-     *     @OA\Schema(type="integer"),
-     *     in="path",
-     *     name="user",
-     *     parameter="user",
-     *     description="User id"
-     *   ),
-     *
-     *   @OA\Response(
-     *     response=200,
-     *     description="Success",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="User deleted"
-     *       )
-     *     )
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="403",
-     *     description="Access denied",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/AccessDenied"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="404",
-     *     description="Not found",
-     *
-     *     @OA\JsonContent(ref="#/components/schemas/NotFound"),
-     *   ),
-     *
-     *   @OA\Response(
-     *     response="400",
-     *     description="Bad request",
-     *
-     *     @OA\JsonContent(
-     *
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         example="Problem deleting user"
-     *       )
-     *     )
-     *   )
-     * )
-     *
-     * Remove the specified resource from storage.
+     * Delete record
      */
     public function destroy(User $user): JsonResponse
     {

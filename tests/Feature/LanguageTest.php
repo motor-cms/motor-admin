@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Language;
+
+pest()->group('Language')->use(RefreshDatabase::class);
 
 describe('Language', function () {
     it('can create a Language', function () {
@@ -9,15 +12,15 @@ describe('Language', function () {
         $this->asAdmin()
             ->post('/api/languages', [
                 'english_name' => 'testlang',
-                'native_name' => 'testlang',
-                'iso_639_1' => 'af',
+                'native_name'  => 'testlang',
+                'iso_639_1'    => 'af',
             ])
             ->assertStatus(201);
         expect(Language::count() - $languagecount)->toBe(1);
     });
     it('cannot create a Language without necesary fields')->asAdmin()->withJsonHeaders()->post('/api/languages', [
         'english_name' => 'test',
-        'native_name' => 'test',
+        'native_name'  => 'test',
     ])->assertStatus(422);
     it('can get all Languages')
         ->asAdmin()
@@ -36,8 +39,8 @@ describe('Language', function () {
         'can update languages',
         fn () => $this->asAdmin()->put('/api/languages/'.Language::whereNativeName('English')->first()->id, [
             'english_name' => 'english',
-            'native_name' => 'testlang',
-            'iso_639_1' => 'af',
+            'native_name'  => 'testlang',
+            'iso_639_1'    => 'af',
         ])->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data
             ->where('native_name', 'testlang')->etc())->etc())
     );

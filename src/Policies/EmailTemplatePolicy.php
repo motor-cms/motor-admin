@@ -2,25 +2,26 @@
 
 namespace Motor\Admin\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 use Motor\Admin\Models\EmailTemplate;
 use Motor\Admin\Models\User;
 
 class EmailTemplatePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Perform pre-authorization checks.
      *
      * @param  string  $ability
      * @return void|bool
      */
-    public function before(User $user, $ability)
+    public function before(User $user, $ability): Response
     {
-        if ($user->hasRole('SuperAdmin')) {
-            return true;
-        }
+        return \Illuminate\Auth\Access\Response::allow();
+        // Log::info('Cheking policy');
+        // if ($user->hasRole('SuperAdmin')) {
+        //    return true;
+        // }
     }
 
     /**

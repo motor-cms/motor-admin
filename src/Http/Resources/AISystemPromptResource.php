@@ -12,11 +12,11 @@ class AISystemPromptResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'                      => (int) $this->id,
-            'client'                  => new ClientResource($this->client),
-            'client_id'               => (int) $this->client_id,
-            'name'                    => $this->name,
-            'prompt'                  => $this->prompt,
+            'id'        => (int) $this->id,
+            'client'    => new ClientResource($this->client),
+            'client_id' => (int) $this->client_id,
+            'name'      => $this->name,
+            'prompt'    => $this->prompt,
         ];
     }
 }
