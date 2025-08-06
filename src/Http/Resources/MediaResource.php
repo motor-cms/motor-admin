@@ -2,80 +2,9 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Support\Facades\URL;
 use Motor\Admin\Helpers\Filesize;
-use URL;
 
-/**
- * @OA\Schema(
- *   schema="MediaResourceConversions",
- *
- *   @OA\Property(
- *     property="thumb",
- *     type="string",
- *     example="http://localhost/media/conversion/my-image-thumb.png"
- *   ),
- *   @OA\Property(
- *     property="preview",
- *     type="string",
- *     example="http://localhost/media/conversion/my-image-preview.png"
- *   ),
- * )
- *
- * @OA\Schema(
- *   schema="MediaResource",
- *
- *   @OA\Property(
- *     property="collection",
- *     type="string",
- *     example="images"
- *   ),
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="my-image"
- *   ),
- *   @OA\Property(
- *     property="file_name",
- *     type="string",
- *     example="my-image.png"
- *   ),
- *   @OA\Property(
- *     property="size",
- *     type="integer",
- *     example="31337"
- *   ),
- *   @OA\Property(
- *     property="mime_type",
- *     type="string",
- *     example="image/png"
- *   ),
- *   @OA\Property(
- *     property="url",
- *     type="string",
- *     example="http://localhost/media/my-image.png"
- *   ),
- *   @OA\Property(
- *     property="path",
- *     type="string",
- *     example="/var/www/htdocs/media/my-image.png"
- *   ),
- *   @OA\Property(
- *     property="uuid",
- *     type="string",
- *     example="635b4063-eae8-4d8f-ac45-f29611f5daa0"
- *   ),
- *   @OA\Property(
- *     property="created_at",
- *     type="datetime",
- *     example="2021-04-22 16:23:40"
- *   ),
- *   @OA\Property(
- *     property="conversions",
- *     type="object",
- *     ref="#/components/schemas/MediaResourceConversions"
- *   )
- * )
- */
 class MediaResource extends BaseResource
 {
     /**

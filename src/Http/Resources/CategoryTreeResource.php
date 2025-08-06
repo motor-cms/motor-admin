@@ -2,35 +2,6 @@
 
 namespace Motor\Admin\Http\Resources;
 
-/**
- * @OA\Schema(
- *   schema="CategoryTreeResource",
- *
- *   @OA\Property(
- *     property="id",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="My category tree"
- *   ),
- *   @OA\Property(
- *     property="scope",
- *     type="string",
- *     example="my-category-tree"
- *   ),
- *   @OA\Property(
- *     property="children",
- *     type="array",
- *
- *     @OA\Items(
- *       ref="#/components/schemas/CategoryResource"
- *     )
- *   )
- * )
- */
 class CategoryTreeResource extends BaseResource
 {
     /**

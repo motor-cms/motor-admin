@@ -1,81 +1,81 @@
 <?php
 
 return [
-    'profile'          => [
+    'profile' => [
         'values' => [
             'read',
             'write',
         ],
     ],
-    'dashboard'        => [
+    'dashboard' => [
         'values' => [
             'read',
         ],
     ],
-    'clients'          => [
-        'values' => [
-            'read',
-            'write',
-            'delete',
-        ],
-    ],
-    'users'            => [
+    'clients' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'languages'        => [
+    'users' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'ai_system_prompts'  => [
+    'languages' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'email_templates'  => [
+    'ai_system_prompts' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'permissions'      => [
+    'email_templates' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'permission_groups'      => [
+    'permissions' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'roles'            => [
+    'permission_groups' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'categories'       => [
+    'roles' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'category_trees'   => [
+    'categories' => [
+        'values' => [
+            'read',
+            'write',
+            'delete',
+        ],
+    ],
+    'category_trees' => [
         'values' => [
             'read',
             'write',
@@ -89,13 +89,13 @@ return [
             'delete',
         ],
     ],
-    'administration'   => [
+    'administration' => [
         'values' => [
             'read',
         ],
     ],
 
-    'builder_pages'   => [
+    'builder_pages' => [
         'values' => [
             'publisher',
         ],

@@ -2,19 +2,6 @@
 
 namespace Motor\Admin\Http\Resources\Frontend;
 
-use OpenApi\Annotations as OA;
-
-/**
- * @OA\Schema(
- *   schema="DomainResource",
- *
- *   @OA\Property(
- *     property="url",
- *     type="string",
- *     example="https://example.com:443/"
- *   ),
- * )
- */
 class DomainResource extends \Motor\Admin\Http\Resources\BaseResource
 {
     /**

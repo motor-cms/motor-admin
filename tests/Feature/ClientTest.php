@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
+
+pest()->group('Client')->use(RefreshDatabase::class);
 
 describe('Client', function () {
     it('can create a Client', function () {
@@ -57,6 +60,7 @@ describe('Client', function () {
     it('can update clients', fn () => $this->asAdmin()
         ->put('/api/clients/'.Client::whereName('Default')->first()->id, [
             'name' => 'changed',
+            'slug' => 'changed'
         ])->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
     it('can delete clients', function () {

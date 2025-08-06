@@ -2,35 +2,6 @@
 
 namespace Motor\Admin\Http\Resources;
 
-/**
- * @OA\Schema(
- *   schema="PermissionGroupResource",
- *
- *   @OA\Property(
- *     property="id",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="name",
- *     type="string",
- *     example="administration"
- *   ),
- *   @OA\Property(
- *     property="sort_position",
- *     type="integer",
- *     example="1"
- *   ),
- *   @OA\Property(
- *     property="permissions",
- *     type="array",
- *
- *     @OA\Items(
- *       ref="#/components/schemas/PermissionResource"
- *     )
- *   )
- * )
- */
 class PermissionGroupResource extends BaseResource
 {
     /**

@@ -55,7 +55,7 @@ class MotorServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/ide-helper.php', 'ide-helper');
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library.php', 'medialibrary');
-        $this->mergeConfigFrom(__DIR__.'/../../config/ai.php', 'ai');
+        // $this->mergeConfigFrom(__DIR__.'/../../config/ai.php', 'ai');
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin.php', 'motor-admin');
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
@@ -88,9 +88,12 @@ class MotorServiceProvider extends ServiceProvider
      */
     public function routes()
     {
-        if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../../routes/api.php';
-        }
+        Route::middleware('api')->prefix('api')->group(function () {
+            $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+        });
+        // if (! $this->app->routesAreCached()) {
+        //    require __DIR__.'/../../routes/api.php';
+        // }
     }
 
     /**

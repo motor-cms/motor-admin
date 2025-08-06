@@ -22,6 +22,7 @@ class MotorAdminDatabaseSeeder extends Seeder
             EmailTemplatesTableSeeder::class,
             CategoriesTableSeeder::class,
             RolesPermissionsDatabaseSeeder::class,
+            AiSystemPromptTableSeeder::class,
         ]);
     }
 }
