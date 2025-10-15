@@ -16,14 +16,23 @@ class MediaResource extends BaseResource
     {
         URL::forceRootUrl(config('app.url'));
 
+        $urlPrefix = $diskUrl = \Storage::disk('media')->url($this->id);
+
+        if (config('filesystems.has_s3')) {
+            $s3 = \Storage::disk('media-s3');
+            if ($s3->exists($this->id.'/'.$this->file_name)) {
+                $urlPrefix = $s3->url($this->id);
+            }
+        }
+
         $conversions = [];
         if (! is_null($this->generated_conversions)) {
             foreach ($this->generated_conversions as $conversion => $status) {
                 if ($status) {
                     if ($this->mime_type === 'image/gif') {
-                        $conversions[$conversion] = url($this->getUrl());
+                        $conversions[$conversion] = $urlPrefix.'/'. $this->file_name;
                     } else {
-                        $conversions[$conversion] = url($this->getUrl($conversion));
+                        $conversions[$conversion] = str_replace($diskUrl, $urlPrefix, $this->getUrl($conversion));
                     }
                 }
             }
@@ -36,7 +45,7 @@ class MediaResource extends BaseResource
             'size'        => (int) $this->size,
             'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
-            'url'         => url($this->getUrl()),
+            'url'         => $urlPrefix.'/'.$this->file_name,
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,
