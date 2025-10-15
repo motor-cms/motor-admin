@@ -12,6 +12,7 @@ use Motor\Core\Filter\Renderers\PerPageRenderer;
 use Motor\Core\Filter\Renderers\SearchRenderer;
 use Motor\Core\Filter\Renderers\SortRenderer;
 use Motor\Media\Events\FileUploaded;
+use Motor\Media\Helpers\S3Helper;
 use Motor\Media\Models\File;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -382,6 +383,12 @@ abstract class BaseService
         if ($file instanceof UploadedFile && $file->isValid()) {
             $record->addMedia($file)
                 ->toMediaCollection($collection, 'media');
+
+            if (config('filesystems.has_s3')) {
+                $mediaItem = $record->getFirstMedia($collection);
+                S3Helper::uploadToS3($mediaItem);
+            }
+
             if ($record instanceof File) {
                 FileUploaded::dispatch($record);
             }
@@ -400,6 +407,12 @@ abstract class BaseService
                     ->setName($name)
                     ->setFileName($name)
                     ->toMediaCollection($collection, 'media');
+
+                if (config('filesystems.has_s3')) {
+                    $mediaItem = $record->getFirstMedia($collection);
+                    S3Helper::uploadToS3($mediaItem);
+                }
+
                 if ($record instanceof File) {
                     FileUploaded::dispatch($record);
                 }
