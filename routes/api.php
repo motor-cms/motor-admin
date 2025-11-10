@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')
         Route::apiResource('permissions', PermissionsController::class);
         Route::get('permissions_items/{permission_group}', [PermissionsController::class, 'items']);
         Route::apiResource('email_templates', EmailTemplatesController::class);
+        Route::post('email_templates/duplicate', [EmailTemplatesController::class, 'duplicate']);
+
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
         Route::post('ai_help', [AIHelpController::class, 'store']);
 
