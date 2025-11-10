@@ -3,6 +3,8 @@
 namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\EmailTemplateGetRequest;
 use Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest;
@@ -11,6 +13,7 @@ use Motor\Admin\Http\Resources\EmailTemplateCollection;
 use Motor\Admin\Http\Resources\EmailTemplateResource;
 use Motor\Admin\Models\EmailTemplate;
 use Motor\Admin\Services\EmailTemplateService;
+use Motor\Builder\Http\Requests\Api\GridActionRequest;
 
 /**
  * Class EmailTemplatesController
@@ -88,4 +91,28 @@ class EmailTemplatesController extends ApiController
 
         return response()->json(['message' => 'Problem deleting email template'], 400);
     }
+
+    /**
+     * Duplicate record
+     */
+    public function duplicate(GridActionRequest $request): JsonResponse
+    {
+        $emailTemplates = EmailTemplate::whereIn('id', collect($request->get('data'))->pluck('id'))->get();
+        if ($request->get('all')) {
+            $emailTemplates = EmailTemplate::get();
+        }
+
+        // For loop over all builder Pages and duplicate them
+        foreach ($emailTemplates as $emailTemplate) {
+            $e = $emailTemplate->replicate();
+            $e->name = $e->name.' (Kopie)';
+            $e->slug = $e->slug.'_'.Str::uuid()->toString();
+            $e->updated_at = Carbon::now();
+            $e->created_at = Carbon::now();
+            $e->save();
+        }
+
+        return response()->json(['message' => 'EmailTemplates duplicated']);
+    }
+
 }
