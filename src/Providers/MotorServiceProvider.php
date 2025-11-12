@@ -62,8 +62,10 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/blameable.php', 'blameable');
         $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
 
-        $config = $this->app['config']->get('scout', []);
-        $this->app['config']->set('scout', array_merge_recursive(require __DIR__.'/../../config/scout.php', $config));
+        if (! app()->configurationIsCached()) {
+            $config = $this->app['config']->get('scout', []);
+            $this->app['config']->set('scout', array_merge_recursive(require __DIR__.'/../../config/scout.php', $config));
+        }
     }
 
     /**

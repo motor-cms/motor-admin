@@ -16,6 +16,8 @@ class MotorCreateScoutIndexCommand extends Command
      */
     protected $name = 'motor:create:scout:index';
 
+    public int $timeout = 14400;
+
     /**
      * The console command description.
      *
