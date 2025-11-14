@@ -32,7 +32,7 @@ class MediaResource extends BaseResource
                     if ($this->mime_type === 'image/gif') {
                         $conversions[$conversion] = $urlPrefix.'/'. $this->file_name;
                     } else {
-                        $conversions[$conversion] = str_replace($diskUrl, $urlPrefix, $this->getUrl($conversion));
+                        $conversions[$conversion] = config('app.url').str_replace($diskUrl, $urlPrefix, $this->getUrl($conversion));
                     }
                 }
             }
