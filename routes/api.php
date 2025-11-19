@@ -41,8 +41,9 @@ Route::middleware('auth:sanctum')
 
         // Dont use sanctum auth for this route, use static token
         Route::post('email_templates/send', [EmailTemplatesSendController::class, 'send'])
-            ->withoutMiddleware(['auth:sanctum'])
-            ->middleware(EkproAuth::class);
+            ->withoutMiddleware(['auth:sanctum']);
+            // TODO: uncomment this when we have a proper auth (EN-1787)
+            // ->middleware(EkproAuth::class);
 
         Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
             'parameters' => [
