@@ -45,7 +45,7 @@ return [
             ],
             \Motor\Admin\Models\EmailTemplate::class => [
                 'filterableAttributes' => ['email_templates.client_id', 'client_id'],
-                'sortableAttributes'   => ['email_templates.id', 'is_active', 'language.english_name', 'client.name', 'created_at', 'updated_at', 'id', 'name', 'slug'],
+                'sortableAttributes'   => ['email_templates.id', 'is_active', 'language.english_name', 'client.name', 'email_templates.updated_at', 'email_templates.created_at', 'created_at', 'updated_at', 'id', 'name', 'slug'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\ConfigVariable::class => [
