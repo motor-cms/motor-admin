@@ -11,6 +11,10 @@ use Motor\Admin\Models\EmailTemplate;
  */
 class EmailTemplateService extends BaseService
 {
+    protected string $sortableField = 'updated_at';
+
+    protected string $sortableDirection = 'DESC';
+
     protected array $loadColumns = ['client', 'language'];
 
     protected $model = EmailTemplate::class;
