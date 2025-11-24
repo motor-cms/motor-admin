@@ -87,6 +87,8 @@ describe('EmailTemplate', function () {
                     ->has('default_bcc_email')
                     ->has('default_replyto_email')
                     ->has('default_replyto_name')
+                    ->has('created_at')
+                    ->has('updated_at')
             )->etc())
     );
     it('can update emailTemplates', fn () => $this->asAdmin()
