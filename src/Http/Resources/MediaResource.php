@@ -45,7 +45,7 @@ class MediaResource extends BaseResource
             'size'        => (int) $this->size,
             'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
-            'url'         => config('app.url').str_replace($diskUrl, $urlPrefix, '/'.$this->file_name),
+            'url'         => config('app.url').$urlPrefix.'/'.$this->file_name,
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,
