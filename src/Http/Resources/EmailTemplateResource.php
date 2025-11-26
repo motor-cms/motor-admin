@@ -7,7 +7,7 @@ class EmailTemplateResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function toArray($request): array
     {
@@ -31,6 +31,8 @@ class EmailTemplateResource extends BaseResource
             'default_bcc_email'       => $this->default_bcc_email,
             'default_replyto_email'   => $this->default_replyto_email,
             'default_replyto_name'    => $this->default_replyto_name,
+            'created_at'              => $this->created_at->toIso8601String(),
+            'updated_at'              => $this->updated_at->toIso8601String(),
         ];
     }
 }
