@@ -85,6 +85,8 @@ class EmailTemplate extends Model
             'client_id'             => (int) $this->client_id,
             'client.name'           => $this->client?->name,
             'language.english_name' => $this->language->english_name,
+            'updated_at'             => $this->updated_at,
+            'created_at'             => $this->created_at,
         ];
     }
 
