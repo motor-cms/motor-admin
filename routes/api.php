@@ -98,3 +98,25 @@ Route::group([
 ], static function () {
     Route::get('domains/get_active_domains', [FrontendDomainsController::class, 'index']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| V1 Explicit Routes (frozen - same behavior as unversioned)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('v1')
+    ->middleware('auth:sanctum')
+    ->group(function () {
+        Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V1\UsersController::class);
+    });
+
+/*
+|--------------------------------------------------------------------------
+| V2 Routes (standardized kebab-case naming, consistent response envelope)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('v2')
+    ->middleware('auth:sanctum')
+    ->group(function () {
+        Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
+    });
