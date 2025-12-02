@@ -109,10 +109,16 @@ Route::prefix('v1')
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V1\UsersController::class);
         Route::apiResource('clients', \Motor\Admin\Http\Controllers\Api\V1\ClientsController::class);
+        Route::apiResource('domains', \Motor\Admin\Http\Controllers\Api\V1\DomainsController::class);
+        Route::apiResource('languages', \Motor\Admin\Http\Controllers\Api\V1\LanguagesController::class);
         Route::apiResource('roles', \Motor\Admin\Http\Controllers\Api\V1\RolesController::class);
         Route::apiResource('permission_groups', \Motor\Admin\Http\Controllers\Api\V1\PermissionGroupsController::class);
         Route::apiResource('permissions', \Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class);
         Route::get('permissions_items/{permission_group}', [\Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class, 'items']);
+        Route::apiResource('email_templates', \Motor\Admin\Http\Controllers\Api\V1\EmailTemplatesController::class);
+        Route::post('email_templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V1\EmailTemplatesController::class, 'duplicate']);
+        Route::apiResource('config_variables', \Motor\Admin\Http\Controllers\Api\V1\ConfigVariablesController::class);
+        Route::apiResource('ai_system_prompts', \Motor\Admin\Http\Controllers\Api\V1\AISystemPromptController::class);
     });
 
 /*
@@ -125,8 +131,14 @@ Route::prefix('v2')
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
         Route::apiResource('clients', \Motor\Admin\Http\Controllers\Api\V2\ClientsController::class);
+        Route::apiResource('domains', \Motor\Admin\Http\Controllers\Api\V2\DomainsController::class);
+        Route::apiResource('languages', \Motor\Admin\Http\Controllers\Api\V2\LanguagesController::class);
         Route::apiResource('roles', \Motor\Admin\Http\Controllers\Api\V2\RolesController::class);
         Route::apiResource('permission-groups', \Motor\Admin\Http\Controllers\Api\V2\PermissionGroupsController::class);
         Route::apiResource('permissions', \Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class);
         Route::get('permissions-items/{permission_group}', [\Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class, 'items']);
+        Route::apiResource('email-templates', \Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class);
+        Route::post('email-templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class, 'duplicate']);
+        Route::apiResource('config-variables', \Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
+        Route::apiResource('ai-system-prompts', \Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController::class);
     });
