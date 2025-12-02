@@ -119,6 +119,13 @@ Route::prefix('v1')
         Route::post('email_templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V1\EmailTemplatesController::class, 'duplicate']);
         Route::apiResource('config_variables', \Motor\Admin\Http\Controllers\Api\V1\ConfigVariablesController::class);
         Route::apiResource('ai_system_prompts', \Motor\Admin\Http\Controllers\Api\V1\AISystemPromptController::class);
+        Route::apiResource('category_trees/{category_tree}/categories', \Motor\Admin\Http\Controllers\Api\V1\CategoriesController::class, [
+            'parameters' => ['category_trees' => 'category'],
+        ]);
+        Route::apiResource('category_trees', \Motor\Admin\Http\Controllers\Api\V1\CategoryTreesController::class, [
+            'parameters' => ['category_trees' => 'category'],
+        ]);
+        Route::get('category_trees/scope/{scope}', [\Motor\Admin\Http\Controllers\Api\V1\CategoryTreesController::class, 'byScope']);
     });
 
 /*
@@ -141,4 +148,11 @@ Route::prefix('v2')
         Route::post('email-templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class, 'duplicate']);
         Route::apiResource('config-variables', \Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
         Route::apiResource('ai-system-prompts', \Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController::class);
+        Route::apiResource('category-trees/{category_tree}/categories', \Motor\Admin\Http\Controllers\Api\V2\CategoriesController::class, [
+            'parameters' => ['category-trees' => 'category'],
+        ]);
+        Route::apiResource('category-trees', \Motor\Admin\Http\Controllers\Api\V2\CategoryTreesController::class, [
+            'parameters' => ['category-trees' => 'category'],
+        ]);
+        Route::get('category-trees/scope/{scope}', [\Motor\Admin\Http\Controllers\Api\V2\CategoryTreesController::class, 'byScope']);
     });
