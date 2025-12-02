@@ -108,6 +108,11 @@ Route::prefix('v1')
     ->middleware('auth:sanctum')
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V1\UsersController::class);
+        Route::apiResource('clients', \Motor\Admin\Http\Controllers\Api\V1\ClientsController::class);
+        Route::apiResource('roles', \Motor\Admin\Http\Controllers\Api\V1\RolesController::class);
+        Route::apiResource('permission_groups', \Motor\Admin\Http\Controllers\Api\V1\PermissionGroupsController::class);
+        Route::apiResource('permissions', \Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class);
+        Route::get('permissions_items/{permission_group}', [\Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class, 'items']);
     });
 
 /*
@@ -119,4 +124,9 @@ Route::prefix('v2')
     ->middleware('auth:sanctum')
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
+        Route::apiResource('clients', \Motor\Admin\Http\Controllers\Api\V2\ClientsController::class);
+        Route::apiResource('roles', \Motor\Admin\Http\Controllers\Api\V2\RolesController::class);
+        Route::apiResource('permission-groups', \Motor\Admin\Http\Controllers\Api\V2\PermissionGroupsController::class);
+        Route::apiResource('permissions', \Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class);
+        Route::get('permissions-items/{permission_group}', [\Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class, 'items']);
     });
