@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Controllers\Api;
 
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Illuminate\Http\JsonResponse;
 use Kalnoy\Nestedset\NestedSet;
 use Motor\Admin\Http\Controllers\ApiController;
@@ -15,8 +16,10 @@ use Motor\Admin\Services\CategoryService;
 use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
- * Class CategoriesController
+ * @note Excluded from Scramble docs due to recursive CategoryResource type causing stack overflow.
+ * Will be properly typed in V2 API.
  */
+#[ExcludeAllRoutesFromDocs]
 class CategoryTreesController extends ApiController
 {
     protected string $model = Category::class;
