@@ -2,13 +2,25 @@
 
 return [
     'items' => [
-        0 => [
+        0   => [
             'slug'        => 'dashboard',
             'icon'        => 'home',
             'route'       => 'admin.dashboard',
             'roles'       => ['SuperAdmin'],
             'permissions' => ['dashboard.read'],
             'name'        => 'motor-admin.global.dashboard',
+        ],
+        700 => [
+            'items'       => [
+                150 => [
+                    'slug'        => 'email_templates',
+                    'icon'        => 'fa fa-plus',
+                    'route'       => 'admin.motor-admin.email-templates',
+                    'roles'       => ['SuperAdmin'],
+                    'permissions' => ['email_templates.read'],
+                    'name'        => 'motor-admin.email_templates.email_templates',
+                ],
+            ],
         ],
         900 => [
             'slug'        => 'administration',
