@@ -72,26 +72,16 @@ Route::middleware('auth:sanctum')
         });
     });
 
-// Route::group([
-//    'prefix' => 'api',
-// ], static function () {
-// })
-//     ->middleware('auth:sanctum');
 
 // Route::post('/api/auth/register', [AuthController::class, 'register']);
-//
-// Route::post('/api/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-//    Route::get('/api/me', function (Request $request) {
-//        return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
-//    });
-//
-//    Route::post('/api/auth/logout', [AuthController::class, 'logout']);
-//
-//    Route::get('/api/admin_navigations', [AdminNavigationsController::class, 'index'])
-//         ->name('admin_navigations.index');
-// });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+   Route::get('/me', function (Request $request) {
+       return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
+   });
+   Route::post('/auth/logout', [AuthController::class, 'logout']);
+});
 
 Route::group([
     'prefix' => 'api/frontend',
