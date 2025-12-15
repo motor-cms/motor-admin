@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class LanguagesController extends ApiController
 {
+    protected string $model = Language::class;
+
+    protected string $modelResource = 'language';
+
     public function index(LanguageGetRequest $request): LanguageCollection
     {
         $paginator = LanguageService::collection()

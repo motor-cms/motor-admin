@@ -20,6 +20,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class PermissionsController extends ApiController
 {
+    protected string $model = Permission::class;
+
+    protected string $modelResource = 'permission';
+
     public function index(PermissionGetRequest $request): PermissionCollection
     {
         $paginator = PermissionService::collection()

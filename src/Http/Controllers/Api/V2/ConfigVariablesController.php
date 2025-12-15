@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class ConfigVariablesController extends ApiController
 {
+    protected string $model = ConfigVariable::class;
+
+    protected string $modelResource = 'config_variable';
+
     public function index(ConfigVariableGetRequest $request): ConfigVariableCollection
     {
         $paginator = ConfigVariableService::collection()

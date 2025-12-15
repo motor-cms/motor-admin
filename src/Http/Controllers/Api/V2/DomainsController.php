@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class DomainsController extends ApiController
 {
+    protected string $model = Domain::class;
+
+    protected string $modelResource = 'domain';
+
     public function index(DomainGetRequest $request): DomainCollection
     {
         $paginator = DomainService::collection()

@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class RolesController extends ApiController
 {
+    protected string $model = Role::class;
+
+    protected string $modelResource = 'role';
+
     public function index(RoleGetRequest $request): RoleCollection
     {
         $paginator = RoleService::collection()

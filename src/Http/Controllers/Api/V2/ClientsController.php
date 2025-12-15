@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class ClientsController extends ApiController
 {
+    protected string $model = Client::class;
+
+    protected string $modelResource = 'client';
+
     public function index(ClientGetRequest $request): ClientCollection
     {
         $paginator = ClientService::collection()
