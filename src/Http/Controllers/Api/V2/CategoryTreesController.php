@@ -25,6 +25,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class CategoryTreesController extends ApiController
 {
+    protected string $model = Category::class;
+
+    protected string $modelResource = 'category';
+
     public function index(CategoryTreeGetRequest $request): CategoryCollection
     {
         $service = CategoryService::collection();

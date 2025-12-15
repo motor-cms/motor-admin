@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class AISystemPromptsController extends ApiController
 {
+    protected string $model = AISystemPrompt::class;
+
+    protected string $modelResource = 'ai_system_prompt';
+
     public function index(AISystemPromptGetRequest $request): AISystemPromptCollection
     {
         $paginator = AISystemPromptService::collection()

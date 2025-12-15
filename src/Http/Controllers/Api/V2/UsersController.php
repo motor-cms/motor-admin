@@ -20,6 +20,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class UsersController extends ApiController
 {
+    protected string $model = User::class;
+
+    protected string $modelResource = 'user';
+
     /**
      * List all users
      *

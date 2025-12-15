@@ -21,6 +21,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class EmailTemplatesController extends ApiController
 {
+    protected string $model = EmailTemplate::class;
+
+    protected string $modelResource = 'email_template';
+
     public function index(EmailTemplateGetRequest $request): EmailTemplateCollection
     {
         if ($request->user()->cannot('viewAny', EmailTemplate::class)) {

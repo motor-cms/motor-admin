@@ -18,6 +18,10 @@ use Motor\Core\Http\Controllers\Api\V2\ApiController;
  */
 class PermissionGroupsController extends ApiController
 {
+    protected string $model = PermissionGroup::class;
+
+    protected string $modelResource = 'permission_group';
+
     public function index(PermissionGroupGetRequest $request): PermissionGroupCollection
     {
         $paginator = PermissionGroupService::collection()
