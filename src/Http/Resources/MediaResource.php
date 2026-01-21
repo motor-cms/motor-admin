@@ -20,8 +20,8 @@ class MediaResource extends BaseResource
 
         if (config('filesystems.has_s3')) {
             $s3 = \Storage::disk('media-s3');
-            if ($s3->exists($this->id.'/'.$this->file_name)) {
-                $urlPrefix = $s3->url($this->id);
+            if ($s3->exists('media/'.$this->id.'/'.$this->file_name)) {
+                $urlPrefix = $s3->url('media/'.$this->id);
             }
         }
 
