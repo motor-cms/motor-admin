@@ -15,13 +15,15 @@ class MediaResource extends BaseResource
     public function toArray($request): array
     {
         URL::forceRootUrl(config('app.url'));
+        $prependAppUrl = true;
 
         $urlPrefix = $diskUrl = \Storage::disk('media')->url($this->id);
 
         if (config('filesystems.has_s3')) {
             $s3 = \Storage::disk('media-s3');
-            if ($s3->exists($this->id.'/'.$this->file_name)) {
-                $urlPrefix = $s3->url($this->id);
+            if ($s3->exists('media/'.$this->id.'/'.$this->file_name)) {
+                $urlPrefix = $s3->url('media/'.$this->id);
+                $prependAppUrl = false;
             }
         }
 
@@ -30,9 +32,9 @@ class MediaResource extends BaseResource
             foreach ($this->generated_conversions as $conversion => $status) {
                 if ($status) {
                     if ($this->mime_type === 'image/gif') {
-                        $conversions[$conversion] = $urlPrefix.'/'. $this->file_name;
+                        $conversions[$conversion] = ($prependAppUrl ? config('app.url') : '').$urlPrefix.'/'.$this->file_name;
                     } else {
-                        $conversions[$conversion] = config('app.url').str_replace($diskUrl, $urlPrefix, $this->getUrl($conversion));
+                        $conversions[$conversion] = ($prependAppUrl ? config('app.url') : '').str_replace($diskUrl, $urlPrefix, $this->getUrl($conversion));
                     }
                 }
             }
@@ -45,7 +47,7 @@ class MediaResource extends BaseResource
             'size'        => (int) $this->size,
             'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
-            'url'         => config('app.url').$urlPrefix.'/'.$this->file_name,
+            'url'         => ($prependAppUrl ? config('app.url') : '').$urlPrefix.'/'.$this->file_name,
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,
