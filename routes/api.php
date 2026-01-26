@@ -12,6 +12,7 @@ use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
 use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
+use Motor\Admin\Http\Controllers\Api\EmailTemplateUsageController;
 use Motor\Admin\Http\Controllers\Api\Frontend\DomainsController as FrontendDomainsController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
@@ -35,6 +36,8 @@ Route::middleware('auth:sanctum')
         Route::get('permissions_items/{permission_group}', [PermissionsController::class, 'items']);
         Route::apiResource('email_templates', EmailTemplatesController::class);
         Route::post('email_templates/duplicate', [EmailTemplatesController::class, 'duplicate']);
+        Route::get('email_templates/{template_id}/usage', [EmailTemplateUsageController::class, 'usage'])
+             ->name('email_templates.usage');
 
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
         Route::post('ai_help', [AIHelpController::class, 'store']);
