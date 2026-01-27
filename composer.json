@@ -14,7 +14,7 @@
   "require": {
     "php": "^8.4",
     "ext-intl": "*",
-    "motor-cms/motor-core": "^4.0",
+    "motor-cms/motor-core": "^4.0 || >=2025.0.0",
     "laravel/sanctum": "^4.0",
     "laravel/scout": "^10.0",
     "symfony/intl": "^7.1",
