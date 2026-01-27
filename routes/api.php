@@ -148,4 +148,7 @@ Route::prefix('v2')
             'parameters' => ['category-trees' => 'category'],
         ]);
         Route::get('category-trees/scope/{scope}', [\Motor\Admin\Http\Controllers\Api\V2\CategoryTreesController::class, 'byScope']);
+
+        Route::get('admin-navigations', [AdminNavigationsController::class, 'index'])
+             ->name('admin-navigations.index');
     });
