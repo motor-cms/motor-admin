@@ -12,6 +12,7 @@ use Motor\Admin\Http\Controllers\Api\ConfigVariablesController;
 use Motor\Admin\Http\Controllers\Api\DomainsController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
+use Motor\Admin\Http\Controllers\Api\EmailTemplateUsageController;
 use Motor\Admin\Http\Controllers\Api\Frontend\DomainsController as FrontendDomainsController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
@@ -35,6 +36,8 @@ Route::middleware('auth:sanctum')
         Route::get('permissions_items/{permission_group}', [PermissionsController::class, 'items']);
         Route::apiResource('email_templates', EmailTemplatesController::class);
         Route::post('email_templates/duplicate', [EmailTemplatesController::class, 'duplicate']);
+        Route::get('email_templates/{template_id}/usage', [EmailTemplateUsageController::class, 'usage'])
+             ->name('email_templates.usage');
 
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
         Route::post('ai_help', [AIHelpController::class, 'store']);
@@ -72,26 +75,16 @@ Route::middleware('auth:sanctum')
         });
     });
 
-// Route::group([
-//    'prefix' => 'api',
-// ], static function () {
-// })
-//     ->middleware('auth:sanctum');
 
 // Route::post('/api/auth/register', [AuthController::class, 'register']);
-//
-// Route::post('/api/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-//    Route::get('/api/me', function (Request $request) {
-//        return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
-//    });
-//
-//    Route::post('/api/auth/logout', [AuthController::class, 'logout']);
-//
-//    Route::get('/api/admin_navigations', [AdminNavigationsController::class, 'index'])
-//         ->name('admin_navigations.index');
-// });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+   Route::get('/me', function (Request $request) {
+       return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
+   });
+   Route::post('/auth/logout', [AuthController::class, 'logout']);
+});
 
 Route::group([
     'prefix' => 'api/frontend',
