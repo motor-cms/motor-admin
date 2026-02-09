@@ -48,6 +48,7 @@ class MediaResource extends BaseResource
             'size_human'  => Filesize::bytesToHuman((int) $this->size),
             'mime_type'   => $this->mime_type,
             'url'         => ($prependAppUrl ? config('app.url') : '').$urlPrefix.'/'.$this->file_name,
+            'local_url'   => config('app.url').$diskUrl.'/'.$this->file_name,
             'path'        => $this->getPath(),
             'uuid'        => $this->uuid,
             'created_at'  => (string) $this->created_at,
