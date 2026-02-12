@@ -29,6 +29,9 @@ class CategoryTreesController extends ApiController
 
     protected string $modelResource = 'category';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<CategoryResource>>
+     */
     public function index(CategoryTreeGetRequest $request): CategoryCollection
     {
         $service = CategoryService::collection();

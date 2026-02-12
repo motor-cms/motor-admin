@@ -25,6 +25,9 @@ class EmailTemplatesController extends ApiController
 
     protected string $modelResource = 'email_template';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<EmailTemplateResource>>
+     */
     public function index(EmailTemplateGetRequest $request): EmailTemplateCollection
     {
         if ($request->user()->cannot('viewAny', EmailTemplate::class)) {

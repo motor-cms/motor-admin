@@ -22,6 +22,9 @@ class DomainsController extends ApiController
 
     protected string $modelResource = 'domain';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<DomainResource>>
+     */
     public function index(DomainGetRequest $request): DomainCollection
     {
         $paginator = DomainService::collection()

@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Http\Resources\MediaResource;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
@@ -23,7 +24,7 @@ class UserResource extends BaseResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'avatar' => $this->getFirstMedia('avatar')?->getUrl(),
+            'avatar'      => new MediaResource($this->getFirstMedia('avatar')),
             'clients' => $this->whenLoaded('clients', fn () => ClientResource::collection($this->clients)),
             'roles' => $this->whenLoaded('roles', fn () => $this->roles->pluck('name')),
             'permissions' => $this->whenLoaded('roles', fn () => $this->roles->flatMap->permissions->unique('id')->pluck('name')),

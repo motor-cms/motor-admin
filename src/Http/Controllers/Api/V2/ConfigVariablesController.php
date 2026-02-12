@@ -22,6 +22,9 @@ class ConfigVariablesController extends ApiController
 
     protected string $modelResource = 'config_variable';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<ConfigVariableResource>>
+     */
     public function index(ConfigVariableGetRequest $request): ConfigVariableCollection
     {
         $paginator = ConfigVariableService::collection()

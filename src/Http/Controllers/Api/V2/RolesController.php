@@ -22,6 +22,9 @@ class RolesController extends ApiController
 
     protected string $modelResource = 'role';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<RoleResource>>
+     */
     public function index(RoleGetRequest $request): RoleCollection
     {
         $paginator = RoleService::collection()

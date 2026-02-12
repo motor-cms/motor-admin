@@ -22,6 +22,9 @@ class AISystemPromptsController extends ApiController
 
     protected string $modelResource = 'ai_system_prompt';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<AISystemPromptResource>>
+     */
     public function index(AISystemPromptGetRequest $request): AISystemPromptCollection
     {
         $paginator = AISystemPromptService::collection()

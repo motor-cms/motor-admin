@@ -22,6 +22,9 @@ class ClientsController extends ApiController
 
     protected string $modelResource = 'client';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<ClientResource>>
+     */
     public function index(ClientGetRequest $request): ClientCollection
     {
         $paginator = ClientService::collection()

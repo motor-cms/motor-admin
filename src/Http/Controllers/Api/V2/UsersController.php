@@ -29,7 +29,7 @@ class UsersController extends ApiController
      *
      * Returns a paginated list of users with standardized V2 envelope.
      *
-     * @response UserCollection
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<UserResource>>
      */
     public function index(UserGetRequest $request): UserCollection
     {

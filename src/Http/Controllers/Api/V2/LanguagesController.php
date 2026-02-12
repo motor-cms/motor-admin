@@ -22,6 +22,9 @@ class LanguagesController extends ApiController
 
     protected string $modelResource = 'language';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<LanguageResource>>
+     */
     public function index(LanguageGetRequest $request): LanguageCollection
     {
         $paginator = LanguageService::collection()
