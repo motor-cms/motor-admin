@@ -28,6 +28,7 @@ class DomainPostRequest extends Request
             ],
             'is_active' => [
                 'required',
+                'boolean',
             ],
             'name' => [
                 'required',
@@ -40,6 +41,7 @@ class DomainPostRequest extends Request
             ],
             'port' => [
                 'required',
+                'integer',
             ],
             'path' => [
                 'required',

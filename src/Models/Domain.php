@@ -81,6 +81,14 @@ class Domain extends Model
         'is_active',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'port' => 'integer',
+            'is_active' => 'boolean',
+        ];
+    }
+
     public function scopeActiveDomainByHostPortScheme(Builder $query, string $host, int $port, string $schema): Builder
     {
         return $query->where('is_active', true)

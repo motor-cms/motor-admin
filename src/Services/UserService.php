@@ -90,6 +90,7 @@ class UserService extends BaseService
     {
         if (Arr::get($this->data, 'roles')) {
             $this->record->syncRoles(Arr::get($this->data, 'roles', []));
+            $this->record->syncPermissions(Arr::get($this->data, 'permissions', []));
         }
     }
 }

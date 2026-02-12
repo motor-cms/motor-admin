@@ -5,7 +5,8 @@ namespace Motor\Admin\Http\Resources\V2;
 use Illuminate\Http\Request;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
-class DomainResource extends BaseResource
+class
+DomainResource extends BaseResource
 {
     public function toArray(Request $request): array
     {
@@ -20,7 +21,7 @@ class DomainResource extends BaseResource
             'is_active' => (bool) $this->is_active,
             'protocol' => $this->protocol,
             'host' => $this->host,
-            'port' => $this->port,
+            'port' => (int) $this->port,
             'path' => $this->path,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),

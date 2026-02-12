@@ -50,6 +50,8 @@ class UsersController extends ApiController
         $result = UserService::show($user)
             ->getResult();
 
+        $result->load('clients', 'roles', 'roles.permissions', 'permissions');
+
         return (new UserResource($result))
             ->additional(['meta' => ['message' => 'User retrieved']]);
     }

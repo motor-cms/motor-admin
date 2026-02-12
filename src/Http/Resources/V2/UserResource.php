@@ -26,8 +26,8 @@ class UserResource extends BaseResource
             'email' => $this->email,
             'avatar'      => new MediaResource($this->getFirstMedia('avatar')),
             'clients' => $this->whenLoaded('clients', fn () => ClientResource::collection($this->clients)),
-            'roles' => $this->whenLoaded('roles', fn () => $this->roles->pluck('name')),
-            'permissions' => $this->whenLoaded('roles', fn () => $this->roles->flatMap->permissions->unique('id')->pluck('name')),
+            'roles' => $this->whenLoaded('roles', fn () => RoleResource::collection($this->roles)),
+            'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
