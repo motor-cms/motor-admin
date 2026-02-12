@@ -22,10 +22,15 @@ class PermissionGroupsController extends ApiController
 
     protected string $modelResource = 'permission_group';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<PermissionGroupResource>>
+     */
     public function index(PermissionGroupGetRequest $request): PermissionGroupCollection
     {
         $paginator = PermissionGroupService::collection()
             ->getPaginator();
+
+        $paginator->load('permissions');
 
         return (new PermissionGroupCollection($paginator))
             ->additional(['meta' => ['message' => 'Permission groups retrieved']]);

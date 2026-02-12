@@ -24,6 +24,9 @@ class PermissionsController extends ApiController
 
     protected string $modelResource = 'permission';
 
+    /**
+     * @response Illuminate\Http\Resources\Json\AnonymousResourceCollection<Illuminate\Pagination\LengthAwarePaginator<PermissionResource>>
+     */
     public function index(PermissionGetRequest $request): PermissionCollection
     {
         $paginator = PermissionService::collection()

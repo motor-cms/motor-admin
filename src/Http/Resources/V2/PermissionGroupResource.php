@@ -13,6 +13,7 @@ class PermissionGroupResource extends BaseResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'sort_position' => $this->sort_position,
+            'permission_names' => $this->whenLoaded('permissions', fn () => $this->permissions->pluck('name')->values()->all()),
             'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
