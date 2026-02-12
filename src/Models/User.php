@@ -14,6 +14,7 @@ use Motor\Core\Traits\Filterable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -69,6 +70,7 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
+    use HasPermissions;
     use HasShortflakePrimary;
     use InteractsWithMedia;
     use Notifiable;
