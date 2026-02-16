@@ -23,6 +23,10 @@ class PermissionGroupPostRequest extends Request
     {
         return [
             'name' => 'required',
+            'sort_position' => [
+                'nullable',
+                'integer',
+            ],
         ];
     }
 }
