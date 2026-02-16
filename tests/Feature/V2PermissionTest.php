@@ -78,4 +78,8 @@ describe('V2 Permission API', function () {
             Permission::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/permissions', Permission::first()->id);
+    });
 });

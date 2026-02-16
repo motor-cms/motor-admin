@@ -85,4 +85,8 @@ describe('V2 Domain API', function () {
             Domain::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/domains', Domain::first()->id);
+    });
 });

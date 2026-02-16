@@ -22,7 +22,8 @@ class CategoryResource extends BaseResource
             'parent_id' => $this->parent_id ? (int) $this->parent_id : null,
             '_lft' => (int) $this->_lft,
             '_rgt' => (int) $this->_rgt,
-            'level' => $this->whenNotNull($this->depth, fn () => (int) $this->depth),
+            'level' => (int) $this->ancestors()
+                ->count(),
             // Only include children when explicitly loaded - breaks Scramble recursion
             'children' => $this->whenLoaded('children', fn () => CategoryResource::collection($this->children)),
             'created_at' => $this->created_at?->toIso8601String(),

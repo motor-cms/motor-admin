@@ -65,4 +65,8 @@ describe('V2 Language API', function () {
             Language::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/languages', Language::first()->id);
+    });
 });

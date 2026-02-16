@@ -40,7 +40,6 @@ class CategoryService extends BaseService
         // Check if the record and the parent have the same scope
         if (isset($this->record->scope) && $this->request->get('parent_id')) {
             $parent = Category::find($this->request->get('parent_id'));
-            dd($parent);
         }
 
         // Get previous sibling (if it exists)

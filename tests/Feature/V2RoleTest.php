@@ -74,4 +74,8 @@ describe('V2 Role API', function () {
             Role::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/roles', Role::first()->id);
+    });
 });

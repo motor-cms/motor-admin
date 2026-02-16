@@ -56,4 +56,8 @@ describe('V2 Client API', function () {
             Client::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/clients', Client::first()->id);
+    });
 });
