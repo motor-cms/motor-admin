@@ -73,6 +73,10 @@ class EmailTemplatePostRequest extends Request
             'default_replyto_email' => [
                 'nullable',
             ],
+            'has_body_html' => [
+                'nullable',
+                'boolean',
+            ],
         ];
     }
 }
