@@ -115,4 +115,31 @@ describe('V2 CategoryTree API', function () {
             ])
             ->assertStatus(422);
     });
+
+    it('can delete a category tree with 204 No Content', function () {
+        $categoryTree = Category::whereName('Test #1')->first();
+
+        assertV2CrudDelete('/api/v2/category-trees/'.$categoryTree->id, Category::class);
+    });
+
+    it('can get a category tree by scope', function () {
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/category-trees/scope/default');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2')
+            ->assertJson(fn (AssertableJson $json) => $json->has(
+                'data',
+                fn (AssertableJson $data) => $data
+                    ->has('id')
+                    ->has('name')
+                    ->where('scope', 'default')
+                    ->has('children')
+                    ->etc()
+            )->etc());
+    });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/category-trees', Category::whereName('Default')->first()->id);
+    });
 });

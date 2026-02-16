@@ -89,4 +89,26 @@ describe('V2 EmailTemplate API', function () {
             EmailTemplate::class
         );
     });
+
+    it('can duplicate email templates', function () {
+        $countBefore = EmailTemplate::count();
+        $template = EmailTemplate::first();
+
+        $response = $this->asAdmin()
+            ->postJson('/api/v2/email-templates/duplicate', [
+                'action' => 'duplicate',
+                'data' => [['id' => $template->id]],
+                'all' => false,
+            ]);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2')
+            ->assertJsonPath('meta.message', 'Email templates duplicated');
+        expect(EmailTemplate::count() - $countBefore)->toBe(1);
+    });
+
+    it('denies access to unauthenticated users', function () {
+        $this->getJson('/api/v2/email-templates')->assertStatus(401);
+        $this->postJson('/api/v2/email-templates', [])->assertStatus(401);
+    });
 });

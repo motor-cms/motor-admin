@@ -26,7 +26,7 @@ describe('V2 User API', function () {
         $response = $this->asAdmin()
             ->getJson('/api/v2/users/'.$this->admin()->id);
 
-        // Note: show endpoint currently doesn't eager-load relations (uses whenLoaded)
+        // Note: show endpoint eager-loads clients, roles, roles.permissions, permissions
         $response->assertStatus(200)
             ->assertJsonPath('meta.api_version', 'v2')
             ->assertJson(fn (AssertableJson $json) => $json->has(
@@ -93,6 +93,31 @@ describe('V2 User API', function () {
         $userToDelete = User::whereEmail('writer@motor-cms.com')->first();
 
         assertV2CrudDelete('/api/v2/users/'.$userToDelete->id, User::class);
+    });
+
+    it('returns 404 with V2 error envelope for non-existent user', function () {
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/users/99999');
+
+        $response->assertStatus(404)
+            ->assertJsonPath('meta.api_version', 'v2')
+            ->assertJsonPath('error.code', 'NOT_FOUND')
+            ->assertJsonStructure([
+                'error' => ['code', 'message'],
+                'meta' => ['api_version'],
+            ]);
+    });
+
+    it('returns 401 for unauthenticated request', function () {
+        $response = $this->getJson('/api/v2/users');
+
+        $response->assertStatus(401)
+            ->assertJsonPath('meta.api_version', 'v2')
+            ->assertJsonPath('error.code', 'UNAUTHORIZED')
+            ->assertJsonStructure([
+                'error' => ['code', 'message'],
+                'meta' => ['api_version'],
+            ]);
     });
 
     it('denies access to basic users', function () {

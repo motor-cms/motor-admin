@@ -149,9 +149,19 @@ abstract class BaseService
             $query = $query->query(fn ($query) => $query = $query->with($this->loadColumns));
         }
 
-        return $query->paginate($this->getFilter()
-                                     ->get('per_page')
-                                     ->getValue() ?? 25);
+        $perPage = $this->getFilter()
+            ->get('per_page')
+            ->getValue() ?? 25;
+
+        if ($perPage === 0 || $perPage === '0') {
+            if (method_exists($query, 'count')) {
+                $perPage = $query->count() ?: 1;
+            } else {
+                $perPage = $query->paginate(1)->total() ?: 1;
+            }
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**

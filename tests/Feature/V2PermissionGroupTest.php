@@ -56,4 +56,25 @@ describe('V2 PermissionGroup API', function () {
             PermissionGroup::class
         );
     });
+
+    it('includes permissions and permission_names in show response', function () {
+        $group = PermissionGroup::whereName('users')->first();
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/permission-groups/'.$group->id);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2')
+            ->assertJson(fn (\Illuminate\Testing\Fluent\AssertableJson $json) => $json->has(
+                'data',
+                fn (\Illuminate\Testing\Fluent\AssertableJson $data) => $data
+                    ->has('permissions')
+                    ->has('permission_names')
+                    ->etc()
+            )->etc());
+    });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/permission-groups', PermissionGroup::first()->id);
+    });
 });

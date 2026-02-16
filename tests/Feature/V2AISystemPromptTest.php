@@ -62,4 +62,8 @@ describe('V2 AISystemPrompt API', function () {
             AiSystemPrompt::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/ai-system-prompts', AiSystemPrompt::first()->id);
+    });
 });

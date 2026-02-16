@@ -64,4 +64,8 @@ describe('V2 ConfigVariable API', function () {
             ConfigVariable::class
         );
     });
+
+    it('denies access to basic users', function () {
+        assertV2PermissionsDenied('/api/v2/config-variables', ConfigVariable::first()->id);
+    });
 });
