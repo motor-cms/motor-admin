@@ -146,7 +146,13 @@ abstract class BaseService
         $query = $this->applyScopes($query);
         $query = $this->applySorting($query);
         if (! empty($this->loadColumns)) {
-            $query = $query->query(fn ($query) => $query = $query->with($this->loadColumns));
+            if (method_exists($query, 'query')) {
+                // Scout Builder: use ->query() to apply eager-loading to underlying Eloquent query
+                $query = $query->query(fn ($query) => $query = $query->with($this->loadColumns));
+            } else {
+                // Eloquent Builder: apply eager-loading directly
+                $query = $query->with($this->loadColumns);
+            }
         }
 
         $perPage = $this->getFilter()
@@ -245,6 +251,9 @@ abstract class BaseService
     public function doShow(): static
     {
         $this->beforeShow();
+        if (! empty($this->loadColumns)) {
+            $this->record->loadMissing($this->loadColumns);
+        }
         $this->result = $this->record;
         $this->afterShow();
 
@@ -265,7 +274,7 @@ abstract class BaseService
         $this->result = $this->record->save();
         $this->afterCreate();
         if ($this->result) {
-            $this->result = $this->record->fresh();
+            $this->result = $this->record->fresh($this->loadColumns);
         }
 
         return $this;
@@ -283,7 +292,7 @@ abstract class BaseService
         $this->result = $this->record->update($this->data);
         $this->afterUpdate();
         if ($this->result) {
-            $this->result = $this->record->fresh();
+            $this->result = $this->record->fresh($this->loadColumns);
         }
 
         return $this;
