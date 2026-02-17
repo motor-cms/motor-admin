@@ -13,9 +13,9 @@ class UserResource extends BaseResource
     {
         return [
             'id'          => (int) $this->id,
-            'clients'     => ClientResource::collection($this->clients),
-            'roles'       => RoleResource::collection($this->roles),
-            'permissions' => PermissionResource::collection($this->roles->flatMap->permissions->unique('id')),
+            'clients'     => $this->whenLoaded('clients', fn () => ClientResource::collection($this->clients)),
+            'roles'       => $this->whenLoaded('roles', fn () => RoleResource::collection($this->roles)),
+            'permissions' => $this->whenLoaded('roles', fn () => PermissionResource::collection($this->roles->flatMap->permissions->unique('id'))),
             'name'        => $this->name,
             'email'       => $this->email,
             'avatar'      => new MediaResource($this->getFirstMedia('avatar')),

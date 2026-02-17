@@ -15,7 +15,7 @@ class RoleResource extends BaseResource
             'id'          => $this->id,
             'name'        => $this->name,
             'guard_name'  => $this->guard_name,
-            'permissions' => PermissionResource::collection($this->permissions),
+            'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
         ];
     }
 }

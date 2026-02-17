@@ -14,6 +14,8 @@ class RoleService extends BaseService
 {
     protected $model = Role::class;
 
+    protected array $loadColumns = ['permissions'];
+
     public function filters(): void
     {
         $this->filter->add(new SelectRenderer('guard_name'))
@@ -22,17 +24,17 @@ class RoleService extends BaseService
 
     public function afterCreate(): void
     {
-        foreach (Arr::get($this->data, 'permissions', []) as $permission) {
-            $this->record->givePermissionTo(Permission::find((int) $permission));
+        $permissionIds = Arr::get($this->data, 'permissions', []);
+        if (! empty($permissionIds)) {
+            $permissions = Permission::whereIn('id', $permissionIds)->get();
+            $this->record->givePermissionTo($permissions);
         }
     }
 
     public function afterUpdate(): void
     {
-        foreach (Permission::all() as $permission) {
-            $this->record->revokePermissionTo($permission);
-        }
-
-        $this->afterCreate();
+        $permissionIds = Arr::get($this->data, 'permissions', []);
+        $permissions = Permission::whereIn('id', $permissionIds)->get();
+        $this->record->syncPermissions($permissions);
     }
 }
