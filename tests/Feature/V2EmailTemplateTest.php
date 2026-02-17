@@ -111,4 +111,56 @@ describe('V2 EmailTemplate API', function () {
         $this->getJson('/api/v2/email-templates')->assertStatus(401);
         $this->postJson('/api/v2/email-templates', [])->assertStatus(401);
     });
+
+    it('can filter email templates by client_id', function () {
+        $client = Client::first();
+        $otherClient = Client::factory()->create(['slug' => 'other-client']);
+
+        $matchingTemplate = EmailTemplate::factory()->create([
+            'client_id' => $client->id,
+            'language_id' => Language::first()->id,
+            'name' => 'Matching Template',
+        ]);
+        $otherTemplate = EmailTemplate::factory()->create([
+            'client_id' => $otherClient->id,
+            'language_id' => Language::first()->id,
+            'name' => 'Other Template',
+        ]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/email-templates?client_id='.$client->id);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($matchingTemplate->id);
+        expect($returnedIds)->not->toContain($otherTemplate->id);
+    });
+
+    it('can filter email templates by language_id', function () {
+        $german = Language::where('iso_639_1', 'de')->first();
+        $english = Language::where('iso_639_1', 'en')->first();
+
+        $germanTemplate = EmailTemplate::factory()->create([
+            'client_id' => Client::first()->id,
+            'language_id' => $german->id,
+            'name' => 'German Template',
+        ]);
+        $englishTemplate = EmailTemplate::factory()->create([
+            'client_id' => Client::first()->id,
+            'language_id' => $english->id,
+            'name' => 'English Template',
+        ]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/email-templates?language_id='.$german->id);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($germanTemplate->id);
+        expect($returnedIds)->not->toContain($englishTemplate->id);
+    });
 });

@@ -13,7 +13,8 @@ class UserGetRequest extends PaginatedGetRequest
     {
         return parent::rules() + [
             'client_id' => [
-                'exists:clients,id',
+                'sometimes',
+                'integer',
             ],
         ];
     }

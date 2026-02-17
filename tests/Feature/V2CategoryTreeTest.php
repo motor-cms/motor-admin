@@ -142,4 +142,20 @@ describe('V2 CategoryTree API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/category-trees', Category::whereName('Default')->first()->id);
     });
+
+    it('can filter category trees by scope', function () {
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/category-trees?scope=default');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $data = $response->json('data');
+        expect(count($data))->toBeGreaterThan(0);
+
+        // All returned trees should have scope 'default'
+        foreach ($data as $item) {
+            expect($item['scope'])->toBe('default');
+        }
+    });
 });

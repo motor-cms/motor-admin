@@ -12,7 +12,12 @@ class CategoryGetRequest extends PaginatedGetRequest
     public function rules(): array
     {
         return parent::rules() + [
+            'parent_id' => [
+                'sometimes',
+                'integer',
+            ],
             'scope' => [
+                'sometimes',
                 'string',
             ],
         ];
