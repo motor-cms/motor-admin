@@ -5,6 +5,7 @@ namespace Motor\Admin\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\Client;
+use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
  * Class ClientService
@@ -12,6 +13,11 @@ use Motor\Admin\Models\Client;
 class ClientService extends BaseService
 {
     protected $model = Client::class;
+
+    public function filters(): void
+    {
+        $this->filter->add(new WhereRenderer('is_active'));
+    }
 
     public function beforeCreate(): void
     {
