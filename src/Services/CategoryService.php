@@ -3,6 +3,7 @@
 namespace Motor\Admin\Services;
 
 use Motor\Admin\Models\Category;
+use Motor\Core\Filter\Renderers\SelectRenderer;
 use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
@@ -15,6 +16,8 @@ class CategoryService extends BaseService
     public function filters(): void
     {
         $this->filter->add(new WhereRenderer('parent_id'));
+        $this->filter->add(new SelectRenderer('scope'))
+            ->setOptions(Category::distinct()->pluck('scope', 'scope'));
 
         $searchFilter = $this->getFilter()
             ->get('search');
