@@ -69,8 +69,8 @@ class User extends Authenticatable implements HasMedia
     use Filterable;
     use HasApiTokens;
     use HasFactory;
-    use HasRoles;
     use HasPermissions;
+    use HasRoles;
     use HasShortflakePrimary;
     use InteractsWithMedia;
     use Notifiable;

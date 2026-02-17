@@ -114,5 +114,4 @@ class EmailTemplatesController extends ApiController
 
         return response()->json(['message' => 'EmailTemplates duplicated']);
     }
-
 }

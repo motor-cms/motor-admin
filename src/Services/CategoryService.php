@@ -17,7 +17,7 @@ class CategoryService extends BaseService
     {
         $this->filter->add(new WhereRenderer('parent_id'));
         $this->filter->add(new SelectRenderer('scope'))
-            ->setOptions(Category::distinct()->pluck('scope', 'scope'));
+            ->setOptions(Category::withoutGlobalScope('defaultOrder')->distinct()->pluck('scope', 'scope'));
 
         $searchFilter = $this->getFilter()
             ->get('search');

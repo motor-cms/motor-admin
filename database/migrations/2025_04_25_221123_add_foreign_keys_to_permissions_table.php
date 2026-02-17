@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     use \Motor\Core\Traits\CheckForeignKeys;
 
     /**

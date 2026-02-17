@@ -16,9 +16,9 @@ class EmailTemplateUsageController extends ApiController
         // Find all form configs that use this email template
         // Wrap the OR conditions in a closure to ensure proper query building
         $formConfigs = FormConfig::where(function ($query) use ($template_id) {
-                $query->where('user_email_template_id', $template_id)
-                      ->orWhere('target_email_template_id', $template_id);
-            })
+            $query->where('user_email_template_id', $template_id)
+                ->orWhere('target_email_template_id', $template_id);
+        })
             ->whereHas('builderPage', fn ($query) => $query->where('is_current', true)) // Only current versions of pages
             ->with(['builderPage', 'customContentType'])
             ->get();

@@ -12,9 +12,9 @@ use Motor\Core\Traits\Filterable;
 class AISystemPrompt extends Model
 {
     use Filterable;
+    use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
-    use HasFactory;
 
     protected $table = 'ai_system_prompts';
 

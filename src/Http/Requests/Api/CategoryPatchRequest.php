@@ -2,6 +2,4 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
-class CategoryPatchRequest extends CategoryPostRequest
-{
-}
+class CategoryPatchRequest extends CategoryPostRequest {}

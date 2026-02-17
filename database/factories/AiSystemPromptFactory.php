@@ -3,9 +3,7 @@
 namespace Motor\Admin\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use Motor\Admin\Models\AISystemPrompt;
-use Motor\Admin\Models\Language;
 
 class AiSystemPromptFactory extends Factory
 {

@@ -8,7 +8,6 @@ use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\CategoryGetRequest;
 use Motor\Admin\Http\Requests\Api\CategoryPatchRequest;
 use Motor\Admin\Http\Requests\Api\CategoryPostRequest;
-use Motor\Admin\Http\Requests\Api\CategoryRequest;
 use Motor\Admin\Http\Resources\CategoryCollection;
 use Motor\Admin\Http\Resources\CategoryResource;
 use Motor\Admin\Models\Category;
