@@ -5,8 +5,7 @@ namespace Motor\Admin\Http\Resources\V2;
 use Illuminate\Http\Request;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
-class
-DomainResource extends BaseResource
+class DomainResource extends BaseResource
 {
     public function toArray(Request $request): array
     {

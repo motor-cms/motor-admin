@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')
         Route::apiResource('email_templates', EmailTemplatesController::class);
         Route::post('email_templates/duplicate', [EmailTemplatesController::class, 'duplicate']);
         Route::get('email_templates/{template_id}/usage', [EmailTemplateUsageController::class, 'usage'])
-             ->name('email_templates.usage');
+            ->name('email_templates.usage');
 
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
         Route::post('ai_help', [AIHelpController::class, 'store']);
@@ -75,15 +75,14 @@ Route::middleware('auth:sanctum')
         });
     });
 
-
 // Route::post('/api/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-   Route::get('/me', function (Request $request) {
-       return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
-   });
-   Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/me', function (Request $request) {
+        return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
+    });
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
 
 Route::group([
@@ -150,5 +149,5 @@ Route::prefix('v2')
         Route::get('category-trees/scope/{scope}', [\Motor\Admin\Http\Controllers\Api\V2\CategoryTreesController::class, 'byScope']);
 
         Route::get('admin-navigations', [AdminNavigationsController::class, 'index'])
-             ->name('admin-navigations.index');
+            ->name('admin-navigations.index');
     });
