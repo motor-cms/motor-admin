@@ -82,4 +82,23 @@ describe('V2 Permission API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/permissions', Permission::first()->id);
     });
+
+    it('can filter permissions by permission_group_id', function () {
+        $usersGroup = PermissionGroup::whereName('users')->first();
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/permissions?permission_group_id='.$usersGroup->id);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $data = $response->json('data');
+        expect(count($data))->toBeGreaterThan(0);
+
+        // All returned permissions should belong to the 'users' group
+        foreach ($data as $item) {
+            $permission = Permission::find($item['id']);
+            expect($permission->permission_group_id)->toBe($usersGroup->id);
+        }
+    });
 });

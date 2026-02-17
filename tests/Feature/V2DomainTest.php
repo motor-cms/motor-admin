@@ -89,4 +89,39 @@ describe('V2 Domain API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/domains', Domain::first()->id);
     });
+
+    it('can filter domains by client_id', function () {
+        $client = Client::first();
+        $otherClient = Client::factory()->create(['slug' => 'other-client']);
+
+        $matchingDomain = Domain::factory()->create(['client_id' => $client->id, 'is_active' => true]);
+        $otherDomain = Domain::factory()->create(['client_id' => $otherClient->id, 'is_active' => true]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/domains?client_id='.$client->id);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($matchingDomain->id);
+        expect($returnedIds)->not->toContain($otherDomain->id);
+    });
+
+    it('can filter domains by is_active', function () {
+        $client = Client::first();
+
+        $activeDomain = Domain::factory()->create(['client_id' => $client->id, 'is_active' => true]);
+        $inactiveDomain = Domain::factory()->create(['client_id' => $client->id, 'is_active' => false]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/domains?is_active=1');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($activeDomain->id);
+        expect($returnedIds)->not->toContain($inactiveDomain->id);
+    });
 });

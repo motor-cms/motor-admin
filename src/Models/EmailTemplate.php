@@ -83,6 +83,7 @@ class EmailTemplate extends Model
         return [
             'name'                  => $this->name,
             'client_id'             => (int) $this->client_id,
+            'language_id'           => $this->language_id ? (int) $this->language_id : null,
             'client.name'           => $this->client?->name,
             'language.english_name' => $this->language->english_name,
             'updated_at'             => $this->updated_at,

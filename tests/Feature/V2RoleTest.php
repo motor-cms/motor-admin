@@ -78,4 +78,24 @@ describe('V2 Role API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/roles', Role::first()->id);
     });
+
+    it('can filter roles by guard_name', function () {
+        // All seeded roles use 'web' guard; create one with 'api' guard
+        $apiRole = Role::create(['name' => 'ApiRole', 'guard_name' => 'api']);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/roles?guard_name=api');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($apiRole->id);
+
+        // No 'web' guard roles should be returned
+        $webRoleIds = Role::where('guard_name', 'web')->pluck('id')->all();
+        foreach ($webRoleIds as $webId) {
+            expect($returnedIds)->not->toContain($webId);
+        }
+    });
 });

@@ -24,7 +24,7 @@ return [
 
             ],
             \Motor\Admin\Models\Role::class => [
-                'filterableAttributes' => [],
+                'filterableAttributes' => ['guard_name'],
                 'sortableAttributes'   => ['roles.id', 'created_at', 'updated_at', 'id', 'name', 'guard_name'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
@@ -44,22 +44,22 @@ return [
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\EmailTemplate::class => [
-                'filterableAttributes' => ['email_templates.client_id', 'client_id'],
+                'filterableAttributes' => ['email_templates.client_id', 'client_id', 'language_id'],
                 'sortableAttributes'   => ['email_templates.id', 'is_active', 'language.english_name', 'client.name', 'email_templates.updated_at', 'email_templates.created_at', 'created_at', 'updated_at', 'id', 'name', 'slug'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\ConfigVariable::class => [
-                'filterableAttributes' => ['package', 'group'],
+                'filterableAttributes' => ['package', 'group', 'is_invisible'],
                 'sortableAttributes'   => ['config_variables.id', 'value', 'is_active', 'created_at', 'updated_at', 'id', 'name', 'package', 'group'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Client::class => [
-                'filterableAttributes' => [],
+                'filterableAttributes' => ['is_active'],
                 'sortableAttributes'   => ['language.english_name', 'clients.id', 'value', 'is_active', 'slug', 'contact_name', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],
             \Motor\Admin\Models\Domain::class => [
-                'filterableAttributes' => ['domains.client_id', 'client_id'],
+                'filterableAttributes' => ['domains.client_id', 'client_id', 'is_active'],
                 'sortableAttributes'   => ['domains.id', 'client.name', 'is_active', 'host', 'created_at', 'updated_at', 'id', 'name'],
                 'rankingRules'         => ['sort', 'words', 'typo', 'proximity', 'attribute', 'exactness'],
             ],

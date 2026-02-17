@@ -123,4 +123,7 @@ describe('V2 User API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/users', $this->admin()->id);
     });
+
+    // Note: client_id filter for users relies on Scout/Meilisearch (no client_id column on users table)
+    // Skipping DB-level client_id filter test for users
 });

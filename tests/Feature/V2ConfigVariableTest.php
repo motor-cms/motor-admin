@@ -68,4 +68,63 @@ describe('V2 ConfigVariable API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/config-variables', ConfigVariable::first()->id);
     });
+
+    it('can filter config variables by package', function () {
+        ConfigVariable::factory()->create(['package' => 'motor-media', 'group' => 'test', 'name' => 'media_var']);
+        ConfigVariable::factory()->create(['package' => 'motor-builder', 'group' => 'test', 'name' => 'builder_var']);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/config-variables?package=motor-media');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $data = $response->json('data');
+        expect(count($data))->toBeGreaterThan(0);
+        foreach ($data as $item) {
+            expect($item['package'])->toBe('motor-media');
+        }
+    });
+
+    it('can filter config variables by group', function () {
+        ConfigVariable::factory()->create(['package' => 'test-pkg', 'group' => 'unique-group', 'name' => 'grouped_var']);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/config-variables?group=unique-group');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $data = $response->json('data');
+        expect(count($data))->toBe(1);
+        expect($data[0]['group'])->toBe('unique-group');
+    });
+
+    it('can filter config variables by is_invisible', function () {
+        ConfigVariable::factory()->create([
+            'package' => 'test-pkg',
+            'group' => 'test',
+            'name' => 'visible_var',
+            'is_invisible' => false,
+        ]);
+        ConfigVariable::factory()->create([
+            'package' => 'test-pkg',
+            'group' => 'test',
+            'name' => 'invisible_var',
+            'is_invisible' => true,
+        ]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/config-variables?is_invisible=1');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $data = $response->json('data');
+        expect(count($data))->toBeGreaterThan(0);
+        foreach ($data as $item) {
+            $configVar = ConfigVariable::find($item['id']);
+            expect($configVar->is_invisible)->toBeTruthy();
+        }
+    });
 });

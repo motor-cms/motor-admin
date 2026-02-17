@@ -60,4 +60,26 @@ describe('V2 Client API', function () {
     it('denies access to basic users', function () {
         assertV2PermissionsDenied('/api/v2/clients', Client::first()->id);
     });
+
+    it('can filter clients by is_active', function () {
+        // Create an active and an inactive client
+        $activeClient = Client::factory()->create([
+            'slug' => 'active-client',
+            'is_active' => 1,
+        ]);
+        $inactiveClient = Client::factory()->create([
+            'slug' => 'inactive-client',
+            'is_active' => 0,
+        ]);
+
+        $response = $this->asAdmin()
+            ->getJson('/api/v2/clients?is_active=1');
+
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.api_version', 'v2');
+
+        $returnedIds = collect($response->json('data'))->pluck('id')->all();
+        expect($returnedIds)->toContain($activeClient->id);
+        expect($returnedIds)->not->toContain($inactiveClient->id);
+    });
 });
