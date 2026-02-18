@@ -34,6 +34,10 @@ class ConfigVariablePostRequest extends Request
             'value' => [
                 'required',
             ],
+            'is_invisible' => [
+                'nullable',
+                'boolean',
+            ],
         ];
     }
 }
