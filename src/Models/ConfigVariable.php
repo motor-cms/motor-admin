@@ -72,6 +72,7 @@ class ConfigVariable extends Model
         'group',
         'name',
         'value',
+        'is_invisible',
     ];
 
     protected static function newFactory(): ConfigVariableFactory
