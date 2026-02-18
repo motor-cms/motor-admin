@@ -140,6 +140,7 @@ Route::prefix('v2')
         Route::post('email-templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class, 'duplicate']);
         Route::apiResource('config-variables', \Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
         Route::apiResource('ai-system-prompts', \Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController::class);
+        Route::get('categories', [\Motor\Admin\Http\Controllers\Api\V2\FlatCategoriesController::class, 'index']);
         Route::apiResource('category-trees/{category_tree}/categories', \Motor\Admin\Http\Controllers\Api\V2\CategoriesController::class, [
             'parameters' => ['category-trees' => 'category'],
         ]);
