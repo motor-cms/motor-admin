@@ -60,4 +60,39 @@ describe('Role', function () {
         '/api/roles/'.Role::whereName('Editor')->first()->id,
         Role::class
     ));
+
+    it('can filter roles by guard_name', function () {
+        // Create a role with a different guard_name
+        Role::factory()->create([
+            'name' => 'ApiRole',
+            'guard_name' => 'api',
+        ]);
+
+        // All roles (3 seeded + 1 api) = 4
+        $this->asAdmin()
+            ->get('/api/roles')
+            ->assertStatus(200)
+            ->assertJsonCount(4, 'data');
+
+        // Filter by web guard — should only get the 3 seeded roles
+        $response = $this->asAdmin()
+            ->get('/api/roles?guard_name=web')
+            ->assertStatus(200);
+
+        $data = $response->json('data');
+        expect(count($data))->toBe(3);
+        foreach ($data as $role) {
+            expect($role['guard_name'])->toBe('web');
+        }
+
+        // Filter by api guard — should only get the 1 api role
+        $response = $this->asAdmin()
+            ->get('/api/roles?guard_name=api')
+            ->assertStatus(200);
+
+        $data = $response->json('data');
+        expect(count($data))->toBe(1);
+        expect($data[0]['guard_name'])->toBe('api');
+        expect($data[0]['name'])->toBe('ApiRole');
+    });
 });
