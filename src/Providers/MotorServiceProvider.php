@@ -65,6 +65,9 @@ class MotorServiceProvider extends ServiceProvider
         if (! app()->configurationIsCached()) {
             $config = $this->app['config']->get('scout', []);
             $this->app['config']->set('scout', array_merge_recursive(require __DIR__.'/../../config/scout.php', $config));
+
+            $globalSearchConfig = $this->app['config']->get('global-search', []);
+            $this->app['config']->set('global-search', array_merge_recursive(require __DIR__.'/../../config/global-search.php', $globalSearchConfig));
         }
     }
 
