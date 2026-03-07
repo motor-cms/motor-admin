@@ -80,7 +80,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function (Request $request) {
-        return new \Motor\Admin\Http\Resources\UserResource(auth()->user());
+        return new \Motor\Admin\Http\Resources\UserResource(auth()->user()->load('roles.permissions'));
     });
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
