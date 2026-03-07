@@ -71,7 +71,7 @@ Route::middleware('auth:sanctum')
             ->name('admin_navigations.index');
 
         Route::get('user', function (Request $request) {
-            return new \Motor\Admin\Http\Resources\UserResource($request->user());
+            return new \Motor\Admin\Http\Resources\UserResource($request->user()->load('roles.permissions'));
         });
     });
 
