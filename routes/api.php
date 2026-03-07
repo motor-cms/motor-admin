@@ -71,7 +71,7 @@ Route::middleware('auth:sanctum')
             ->name('admin_navigations.index');
 
         Route::get('user', function (Request $request) {
-            return new \Motor\Admin\Http\Resources\UserResource($request->user()->load('roles.permissions'));
+            return new \Motor\Admin\Http\Resources\UserResource($request->user()->load(['roles.permissions', 'permissions']));
         });
     });
 
@@ -80,7 +80,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function (Request $request) {
-        return new \Motor\Admin\Http\Resources\UserResource(auth()->user()->load('roles.permissions'));
+        return new \Motor\Admin\Http\Resources\UserResource(auth()->user()->load(['roles.permissions', 'permissions']));
     });
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
