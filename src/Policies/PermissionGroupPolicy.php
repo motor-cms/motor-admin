@@ -30,7 +30,7 @@ class PermissionGroupPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('permission_group.read');
+        return $user->hasPermissionTo('permission-groups.read');
     }
 
     /**
@@ -41,7 +41,7 @@ class PermissionGroupPolicy
     public function view(User $user, PermissionGroup $permissionGroup)
     {
 
-        return $user->hasPermissionTo('permission_group.read');
+        return $user->hasPermissionTo('permission-groups.read');
     }
 
     /**
@@ -51,7 +51,7 @@ class PermissionGroupPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('permission_group.write');
+        return $user->hasPermissionTo('permission-groups.write');
     }
 
     /**
@@ -61,7 +61,7 @@ class PermissionGroupPolicy
      */
     public function update(User $user, PermissionGroup $permissionGroup)
     {
-        return $user->hasPermissionTo('permission_group.write');
+        return $user->hasPermissionTo('permission-groups.write');
     }
 
     /**
@@ -71,7 +71,7 @@ class PermissionGroupPolicy
      */
     public function delete(User $user, PermissionGroup $permissionGroup)
     {
-        return $user->hasPermissionTo('permission_group.delete');
+        return $user->hasPermissionTo('permission-groups.delete');
     }
 
     /**

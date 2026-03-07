@@ -30,7 +30,7 @@ class AISystemPromptPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('ai_system_prompts.read');
+        return $user->hasPermissionTo('ai-system-prompts.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class AISystemPromptPolicy
      */
     public function view(User $user, AISystemPrompt $prompt)
     {
-        return $user->hasPermissionTo('ai_system_prompts.read');
+        return $user->hasPermissionTo('ai-system-prompts.read');
     }
 
     /**
@@ -60,7 +60,7 @@ class AISystemPromptPolicy
      */
     public function update(User $user, AISystemPrompt $prompt)
     {
-        return $user->hasPermissionTo('ai_system_prompts.write');
+        return $user->hasPermissionTo('ai-system-prompts.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class AISystemPromptPolicy
      */
     public function delete(User $user, AISystemPrompt $prompt)
     {
-        return $user->hasPermissionTo('ai_system_prompts.write');
+        return $user->hasPermissionTo('ai-system-prompts.write');
     }
 
     /**
@@ -80,7 +80,7 @@ class AISystemPromptPolicy
      */
     public function restore(User $user, AISystemPrompt $prompt)
     {
-        return $user->hasPermissionTo('ai_system_prompts.delete');
+        return $user->hasPermissionTo('ai-system-prompts.delete');
     }
 
     /**

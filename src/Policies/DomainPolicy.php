@@ -30,7 +30,7 @@ class DomainPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('domain.read');
+        return $user->hasPermissionTo('domains.read');
     }
 
     /**
@@ -40,7 +40,7 @@ class DomainPolicy
      */
     public function view(User $user, Domain $domain)
     {
-        return $user->hasPermissionTo('domain.read');
+        return $user->hasPermissionTo('domains.read');
     }
 
     /**
@@ -50,7 +50,7 @@ class DomainPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('domain.write');
+        return $user->hasPermissionTo('domains.write');
     }
 
     /**
@@ -60,7 +60,7 @@ class DomainPolicy
      */
     public function update(User $user, Domain $domain)
     {
-        return $user->hasPermissionTo('domain.write');
+        return $user->hasPermissionTo('domains.write');
     }
 
     /**
@@ -70,7 +70,7 @@ class DomainPolicy
      */
     public function delete(User $user, Domain $domain)
     {
-        return $user->hasPermissionTo('domain.delete');
+        return $user->hasPermissionTo('domains.delete');
     }
 
     /**
