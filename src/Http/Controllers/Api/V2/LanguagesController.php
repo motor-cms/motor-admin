@@ -4,9 +4,9 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\LanguageGetRequest;
-use Motor\Admin\Http\Requests\Api\LanguagePatchRequest;
-use Motor\Admin\Http\Requests\Api\LanguagePostRequest;
+use Motor\Admin\Http\Requests\Api\V2\LanguageGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\LanguagePatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\LanguagePostRequest;
 use Motor\Admin\Http\Resources\V2\LanguageCollection;
 use Motor\Admin\Http\Resources\V2\LanguageResource;
 use Motor\Admin\Models\Language;

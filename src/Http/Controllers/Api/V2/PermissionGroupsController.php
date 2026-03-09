@@ -4,9 +4,9 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\PermissionGroupGetRequest;
-use Motor\Admin\Http\Requests\Api\PermissionGroupPatchRequest;
-use Motor\Admin\Http\Requests\Api\PermissionGroupPostRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionGroupGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionGroupPatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionGroupPostRequest;
 use Motor\Admin\Http\Resources\V2\PermissionGroupCollection;
 use Motor\Admin\Http\Resources\V2\PermissionGroupResource;
 use Motor\Admin\Models\PermissionGroup;

@@ -4,10 +4,10 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\PermissionGetRequest;
-use Motor\Admin\Http\Requests\Api\PermissionListGetRequest;
-use Motor\Admin\Http\Requests\Api\PermissionPatchRequest;
-use Motor\Admin\Http\Requests\Api\PermissionPostRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionListGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionPatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\PermissionPostRequest;
 use Motor\Admin\Http\Resources\V2\PermissionCollection;
 use Motor\Admin\Http\Resources\V2\PermissionResource;
 use Motor\Admin\Models\Permission;

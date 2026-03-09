@@ -4,9 +4,9 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\UserGetRequest;
-use Motor\Admin\Http\Requests\Api\UserPatchRequest;
-use Motor\Admin\Http\Requests\Api\UserPostRequest;
+use Motor\Admin\Http\Requests\Api\V2\UserGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\UserPatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\UserPostRequest;
 use Motor\Admin\Http\Resources\V2\UserCollection;
 use Motor\Admin\Http\Resources\V2\UserResource;
 use Motor\Admin\Models\User;

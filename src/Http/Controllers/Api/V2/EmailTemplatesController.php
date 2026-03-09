@@ -6,14 +6,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Motor\Admin\Http\Requests\Api\EmailTemplateGetRequest;
-use Motor\Admin\Http\Requests\Api\EmailTemplatePatchRequest;
-use Motor\Admin\Http\Requests\Api\EmailTemplatePostRequest;
+use Motor\Admin\Http\Requests\Api\V2\EmailTemplateGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\EmailTemplatePatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\EmailTemplatePostRequest;
 use Motor\Admin\Http\Resources\V2\EmailTemplateCollection;
 use Motor\Admin\Http\Resources\V2\EmailTemplateResource;
 use Motor\Admin\Models\EmailTemplate;
 use Motor\Admin\Services\EmailTemplateService;
-use Motor\Builder\Http\Requests\Api\GridActionRequest;
+use Motor\Builder\Http\Requests\Api\V2\GridActionRequest;
 use Motor\Core\Http\Controllers\Api\V2\ApiController;
 
 /**
