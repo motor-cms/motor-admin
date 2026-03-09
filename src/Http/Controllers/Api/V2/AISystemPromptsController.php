@@ -4,9 +4,9 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\AISystemPromptGetRequest;
-use Motor\Admin\Http\Requests\Api\AISystemPromptPatchRequest;
-use Motor\Admin\Http\Requests\Api\AISystemPromptPostRequest;
+use Motor\Admin\Http\Requests\Api\V2\AISystemPromptGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\AISystemPromptPatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\AISystemPromptPostRequest;
 use Motor\Admin\Http\Resources\V2\AISystemPromptCollection;
 use Motor\Admin\Http\Resources\V2\AISystemPromptResource;
 use Motor\Admin\Models\AISystemPrompt;

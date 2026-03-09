@@ -3,7 +3,7 @@
 namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Kalnoy\Nestedset\NestedSet;
-use Motor\Admin\Http\Requests\Api\CategoryGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\CategoryGetRequest;
 use Motor\Admin\Http\Resources\V2\CategoryCollection;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Services\CategoryService;

@@ -4,9 +4,9 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Motor\Admin\Http\Requests\Api\RoleGetRequest;
-use Motor\Admin\Http\Requests\Api\RolePatchRequest;
-use Motor\Admin\Http\Requests\Api\RolePostRequest;
+use Motor\Admin\Http\Requests\Api\V2\RoleGetRequest;
+use Motor\Admin\Http\Requests\Api\V2\RolePatchRequest;
+use Motor\Admin\Http\Requests\Api\V2\RolePostRequest;
 use Motor\Admin\Http\Resources\V2\RoleCollection;
 use Motor\Admin\Http\Resources\V2\RoleResource;
 use Motor\Admin\Models\Role;
