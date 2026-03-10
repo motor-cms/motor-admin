@@ -97,7 +97,6 @@ Route::group([
 |--------------------------------------------------------------------------
 */
 Route::prefix('v1')
-    ->name('v1.')
     ->middleware('auth:sanctum')
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V1\UsersController::class);
@@ -127,7 +126,6 @@ Route::prefix('v1')
 |--------------------------------------------------------------------------
 */
 Route::prefix('v2')
-    ->name('v2.')
     ->middleware(['auth:sanctum', \Motor\Core\Http\Middleware\V2\V2ErrorHandler::class])
     ->group(function () {
         Route::apiResource('users', \Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
