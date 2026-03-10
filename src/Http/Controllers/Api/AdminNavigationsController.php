@@ -22,8 +22,8 @@ class AdminNavigationsController extends ApiController
     {
         $items = config('motor-admin-navigation.items');
         ksort($items);
-        //$customContentQuery = CustomContentType::where('type', 'page')->get();
-        //if (class_exists(CustomContentType::class) && ! $customContentQuery->isEmpty()) {
+        // $customContentQuery = CustomContentType::where('type', 'page')->get();
+        // if (class_exists(CustomContentType::class) && ! $customContentQuery->isEmpty()) {
         //    $navigation_position = 200;
         //    $items[$navigation_position] = [
         //        'slug'        => 'custom-content-type',
@@ -46,7 +46,7 @@ class AdminNavigationsController extends ApiController
         //        ];
         //        $navigation_position++;
         //    });
-        //}
+        // }
 
         return response()->json(['data' => $items]);
     }
