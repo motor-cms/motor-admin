@@ -13,16 +13,9 @@ class EmailTemplateResource extends BaseResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'client' => $this->whenLoaded('client', fn () => [
-                'id' => $this->client->id,
-                'name' => $this->client->name,
-            ]),
+            'client' => $this->whenLoaded('client', fn () => new ClientResource($this->client)),
             'client_id' => (int) $this->client_id,
-            'language' => $this->whenLoaded('language', fn () => [
-                'id' => $this->language->id,
-                'iso_639_1' => $this->language->iso_639_1,
-                'english_name' => $this->language->english_name,
-            ]),
+            'language' => $this->whenLoaded('language', fn () => new LanguageResource($this->language)),
             'language_id' => (int) $this->language_id,
             'subject' => $this->subject,
             'body_text' => $this->body_text,

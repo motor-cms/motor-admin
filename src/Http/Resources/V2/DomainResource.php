@@ -12,10 +12,7 @@ class DomainResource extends BaseResource
         return [
             'id' => (int) $this->id,
             'name' => $this->name,
-            'client' => $this->whenLoaded('client', fn () => [
-                'id' => $this->client->id,
-                'name' => $this->client->name,
-            ]),
+            'client' => $this->whenLoaded('client', fn () => new ClientResource($this->client)),
             'client_id' => $this->client_id,
             'is_active' => (bool) $this->is_active,
             'protocol' => $this->protocol,
