@@ -5,6 +5,8 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Kalnoy\Nestedset\Collection;
 use Kalnoy\Nestedset\NestedSet;
 use Kalnoy\Nestedset\NodeTrait;
 use Kalnoy\Nestedset\QueryBuilder;
@@ -26,9 +28,9 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Kalnoy\Nestedset\Collection|Category[] $children
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Category[] $children
  * @property-read int|null $children_count
  * @property-read Category|null $parent
  *
@@ -141,10 +143,8 @@ class Category extends Model
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    protected static function booted()
+    protected static function booted(): void
     {
         static::addGlobalScope('defaultOrder', function (Builder $builder) {
             $builder->orderBy(NestedSet::LFT);
