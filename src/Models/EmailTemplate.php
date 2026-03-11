@@ -5,6 +5,8 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\EmailTemplateFactory;
@@ -30,10 +32,10 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Motor\Admin\Models\Client $client
- * @property-read \Motor\Admin\Models\Language|null $language
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Client $client
+ * @property-read Language|null $language
  *
  * @method static Builder|EmailTemplate filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|EmailTemplate filteredByMultiple(\Motor\Core\Filter\Filter $filter)
@@ -85,7 +87,7 @@ class EmailTemplate extends Model
             'client_id'             => (int) $this->client_id,
             'language_id'           => $this->language_id ? (int) $this->language_id : null,
             'client.name'           => $this->client?->name,
-            'language.english_name' => $this->language->english_name,
+            'language.english_name' => $this->language?->english_name,
             'updated_at'             => $this->updated_at,
             'created_at'             => $this->created_at,
         ];
@@ -120,12 +122,12 @@ class EmailTemplate extends Model
         return EmailTemplateFactory::new();
     }
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
 
-    public function language(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function language(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.language'));
     }
