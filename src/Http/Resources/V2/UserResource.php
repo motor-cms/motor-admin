@@ -3,7 +3,7 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
-use Motor\Admin\Http\Resources\MediaResource;
+use Illuminate\Support\Carbon;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
@@ -13,8 +13,8 @@ use Motor\Core\Http\Resources\V2\BaseResource;
  * @property string $name
  * @property string $email
  * @property string|null $avatar
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class UserResource extends BaseResource
 {
