@@ -13,10 +13,7 @@ class AISystemPromptResource extends BaseResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'prompt' => $this->prompt,
-            'client' => $this->whenLoaded('client', fn () => [
-                'id' => $this->client->id,
-                'name' => $this->client->name,
-            ]),
+            'client' => $this->whenLoaded('client', fn () => new ClientResource($this->client)),
             'client_id' => (int) $this->client_id,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
