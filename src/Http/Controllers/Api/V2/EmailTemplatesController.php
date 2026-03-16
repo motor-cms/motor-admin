@@ -77,6 +77,13 @@ class EmailTemplatesController extends ApiController
         return $this->noContentResponse();
     }
 
+    /**
+     * Duplicate email templates
+     *
+     * Creates copies of the specified email templates.
+     *
+     * @response array{meta: array{api_version: string, message: string}}
+     */
     public function duplicate(GridActionRequest $request): JsonResponse
     {
         $emailTemplates = EmailTemplate::whereIn('id', collect($request->get('data'))->pluck('id'))->get();
