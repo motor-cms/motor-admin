@@ -27,6 +27,14 @@ class PermissionGroupPostRequest extends Request
                 'nullable',
                 'integer',
             ],
+            'permissions' => [
+                'nullable',
+                'array',
+            ],
+            'permissions.*' => [
+                'integer',
+                'exists:permissions,id',
+            ],
         ];
     }
 }
