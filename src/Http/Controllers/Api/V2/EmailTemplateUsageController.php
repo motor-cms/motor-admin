@@ -17,25 +17,25 @@ class EmailTemplateUsageController extends ApiController
      *
      * @response AnonymousResourceCollection<EmailTemplateUsageResource>
      */
-    public function usage(string $emailTemplate): AnonymousResourceCollection
+    public function usage(string $template_id): AnonymousResourceCollection
     {
-        $formConfigs = FormConfig::where(function ($query) use ($emailTemplate) {
-            $query->where('user_email_template_id', $emailTemplate)
-                ->orWhere('target_email_template_id', $emailTemplate);
+        $formConfigs = FormConfig::where(function ($query) use ($template_id) {
+            $query->where('user_email_template_id', $template_id)
+                ->orWhere('target_email_template_id', $template_id);
         })
             ->whereHas('builderPage', fn ($query) => $query->where('is_current', true))
             ->with(['builderPage', 'customContentType'])
             ->get();
 
-        $usage = $formConfigs->map(function ($formConfig) use ($emailTemplate) {
+        $usage = $formConfigs->map(function ($formConfig) use ($template_id) {
             $builderPage = $formConfig->builderPage;
             $customContentType = $formConfig->customContentType;
 
             $usageType = [];
-            if ($formConfig->user_email_template_id == $emailTemplate) {
+            if ($formConfig->user_email_template_id == $template_id) {
                 $usageType[] = 'user_email';
             }
-            if ($formConfig->target_email_template_id == $emailTemplate) {
+            if ($formConfig->target_email_template_id == $template_id) {
                 $usageType[] = 'target_email';
             }
 

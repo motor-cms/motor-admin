@@ -140,7 +140,7 @@ Route::prefix('v2')
         Route::get('permissions-items/{permission_group}', [\Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class, 'items']);
         Route::apiResource('email-templates', \Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class);
         Route::post('email-templates/duplicate', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class, 'duplicate']);
-        Route::get('email-templates/{email_template}/usage', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplateUsageController::class, 'usage'])
+        Route::get('email-templates/{template_id}/usage', [\Motor\Admin\Http\Controllers\Api\V2\EmailTemplateUsageController::class, 'usage'])
             ->name('email-templates.usage');
         Route::apiResource('config-variables', \Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
         Route::apiResource('ai-system-prompts', \Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController::class);
