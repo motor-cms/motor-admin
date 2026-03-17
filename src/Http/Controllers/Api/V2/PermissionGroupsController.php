@@ -50,7 +50,7 @@ class PermissionGroupsController extends ApiController
         $result = PermissionGroupService::create($request)
             ->getResult();
 
-        return (new PermissionGroupResource($result))
+        return (new PermissionGroupResource($result->load('permissions')))
             ->additional(['meta' => ['message' => 'Permission group created']])
             ->response()
             ->setStatusCode(201);
@@ -61,7 +61,7 @@ class PermissionGroupsController extends ApiController
         $result = PermissionGroupService::update($permissionGroup, $request)
             ->getResult();
 
-        return (new PermissionGroupResource($result))
+        return (new PermissionGroupResource($result->load('permissions')))
             ->additional(['meta' => ['message' => 'Permission group updated']]);
     }
 

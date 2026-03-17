@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\PermissionGroup;
 
 pest()->group('V2PermissionGroup')->use(RefreshDatabase::class);
@@ -72,6 +73,63 @@ describe('V2 PermissionGroup API', function () {
                     ->has('permission_names')
                     ->etc()
             )->etc());
+    });
+
+    it('can create a permission group with permissions', function () {
+        $permissionIds = Permission::take(3)->pluck('id')->toArray();
+
+        $response = $this->asAdmin()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->post('/api/v2/permission-groups', [
+                'name' => 'v2-group-with-permissions',
+                'sort_position' => 1,
+                'permissions' => $permissionIds,
+            ]);
+
+        $response->assertStatus(201);
+
+        $group = PermissionGroup::whereName('v2-group-with-permissions')->first();
+        expect($group)->not->toBeNull();
+        expect($group->permissions()->pluck('id')->sort()->values()->toArray())
+            ->toBe(collect($permissionIds)->sort()->values()->toArray());
+    });
+
+    it('can update a permission group with permissions', function () {
+        $group = PermissionGroup::whereName('users')->first();
+        $permissionIds = Permission::take(2)->pluck('id')->toArray();
+
+        $response = $this->asAdmin()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch('/api/v2/permission-groups/'.$group->id, [
+                'name' => $group->name,
+                'permissions' => $permissionIds,
+            ]);
+
+        $response->assertStatus(200);
+
+        $group->refresh();
+        expect($group->permissions()->pluck('id')->sort()->values()->toArray())
+            ->toBe(collect($permissionIds)->sort()->values()->toArray());
+    });
+
+    it('can remove all permissions from a group by sending empty array', function () {
+        $group = PermissionGroup::whereName('users')->first();
+        $permissionIds = Permission::take(2)->pluck('id')->toArray();
+
+        // First assign some permissions
+        Permission::whereIn('id', $permissionIds)->update(['permission_group_id' => $group->id]);
+
+        $response = $this->asAdmin()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch('/api/v2/permission-groups/'.$group->id, [
+                'name' => $group->name,
+                'permissions' => [],
+            ]);
+
+        $response->assertStatus(200);
+
+        $group->refresh();
+        expect($group->permissions()->count())->toBe(0);
     });
 
     it('denies access to basic users', function () {
