@@ -384,6 +384,13 @@ abstract class BaseService
 
         $collection = (! is_null($collection) ? $collection : $identifier);
 
+        // Strip data URL prefix (e.g. "data:image/png;base64,") if present
+        $dataUrl = Arr::get($this->data, $identifier.'.dataUrl');
+        if (is_string($dataUrl) && str_contains($dataUrl, ',')) {
+            $dataUrl = substr($dataUrl, strpos($dataUrl, ',') + 1);
+            Arr::set($this->data, $identifier.'.dataUrl', $dataUrl);
+        }
+
         // Delete from API
         if (Arr::get($this->data, $identifier.'.dataUrl') !== null || Arr::get($this->data, $identifier) === false) {
             $record->clearMediaCollection($identifier);
