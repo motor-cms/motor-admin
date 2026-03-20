@@ -15,6 +15,6 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Artisan::call('motor:create:permissions');
+        Artisan::call('motor:admin:sync-permissions');
     }
 }
