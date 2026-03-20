@@ -14,7 +14,7 @@ class MotorCreateScoutIndexCommand extends Command
      *
      * @var string
      */
-    protected $name = 'motor:create:scout:index';
+    protected $name = 'motor:admin:sync-scout-indexes';
 
     public int $timeout = 14400;
 
@@ -23,7 +23,7 @@ class MotorCreateScoutIndexCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Create scout index according to the configuration';
+    protected $description = 'Flush and rebuild Scout search indexes for all configured models';
 
     /**
      * Execute the console command.
