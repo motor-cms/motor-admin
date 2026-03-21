@@ -3,10 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Motor\Core\Traits\CheckForeignKeys;
 
 return new class extends Migration
 {
-    use \Motor\Core\Traits\CheckForeignKeys;
+    use CheckForeignKeys;
 
     /**
      * Run the migrations.

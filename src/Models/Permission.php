@@ -3,7 +3,10 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\PermissionFactory;
@@ -16,14 +19,14 @@ use Motor\Core\Traits\Filterable;
  * @property int|null $permission_group_id
  * @property string $name
  * @property string $guard_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Motor\Admin\Models\PermissionGroup|null $group
- * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read PermissionGroup|null $group
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\User[] $users
+ * @property-read Collection|User[] $users
  * @property-read int|null $users_count
  *
  * @method static Builder|Permission filteredBy(\Motor\Core\Filter\Filter $filter, $column)
@@ -82,7 +85,7 @@ class Permission extends \Spatie\Permission\Models\Permission
         return PermissionFactory::new();
     }
 
-    public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function group(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.permission_group'), 'permission_group_id');
     }

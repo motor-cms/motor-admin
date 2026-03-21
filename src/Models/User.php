@@ -3,16 +3,24 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\UserFactory;
 use Motor\Core\Traits\Filterable;
+use Spatie\Image\Exceptions\InvalidManipulation;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -28,18 +36,18 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $api_token
  * @property string|null $remember_token
  * @property string|null $password_last_changed_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Motor\Admin\Models\Client|null $client
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Client|null $client
+ * @property-read MediaCollection|Media[] $media
  * @property-read int|null $media_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read Collection|PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  *
  * @method static \Motor\Admin\Database\Factories\UserFactory factory(...$parameters)
@@ -106,7 +114,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     * @throws InvalidManipulation
      */
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -141,7 +149,7 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    public function clients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function clients(): BelongsToMany
     {
         return $this->belongsToMany(Client::class, 'users_client', 'user_id', 'client_id');
     }

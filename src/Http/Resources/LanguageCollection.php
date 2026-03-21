@@ -2,12 +2,14 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Http\Request;
+
 class LanguageCollection extends BaseCollection
 {
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array
     {

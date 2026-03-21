@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Motor\Admin\Helpers\Filesize;
 
@@ -10,7 +11,7 @@ class MediaResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array
     {

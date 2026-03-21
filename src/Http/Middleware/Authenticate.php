@@ -3,6 +3,8 @@
 namespace Motor\Admin\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -14,7 +16,7 @@ class Authenticate
      * Handle an incoming request.
      *
      * @param  null  $guard
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|mixed
+     * @return JsonResponse|RedirectResponse|mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {

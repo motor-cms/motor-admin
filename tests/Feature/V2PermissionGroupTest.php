@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\PermissionGroup;
 
@@ -66,9 +67,9 @@ describe('V2 PermissionGroup API', function () {
 
         $response->assertStatus(200)
             ->assertJsonPath('meta.api_version', 'v2')
-            ->assertJson(fn (\Illuminate\Testing\Fluent\AssertableJson $json) => $json->has(
+            ->assertJson(fn (AssertableJson $json) => $json->has(
                 'data',
-                fn (\Illuminate\Testing\Fluent\AssertableJson $data) => $data
+                fn (AssertableJson $data) => $data
                     ->has('permissions')
                     ->has('permission_names')
                     ->etc()

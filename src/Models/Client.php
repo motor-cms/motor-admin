@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ClientFactory;
@@ -32,8 +33,8 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static \Motor\Admin\Database\Factories\ClientFactory factory(...$parameters)
  * @method static Builder|Client filteredBy(\Motor\Core\Filter\Filter $filter, $column)

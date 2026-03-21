@@ -15,6 +15,8 @@ use Motor\Media\Events\FileUploaded;
 use Motor\Media\Helpers\S3Helper;
 use Motor\Media\Models\File;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 /**
  * Class BaseService
@@ -360,8 +362,8 @@ abstract class BaseService
      * @param  false  $addToCollection
      * @return $this
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function uploadFile(
         $file,

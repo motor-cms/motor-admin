@@ -15,19 +15,19 @@ class AiSystemPromptTableSeeder extends Seeder
      */
     public function run(): void
     {
-        AiSystemPrompt::factory()
+        AISystemPrompt::factory()
             ->create([
                 'name'    => 'Basic',
                 'prompt' => 'Verhalte dich wie ein Ottonormalbürger',
             ]);
 
-        AiSystemPrompt::factory()
+        AISystemPrompt::factory()
             ->create([
                 'name'    => 'Programmierer',
                 'prompt' => 'Verhalte dich wie ein Programmierer',
             ]);
 
-        AiSystemPrompt::factory()
+        AISystemPrompt::factory()
             ->create([
                 'name'    => 'CEO',
                 'prompt' => 'Verhalte dich wie ein CEO',

@@ -17,7 +17,7 @@ class EmailTemplatePolicy
      */
     public function before(User $user, $ability): Response
     {
-        return \Illuminate\Auth\Access\Response::allow();
+        return Response::allow();
         // Log::info('Cheking policy');
         // if ($user->hasRole('SuperAdmin')) {
         //    return true;

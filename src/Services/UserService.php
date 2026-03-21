@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\User;
 use Motor\Core\Filter\Renderers\RelationRenderer;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 /**
  * Class UserService
@@ -47,8 +49,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function afterCreate(): void
     {
@@ -67,8 +69,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function afterUpdate(): void
     {
@@ -87,8 +89,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     private function uploadFiles(): void
     {
