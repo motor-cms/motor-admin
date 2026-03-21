@@ -1,5 +1,7 @@
 <?php
 
+use Motor\Admin\Models\User;
+
 return [
 
     /*
@@ -30,7 +32,7 @@ return [
     |
     */
 
-    'user' => \Motor\Admin\Models\User::class,
+    'user' => User::class,
 
     /*
     |--------------------------------------------------------------------------

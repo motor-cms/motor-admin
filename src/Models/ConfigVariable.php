@@ -5,6 +5,7 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ConfigVariableFactory;
@@ -20,8 +21,8 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $name
  * @property string $value
  * @property int $is_invisible
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by

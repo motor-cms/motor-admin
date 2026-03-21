@@ -2,6 +2,7 @@
 
 namespace Motor\Admin\Http\Requests\Api;
 
+use Illuminate\Validation\Rule;
 use Motor\Admin\Http\Requests\Request;
 
 class UserPatchRequest extends Request
@@ -33,7 +34,7 @@ class UserPatchRequest extends Request
             'email' => [
                 'required',
                 'email',
-                \Illuminate\Validation\Rule::unique('users')
+                Rule::unique('users')
                     ->ignore($this->route('user')),
             ],
             'password' => [

@@ -5,6 +5,7 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\LanguageFactory;
@@ -17,8 +18,8 @@ use Motor\Core\Traits\Filterable;
  * @property string $iso_639_1
  * @property string $english_name
  * @property string $native_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static \Motor\Admin\Database\Factories\LanguageFactory factory(...$parameters)
  * @method static Builder|Language filteredBy(\Motor\Core\Filter\Filter $filter, $column)

@@ -5,6 +5,9 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\DomainFactory;
@@ -27,8 +30,8 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @mixin \Eloquent
  */
@@ -102,17 +105,17 @@ class Domain extends Model
         return DomainFactory::new();
     }
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
 
-    public function searchConfigs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function searchConfigs(): HasMany
     {
         return $this->hasMany(SearchConfig::class);
     }
 
-    public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function redirections(): HasMany
     {
         return $this->hasMany(SeoRedirect::class);
     }

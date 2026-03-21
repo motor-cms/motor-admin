@@ -1,12 +1,17 @@
 <?php
 
+use Motor\Admin\Models\Domain;
+use Motor\Admin\Models\EmailTemplate;
+use Motor\Admin\Models\Language;
+use Motor\Admin\Models\User;
+
 return [
     'modules' => [
         'user' => [
             'module' => 'motor-admin',
             'entity' => 'users',
             'index' => 'motor_admin_users_index',
-            'model' => \Motor\Admin\Models\User::class,
+            'model' => User::class,
             'title_field' => 'name',
             'excerpt_field' => 'email',
             'meta_fields' => [],
@@ -16,7 +21,7 @@ return [
             'module' => 'motor-admin',
             'entity' => 'domains',
             'index' => 'motor_admin_domains_index',
-            'model' => \Motor\Admin\Models\Domain::class,
+            'model' => Domain::class,
             'title_field' => 'name',
             'excerpt_field' => 'host',
             'meta_fields' => ['protocol', 'port', 'is_active'],
@@ -26,7 +31,7 @@ return [
             'module' => 'motor-admin',
             'entity' => 'email_templates',
             'index' => 'motor_admin_email_templates_index',
-            'model' => \Motor\Admin\Models\EmailTemplate::class,
+            'model' => EmailTemplate::class,
             'title_field' => 'name',
             'excerpt_field' => 'subject',
             'meta_fields' => [],
@@ -36,7 +41,7 @@ return [
             'module' => 'motor-admin',
             'entity' => 'languages',
             'index' => 'motor_admin_languages_index',
-            'model' => \Motor\Admin\Models\Language::class,
+            'model' => Language::class,
             'title_field' => 'native_name',
             'excerpt_field' => 'english_name',
             'meta_fields' => ['iso_639_1'],

@@ -4,6 +4,7 @@ namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\AiSystemPromptFactory;
@@ -51,7 +52,7 @@ class AISystemPrompt extends Model
         'prompt',
     ];
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }

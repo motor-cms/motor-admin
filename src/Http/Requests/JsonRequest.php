@@ -2,8 +2,10 @@
 
 namespace Motor\Admin\Http\Requests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Validator;
 
 /**
  * Class JsonRequest
@@ -13,9 +15,9 @@ abstract class JsonRequest extends FormRequest
     /**
      * Get the validator instance for the request.
      *
-     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator|mixed
+     * @return \Illuminate\Contracts\Validation\Validator|Validator|mixed
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function getValidatorInstance()
     {

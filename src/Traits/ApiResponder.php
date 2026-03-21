@@ -2,6 +2,8 @@
 
 namespace Motor\Admin\Traits;
 
+use Illuminate\Http\JsonResponse;
+
 /*
 |--------------------------------------------------------------------------
 | Api Responder Trait
@@ -16,7 +18,7 @@ trait ApiResponder
     /**
      * Return a success JSON response.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function success(array $data, ?string $message = null, int $code = 200)
     {
@@ -30,7 +32,7 @@ trait ApiResponder
     /**
      * Return an error JSON response.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function error(?string $message = null, int $code = 500, ?array $data = null)
     {
