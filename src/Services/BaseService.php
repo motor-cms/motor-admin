@@ -23,19 +23,19 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
  */
 abstract class BaseService
 {
-    protected $filter;
+    protected ?Filter $filter = null;
 
-    protected $request;
+    protected Request|array|null $request = null;
 
-    protected $model;
+    protected string $model;
 
-    protected $record;
+    protected ?Model $record = null;
 
     protected array $loadColumns = [];
 
     protected array $data = [];
 
-    protected $result;
+    protected mixed $result = null;
 
     protected string $sortableField = 'id';
 
@@ -65,20 +65,13 @@ abstract class BaseService
     /**
      * Simple wrapper to return the given record
      */
-    public static function show($record): mixed
+    public static function show(Model $record): static
     {
         return (new static)->setRecord($record)
             ->doShow();
     }
 
-    /**
-     * Wrapper to return paginated results
-     * Applies basic filters and adds filters through the individual services filters() method
-     *
-     * @param  string  $alias
-     * @param  null  $sorting
-     */
-    public static function collection($alias = '', $sorting = null): BaseService
+    public static function collection(string $alias = '', ?array $sorting = null): static
     {
         $instance = new static;
         $instance->filter = new Filter($alias);
@@ -103,7 +96,7 @@ abstract class BaseService
     /**
      * Simple wrapper around the delete method of the record
      */
-    public static function delete($record): mixed
+    public static function delete(Model $record): static
     {
         return (new static)->setRecord($record)
             ->doDelete();
@@ -112,7 +105,7 @@ abstract class BaseService
     /**
      * Sets default filters to use with the collection() method
      */
-    public function defaultFilters()
+    public function defaultFilters(): void
     {
         $this->filter->add(new SearchRenderer('search'));
         $this->filter->add(new SortRenderer('sort'));
@@ -120,28 +113,16 @@ abstract class BaseService
             ->setup();
     }
 
-    /**
-     * Returns the filter class
-     * Usually necessary to get filters to the grid when displaying a collection
-     *
-     * @return mixed
-     */
     public function getFilter(): Filter
     {
         return $this->filter;
     }
 
-    /**
-     * Returns the result of create/update/delete/record methods
-     */
     public function getResult(): mixed
     {
         return $this->result;
     }
 
-    /**
-     * Returns the paginator for the model
-     */
     public function getPaginator(): mixed
     {
         $query = ($this->model)::filteredByMultiple($this->getFilter());
@@ -172,11 +153,6 @@ abstract class BaseService
         return $query->paginate($perPage);
     }
 
-    /**
-     * Set sorting array
-     *
-     * @return $this
-     */
     public function setSorting(array $sorting): static
     {
         [$this->sortableField, $this->sortableDirection] = $sorting;
@@ -184,10 +160,7 @@ abstract class BaseService
         return $this;
     }
 
-    /**
-     * Add custom sorting, if available
-     */
-    public function applySorting($query): mixed
+    public function applySorting(mixed $query): mixed
     {
         // check if we need to join a table
         $join = false;
@@ -204,7 +177,7 @@ abstract class BaseService
             $join = true;
             $joinExists = false;
 
-            $joins = $query->query->joins;
+            $joins = $query->getQuery()->joins;
             if ($joins == null) {
                 $joinExists = false;
             } else {
@@ -236,10 +209,7 @@ abstract class BaseService
         return $query;
     }
 
-    /**
-     * Add custom scopes to query
-     */
-    public function applyScopes($query): mixed
+    public function applyScopes(mixed $query): mixed
     {
         return $query;
     }
@@ -355,21 +325,14 @@ abstract class BaseService
     }
 
     /**
-     * Handles file uploads either with a UploadedFile object or a base64 encoded file
-     *
-     * @param  null  $collection
-     * @param  null  $record
-     * @param  false  $addToCollection
-     * @return $this
-     *
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
     public function uploadFile(
-        $file,
+        mixed $file,
         string $identifier = 'image',
-        $collection = null,
-        $record = null,
+        ?string $collection = null,
+        ?Model $record = null,
         bool $addToCollection = false
     ): static {
         if (! is_null($record) && ! $record instanceof HasMedia) {
@@ -477,45 +440,21 @@ abstract class BaseService
     /**
      * Stub for the filters method of the child class
      */
-    public function filters() {}
+    public function filters(): void {}
 
-    /**
-     * Stub for the beforeCreate method of the child class
-     */
-    public function beforeCreate() {}
+    public function beforeCreate(): void {}
 
-    /**
-     * Stub for the afterCreate method of the child class
-     */
-    public function afterCreate() {}
+    public function afterCreate(): void {}
 
-    /**
-     * Stub for the beforeUpdate method of the child class
-     */
-    public function beforeUpdate() {}
+    public function beforeUpdate(): void {}
 
-    /**
-     * Stub for the afterUpdate method of the child class
-     */
-    public function afterUpdate() {}
+    public function afterUpdate(): void {}
 
-    /**
-     * Stub for the beforeDelete method of the child class
-     */
-    public function beforeDelete() {}
+    public function beforeDelete(): void {}
 
-    /**
-     * Stub for the afterDelete method of the child class
-     */
-    public function afterDelete() {}
+    public function afterDelete(): void {}
 
-    /**
-     * Stub for the beforeShow method of the child class
-     */
-    public function beforeShow() {}
+    public function beforeShow(): void {}
 
-    /**
-     * Stub for the afterShow method of the child class
-     */
-    public function afterShow() {}
+    public function afterShow(): void {}
 }

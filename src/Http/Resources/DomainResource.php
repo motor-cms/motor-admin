@@ -3,7 +3,11 @@
 namespace Motor\Admin\Http\Resources;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Domain;
 
+/**
+ * @mixin Domain
+ */
 class DomainResource extends BaseResource
 {
     /**

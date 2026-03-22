@@ -10,7 +10,7 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class PermissionService extends BaseService
 {
-    protected $model = Permission::class;
+    protected string $model = Permission::class;
 
     public function filters(): void
     {

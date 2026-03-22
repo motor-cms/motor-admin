@@ -5,11 +5,25 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\AiSystemPromptFactory;
 use Motor\Core\Traits\Filterable;
 
+/**
+ * Motor\Admin\Models\AISystemPrompt
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $prompt
+ * @property int $client_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Client|null $client
+ *
+ * @mixin \Eloquent
+ */
 class AISystemPrompt extends Model
 {
     use Filterable;

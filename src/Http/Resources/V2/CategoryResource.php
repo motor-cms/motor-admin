@@ -3,6 +3,7 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Category;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
@@ -10,6 +11,8 @@ use Motor\Core\Http\Resources\V2\BaseResource;
  *
  * Children are only included when explicitly eager loaded by the controller.
  * This fixes Scramble stack overflow while preserving full tree structure capability.
+ *
+ * @mixin Category
  */
 class CategoryResource extends BaseResource
 {

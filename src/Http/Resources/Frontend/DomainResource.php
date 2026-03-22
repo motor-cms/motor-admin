@@ -4,7 +4,11 @@ namespace Motor\Admin\Http\Resources\Frontend;
 
 use Illuminate\Http\Request;
 use Motor\Admin\Http\Resources\BaseResource;
+use Motor\Admin\Models\Domain;
 
+/**
+ * @mixin Domain
+ */
 class DomainResource extends BaseResource
 {
     /**

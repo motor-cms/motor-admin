@@ -3,8 +3,12 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Domain;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
+/**
+ * @mixin Domain
+ */
 class DomainResource extends BaseResource
 {
     public function toArray(Request $request): array
