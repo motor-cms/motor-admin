@@ -19,7 +19,7 @@ class EmailTemplateService extends BaseService
 
     protected array $loadColumns = ['client', 'language'];
 
-    protected $model = EmailTemplate::class;
+    protected string $model = EmailTemplate::class;
 
     public function filters(): void
     {

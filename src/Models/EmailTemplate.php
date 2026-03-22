@@ -20,6 +20,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $client_id
  * @property int|null $language_id
  * @property string $name
+ * @property string $slug
  * @property string $subject
  * @property string $body_text
  * @property string $body_html
@@ -29,12 +30,15 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $default_recipient_email
  * @property string $default_cc_email
  * @property string $default_bcc_email
+ * @property string $default_replyto_name
+ * @property string $default_replyto_email
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Client $client
+ * @property bool $has_body_html
+ * @property-read Client|null $client
  * @property-read Language|null $language
  *
  * @method static Builder|EmailTemplate filteredBy(\Motor\Core\Filter\Filter $filter, $column)

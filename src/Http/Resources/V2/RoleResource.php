@@ -3,8 +3,12 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Role;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
+/**
+ * @mixin Role
+ */
 class RoleResource extends BaseResource
 {
     public function toArray(Request $request): array

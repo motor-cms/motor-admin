@@ -12,7 +12,7 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class ClientService extends BaseService
 {
-    protected $model = Client::class;
+    protected string $model = Client::class;
 
     public function filters(): void
     {

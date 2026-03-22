@@ -3,8 +3,12 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\AISystemPrompt;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
+/**
+ * @mixin AISystemPrompt
+ */
 class AISystemPromptResource extends BaseResource
 {
     public function toArray(Request $request): array

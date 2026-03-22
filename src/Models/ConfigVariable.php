@@ -20,7 +20,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $group
  * @property string $name
  * @property string $value
- * @property int $is_invisible
+ * @property bool $is_invisible
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $created_by

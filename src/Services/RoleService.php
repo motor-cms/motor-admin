@@ -12,7 +12,7 @@ use Motor\Core\Filter\Renderers\SelectRenderer;
  */
 class RoleService extends BaseService
 {
-    protected $model = Role::class;
+    protected string $model = Role::class;
 
     protected array $loadColumns = ['permissions'];
 

@@ -5,7 +5,11 @@ namespace Motor\Admin\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Motor\Admin\Helpers\Filesize;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @mixin Media
+ */
 class MediaResource extends BaseResource
 {
     /**

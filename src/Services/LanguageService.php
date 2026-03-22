@@ -9,5 +9,5 @@ use Motor\Admin\Models\Language;
  */
 class LanguageService extends BaseService
 {
-    protected $model = Language::class;
+    protected string $model = Language::class;
 }

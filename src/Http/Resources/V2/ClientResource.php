@@ -3,10 +3,13 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Client;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
  * V2 ClientResource with standardized envelope.
+ *
+ * @mixin Client
  *
  * @property int $id
  * @property string $name

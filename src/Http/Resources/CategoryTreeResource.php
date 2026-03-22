@@ -3,7 +3,11 @@
 namespace Motor\Admin\Http\Resources;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Category;
 
+/**
+ * @mixin Category
+ */
 class CategoryTreeResource extends BaseResource
 {
     /**

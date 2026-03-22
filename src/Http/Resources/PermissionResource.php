@@ -3,7 +3,11 @@
 namespace Motor\Admin\Http\Resources;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Permission;
 
+/**
+ * @mixin Permission
+ */
 class PermissionResource extends BaseResource
 {
     /**

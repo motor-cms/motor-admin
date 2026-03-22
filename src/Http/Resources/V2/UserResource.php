@@ -4,10 +4,13 @@ namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Motor\Admin\Models\User;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
  * V2 UserResource with standardized envelope.
+ *
+ * @mixin User
  *
  * @property int $id
  * @property string $name

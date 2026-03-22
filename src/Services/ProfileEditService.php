@@ -10,7 +10,7 @@ use Motor\Admin\Models\User;
  */
 class ProfileEditService extends BaseService
 {
-    protected $model = User::class;
+    protected string $model = User::class;
 
     public function beforeUpdate(): void
     {

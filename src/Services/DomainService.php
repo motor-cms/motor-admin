@@ -12,7 +12,7 @@ class DomainService extends BaseService
 {
     protected array $loadColumns = ['client'];
 
-    protected $model = Domain::class;
+    protected string $model = Domain::class;
 
     public function filters(): void
     {

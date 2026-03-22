@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Motor\Admin\Helpers\Filesize;
 use Motor\Core\Http\Resources\V2\BaseResource;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @mixin Media
+ */
 class MediaResource extends BaseResource
 {
     public function toArray(Request $request): array

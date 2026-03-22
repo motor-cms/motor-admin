@@ -11,7 +11,7 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class ConfigVariableService extends BaseService
 {
-    protected $model = ConfigVariable::class;
+    protected string $model = ConfigVariable::class;
 
     public function filters(): void
     {

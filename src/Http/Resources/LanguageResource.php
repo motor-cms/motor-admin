@@ -3,7 +3,11 @@
 namespace Motor\Admin\Http\Resources;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Language;
 
+/**
+ * @mixin Language
+ */
 class LanguageResource extends BaseResource
 {
     /**

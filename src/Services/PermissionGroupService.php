@@ -11,7 +11,7 @@ use Motor\Admin\Models\PermissionGroup;
  */
 class PermissionGroupService extends BaseService
 {
-    protected $model = PermissionGroup::class;
+    protected string $model = PermissionGroup::class;
 
     public function afterCreate(): void
     {

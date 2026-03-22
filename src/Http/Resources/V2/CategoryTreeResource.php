@@ -3,12 +3,15 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Category;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
 /**
  * V2 CategoryTreeResource - root category with children tree.
  *
  * Children are only included when explicitly eager loaded.
+ *
+ * @mixin Category
  */
 class CategoryTreeResource extends BaseResource
 {

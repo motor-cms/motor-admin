@@ -11,7 +11,7 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class CategoryService extends BaseService
 {
-    protected $model = Category::class;
+    protected string $model = Category::class;
 
     public function filters(): void
     {

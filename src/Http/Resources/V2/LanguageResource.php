@@ -3,8 +3,12 @@
 namespace Motor\Admin\Http\Resources\V2;
 
 use Illuminate\Http\Request;
+use Motor\Admin\Models\Language;
 use Motor\Core\Http\Resources\V2\BaseResource;
 
+/**
+ * @mixin Language
+ */
 class LanguageResource extends BaseResource
 {
     public function toArray(Request $request): array

@@ -35,10 +35,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $password
  * @property string $api_token
  * @property string|null $remember_token
- * @property string|null $password_last_changed_at
+ * @property Carbon|null $password_last_changed_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Client|null $client
+ * @property-read Collection|Client[] $clients
+ * @property-read int|null $clients_count
  * @property-read MediaCollection|Media[] $media
  * @property-read int|null $media_count
  * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications

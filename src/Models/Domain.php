@@ -3,6 +3,7 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +22,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  *
  * @property int $id
  * @property int $client_id
- * @property int $is_active
+ * @property bool $is_active
  * @property string $name
  * @property string $protocol
  * @property string $host
@@ -32,6 +33,11 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int|null $deleted_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Client|null $client
+ * @property-read Collection|SearchConfig[] $searchConfigs
+ * @property-read int|null $search_configs_count
+ * @property-read Collection|SeoRedirect[] $redirections
+ * @property-read int|null $redirections_count
  *
  * @mixin \Eloquent
  */
