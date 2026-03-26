@@ -5,7 +5,7 @@ return [
         0   => [
             'slug'        => 'dashboard',
             'icon'        => 'home',
-            'route'       => 'admin.dashboard',
+            'route'       => '/',
             'roles'       => ['SuperAdmin'],
             'permissions' => ['dashboard.read'],
             'name'        => 'motor-admin.global.dashboard',
