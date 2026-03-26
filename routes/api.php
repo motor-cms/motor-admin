@@ -158,4 +158,10 @@ Route::prefix('v2')
 
         Route::get('admin-navigations', [AdminNavigationsController::class, 'index'])
             ->name('admin-navigations.index');
+
+        // Dashboard
+        Route::get('dashboard', [\Motor\Admin\Http\Controllers\Api\V2\DashboardController::class, 'index']);
+        Route::apiResource('dashboard/announcements', \Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController::class)
+            ->parameters(['announcements' => 'announcement']);
+        Route::post('dashboard/announcements/{announcement}/dismiss', [\Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController::class, 'dismiss']);
     });

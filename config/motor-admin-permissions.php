@@ -12,6 +12,12 @@ return [
             'read',
         ],
     ],
+    'dashboard-announcements' => [
+        'values' => [
+            'read',
+            'write',
+        ],
+    ],
     'clients' => [
         'values' => [
             'read',
