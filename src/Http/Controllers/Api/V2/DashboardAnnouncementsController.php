@@ -35,6 +35,7 @@ class DashboardAnnouncementsController extends ApiController
 
         $data['client_id'] = $request->user()->clients->first()?->id
             ?? config('motor-admin.default_client_id', 1);
+        $data['created_by'] = $request->user()->id;
 
         $announcement = DashboardAnnouncement::create($data);
 

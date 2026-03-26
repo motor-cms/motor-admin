@@ -15,6 +15,10 @@ class DashboardAnnouncement extends Model
     use Filterable;
     use HasShortflakePrimary;
 
+    protected static array $blameable = [
+        'user' => User::class,
+    ];
+
     protected $fillable = [
         'title',
         'body',
@@ -27,6 +31,7 @@ class DashboardAnnouncement extends Model
         'expires_at',
         'is_active',
         'client_id',
+        'created_by',
     ];
 
     protected $casts = [
