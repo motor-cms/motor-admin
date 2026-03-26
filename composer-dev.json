@@ -19,6 +19,7 @@
     "laravel/sanctum": "^4.0",
     "laravel/scout": "^10.0",
     "symfony/intl": "^7.1",
+    "spatie/laravel-activitylog": "^4.9",
     "spatie/laravel-collection-macros": "^8.0",
     "spatie/laravel-permission": "^6.0",
     "kalnoy/nestedset": "^v6.0.5",
