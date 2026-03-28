@@ -42,8 +42,6 @@ class UsersController extends ApiController
 
     /**
      * Get a single user
-     *
-     * @response UserResource
      */
     public function show(User $user): UserResource
     {
@@ -58,8 +56,6 @@ class UsersController extends ApiController
 
     /**
      * Create a new user
-     *
-     * @response 201 UserResource
      */
     public function store(UserPostRequest $request): JsonResponse
     {
@@ -74,8 +70,6 @@ class UsersController extends ApiController
 
     /**
      * Update a user
-     *
-     * @response UserResource
      */
     public function update(UserPatchRequest $request, User $user): UserResource
     {
@@ -88,8 +82,6 @@ class UsersController extends ApiController
 
     /**
      * Delete a user
-     *
-     * @response 204
      */
     public function destroy(User $user): Response
     {
