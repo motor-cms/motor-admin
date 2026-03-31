@@ -102,6 +102,11 @@ return [
             'delete',
         ],
     ],
+    'search' => [
+        'values' => [
+            'read',
+        ],
+    ],
     'administration' => [
         'values' => [
             'read',
