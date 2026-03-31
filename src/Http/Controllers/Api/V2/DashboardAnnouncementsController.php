@@ -27,15 +27,21 @@ class DashboardAnnouncementsController extends ApiController
     public function store(DashboardAnnouncementPostRequest $request): JsonResponse
     {
         $data = $request->validated();
+        $user = $request->user();
 
-        if (! $request->user()->can('dashboard-announcements.write')) {
+        if (! $user->hasRole('SuperAdmin') && ! $user->can('dashboard-announcements.write')) {
             $data['audience'] = 'self';
             $data['target_user_ids'] = null;
+            unset($data['client_id']);
         }
 
-        $data['client_id'] = $request->user()->clients->first()?->id
-            ?? config('motor-admin.default_client_id', 1);
-        $data['created_by'] = $request->user()->id;
+        // Use client_id from request when targeting a client, otherwise fall back to user's first client
+        if (empty($data['client_id'])) {
+            $data['client_id'] = $user->clients->first()?->id
+                ?? config('motor-admin.default_client_id', 1);
+        }
+
+        $data['created_by'] = $user->id;
 
         $announcement = DashboardAnnouncement::create($data);
 
@@ -48,15 +54,18 @@ class DashboardAnnouncementsController extends ApiController
     {
         $user = $request->user();
 
-        if (! $user->can('dashboard-announcements.write') && $announcement->created_by !== $user->id) {
+        $canWrite = $user->hasRole('SuperAdmin') || $user->can('dashboard-announcements.write');
+
+        if (! $canWrite && $announcement->created_by !== $user->id) {
             abort(403);
         }
 
         $data = $request->validated();
 
-        if (! $user->can('dashboard-announcements.write')) {
+        if (! $canWrite) {
             $data['audience'] = 'self';
             $data['target_user_ids'] = null;
+            unset($data['client_id']);
         }
 
         $announcement->update($data);

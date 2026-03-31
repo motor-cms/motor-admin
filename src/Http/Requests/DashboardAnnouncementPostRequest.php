@@ -20,6 +20,7 @@ class DashboardAnnouncementPostRequest extends FormRequest
             'audience' => 'required|in:self,users,client',
             'target_user_ids' => 'nullable|array',
             'target_user_ids.*' => 'integer|exists:users,id',
+            'client_id' => 'nullable|integer|exists:clients,id',
             'linkable_type' => 'nullable|string',
             'linkable_id' => 'nullable|integer',
             'starts_at' => 'nullable|date',
