@@ -26,9 +26,10 @@ class UserResource extends BaseResource
                     ->merge($this->whenLoaded('permissions', fn () => $this->permissions, collect()))
                     ->unique('id')
             )),
-            'name'        => $this->name,
-            'email'       => $this->email,
-            'avatar'      => new MediaResource($this->getFirstMedia('avatar')),
+            'name'             => $this->name,
+            'email'            => $this->email,
+            'show_onboarding'  => (bool) $this->show_onboarding,
+            'avatar'           => new MediaResource($this->getFirstMedia('avatar')),
         ];
     }
 }

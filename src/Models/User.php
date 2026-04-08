@@ -34,6 +34,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $email
  * @property string $password
  * @property string $api_token
+ * @property bool $show_onboarding
  * @property string|null $remember_token
  * @property Carbon|null $password_last_changed_at
  * @property Carbon|null $created_at
@@ -138,6 +139,11 @@ class User extends Authenticatable implements HasMedia
         'email',
         'password',
         'api_token',
+        'show_onboarding',
+    ];
+
+    protected $casts = [
+        'show_onboarding' => 'boolean',
     ];
 
     /**

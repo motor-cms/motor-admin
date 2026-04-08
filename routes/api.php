@@ -68,6 +68,10 @@ Route::middleware('auth:sanctum')
             ->name('profile.read');
         Route::put('profile', [ProfileEditController::class, 'update'])
             ->name('profile.update');
+        Route::post('profile/reset-onboarding', [ProfileEditController::class, 'resetOnboarding'])
+            ->name('profile.reset-onboarding');
+        Route::post('profile/complete-onboarding', [ProfileEditController::class, 'completeOnboarding'])
+            ->name('profile.complete-onboarding');
         Route::apiResource('config_variables', ConfigVariablesController::class);
 
         Route::get('admin_navigations', [AdminNavigationsController::class, 'index'])

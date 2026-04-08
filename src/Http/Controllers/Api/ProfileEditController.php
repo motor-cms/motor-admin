@@ -25,6 +25,28 @@ class ProfileEditController extends ApiController
     }
 
     /**
+     * Set show_onboarding flag so the tour restarts on next dashboard visit
+     */
+    public function resetOnboarding(): UserResource
+    {
+        $user = Auth::user();
+        $user->update(['show_onboarding' => true]);
+
+        return new UserResource($user)->additional(['message' => 'Onboarding reset']);
+    }
+
+    /**
+     * Clear show_onboarding flag after the tour has completed
+     */
+    public function completeOnboarding(): UserResource
+    {
+        $user = Auth::user();
+        $user->update(['show_onboarding' => false]);
+
+        return new UserResource($user)->additional(['message' => 'Onboarding completed']);
+    }
+
+    /**
      * Get current users profile
      */
     public function me(): UserResource
