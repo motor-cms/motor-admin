@@ -107,25 +107,25 @@ Route::prefix('v1')
     ->name('v1.')
     ->middleware('auth:sanctum')
     ->group(function () {
-        Route::apiResource('users', Motor\Admin\Http\Controllers\Api\V1\UsersController::class);
-        Route::apiResource('clients', Motor\Admin\Http\Controllers\Api\V1\ClientsController::class);
-        Route::apiResource('domains', Motor\Admin\Http\Controllers\Api\V1\DomainsController::class);
-        Route::apiResource('languages', Motor\Admin\Http\Controllers\Api\V1\LanguagesController::class);
-        Route::apiResource('roles', Motor\Admin\Http\Controllers\Api\V1\RolesController::class);
-        Route::apiResource('permission_groups', Motor\Admin\Http\Controllers\Api\V1\PermissionGroupsController::class);
-        Route::apiResource('permissions', Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class);
-        Route::get('permissions_items/{permission_group}', [Motor\Admin\Http\Controllers\Api\V1\PermissionsController::class, 'items']);
-        Route::apiResource('email_templates', Motor\Admin\Http\Controllers\Api\V1\EmailTemplatesController::class);
-        Route::post('email_templates/duplicate', [Motor\Admin\Http\Controllers\Api\V1\EmailTemplatesController::class, 'duplicate']);
-        Route::apiResource('config_variables', Motor\Admin\Http\Controllers\Api\V1\ConfigVariablesController::class);
-        Route::apiResource('ai_system_prompts', Motor\Admin\Http\Controllers\Api\V1\AISystemPromptController::class);
-        Route::apiResource('category_trees/{category_tree}/categories', Motor\Admin\Http\Controllers\Api\V1\CategoriesController::class, [
+        Route::apiResource('users', UsersController::class);
+        Route::apiResource('clients', ClientsController::class);
+        Route::apiResource('domains', DomainsController::class);
+        Route::apiResource('languages', LanguagesController::class);
+        Route::apiResource('roles', RolesController::class);
+        Route::apiResource('permission_groups', PermissionGroupsController::class);
+        Route::apiResource('permissions', PermissionsController::class);
+        Route::get('permissions_items/{permission_group}', [PermissionsController::class, 'items']);
+        Route::apiResource('email_templates', EmailTemplatesController::class);
+        Route::post('email_templates/duplicate', [EmailTemplatesController::class, 'duplicate']);
+        Route::apiResource('config_variables', ConfigVariablesController::class);
+        Route::apiResource('ai_system_prompts', AISystemPromptController::class);
+        Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
             'parameters' => ['category_trees' => 'category'],
         ]);
-        Route::apiResource('category_trees', Motor\Admin\Http\Controllers\Api\V1\CategoryTreesController::class, [
+        Route::apiResource('category_trees', CategoryTreesController::class, [
             'parameters' => ['category_trees' => 'category'],
         ]);
-        Route::get('category_trees/scope/{scope}', [Motor\Admin\Http\Controllers\Api\V1\CategoryTreesController::class, 'byScope']);
+        Route::get('category_trees/scope/{scope}', [CategoryTreesController::class, 'byScope']);
     });
 
 /*
