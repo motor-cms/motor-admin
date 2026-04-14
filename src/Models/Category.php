@@ -14,7 +14,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Admin\Database\Factories\CategoryFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Category
@@ -96,7 +96,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class Category extends Model
 {
-    use BlameableTrait; // we can't use Scout here because it collides with the NodeTrait
+    use Userstamps; // we can't use Scout here because it collides with the NodeTrait
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;

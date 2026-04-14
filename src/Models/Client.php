@@ -13,7 +13,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ClientFactory;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Client
@@ -71,7 +71,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class Client extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;

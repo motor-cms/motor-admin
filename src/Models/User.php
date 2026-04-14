@@ -22,7 +22,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -79,7 +78,6 @@ class User extends Authenticatable implements HasMedia
     use Filterable;
     use HasApiTokens;
     use HasFactory;
-    use HasPermissions;
     use HasRoles;
     use HasShortflakePrimary;
     use InteractsWithMedia;

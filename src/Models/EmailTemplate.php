@@ -11,7 +11,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\EmailTemplateFactory;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\EmailTemplate
@@ -70,7 +70,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class EmailTemplate extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;

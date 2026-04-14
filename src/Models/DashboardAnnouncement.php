@@ -7,17 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 class DashboardAnnouncement extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasShortflakePrimary;
-
-    protected static array $blameable = [
-        'user' => User::class,
-    ];
 
     protected $fillable = [
         'title',

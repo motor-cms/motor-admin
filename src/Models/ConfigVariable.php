@@ -10,7 +10,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ConfigVariableFactory;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\ConfigVariable
@@ -49,7 +49,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class ConfigVariable extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;

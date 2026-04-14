@@ -15,7 +15,7 @@ use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Domain
@@ -43,7 +43,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class Domain extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;

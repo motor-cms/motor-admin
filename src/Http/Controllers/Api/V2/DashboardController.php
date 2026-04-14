@@ -40,7 +40,7 @@ class DashboardController extends ApiController
         $activities = $activityPaginator->getCollection()
             ->map(function (Activity $activity) {
                 $subject = $activity->subject;
-                $props = $activity->properties;
+                $props = $activity->attribute_changes ?? $activity->properties;
                 $subjectName = $subject?->name
                     ?? $subject?->title
                     ?? $subject?->description
