@@ -6,9 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Motor\Builder\Models\Navigation as NavigationModel;
 use Motor\Core\Traits\Filterable;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $body
+ * @property string $type
+ * @property string $audience
+ * @property array<int, int>|null $target_user_ids
+ * @property string|null $linkable_type
+ * @property int|null $linkable_id
+ * @property \Illuminate\Support\Carbon|null $starts_at
+ * @property \Illuminate\Support\Carbon|null $expires_at
+ * @property bool $is_active
+ * @property int|null $client_id
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Client|null $client
+ * @property-read \Illuminate\Database\Eloquent\Model|null $linkable
+ * @property-read User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $dismissedByUsers
+ * @property-read string|null $linkable_url
+ */
 class DashboardAnnouncement extends Model
 {
     use Userstamps;
@@ -94,11 +117,15 @@ class DashboardAnnouncement extends Model
             return null;
         }
 
+        $linkableId = $linkable->getKey();
+
         return match ($this->linkable_type) {
-            'Motor\\Builder\\Models\\BuilderPage' => "/motor-builder/builder-pages/{$linkable->id}/edit",
-            'Motor\\Builder\\Models\\Navigation' => "/motor-builder/navigation-trees/{$linkable->getNavigationTreeId()}/navigation-items/{$linkable->id}/edit",
-            'Motor\\Media\\Models\\File' => "/motor-media/files/{$linkable->id}/edit",
-            'Motor\\ContentType\\Models\\CustomContentType' => "/motor-content-type/content-types/{$linkable->id}/edit",
+            'Motor\\Builder\\Models\\BuilderPage' => "/motor-builder/builder-pages/{$linkableId}/edit",
+            'Motor\\Builder\\Models\\Navigation' => $linkable instanceof NavigationModel
+                ? "/motor-builder/navigation-trees/{$linkable->getNavigationTreeId()}/navigation-items/{$linkableId}/edit"
+                : null,
+            'Motor\\Media\\Models\\File' => "/motor-media/files/{$linkableId}/edit",
+            'Motor\\ContentType\\Models\\CustomContentType' => "/motor-content-type/content-types/{$linkableId}/edit",
             default => null,
         };
     }

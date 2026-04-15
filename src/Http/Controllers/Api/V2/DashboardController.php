@@ -38,12 +38,12 @@ class DashboardController extends ApiController
             ->paginate($perPage, ['*'], 'activity_page', $activityPage);
 
         $activities = $activityPaginator->getCollection()
-            ->map(function (Activity $activity) {
+            ->map(function (Activity $activity): array {
                 $subject = $activity->subject;
                 $props = $activity->attribute_changes ?? $activity->properties;
-                $subjectName = $subject?->name
-                    ?? $subject?->title
-                    ?? $subject?->description
+                $subjectName = data_get($subject, 'name')
+                    ?? data_get($subject, 'title')
+                    ?? data_get($subject, 'description')
                     ?? data_get($props, 'attributes.name')
                     ?? data_get($props, 'attributes.title')
                     ?? data_get($props, 'attributes.description')
@@ -59,7 +59,7 @@ class DashboardController extends ApiController
                     'subject_id' => $activity->subject_id,
                     'subject_name' => $subjectName,
                     'subject_exists' => $activity->subject !== null,
-                    'causer_name' => $activity->causer?->name,
+                    'causer_name' => data_get($activity->causer, 'name'),
                     'created_at' => $activity->created_at?->toISOString(),
                 ];
             });
@@ -69,10 +69,12 @@ class DashboardController extends ApiController
             ->where('to_be_published_at', '>', now())
             ->orderBy('to_be_published_at')
             ->get()
-            ->map(function (PublishingTime $pt) {
+            ->map(function (PublishingTime $pt): array {
                 return [
                     'id' => $pt->id,
-                    'name' => $pt->publishable?->name ?? $pt->publishable?->title ?? 'Unknown',
+                    'name' => data_get($pt->publishable, 'name')
+                        ?? data_get($pt->publishable, 'title')
+                        ?? 'Unknown',
                     'to_be_published_at' => $pt->to_be_published_at instanceof \DateTimeInterface
                         ? $pt->to_be_published_at->toISOString()
                         : $pt->to_be_published_at,
