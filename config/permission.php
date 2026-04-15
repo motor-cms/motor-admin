@@ -72,6 +72,12 @@ return [
          */
 
         'role_has_permissions' => 'role_has_permissions',
+
+        /*
+         * v7: Change this if you want to name the related pivots other than defaults.
+         */
+        'role_pivot_key' => null, // default 'role_id',
+        'permission_pivot_key' => null, // default 'permission_id',
     ],
 
     'column_names' => [
@@ -85,7 +91,44 @@ return [
          */
 
         'model_morph_key' => 'model_id',
+
+        /*
+         * v7: Change this if you want to use the teams feature and your related
+         * model's foreign key is other than `team_id`.
+         */
+        'team_foreign_key' => 'team_id',
     ],
+
+    /*
+     * v7: When set to true, the method for checking permissions will be registered
+     * on the gate. Set this to false if you want to implement custom logic.
+     */
+    'register_permission_check_method' => true,
+
+    /*
+     * v7: Octane OperationTerminated listener — not used (no Octane).
+     */
+    'register_octane_reset_listener' => false,
+
+    /*
+     * v7: Fire events on role/permission assignment. Off until we listen.
+     */
+    'events_enabled' => false,
+
+    /*
+     * v7: Teams feature — not used.
+     */
+    'teams' => false,
+
+    /*
+     * v7: Teams resolver (default).
+     */
+    'team_resolver' => \Spatie\Permission\DefaultTeamResolver::class,
+
+    /*
+     * v7: Passport client credentials grant integration — not used.
+     */
+    'use_passport_client_credentials' => false,
 
     /*
      * When set to true, the required permission names are added to the exception
