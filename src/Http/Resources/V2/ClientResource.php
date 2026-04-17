@@ -34,6 +34,7 @@ class ClientResource extends BaseResource
             'contact_name' => $this->contact_name,
             'contact_phone' => $this->contact_phone,
             'contact_email' => $this->contact_email,
+            'frontend_config' => $this->frontend_config ?? (object) [],
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

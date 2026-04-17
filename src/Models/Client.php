@@ -3,6 +3,7 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,9 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\ClientFactory;
 use Motor\Core\Traits\Filterable;
-use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Client
@@ -31,6 +32,7 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  * @property string $contact_phone
  * @property string $contact_email
  * @property string $description
+ * @property array|null $frontend_config
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
@@ -71,11 +73,11 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class Client extends Model
 {
-    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
+    use Userstamps;
 
     /**
      * Get the name of the index associated with the model.
@@ -103,7 +105,15 @@ class Client extends Model
         'contact_phone',
         'contact_email',
         'description',
+        'frontend_config',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'frontend_config' => AsArrayObject::class,
+        ];
+    }
 
     public function domains(): HasMany
     {
