@@ -26,6 +26,7 @@ class LanguagePostRequest extends Request
                 'required',
                 'min:2',
                 'max:2',
+                'unique:languages,iso_639_1',
             ],
             'english_name' => [
                 'required',
