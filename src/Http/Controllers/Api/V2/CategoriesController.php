@@ -94,7 +94,7 @@ class CategoriesController extends ApiController
             ->additional(['meta' => ['message' => 'Category updated']]);
     }
 
-    public function destroy(Category $category): Response
+    public function destroy(Category $categoryTree, Category $category): Response
     {
         CategoryService::delete($category);
 
