@@ -19,6 +19,7 @@ class DomainResource extends BaseResource
             'client' => $this->whenLoaded('client', fn () => new ClientResource($this->client)),
             'client_id' => $this->client_id,
             'is_active' => (bool) $this->is_active,
+            'is_preview_domain' => (bool) $this->is_preview_domain,
             'protocol' => $this->protocol,
             'host' => $this->host,
             'port' => (int) $this->port,

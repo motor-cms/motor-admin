@@ -24,8 +24,9 @@ class DomainFactory extends Factory
         return [
             'client_id' => Client::factory()
                 ->make()->id,
-            'is_active'  => true,
-            'name'       => $this->faker->domainName(),
+            'is_active'         => true,
+            'is_preview_domain' => false,
+            'name'              => $this->faker->domainName(),
             'protocol'   => array_rand(['http', 'https']),
             'host'       => $this->faker->domainName(),
             'port'       => array_rand([80, 443]),

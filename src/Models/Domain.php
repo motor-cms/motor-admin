@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
 use Motor\Core\Traits\Filterable;
-use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Domain
@@ -43,11 +44,36 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class Domain extends Model
 {
-    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
+    use Userstamps;
+
+    protected static function booted(): void
+    {
+        static::saving(function (Domain $domain) {
+            if (! $domain->isDirty('is_preview_domain')) {
+                return;
+            }
+
+            if ($domain->is_preview_domain !== true) {
+                return;
+            }
+
+            DB::transaction(function () use ($domain) {
+                $query = static::query()
+                    ->where('client_id', $domain->client_id)
+                    ->where('is_preview_domain', true);
+
+                if ($domain->exists) {
+                    $query->whereKeyNot($domain->getKey());
+                }
+
+                $query->update(['is_preview_domain' => false]);
+            });
+        });
+    }
 
     /**
      * Get the name of the index associated with the model.
@@ -88,6 +114,7 @@ class Domain extends Model
         'port',
         'path',
         'is_active',
+        'is_preview_domain',
     ];
 
     protected function casts(): array
@@ -95,6 +122,7 @@ class Domain extends Model
         return [
             'port' => 'integer',
             'is_active' => 'boolean',
+            'is_preview_domain' => 'boolean',
         ];
     }
 
