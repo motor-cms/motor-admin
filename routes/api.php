@@ -21,6 +21,9 @@ use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
 use Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController;
+use Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController;
+use Motor\Admin\Http\Controllers\Api\V2\DashboardController;
+use Motor\Admin\Http\Controllers\Api\V2\EmailTemplateDuplicateController;
 use Motor\Admin\Http\Controllers\Api\V2\FlatCategoriesController;
 use Motor\Admin\Http\Resources\UserResource;
 use Motor\Core\Http\Middleware\V2\V2ErrorHandler;
@@ -147,6 +150,8 @@ Route::prefix('v2')
         Route::get('permissions-items/{permission_group}', [Motor\Admin\Http\Controllers\Api\V2\PermissionsController::class, 'items']);
         Route::apiResource('email-templates', Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class);
         Route::post('email-templates/duplicate', [Motor\Admin\Http\Controllers\Api\V2\EmailTemplatesController::class, 'duplicate']);
+        Route::post('email-templates/{email_template}/duplicate', [EmailTemplateDuplicateController::class, 'store'])
+            ->name('email-templates.duplicate');
         Route::get('email-templates/{template_id}/usage', [Motor\Admin\Http\Controllers\Api\V2\EmailTemplateUsageController::class, 'usage'])
             ->name('email-templates.usage');
         Route::apiResource('config-variables', Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
@@ -164,8 +169,8 @@ Route::prefix('v2')
             ->name('admin-navigations.index');
 
         // Dashboard
-        Route::get('dashboard', [\Motor\Admin\Http\Controllers\Api\V2\DashboardController::class, 'index']);
-        Route::apiResource('dashboard/announcements', \Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController::class)
+        Route::get('dashboard', [DashboardController::class, 'index']);
+        Route::apiResource('dashboard/announcements', DashboardAnnouncementsController::class)
             ->parameters(['announcements' => 'announcement']);
-        Route::post('dashboard/announcements/{announcement}/dismiss', [\Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController::class, 'dismiss']);
+        Route::post('dashboard/announcements/{announcement}/dismiss', [DashboardAnnouncementsController::class, 'dismiss']);
     });
