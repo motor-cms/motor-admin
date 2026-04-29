@@ -5,6 +5,8 @@ namespace Motor\Admin\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\EmailTemplate;
+use Motor\Admin\Models\Language;
+use Motor\Core\Filter\Renderers\SelectRenderer;
 
 /**
  * Class EmailTemplateService
@@ -17,11 +19,13 @@ class EmailTemplateService extends BaseService
 
     protected array $loadColumns = ['client', 'language'];
 
-    protected $model = EmailTemplate::class;
+    protected string $model = EmailTemplate::class;
 
     public function filters(): void
     {
         $this->filter->addClientFilter();
+        $this->filter->add(new SelectRenderer('language_id'))
+            ->setOptions(Language::pluck('english_name', 'id'));
     }
 
     public function beforeCreate(): void
@@ -40,5 +44,19 @@ class EmailTemplateService extends BaseService
         if (is_null($slug)) {
             $this->data['slug'] = Str::kebab(Arr::get($this->data, 'name'));
         }
+    }
+
+    /**
+     * Duplicate an email template. Name gets suffixed with " (Kopie)" and the
+     * slug gets a uuid suffix to keep it unique.
+     */
+    public static function duplicate(EmailTemplate $source): EmailTemplate
+    {
+        $duplicate       = $source->replicate();
+        $duplicate->name = $source->name.' (Kopie)';
+        $duplicate->slug = $source->slug.'_'.Str::uuid()->toString();
+        $duplicate->save();
+
+        return $duplicate;
     }
 }

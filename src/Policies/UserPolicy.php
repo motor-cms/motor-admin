@@ -29,9 +29,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->hasRole('SuperAdmin')) {
-            return true;
-        }
+        return $user->hasPermissionTo('users.read');
     }
 
     /**
@@ -41,7 +39,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->id === $model->id || $user->hasPermissionTo('user.read');
+        return $user->id === $model->id || $user->hasPermissionTo('users.read');
     }
 
     /**
@@ -61,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->id === $model->id || $user->hasPermissionTo('user.write');
+        return $user->id === $model->id || $user->hasPermissionTo('users.write');
     }
 
     /**
@@ -71,7 +69,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->hasPermissionTo('user.delete');
+        return $user->hasPermissionTo('users.delete');
     }
 
     /**

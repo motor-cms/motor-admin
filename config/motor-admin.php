@@ -1,13 +1,21 @@
 <?php
 
+use Motor\Admin\Models\Client;
+use Motor\Admin\Models\EmailTemplate;
+use Motor\Admin\Models\Language;
+use Motor\Admin\Models\Permission;
+use Motor\Admin\Models\PermissionGroup;
+use Motor\Admin\Models\Role;
+use Motor\Admin\Models\User;
+
 return [
     'models' => [
-        'client'           => Motor\Admin\Models\Client::class,
-        'language'         => Motor\Admin\Models\Language::class,
-        'user'             => Motor\Admin\Models\User::class,
-        'role'             => Motor\Admin\Models\Role::class,
-        'permission'       => Motor\Admin\Models\Permission::class,
-        'permission_group' => Motor\Admin\Models\PermissionGroup::class,
-        'email_template'   => Motor\Admin\Models\EmailTemplate::class,
+        'client'           => Client::class,
+        'language'         => Language::class,
+        'user'             => User::class,
+        'role'             => Role::class,
+        'permission'       => Permission::class,
+        'permission_group' => PermissionGroup::class,
+        'email_template'   => EmailTemplate::class,
     ],
 ];

@@ -12,7 +12,20 @@ return [
             'read',
         ],
     ],
+    'dashboard-announcements' => [
+        'values' => [
+            'read',
+            'write',
+        ],
+    ],
     'clients' => [
+        'values' => [
+            'read',
+            'write',
+            'delete',
+        ],
+    ],
+    'domains' => [
         'values' => [
             'read',
             'write',
@@ -33,14 +46,14 @@ return [
             'delete',
         ],
     ],
-    'ai_system_prompts' => [
+    'ai-system-prompts' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'email_templates' => [
+    'email-templates' => [
         'values' => [
             'read',
             'write',
@@ -54,7 +67,7 @@ return [
             'delete',
         ],
     ],
-    'permission_groups' => [
+    'permission-groups' => [
         'values' => [
             'read',
             'write',
@@ -75,18 +88,23 @@ return [
             'delete',
         ],
     ],
-    'category_trees' => [
+    'category-trees' => [
         'values' => [
             'read',
             'write',
             'delete',
         ],
     ],
-    'config_variables' => [
+    'config-variables' => [
         'values' => [
             'read',
             'write',
             'delete',
+        ],
+    ],
+    'search' => [
+        'values' => [
+            'read',
         ],
     ],
     'administration' => [
@@ -94,10 +112,9 @@ return [
             'read',
         ],
     ],
-
-    'builder_pages' => [
+    'builder-pages' => [
         'values' => [
-            'publisher',
+            'publish',
         ],
     ],
 ];

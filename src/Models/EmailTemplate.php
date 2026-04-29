@@ -5,11 +5,13 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\EmailTemplateFactory;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\EmailTemplate
@@ -18,6 +20,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $client_id
  * @property int|null $language_id
  * @property string $name
+ * @property string $slug
  * @property string $subject
  * @property string $body_text
  * @property string $body_html
@@ -27,13 +30,16 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $default_recipient_email
  * @property string $default_cc_email
  * @property string $default_bcc_email
+ * @property string $default_replyto_name
+ * @property string $default_replyto_email
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Motor\Admin\Models\Client $client
- * @property-read \Motor\Admin\Models\Language|null $language
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property bool $has_body_html
+ * @property-read Client|null $client
+ * @property-read Language|null $language
  *
  * @method static Builder|EmailTemplate filteredBy(\Motor\Core\Filter\Filter $filter, $column)
  * @method static Builder|EmailTemplate filteredByMultiple(\Motor\Core\Filter\Filter $filter)
@@ -64,7 +70,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class EmailTemplate extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
@@ -83,8 +89,9 @@ class EmailTemplate extends Model
         return [
             'name'                  => $this->name,
             'client_id'             => (int) $this->client_id,
+            'language_id'           => $this->language_id ? (int) $this->language_id : null,
             'client.name'           => $this->client?->name,
-            'language.english_name' => $this->language->english_name,
+            'language.english_name' => $this->language?->english_name,
             'updated_at'             => $this->updated_at,
             'created_at'             => $this->created_at,
         ];
@@ -119,12 +126,12 @@ class EmailTemplate extends Model
         return EmailTemplateFactory::new();
     }
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
 
-    public function language(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function language(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.language'));
     }

@@ -16,19 +16,19 @@
     "ext-intl": "*",
     "motor-cms/motor-core": "^4.0 || >=2025.0.0",
     "laravel/sanctum": "^4.0",
-    "laravel/scout": "^10.0",
-    "symfony/intl": "^7.1",
+    "laravel/scout": "^11.0",
+    "spatie/laravel-activitylog": "^5.0",
     "spatie/laravel-collection-macros": "^8.0",
-    "spatie/laravel-permission": "^6.0",
-    "kalnoy/nestedset": "^v6.0.5",
+    "spatie/laravel-permission": "^7.0",
+    "kalnoy/nestedset": "^7.0",
     "laravel/horizon": "^5.30",
     "olssonm/l5-very-basic-auth": "^7.1",
     "kra8/laravel-snowflake": "^v2.3",
-    "richan-fongdasen/eloquent-blameable": "^1.10"
+    "wildside/userstamps": "^4.0"
   },
   "require-dev": {
-    "pestphp/pest": "^3.7",
-    "pestphp/pest-plugin-laravel": "^3.0"
+    "pestphp/pest": "^4.0",
+    "pestphp/pest-plugin-laravel": "^4.0"
   },
   "autoload": {
     "psr-4": {

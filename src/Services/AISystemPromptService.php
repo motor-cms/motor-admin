@@ -8,9 +8,9 @@ class AISystemPromptService extends BaseService
 {
     protected array $loadColumns = ['client'];
 
-    protected $model = AISystemPrompt::class;
+    protected string $model = AISystemPrompt::class;
 
-    public function filters()
+    public function filters(): void
     {
         $this->filter->addClientFilter();
     }

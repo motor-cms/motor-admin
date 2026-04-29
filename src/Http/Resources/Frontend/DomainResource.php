@@ -2,12 +2,19 @@
 
 namespace Motor\Admin\Http\Resources\Frontend;
 
-class DomainResource extends \Motor\Admin\Http\Resources\BaseResource
+use Illuminate\Http\Request;
+use Motor\Admin\Http\Resources\BaseResource;
+use Motor\Admin\Models\Domain;
+
+/**
+ * @mixin Domain
+ */
+class DomainResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      */
-    public function toArray(\Illuminate\Http\Request $request): array
+    public function toArray(Request $request): array
     {
         $host = $this->host;
         switch ($this->protocol) {

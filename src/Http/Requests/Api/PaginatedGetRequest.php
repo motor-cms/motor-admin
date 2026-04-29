@@ -24,7 +24,7 @@ class PaginatedGetRequest extends Request
         return [
             'search' => [
                 'string',
-                'nullable'
+                'nullable',
             ],
             'page' => [
                 'integer',

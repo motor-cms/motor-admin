@@ -2,12 +2,18 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Http\Request;
+use Motor\Admin\Models\Domain;
+
+/**
+ * @mixin Domain
+ */
 class DomainResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      */
-    public function toArray(\Illuminate\Http\Request $request): array
+    public function toArray(Request $request): array
     {
         return [
             'id'        => (int) $this->id,

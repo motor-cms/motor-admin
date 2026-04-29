@@ -6,6 +6,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\User;
+use Motor\Core\Filter\Renderers\RelationRenderer;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 /**
  * Class UserService
@@ -14,11 +17,26 @@ class UserService extends BaseService
 {
     protected array $loadColumns = ['clients', 'roles'];
 
-    protected $model = User::class;
+    protected string $model = User::class;
 
     public function filters(): void
     {
-        $this->filter->addClientFilter();
+        // Users have a many-to-many relationship with clients via the
+        // users_client pivot table, so the generic addClientFilter()
+        // (which adds WHERE users.client_id = ?) cannot be used here.
+        // Use RelationRenderer to join through the pivot table instead.
+        if (Auth::user()->client_id > 0) {
+            $this->filter->add(new RelationRenderer('client_id', 'users_client.user_id'))
+                ->setJoin('users_client')
+                ->setOptions([Auth::user()->client_id => Auth::user()->client->name])
+                ->setDefaultValue(Auth::user()->client_id)
+                ->isVisible(false);
+        } else {
+            $clients = config('motor-admin.models.client')::orderBy('name')->pluck('name', 'id');
+            $this->filter->add(new RelationRenderer('client_id', 'users_client.user_id'))
+                ->setJoin('users_client')
+                ->setOptions($clients);
+        }
     }
 
     public function beforeCreate(): void
@@ -31,8 +49,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function afterCreate(): void
     {
@@ -51,8 +69,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function afterUpdate(): void
     {
@@ -71,8 +89,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     private function uploadFiles(): void
     {
@@ -90,6 +108,7 @@ class UserService extends BaseService
     {
         if (Arr::get($this->data, 'roles')) {
             $this->record->syncRoles(Arr::get($this->data, 'roles', []));
+            $this->record->syncPermissions(Arr::get($this->data, 'permissions', []));
         }
     }
 }

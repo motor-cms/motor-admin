@@ -2,6 +2,8 @@
 
 namespace Motor\Admin\Providers;
 
+use Clockwork\Support\Laravel\ClockworkServiceProvider;
+use Clockwork\Support\Vanilla\Clockwork;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -9,6 +11,8 @@ use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Console\Commands\MotorCreateScoutIndexCommand;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\ConfigVariable;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class MotorServiceProvider
@@ -18,13 +22,13 @@ class MotorServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function boot()
     {
-        if ($this->app->environment('local') && class_exists(\Clockwork\Support\Laravel\ClockworkServiceProvider::class)) {
-            $clockwork = \Clockwork\Support\Vanilla\Clockwork::init(['register_helpers' => true]);
+        if ($this->app->environment('local') && class_exists(ClockworkServiceProvider::class)) {
+            $clockwork = Clockwork::init(['register_helpers' => true]);
         }
 
         Response::macro('attachment', static function ($content, $filename, $format = 'application/json') {
@@ -59,12 +63,14 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin.php', 'motor-admin');
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
-        $this->mergeConfigFrom(__DIR__.'/../../config/blameable.php', 'blameable');
         $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
 
         if (! app()->configurationIsCached()) {
             $config = $this->app['config']->get('scout', []);
             $this->app['config']->set('scout', array_merge_recursive(require __DIR__.'/../../config/scout.php', $config));
+
+            $globalSearchConfig = $this->app['config']->get('global-search', []);
+            $this->app['config']->set('global-search', array_merge_recursive(require __DIR__.'/../../config/global-search.php', $globalSearchConfig));
         }
     }
 

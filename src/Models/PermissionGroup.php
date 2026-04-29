@@ -3,8 +3,11 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\PermissionGroupFactory;
@@ -16,9 +19,9 @@ use Motor\Core\Traits\Filterable;
  * @property int $id
  * @property string $name
  * @property int|null $sort_position
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Motor\Admin\Models\Permission[] $permissions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
  *
  * @method static Builder|PermissionGroup filteredBy(\Motor\Core\Filter\Filter $filter, $column)
@@ -65,7 +68,7 @@ class PermissionGroup extends Model
         return PermissionGroupFactory::new();
     }
 
-    public function permissions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function permissions(): HasMany
     {
         return $this->hasMany(config('motor-admin.models.permission'), 'permission_group_id');
     }

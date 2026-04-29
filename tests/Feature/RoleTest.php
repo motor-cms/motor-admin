@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\Permission;
 use Motor\Admin\Models\Role;
@@ -9,72 +8,91 @@ use Motor\Admin\Models\Role;
 pest()->group('Role')->use(RefreshDatabase::class);
 
 describe('Role', function () {
-    it('can create a Role', function () {
-        $rolecount = Role::count();
-        $this->asAdmin()
-            ->post('/api/roles', [
-                'name'        => 'test',
-                'guard_name'  => 'web',
-                'permissions' => [
-                    Permission::first()->id,
-                ],
-            ])->assertStatus(201);
-        expect(Role::count() - $rolecount)->toBe(1);
-    });
-    it("can't create a Role with invalid permissions", function () {
-        $rolecount = Role::count();
-        $this->asAdmin()->withJsonHeaders()
-            ->post('/api/roles', [
-                'name'        => 'test',
-                'guard_name'  => 'web',
-                'permissions' => [0],
-            ])->assertStatus(422);
-        expect(Role::count() - $rolecount)->toBe(0);
-    });
-    it("can't create an empty Role", function () {
-        $rolecount = Role::count();
-        $this->asAdmin()->withJsonHeaders()
-            ->post('/api/roles', [])->assertStatus(422);
-        expect(Role::count() - $rolecount)->toBe(0);
-    });
-    it('can get all Roles')
-        ->asAdmin()
-        ->get('/api/roles')
-        ->assertStatus(200)
-        ->assertJson(fn (AssertableJson $json) => $json->has(
-            'data',
-            3,
-            fn (AssertableJson $data) => $data
-                ->has('id')
-                ->has('name')
-                ->has('guard_name')
-                ->has('permissions')
-                ->etc()
-        )->etc());
-    it(
-        'can get a specific Role',
-        fn () => $this->asAdmin()->get('/api/roles/'.Role::whereName('Editor')->first()->id)
-            ->assertStatus(200)
-            ->assertJson(fn (AssertableJson $json) => $json->has(
-                'data',
-                fn (AssertableJson $data) => $data
-                    ->has('id')
-                    ->has('name')
-                    ->has('guard_name')
-                    ->has('permissions')
-            )->etc())
-    );
-    it('can update roles', fn () => $this->asAdmin()
-        ->put('/api/roles/'.Role::whereName('Editor')->first()->id, [
-            'client_id'  => Client::first()->id,
-            'name'       => 'changed',
+    it('can create a Role', fn () => assertCrudCreate(
+        '/api/roles',
+        [
+            'name' => 'test',
             'guard_name' => 'web',
-        ])->assertStatus(200)
-        ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $data) => $data->where('name', 'changed')->etc())->etc()));
-    it('can delete roles', function () {
-        $rolecount = Role::count();
-        $this->asAdmin()->delete('/api/roles/'.Role::whereName('Editor')->first()->id)
+            'permissions' => [Permission::first()->id],
+        ],
+        Role::class
+    ));
+
+    it("can't create a Role with invalid permissions", fn () => assertCrudValidation(
+        '/api/roles',
+        [
+            'name' => 'test',
+            'guard_name' => 'web',
+            'permissions' => [0],
+        ],
+        Role::class
+    ));
+
+    it("can't create an empty Role", fn () => assertCrudValidation(
+        '/api/roles',
+        [],
+        Role::class
+    ));
+
+    it('can get all Roles', fn () => assertCrudIndex(
+        '/api/roles',
+        3,
+        ['id', 'name', 'guard_name', 'permissions']
+    ));
+
+    it('can get a specific Role', fn () => assertCrudShow(
+        '/api/roles/'.Role::whereName('Editor')->first()->id,
+        ['id', 'name', 'guard_name', 'permissions']
+    ));
+
+    it('can update roles', fn () => assertCrudUpdate(
+        '/api/roles/'.Role::whereName('Editor')->first()->id,
+        [
+            'client_id' => Client::first()->id,
+            'name' => 'changed',
+            'guard_name' => 'web',
+        ],
+        'name',
+        'changed'
+    ));
+
+    it('can delete roles', fn () => assertCrudDelete(
+        '/api/roles/'.Role::whereName('Editor')->first()->id,
+        Role::class
+    ));
+
+    it('can filter roles by guard_name', function () {
+        // Create a role with a different guard_name
+        Role::factory()->create([
+            'name' => 'ApiRole',
+            'guard_name' => 'api',
+        ]);
+
+        // All roles (3 seeded + 1 api) = 4
+        $this->asAdmin()
+            ->get('/api/roles')
+            ->assertStatus(200)
+            ->assertJsonCount(4, 'data');
+
+        // Filter by web guard — should only get the 3 seeded roles
+        $response = $this->asAdmin()
+            ->get('/api/roles?guard_name=web')
             ->assertStatus(200);
-        expect($rolecount - Role::count())->toBe(1);
+
+        $data = $response->json('data');
+        expect(count($data))->toBe(3);
+        foreach ($data as $role) {
+            expect($role['guard_name'])->toBe('web');
+        }
+
+        // Filter by api guard — should only get the 1 api role
+        $response = $this->asAdmin()
+            ->get('/api/roles?guard_name=api')
+            ->assertStatus(200);
+
+        $data = $response->json('data');
+        expect(count($data))->toBe(1);
+        expect($data[0]['guard_name'])->toBe('api');
+        expect($data[0]['name'])->toBe('ApiRole');
     });
 });

@@ -3,6 +3,7 @@
 namespace Motor\Admin\Services;
 
 use Motor\Admin\Models\Category;
+use Motor\Core\Filter\Renderers\SelectRenderer;
 use Motor\Core\Filter\Renderers\WhereRenderer;
 
 /**
@@ -10,11 +11,13 @@ use Motor\Core\Filter\Renderers\WhereRenderer;
  */
 class CategoryService extends BaseService
 {
-    protected $model = Category::class;
+    protected string $model = Category::class;
 
     public function filters(): void
     {
         $this->filter->add(new WhereRenderer('parent_id'));
+        $this->filter->add(new SelectRenderer('scope'))
+            ->setOptions(Category::withoutGlobalScope('defaultOrder')->distinct()->pluck('scope', 'scope'));
 
         $searchFilter = $this->getFilter()
             ->get('search');
@@ -40,7 +43,6 @@ class CategoryService extends BaseService
         // Check if the record and the parent have the same scope
         if (isset($this->record->scope) && $this->request->get('parent_id')) {
             $parent = Category::find($this->request->get('parent_id'));
-            dd($parent);
         }
 
         // Get previous sibling (if it exists)

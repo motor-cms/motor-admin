@@ -17,7 +17,7 @@ class EmailTemplatePolicy
      */
     public function before(User $user, $ability): Response
     {
-        return \Illuminate\Auth\Access\Response::allow();
+        return Response::allow();
         // Log::info('Cheking policy');
         // if ($user->hasRole('SuperAdmin')) {
         //    return true;
@@ -31,7 +31,7 @@ class EmailTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('email_template.read');
+        return $user->hasPermissionTo('email-templates.read');
     }
 
     /**
@@ -41,7 +41,7 @@ class EmailTemplatePolicy
      */
     public function view(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.read');
+        return $user->hasPermissionTo('email-templates.read');
     }
 
     /**
@@ -61,7 +61,7 @@ class EmailTemplatePolicy
      */
     public function update(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.write');
+        return $user->hasPermissionTo('email-templates.write');
     }
 
     /**
@@ -71,7 +71,7 @@ class EmailTemplatePolicy
      */
     public function delete(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.write');
+        return $user->hasPermissionTo('email-templates.write');
     }
 
     /**
@@ -81,7 +81,7 @@ class EmailTemplatePolicy
      */
     public function restore(User $user, EmailTemplate $emailTemplate)
     {
-        return $user->hasPermissionTo('email_template.delete');
+        return $user->hasPermissionTo('email-templates.delete');
     }
 
     /**

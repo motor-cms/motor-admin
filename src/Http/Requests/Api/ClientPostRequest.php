@@ -24,23 +24,45 @@ class ClientPostRequest extends Request
         return [
             'name' => [
                 'required',
+                'string',
             ],
             'slug' => [
                 'required',
+                'string',
             ],
             'address' => [
-                'nullable',
+                'required',
+                'string',
             ],
             'zip' => [
-                'nullable',
+                'required',
+                'string',
             ],
             'city' => [
-                'nullable',
+                'required',
+                'string',
             ],
             'country_iso_3166_1' => [
-                'nullable',
+                'required',
+                'string',
                 'min:2',
                 'max:2',
+            ],
+            'is_active' => [
+                'required',
+                'boolean',
+            ],
+            'contact_name' => [
+                'required',
+                'string',
+            ],
+            'contact_email' => [
+                'required',
+                'email',
+            ],
+            'contact_phone' => [
+                'required',
+                'string',
             ],
             'website' => [
                 'nullable',
@@ -48,20 +70,7 @@ class ClientPostRequest extends Request
             ],
             'description' => [
                 'nullable',
-            ],
-            'is_active' => [
-                'nullable',
-                'boolean',
-            ],
-            'contact_name' => [
-                'nullable',
-            ],
-            'contact_email' => [
-                'nullable',
-                'email',
-            ],
-            'contact_phone' => [
-                'nullable',
+                'string',
             ],
         ];
     }

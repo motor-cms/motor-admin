@@ -18,7 +18,6 @@ class AISystemPromptController extends ApiController
 
     protected string $modelResource = 'ai_system_prompt';
 
-
     /**
      * List/search all records
      *

@@ -17,14 +17,14 @@ class MotorCreatePermissionsCommand extends Command
      *
      * @var string
      */
-    protected $name = 'motor:create:permissions';
+    protected $name = 'motor:admin:sync-permissions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create permissions according to the configuration and write them into the databases permissions table';
+    protected $description = 'Sync permission records from configuration into the database';
 
     /**
      * Execute the console command.

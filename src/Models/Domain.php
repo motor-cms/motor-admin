@@ -3,22 +3,27 @@
 namespace Motor\Admin\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
 
 /**
  * Motor\Admin\Models\Domain
  *
  * @property int $id
  * @property int $client_id
- * @property int $is_active
+ * @property bool $is_active
  * @property string $name
  * @property string $protocol
  * @property string $host
@@ -27,18 +32,48 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Client|null $client
+ * @property-read Collection|SearchConfig[] $searchConfigs
+ * @property-read int|null $search_configs_count
+ * @property-read Collection|SeoRedirect[] $redirections
+ * @property-read int|null $redirections_count
  *
  * @mixin \Eloquent
  */
 class Domain extends Model
 {
-    use BlameableTrait;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
+    use Userstamps;
+
+    protected static function booted(): void
+    {
+        static::saving(function (Domain $domain) {
+            if (! $domain->isDirty('is_preview_domain')) {
+                return;
+            }
+
+            if ($domain->is_preview_domain !== true) {
+                return;
+            }
+
+            DB::transaction(function () use ($domain) {
+                $query = static::query()
+                    ->where('client_id', $domain->client_id)
+                    ->where('is_preview_domain', true);
+
+                if ($domain->exists) {
+                    $query->whereKeyNot($domain->getKey());
+                }
+
+                $query->update(['is_preview_domain' => false]);
+            });
+        });
+    }
 
     /**
      * Get the name of the index associated with the model.
@@ -79,7 +114,17 @@ class Domain extends Model
         'port',
         'path',
         'is_active',
+        'is_preview_domain',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'port' => 'integer',
+            'is_active' => 'boolean',
+            'is_preview_domain' => 'boolean',
+        ];
+    }
 
     public function scopeActiveDomainByHostPortScheme(Builder $query, string $host, int $port, string $schema): Builder
     {
@@ -94,17 +139,17 @@ class Domain extends Model
         return DomainFactory::new();
     }
 
-    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(config('motor-admin.models.client'));
     }
 
-    public function searchConfigs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function searchConfigs(): HasMany
     {
         return $this->hasMany(SearchConfig::class);
     }
 
-    public function redirections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function redirections(): HasMany
     {
         return $this->hasMany(SeoRedirect::class);
     }

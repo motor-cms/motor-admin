@@ -2,12 +2,18 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Http\Request;
+use Motor\Admin\Models\Role;
+
+/**
+ * @mixin Role
+ */
 class RoleResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array
     {
@@ -15,7 +21,7 @@ class RoleResource extends BaseResource
             'id'          => $this->id,
             'name'        => $this->name,
             'guard_name'  => $this->guard_name,
-            'permissions' => PermissionResource::collection($this->permissions),
+            'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
         ];
     }
 }

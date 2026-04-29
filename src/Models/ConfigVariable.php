@@ -5,11 +5,12 @@ namespace Motor\Admin\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\ConfigVariableFactory;
 use Motor\Core\Traits\Filterable;
-use RichanFongdasen\EloquentBlameable\BlameableTrait;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\ConfigVariable
@@ -19,9 +20,9 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  * @property string $group
  * @property string $name
  * @property string $value
- * @property int $is_invisible
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $is_invisible
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
@@ -48,7 +49,7 @@ use RichanFongdasen\EloquentBlameable\BlameableTrait;
  */
 class ConfigVariable extends Model
 {
-    use BlameableTrait;
+    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
@@ -72,6 +73,7 @@ class ConfigVariable extends Model
         'group',
         'name',
         'value',
+        'is_invisible',
     ];
 
     protected static function newFactory(): ConfigVariableFactory

@@ -2,12 +2,18 @@
 
 namespace Motor\Admin\Http\Resources;
 
+use Illuminate\Http\Request;
+use Motor\Admin\Models\Client;
+
+/**
+ * @mixin Client
+ */
 class ClientResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array
     {
