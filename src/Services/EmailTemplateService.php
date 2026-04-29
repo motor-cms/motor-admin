@@ -45,4 +45,18 @@ class EmailTemplateService extends BaseService
             $this->data['slug'] = Str::kebab(Arr::get($this->data, 'name'));
         }
     }
+
+    /**
+     * Duplicate an email template. Name gets suffixed with " (Kopie)" and the
+     * slug gets a uuid suffix to keep it unique.
+     */
+    public static function duplicate(EmailTemplate $source): EmailTemplate
+    {
+        $duplicate       = $source->replicate();
+        $duplicate->name = $source->name.' (Kopie)';
+        $duplicate->slug = $source->slug.'_'.Str::uuid()->toString();
+        $duplicate->save();
+
+        return $duplicate;
+    }
 }
