@@ -23,6 +23,8 @@ class DomainResource extends BaseResource
             'host' => $this->host,
             'port' => (int) $this->port,
             'path' => $this->path,
+            'entity_configurations' => $this->whenLoaded('entityConfigurations',
+                fn () => EntityConfigurationResource::collection($this->entityConfigurations->load('configVariable'))),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

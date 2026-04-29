@@ -14,6 +14,7 @@ use Laravel\Scout\Searchable;
 use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
+use Motor\Admin\Traits\HasEntityConfigurations;
 use Motor\Core\Traits\Filterable;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
@@ -47,6 +48,7 @@ class Domain extends Model
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use HasEntityConfigurations;
     use Searchable;
 
     /**

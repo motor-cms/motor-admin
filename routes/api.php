@@ -14,6 +14,7 @@ use Motor\Admin\Http\Controllers\Api\EmailTemplatesController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplatesSendController;
 use Motor\Admin\Http\Controllers\Api\EmailTemplateUsageController;
 use Motor\Admin\Http\Controllers\Api\Frontend\DomainsController as FrontendDomainsController;
+use Motor\Admin\Http\Controllers\Api\Frontend\EntityConfigurationsController as FrontendEntityConfigurationsController;
 use Motor\Admin\Http\Controllers\Api\LanguagesController;
 use Motor\Admin\Http\Controllers\Api\PermissionGroupsController;
 use Motor\Admin\Http\Controllers\Api\PermissionsController;
@@ -96,6 +97,7 @@ Route::group([
     'prefix' => 'api/frontend',
 ], static function () {
     Route::get('domains/get_active_domains', [FrontendDomainsController::class, 'index']);
+    Route::get('entity-configurations', [FrontendEntityConfigurationsController::class, 'index']);
 });
 
 /*
@@ -150,6 +152,7 @@ Route::prefix('v2')
         Route::get('email-templates/{template_id}/usage', [Motor\Admin\Http\Controllers\Api\V2\EmailTemplateUsageController::class, 'usage'])
             ->name('email-templates.usage');
         Route::apiResource('config-variables', Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
+        Route::apiResource('entity-configurations', Motor\Admin\Http\Controllers\Api\V2\EntityConfigurationsController::class);
         Route::apiResource('ai-system-prompts', AISystemPromptsController::class);
         Route::get('categories', [FlatCategoriesController::class, 'index']);
         Route::apiResource('category-trees/{category_tree}/categories', Motor\Admin\Http\Controllers\Api\V2\CategoriesController::class, [
