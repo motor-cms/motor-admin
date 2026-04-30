@@ -16,6 +16,7 @@ use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\DomainFactory;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
+use Motor\Admin\Traits\HasEntityConfigurations;
 use Motor\Core\Traits\Filterable;
 
 /**
@@ -47,6 +48,7 @@ class Domain extends Model
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use HasEntityConfigurations;
     use Searchable;
     use Userstamps;
 
