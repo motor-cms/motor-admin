@@ -17,7 +17,7 @@ describe('V2 CategoryTree API', function () {
     });
 
     it('can get all category trees', function () {
-        assertV2CrudIndex('/api/v2/category-trees', 5, ['id', 'name', 'scope']);
+        assertV2CrudIndex('/api/v2/category-trees', 6, ['id', 'name', 'scope']);
     });
 
     it('can get a specific category tree', function () {

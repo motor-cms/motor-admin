@@ -23,7 +23,7 @@ describe('Category', function () {
         ->assertStatus(200)
         ->assertJson(fn (AssertableJson $json) => $json->has(
             'data',
-            5,
+            6,
             fn (AssertableJson $data) => $data
                 ->has('id')
                 ->has('name')

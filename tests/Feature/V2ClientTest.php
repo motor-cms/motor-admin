@@ -27,8 +27,16 @@ describe('V2 Client API', function () {
 
     it('can create a client', function () {
         assertV2CrudCreate('/api/v2/clients', [
-            'name' => 'V2 Test Client',
-            'slug' => 'v2-test-client',
+            'name'               => 'V2 Test Client',
+            'slug'               => 'v2-test-client',
+            'address'            => 'Teststrasse 1',
+            'zip'                => '12345',
+            'city'               => 'Teststadt',
+            'country_iso_3166_1' => 'DE',
+            'is_active'          => true,
+            'contact_name'       => 'Test Contact',
+            'contact_email'      => 'contact@example.com',
+            'contact_phone'      => '+49 30 123456',
         ], Client::class);
     });
 
@@ -44,7 +52,18 @@ describe('V2 Client API', function () {
     it('can update a client', function () {
         assertV2CrudUpdate(
             '/api/v2/clients/'.Client::whereName('Default')->first()->id,
-            ['name' => 'V2 Updated Client', 'slug' => 'v2-updated'],
+            [
+                'name'               => 'V2 Updated Client',
+                'slug'               => 'v2-updated',
+                'address'            => 'Teststrasse 1',
+                'zip'                => '12345',
+                'city'               => 'Teststadt',
+                'country_iso_3166_1' => 'DE',
+                'is_active'          => true,
+                'contact_name'       => 'Test Contact',
+                'contact_email'      => 'contact@example.com',
+                'contact_phone'      => '+49 30 123456',
+            ],
             'name',
             'V2 Updated Client'
         );

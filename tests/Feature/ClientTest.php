@@ -8,7 +8,18 @@ pest()->group('Client')->use(RefreshDatabase::class);
 describe('Client', function () {
     it('can create a Client', fn () => assertCrudCreate(
         '/api/clients',
-        ['name' => 'test', 'slug' => 'test'],
+        [
+            'name'               => 'test',
+            'slug'               => 'test',
+            'address'            => 'Teststrasse 1',
+            'zip'                => '12345',
+            'city'               => 'Teststadt',
+            'country_iso_3166_1' => 'DE',
+            'is_active'          => true,
+            'contact_name'       => 'Test Contact',
+            'contact_email'      => 'contact@example.com',
+            'contact_phone'      => '+49 30 123456',
+        ],
         Client::class
     ));
 
@@ -31,7 +42,18 @@ describe('Client', function () {
 
     it('can update clients', fn () => assertCrudUpdate(
         '/api/clients/'.Client::whereName('Default')->first()->id,
-        ['name' => 'changed', 'slug' => 'changed'],
+        [
+            'name'               => 'changed',
+            'slug'               => 'changed',
+            'address'            => 'Teststrasse 1',
+            'zip'                => '12345',
+            'city'               => 'Teststadt',
+            'country_iso_3166_1' => 'DE',
+            'is_active'          => true,
+            'contact_name'       => 'Test Contact',
+            'contact_email'      => 'contact@example.com',
+            'contact_phone'      => '+49 30 123456',
+        ],
         'name',
         'changed'
     ));
