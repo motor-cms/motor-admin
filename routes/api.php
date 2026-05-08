@@ -27,6 +27,7 @@ use Motor\Admin\Http\Controllers\Api\V2\DashboardController;
 use Motor\Admin\Http\Controllers\Api\V2\EmailTemplateDuplicateController;
 use Motor\Admin\Http\Controllers\Api\V2\FlatCategoriesController;
 use Motor\Admin\Http\Resources\UserResource;
+use Motor\Core\Http\Middleware\ScopeRequestsToClient;
 use Motor\Core\Http\Middleware\V2\V2ErrorHandler;
 
 // Route::apiResource('api/email_templates', EmailTemplatesController::class)->middleware('auth:sanctum');
@@ -140,7 +141,7 @@ Route::prefix('v1')
 */
 Route::prefix('v2')
     ->name('v2.')
-    ->middleware(['auth:sanctum', V2ErrorHandler::class])
+    ->middleware(['auth:sanctum', V2ErrorHandler::class, ScopeRequestsToClient::class])
     ->group(function () {
         Route::apiResource('users', Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
         Route::apiResource('clients', Motor\Admin\Http\Controllers\Api\V2\ClientsController::class);
