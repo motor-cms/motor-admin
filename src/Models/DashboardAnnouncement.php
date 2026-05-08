@@ -2,13 +2,16 @@
 
 namespace Motor\Admin\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
-use Motor\Builder\Models\Navigation as NavigationModel;
-use Motor\Core\Traits\Filterable;
 use Mattiverse\Userstamps\Traits\Userstamps;
+use Motor\Builder\Models\Navigation as NavigationModel;
+use Motor\Core\Traits\BelongsToClient;
+use Motor\Core\Traits\Filterable;
 
 /**
  * @property int $id
@@ -19,24 +22,25 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  * @property array<int, int>|null $target_user_ids
  * @property string|null $linkable_type
  * @property int|null $linkable_id
- * @property \Illuminate\Support\Carbon|null $starts_at
- * @property \Illuminate\Support\Carbon|null $expires_at
+ * @property Carbon|null $starts_at
+ * @property Carbon|null $expires_at
  * @property bool $is_active
  * @property int|null $client_id
  * @property int|null $created_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Client|null $client
- * @property-read \Illuminate\Database\Eloquent\Model|null $linkable
+ * @property-read Model|null $linkable
  * @property-read User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $dismissedByUsers
+ * @property-read Collection<int, User> $dismissedByUsers
  * @property-read string|null $linkable_url
  */
 class DashboardAnnouncement extends Model
 {
-    use Userstamps;
+    use BelongsToClient;
     use Filterable;
     use HasShortflakePrimary;
+    use Userstamps;
 
     protected $fillable = [
         'title',
