@@ -50,9 +50,16 @@ class UserService extends BaseService
         // Phase 7 of ZRMDEV-165: pivot migration. Pre-fill the new user's
         // clients with the creator's first pivot client when one exists, so
         // the new account inherits the creating tenant.
+        //
+        // Phase 9 follow-up: write into $this->data['clients'] (which
+        // syncClients() reads on afterCreate) instead of the dead-code
+        // assignment to $this->record->clients (a property name that shadows
+        // the BelongsToMany relation -- it never persisted, AND it broke the
+        // relation cache for any in-request reader). Use ??= so an explicit
+        // request payload still wins.
         $client = Auth::user()?->clients->first();
         if ($client !== null) {
-            $this->record->clients = [$client->id];
+            $this->data['clients'] ??= [$client->id];
         }
         $this->data['api_token'] = Str::random(60);
         $this->updatePassword();
