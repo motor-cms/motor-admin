@@ -25,11 +25,17 @@ class UserService extends BaseService
         // users_client pivot table, so the generic addClientFilter()
         // (which adds WHERE users.client_id = ?) cannot be used here.
         // Use RelationRenderer to join through the pivot table instead.
-        if (Auth::user()->client_id > 0) {
+        //
+        // Phase 7 of ZRMDEV-165: read the first pivot client instead of the
+        // dropped users.client_id scalar. V1-strict semantics -- a multi-client
+        // user collapses to their first pivot row.
+        $client = Auth::user()?->clients->first();
+
+        if ($client !== null) {
             $this->filter->add(new RelationRenderer('client_id', 'users_client.user_id'))
                 ->setJoin('users_client')
-                ->setOptions([Auth::user()->client_id => Auth::user()->client->name])
-                ->setDefaultValue(Auth::user()->client_id)
+                ->setOptions([$client->id => $client->name])
+                ->setDefaultValue($client->id)
                 ->isVisible(false);
         } else {
             $clients = config('motor-admin.models.client')::orderBy('name')->pluck('name', 'id');
@@ -41,8 +47,12 @@ class UserService extends BaseService
 
     public function beforeCreate(): void
     {
-        if (Auth::user()->client_id > 0) {
-            $this->record->clients = [Auth::user()->client_id];
+        // Phase 7 of ZRMDEV-165: pivot migration. Pre-fill the new user's
+        // clients with the creator's first pivot client when one exists, so
+        // the new account inherits the creating tenant.
+        $client = Auth::user()?->clients->first();
+        if ($client !== null) {
+            $this->record->clients = [$client->id];
         }
         $this->data['api_token'] = Str::random(60);
         $this->updatePassword();
