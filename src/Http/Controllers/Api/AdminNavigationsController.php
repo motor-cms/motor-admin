@@ -4,7 +4,6 @@ namespace Motor\Admin\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
-use Motor\ContentType\Models\CustomContentType;
 
 /**
  * Class AdminNavigationsController
@@ -51,6 +50,7 @@ class AdminNavigationsController extends ApiController
 
                 // Parent group with surviving children — always show as container
                 $filtered[$key] = $item;
+
                 continue;
             }
 

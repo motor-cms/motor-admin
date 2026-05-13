@@ -6,7 +6,6 @@ use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Resources\DashboardAnnouncementResource;
 use Motor\Admin\Models\DashboardAnnouncement;
-use Motor\Admin\Models\User;
 use Motor\Builder\Models\BuilderPage;
 use Motor\Builder\Models\Navigation;
 use Motor\Builder\Models\PublishingTime;

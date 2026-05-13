@@ -14,9 +14,9 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\DomainFactory;
+use Motor\Admin\Traits\HasEntityConfigurations;
 use Motor\Builder\Models\SearchConfig;
 use Motor\Builder\Models\SeoRedirect;
-use Motor\Admin\Traits\HasEntityConfigurations;
 use Motor\Core\Traits\Filterable;
 
 /**
@@ -46,9 +46,9 @@ use Motor\Core\Traits\Filterable;
 class Domain extends Model
 {
     use Filterable;
+    use HasEntityConfigurations;
     use HasFactory;
     use HasShortflakePrimary;
-    use HasEntityConfigurations;
     use Searchable;
     use Userstamps;
 
@@ -75,6 +75,80 @@ class Domain extends Model
                 $query->update(['is_preview_domain' => false]);
             });
         });
+
+        static::saving(function (Domain $domain) {
+            if (! $domain->isDirty('is_canonical')) {
+                return;
+            }
+
+            if ($domain->is_canonical !== true) {
+                return;
+            }
+
+            DB::transaction(function () use ($domain) {
+                $query = static::query()
+                    ->where('client_id', $domain->client_id)
+                    ->where('is_canonical', true);
+
+                if ($domain->exists) {
+                    $query->whereKeyNot($domain->getKey());
+                }
+
+                $query->update(['is_canonical' => false]);
+            });
+        });
+
+        // When the canonical Domain (or fields that compose the canonical URL)
+        // changes, every cached page for the client now carries a stale
+        // `<link rel=canonical>`. Re-dispatch the per-page cache rebuild.
+        //
+        // The auto-flip above uses a bulk Query Builder `update()`, which
+        // bypasses model events — so the *unflipped* sibling does NOT trigger
+        // its own `saved` event. Only the originally-saved Domain reaches this
+        // observer, which dispatches exactly one wave of rebuild jobs.
+        static::saved(function (Domain $domain) {
+            // wasChanged() returns false on fresh inserts in Laravel — it only
+            // tracks changes from saved state on updates. For a newly-created
+            // canonical Domain we still need to invalidate caches, so we treat
+            // `wasRecentlyCreated && is_canonical` as a relevant trigger too.
+            if ($domain->wasRecentlyCreated) {
+                $relevant = $domain->is_canonical;
+            } else {
+                $flagChanged = $domain->wasChanged('is_canonical');
+                $canonicalUrlAffected = $domain->is_canonical
+                    && $domain->wasChanged(['host', 'port', 'protocol', 'is_active']);
+                $relevant = $flagChanged || $canonicalUrlAffected;
+            }
+
+            if (! $relevant) {
+                return;
+            }
+
+            \Motor\Builder\Models\BuilderPage::query()
+                ->where('client_id', $domain->client_id)
+                ->where('is_published', true)
+                ->select('id')
+                ->chunkById(100, function ($pages) {
+                    foreach ($pages as $page) {
+                        \Motor\Builder\Jobs\RebuildPageCacheJob::dispatch(
+                            $page->id,
+                            \Motor\Builder\Models\BuilderPage::class,
+                            true,
+                            true,
+                        );
+                    }
+                });
+        });
+    }
+
+    public static function canonicalFor(int $clientId): ?self
+    {
+        return static::query()
+            ->where('client_id', $clientId)
+            ->where('is_active', true)
+            ->orderByDesc('is_canonical')
+            ->orderBy('id')
+            ->first();
     }
 
     /**
@@ -117,6 +191,7 @@ class Domain extends Model
         'path',
         'is_active',
         'is_preview_domain',
+        'is_canonical',
     ];
 
     protected function casts(): array
@@ -125,6 +200,7 @@ class Domain extends Model
             'port' => 'integer',
             'is_active' => 'boolean',
             'is_preview_domain' => 'boolean',
+            'is_canonical' => 'boolean',
         ];
     }
 
