@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\EmailTemplateFactory;
 use Motor\Core\Traits\Filterable;
-use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\EmailTemplate
@@ -70,11 +70,11 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class EmailTemplate extends Model
 {
-    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
+    use Userstamps;
 
     /**
      * Get the name of the index associated with the model.

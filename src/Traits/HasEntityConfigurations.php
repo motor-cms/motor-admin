@@ -3,6 +3,7 @@
 namespace Motor\Admin\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Motor\Admin\Models\ConfigVariable;
 use Motor\Admin\Models\EntityConfiguration;
 
 trait HasEntityConfigurations
@@ -26,7 +27,7 @@ trait HasEntityConfigurations
 
     public function setConfigValue(string $package, string $group, string $name, ?string $value): EntityConfiguration
     {
-        $configVariable = \Motor\Admin\Models\ConfigVariable::where('package', $package)
+        $configVariable = ConfigVariable::where('package', $package)
             ->where('group', $group)
             ->where('name', $name)
             ->firstOrFail();

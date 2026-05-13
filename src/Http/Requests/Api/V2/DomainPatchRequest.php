@@ -10,6 +10,7 @@ class DomainPatchRequest extends V1DomainPatchRequest
     {
         return parent::rules() + [
             'is_preview_domain' => ['sometimes', 'boolean'],
+            'is_canonical' => ['sometimes', 'boolean'],
         ];
     }
 }

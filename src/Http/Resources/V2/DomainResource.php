@@ -20,6 +20,7 @@ class DomainResource extends BaseResource
             'client_id' => $this->client_id,
             'is_active' => (bool) $this->is_active,
             'is_preview_domain' => (bool) $this->is_preview_domain,
+            'is_canonical' => (bool) $this->is_canonical,
             'protocol' => $this->protocol,
             'host' => $this->host,
             'port' => (int) $this->port,

@@ -11,10 +11,10 @@ use Kalnoy\Nestedset\NestedSet;
 use Kalnoy\Nestedset\NodeTrait;
 use Kalnoy\Nestedset\QueryBuilder;
 use Kra8\Snowflake\HasShortflakePrimary;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\CategoryFactory;
 use Motor\Core\Traits\Filterable;
 use Motor\Core\Traits\Searchable;
-use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\Category
@@ -96,12 +96,13 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class Category extends Model
 {
-    use Userstamps; // we can't use Scout here because it collides with the NodeTrait
+    // we can't use Scout here because it collides with the NodeTrait
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use NodeTrait;
     use Searchable;
+    use Userstamps;
 
     /**
      * Searchable columns for the searchable trait
