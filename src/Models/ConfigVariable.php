@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\ConfigVariableFactory;
 use Motor\Core\Traits\Filterable;
-use Mattiverse\Userstamps\Traits\Userstamps;
 
 /**
  * Motor\Admin\Models\ConfigVariable
@@ -49,11 +49,11 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class ConfigVariable extends Model
 {
-    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
     use Searchable;
+    use Userstamps;
 
     /**
      * Get the name of the index associated with the model.

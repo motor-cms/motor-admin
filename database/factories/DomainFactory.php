@@ -26,6 +26,7 @@ class DomainFactory extends Factory
                 ->make()->id,
             'is_active'         => true,
             'is_preview_domain' => false,
+            'is_canonical'      => false,
             'name'              => $this->faker->domainName(),
             'protocol'   => array_rand(['http', 'https']),
             'host'       => $this->faker->domainName(),

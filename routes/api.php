@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\InternalApiToken;
 use Illuminate\Http\Request;
 use Motor\Admin\Http\Controllers\Api\AdminNavigationsController;
 use Motor\Admin\Http\Controllers\Api\AIHelpController;
@@ -25,8 +26,10 @@ use Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController;
 use Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController;
 use Motor\Admin\Http\Controllers\Api\V2\DashboardController;
 use Motor\Admin\Http\Controllers\Api\V2\EmailTemplateDuplicateController;
+use Motor\Admin\Http\Controllers\Api\V2\EntityConfigurationsController;
 use Motor\Admin\Http\Controllers\Api\V2\FlatCategoriesController;
 use Motor\Admin\Http\Resources\UserResource;
+use Motor\Core\Http\Middleware\ScopeRequestsToClient;
 use Motor\Core\Http\Middleware\V2\V2ErrorHandler;
 
 // Route::apiResource('api/email_templates', EmailTemplatesController::class)->middleware('auth:sanctum');
@@ -49,11 +52,13 @@ Route::middleware('auth:sanctum')
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
         Route::post('ai_help', [AIHelpController::class, 'store']);
 
-        // Dont use sanctum auth for this route, use static token
+        // Sanctum is bypassed because Nitro (the caller) cannot present a
+        // user-scoped Sanctum token after the rolling-auth switch. Instead
+        // this route is gated by a service-to-service shared secret that
+        // lives only in backend + Nitro env, never in the browser.
         Route::post('email_templates/send', [EmailTemplatesSendController::class, 'send'])
-            ->withoutMiddleware(['auth:sanctum']);
-        // TODO: uncomment this when we have a proper auth (EN-1787)
-        // ->middleware(\App\Http\Middleware\EkproAuth::class);
+            ->withoutMiddleware(['auth:sanctum'])
+            ->middleware([InternalApiToken::class, 'throttle:internal-email-send']);
 
         Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
             'parameters' => [
@@ -140,7 +145,7 @@ Route::prefix('v1')
 */
 Route::prefix('v2')
     ->name('v2.')
-    ->middleware(['auth:sanctum', V2ErrorHandler::class])
+    ->middleware(['auth:sanctum', V2ErrorHandler::class, ScopeRequestsToClient::class])
     ->group(function () {
         Route::apiResource('users', Motor\Admin\Http\Controllers\Api\V2\UsersController::class);
         Route::apiResource('clients', Motor\Admin\Http\Controllers\Api\V2\ClientsController::class);
@@ -157,7 +162,7 @@ Route::prefix('v2')
         Route::get('email-templates/{template_id}/usage', [Motor\Admin\Http\Controllers\Api\V2\EmailTemplateUsageController::class, 'usage'])
             ->name('email-templates.usage');
         Route::apiResource('config-variables', Motor\Admin\Http\Controllers\Api\V2\ConfigVariablesController::class);
-        Route::apiResource('entity-configurations', Motor\Admin\Http\Controllers\Api\V2\EntityConfigurationsController::class);
+        Route::apiResource('entity-configurations', EntityConfigurationsController::class);
         Route::apiResource('ai-system-prompts', AISystemPromptsController::class);
         Route::get('categories', [FlatCategoriesController::class, 'index']);
         Route::apiResource('category-trees/{category_tree}/categories', Motor\Admin\Http\Controllers\Api\V2\CategoriesController::class, [

@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Kra8\Snowflake\HasShortflakePrimary;
-use Motor\Core\Traits\Filterable;
 use Mattiverse\Userstamps\Traits\Userstamps;
+use Motor\Core\Traits\Filterable;
 
 /**
  * Motor\Admin\Models\EntityConfiguration
@@ -38,10 +38,10 @@ use Mattiverse\Userstamps\Traits\Userstamps;
  */
 class EntityConfiguration extends Model
 {
-    use Userstamps;
     use Filterable;
     use HasFactory;
     use HasShortflakePrimary;
+    use Userstamps;
 
     protected $fillable = [
         'configurable_type',

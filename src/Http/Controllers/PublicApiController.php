@@ -5,6 +5,4 @@ namespace Motor\Admin\Http\Controllers;
 /**
  * Base controller for public (unauthenticated) API endpoints.
  */
-class PublicApiController extends ApiController
-{
-}
+class PublicApiController extends ApiController {}
