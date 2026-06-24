@@ -14,6 +14,7 @@ use Kra8\Snowflake\HasShortflakePrimary;
 use Laravel\Scout\Searchable;
 use Mattiverse\Userstamps\Traits\Userstamps;
 use Motor\Admin\Database\Factories\ClientFactory;
+use Motor\Core\Scopes\ClientScope;
 use Motor\Core\Traits\Filterable;
 
 /**
@@ -78,6 +79,24 @@ class Client extends Model
     use HasShortflakePrimary;
     use Searchable;
     use Userstamps;
+
+    /**
+     * ZRMDEV-240: a Mandant must only ever see the clients it is itself
+     * assigned to — it must not learn who else uses the system. The Client
+     * model IS the tenant root, so unlike BelongsToClient models it has no
+     * client_id column; the tenant key is its own primary key. Reusing the
+     * shared ClientScope resolver (bound by ScopeRequestsToClient on V2
+     * routes) keyed on `id` gives us the established semantics for free:
+     *   - SuperAdmin (resolver null)  → unscoped, sees every client
+     *   - assigned user (int[] ids)   → whereIn clients.id, own clients only
+     *   - empty pivot ([])            → 1=0, sees nothing
+     * Outside a bound request (V1, jobs, console) the scope short-circuits,
+     * so non-V2 behavior is unchanged.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ClientScope('id'));
+    }
 
     /**
      * Get the name of the index associated with the model.
