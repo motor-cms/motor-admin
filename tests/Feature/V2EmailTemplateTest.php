@@ -84,8 +84,15 @@ describe('V2 EmailTemplate API', function () {
     });
 
     it('can delete an email template with 204 No Content', function () {
+        $template = EmailTemplate::factory()->create([
+            'client_id' => Client::first()->id,
+            'language_id' => Language::first()->id,
+            'name' => 'Deletable Email Template',
+            'slug' => 'deletable-email-template',
+        ]);
+
         assertV2CrudDelete(
-            '/api/v2/email-templates/'.EmailTemplate::whereName('Error-Template')->first()->id,
+            '/api/v2/email-templates/'.$template->id,
             EmailTemplate::class
         );
     });
@@ -162,5 +169,44 @@ describe('V2 EmailTemplate API', function () {
         $returnedIds = collect($response->json('data'))->pluck('id')->all();
         expect($returnedIds)->toContain($germanTemplate->id);
         expect($returnedIds)->not->toContain($englishTemplate->id);
+    });
+});
+
+describe('V2 EmailTemplate deletion protection (ZRMDEV-233)', function () {
+
+    it('refuses to delete a protected email template with 403', function () {
+        config(['motor-admin.protected_email_template_slugs' => ['protected-system-slug']]);
+
+        $template = EmailTemplate::factory()->create([
+            'client_id' => Client::first()->id,
+            'language_id' => Language::first()->id,
+            'name' => 'Protected System Template',
+            'slug' => 'protected-system-slug',
+        ]);
+
+        $this->asAdmin()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->deleteJson('/api/v2/email-templates/'.$template->id)
+            ->assertStatus(403);
+
+        expect(EmailTemplate::find($template->id))->not->toBeNull();
+    });
+
+    it('still deletes a non-protected email template with 204', function () {
+        config(['motor-admin.protected_email_template_slugs' => ['some-other-slug']]);
+
+        $template = EmailTemplate::factory()->create([
+            'client_id' => Client::first()->id,
+            'language_id' => Language::first()->id,
+            'name' => 'Deletable Template',
+            'slug' => 'totally-deletable-slug',
+        ]);
+
+        $this->asAdmin()
+            ->withHeaders(['Accept' => 'application/json'])
+            ->deleteJson('/api/v2/email-templates/'.$template->id)
+            ->assertStatus(204);
+
+        expect(EmailTemplate::find($template->id))->toBeNull();
     });
 });

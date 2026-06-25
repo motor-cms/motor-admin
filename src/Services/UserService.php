@@ -123,6 +123,19 @@ class UserService extends BaseService
 
     private function syncRolesAndPermissions(): void
     {
+        // ZRMDEV-237: assigning roles and permissions is a privilege-escalation
+        // surface. UserPolicy::update lets a user update their own account
+        // ($user->id === $model->id) and users.write lets them edit others, so
+        // without this guard any authenticated user could grant themselves
+        // SuperAdmin or rewrite another user's roles. Only SuperAdmins may
+        // change roles/permissions; for everyone else the roles/permissions in
+        // the payload are ignored while the rest of the update still applies.
+        // System contexts (seeders, console — no authenticated user) keep full
+        // control so initial provisioning and migrations are unaffected.
+        if (Auth::check() && ! Auth::user()->isAdmin()) {
+            return;
+        }
+
         if (Arr::get($this->data, 'roles')) {
             $this->record->syncRoles(Arr::get($this->data, 'roles', []));
             $this->record->syncPermissions(Arr::get($this->data, 'permissions', []));

@@ -72,6 +72,10 @@ class EmailTemplatesController extends ApiController
 
     public function destroy(EmailTemplate $emailTemplate): Response
     {
+        if (in_array($emailTemplate->slug, config('motor-admin.protected_email_template_slugs', []), true)) {
+            abort(403, 'This email template is protected and cannot be deleted.');
+        }
+
         EmailTemplateService::delete($emailTemplate);
 
         return $this->noContentResponse();
