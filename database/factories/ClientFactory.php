@@ -42,17 +42,12 @@ class ClientFactory extends Factory
                     'logoAlt' => 'Logo '.$this->faker->company(),
                 ],
                 'features' => [
-                    'orderLine' => true,
-                    'appointments' => true,
                     'clickpath' => true,
                     'footerMenu' => true,
                 ],
                 'social' => [
                     'instagram' => 'https://www.instagram.com/'.$this->faker->slug(),
                     'facebook' => 'https://www.facebook.com/'.$this->faker->slug(),
-                ],
-                'seo' => [
-                    'siteName' => $this->faker->company(),
                 ],
             ], $config),
         ]);
