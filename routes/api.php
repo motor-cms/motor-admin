@@ -56,9 +56,11 @@ Route::middleware('auth:sanctum')
         // user-scoped Sanctum token after the rolling-auth switch. Instead
         // this route is gated by a service-to-service shared secret that
         // lives only in backend + Nitro env, never in the browser.
+        // EN-2258: 'frontend-email-send' caps the form-triggered mail send per
+        // visitor IP; 'internal-email-send' stays as the global safety cap.
         Route::post('email_templates/send', [EmailTemplatesSendController::class, 'send'])
             ->withoutMiddleware(['auth:sanctum'])
-            ->middleware([InternalApiToken::class, 'throttle:internal-email-send']);
+            ->middleware([InternalApiToken::class, 'throttle:frontend-email-send', 'throttle:internal-email-send']);
 
         Route::apiResource('category_trees/{category_tree}/categories', CategoriesController::class, [
             'parameters' => [
