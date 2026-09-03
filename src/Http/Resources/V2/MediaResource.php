@@ -53,6 +53,7 @@ class MediaResource extends BaseResource
             'local_url' => config('app.url').$diskUrl.'/'.$this->file_name,
             'path' => $this->getPath(),
             'uuid' => $this->uuid,
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
             'conversions' => $conversions,
         ];

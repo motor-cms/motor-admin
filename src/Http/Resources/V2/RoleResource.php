@@ -18,7 +18,9 @@ class RoleResource extends BaseResource
             'name' => $this->name,
             'guard_name' => $this->guard_name,
             'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

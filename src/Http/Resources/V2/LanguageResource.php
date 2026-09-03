@@ -18,7 +18,9 @@ class LanguageResource extends BaseResource
             'iso_639_1' => $this->iso_639_1,
             'english_name' => $this->english_name,
             'native_name' => $this->native_name,
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

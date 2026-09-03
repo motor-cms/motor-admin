@@ -21,7 +21,9 @@ class EntityConfigurationResource extends BaseResource
             'config_variable' => $this->whenLoaded('configVariable',
                 fn () => new ConfigVariableResource($this->configVariable)),
             'value' => $this->value,
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

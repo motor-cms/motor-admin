@@ -33,7 +33,9 @@ class EmailTemplateResource extends BaseResource
             'default_bcc_email' => $this->default_bcc_email,
             'default_replyto_email' => $this->default_replyto_email,
             'default_replyto_name' => $this->default_replyto_name,
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

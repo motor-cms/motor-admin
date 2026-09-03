@@ -29,7 +29,9 @@ class CategoryResource extends BaseResource
                 ->count(),
             // Only include children when explicitly loaded - breaks Scramble recursion
             'children' => $this->whenLoaded('children', fn () => CategoryResource::collection($this->children)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
