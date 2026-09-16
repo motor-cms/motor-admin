@@ -27,11 +27,15 @@ class DashboardAnnouncementResource extends JsonResource
                 ?? data_get($this->linkable, 'description'),
             'linkable_url' => $this->linkable_url,
             'is_active' => $this->is_active,
+            /** @format date-time */
             'starts_at' => $this->starts_at?->toISOString(),
+            /** @format date-time */
             'expires_at' => $this->expires_at?->toISOString(),
             'created_by' => $this->created_by,
             'created_by_name' => data_get($this->creator, 'name'),
+            /** @format date-time */
             'created_at' => $this->created_at?->toISOString(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toISOString(),
         ];
     }

@@ -20,7 +20,9 @@ class ConfigVariableResource extends BaseResource
             'name' => $this->name,
             'value' => $this->value,
             'is_invisible' => (bool) $this->is_invisible,
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

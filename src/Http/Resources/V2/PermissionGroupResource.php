@@ -19,7 +19,9 @@ class PermissionGroupResource extends BaseResource
             'sort_position' => $this->sort_position,
             'permission_names' => $this->whenLoaded('permissions', fn () => $this->permissions->pluck('name')->values()->all()),
             'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

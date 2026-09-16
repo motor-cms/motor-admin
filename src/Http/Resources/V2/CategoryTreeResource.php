@@ -23,7 +23,9 @@ class CategoryTreeResource extends BaseResource
             'scope' => $this->scope,
             // Only include children when explicitly loaded
             'children' => $this->whenLoaded('children', fn () => CategoryResource::collection($this->children)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

@@ -27,7 +27,9 @@ class DomainResource extends BaseResource
             'path' => $this->path,
             'entity_configurations' => $this->whenLoaded('entityConfigurations',
                 fn () => EntityConfigurationResource::collection($this->entityConfigurations->load('configVariable'))),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

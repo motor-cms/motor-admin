@@ -31,7 +31,9 @@ class UserResource extends BaseResource
             'clients' => $this->whenLoaded('clients', fn () => ClientResource::collection($this->clients)),
             'roles' => $this->whenLoaded('roles', fn () => RoleResource::collection($this->roles)),
             'permissions' => $this->whenLoaded('permissions', fn () => PermissionResource::collection($this->permissions)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }

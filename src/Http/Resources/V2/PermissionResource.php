@@ -18,7 +18,9 @@ class PermissionResource extends BaseResource
             'name' => $this->name,
             'guard_name' => $this->guard_name,
             'permission_group' => $this->whenLoaded('permission_group', fn () => new PermissionGroupResource($this->permission_group)),
+            /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
+            /** @format date-time */
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
