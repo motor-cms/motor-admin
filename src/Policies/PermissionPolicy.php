@@ -50,7 +50,9 @@ class PermissionPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('permissions.write');
+        // ZRMDEV-237: changing permissions grants privileges, so only SuperAdmins
+        // (allowed in before()) may do it; permissions.write alone is not enough.
+        return false;
     }
 
     /**
@@ -60,7 +62,9 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo('permissions.write');
+        // ZRMDEV-237: changing permissions grants privileges, so only SuperAdmins
+        // (allowed in before()) may do it; permissions.write alone is not enough.
+        return false;
     }
 
     /**
@@ -70,7 +74,9 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo('permissions.delete');
+        // ZRMDEV-237: changing permissions grants privileges, so only SuperAdmins
+        // (allowed in before()) may do it; permissions.delete alone is not enough.
+        return false;
     }
 
     /**
