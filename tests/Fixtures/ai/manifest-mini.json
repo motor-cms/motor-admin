@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "client": "test",
+  "hash": "test-mini",
+  "blocks": [
+    {
+      "id": "ui-page-hero",
+      "name": "Hero",
+      "description": "Großer Einstieg mit Überschrift, Text und Bild",
+      "fields": [
+        { "key": "title", "label": "Titel", "type": "text", "maxLength": 60, "required": true },
+        { "key": "description", "label": "Beschreibung", "type": "textarea", "maxLength": 200 },
+        { "key": "orientation", "label": "Ausrichtung", "type": "enum", "options": ["horizontal", "vertical"] }
+      ],
+      "lists": [],
+      "media": [ { "slot": "media", "label": "Bild" } ]
+    },
+    {
+      "id": "ui-page-faq",
+      "name": "FAQ",
+      "fields": [ { "key": "headline", "label": "Überschrift", "type": "text", "maxLength": 60, "required": true } ],
+      "lists": [
+        { "key": "items", "label": "Fragen", "min": 2, "max": 6, "fields": [
+          { "key": "question", "type": "text", "maxLength": 120, "required": true },
+          { "key": "answer", "type": "rich", "maxLength": 400, "required": true }
+        ] }
+      ],
+      "media": []
+    }
+  ]
+}

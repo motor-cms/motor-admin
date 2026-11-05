@@ -4,9 +4,14 @@ namespace Motor\Admin\Providers;
 
 use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use Clockwork\Support\Vanilla\Clockwork;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Motor\Admin\Console\Commands\MotorAIBuilderEvalCommand;
+use Motor\Admin\Console\Commands\MotorAIClientCommand;
 use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Console\Commands\MotorCreateScoutIndexCommand;
 use Motor\Admin\Models\Category;
@@ -40,6 +45,7 @@ class MotorServiceProvider extends ServiceProvider
             return Response::make($content, 200, $headers);
         });
 
+        $this->rateLimiters();
         $this->routes();
         $this->routeModelBindings();
         $this->permissions();
@@ -59,7 +65,7 @@ class MotorServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/ide-helper.php', 'ide-helper');
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library.php', 'medialibrary');
-        // $this->mergeConfigFrom(__DIR__.'/../../config/ai.php', 'ai');
+        $this->mergeConfigFrom(__DIR__.'/../../config/ai.php', 'ai');
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin.php', 'motor-admin');
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
@@ -89,6 +95,33 @@ class MotorServiceProvider extends ServiceProvider
     {
         $config = $this->app['config']->get('motor-admin-permissions', []);
         $this->app['config']->set('motor-admin-permissions', array_merge_recursive(require __DIR__.'/../../config/motor-admin-permissions.php', $config));
+    }
+
+    /**
+     * AI calls cost money per token: cap per user and per tenant.
+     */
+    public function rateLimiters()
+    {
+        $tooMany = static fn () => response()->json([
+            'error' => [
+                'code'    => 'RATE_LIMITED',
+                'message' => 'Zu viele KI-Anfragen. Bitte kurz warten.',
+            ],
+            'meta' => ['api_version' => 'v2'],
+        ], 429);
+
+        RateLimiter::for('ai-builder', static fn (Request $request) => [
+            Limit::perMinute((int) config('ai.builder.rate_per_user_min', 10))
+                ->by('ai-builder:user:'.$request->user()?->id)
+                ->response($tooMany),
+            Limit::perDay((int) config('ai.builder.rate_per_client_day', 200))
+                ->by('ai-builder:client:'.(int) $request->input('client_id'))
+                ->response($tooMany),
+        ]);
+
+        RateLimiter::for('ai-help', static fn (Request $request) => Limit::perMinute((int) config('ai.builder.rate_per_user_min', 10))
+            ->by('ai-help:user:'.$request->user()?->id)
+            ->response($tooMany));
     }
 
     /**
@@ -146,6 +179,8 @@ class MotorServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MotorCreatePermissionsCommand::class,
+                MotorAIClientCommand::class,
+                MotorAIBuilderEvalCommand::class,
                 MotorCreateScoutIndexCommand::class,
             ]);
         }

@@ -22,6 +22,7 @@ use Motor\Admin\Http\Controllers\Api\PermissionsController;
 use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
+use Motor\Admin\Http\Controllers\Api\V2\AIBuilderController;
 use Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController;
 use Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController;
 use Motor\Admin\Http\Controllers\Api\V2\DashboardController;
@@ -50,7 +51,7 @@ Route::middleware('auth:sanctum')
             ->name('email_templates.usage');
 
         Route::apiResource('ai_system_prompts', AISystemPromptController::class);
-        Route::post('ai_help', [AIHelpController::class, 'store']);
+        Route::post('ai_help', [AIHelpController::class, 'store'])->middleware('throttle:ai-help');
 
         // Sanctum is bypassed because Nitro (the caller) cannot present a
         // user-scoped Sanctum token after the rolling-auth switch. Instead
@@ -183,4 +184,10 @@ Route::prefix('v2')
         Route::apiResource('dashboard/announcements', DashboardAnnouncementsController::class)
             ->parameters(['announcements' => 'announcement']);
         Route::post('dashboard/announcements/{announcement}/dismiss', [DashboardAnnouncementsController::class, 'dismiss']);
+
+        // KI im Page Builder (tenant switch + builder-pages.ai checked in the controller)
+        Route::get('ai/builder/status', [AIBuilderController::class, 'status'])->name('ai.builder.status');
+        Route::post('ai/builder/section', [AIBuilderController::class, 'section'])
+            ->middleware('throttle:ai-builder')
+            ->name('ai.builder.section');
     });

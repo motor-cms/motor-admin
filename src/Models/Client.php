@@ -34,6 +34,7 @@ use Motor\Core\Traits\Filterable;
  * @property string $contact_email
  * @property string $description
  * @property array|null $frontend_config
+ * @property array|null $ai_config
  * @property int $created_by
  * @property int $updated_by
  * @property int|null $deleted_by
@@ -131,6 +132,8 @@ class Client extends Model
     {
         return [
             'frontend_config' => AsArrayObject::class,
+            // Deliberately not fillable: only `motor:ai:client` switches AI per tenant.
+            'ai_config' => 'array',
         ];
     }
 

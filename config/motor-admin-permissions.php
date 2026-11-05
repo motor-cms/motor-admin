@@ -115,6 +115,8 @@ return [
     'builder-pages' => [
         'values' => [
             'publish',
+            // KI im Page Builder (section from prompt, text help)
+            'ai',
         ],
     ],
 ];
