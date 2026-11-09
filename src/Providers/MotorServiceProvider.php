@@ -16,6 +16,8 @@ use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Console\Commands\MotorCreateScoutIndexCommand;
 use Motor\Admin\Models\Category;
 use Motor\Admin\Models\ConfigVariable;
+use Motor\Admin\Services\AI\Builder\MediaSearch;
+use Motor\Admin\Services\AI\Builder\ScoutMediaSearch;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -70,6 +72,9 @@ class MotorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/motor-admin-project.php', 'motor-admin-project');
         $this->mergeConfigFrom(__DIR__.'/../../config/permission.php', 'permission');
         $this->mergeConfigFrom(__DIR__.'/../../config/snowflake.php', 'snowflake');
+
+        // KI im Builder: Bildsuche in der Mediathek des Mandanten („Inhalte vorschlagen“)
+        $this->app->bindIf(MediaSearch::class, ScoutMediaSearch::class);
 
         if (! app()->configurationIsCached()) {
             $config = $this->app['config']->get('scout', []);

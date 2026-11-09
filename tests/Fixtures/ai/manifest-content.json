@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "client": "test",
+  "hash": "test-content",
+  "blocks": [
+    {
+      "id": "std-carousel",
+      "name": "Karussell",
+      "description": "Bilder nacheinander, je Folie Bild, Dachzeile, Überschrift, Text und Button",
+      "fields": [],
+      "lists": [
+        { "key": "components:slide", "label": "Folien", "min": 1, "max": 6, "fields": [
+          { "key": "slot:content.0.text", "label": "Dachzeile", "type": "text", "role": "overline", "maxLength": 40, "required": true },
+          { "key": "slot:content.1.text", "label": "Überschrift", "type": "text", "role": "headline", "maxLength": 80, "required": true },
+          { "key": "slot:content.2.text", "label": "Text", "type": "textarea", "role": "paragraph", "maxLength": 300, "required": true },
+          { "key": "slot:links.0.label", "label": "Button", "type": "text", "role": "button", "maxLength": 40, "required": true },
+          { "key": "slot:links.0.url", "label": "Button-Link", "type": "link", "role": "button" },
+          { "key": "slot:image.0", "label": "Bild", "type": "image", "role": "image", "required": true }
+        ] }
+      ],
+      "media": []
+    },
+    {
+      "id": "std-page-hero",
+      "name": "Hero",
+      "fields": [ { "key": "title", "label": "Titel", "type": "text", "role": "headline", "maxLength": 80, "required": true } ],
+      "lists": [],
+      "media": [ { "slot": "media", "label": "Bild" } ]
+    }
+  ]
+}

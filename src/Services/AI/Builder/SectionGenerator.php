@@ -10,10 +10,18 @@ use Motor\Admin\Services\AI\MistralClient;
  * One strict json_schema call, then up to N repair rounds in which the
  * validator's error list is sent back. After the last round invalid sections
  * are dropped; if nothing valid is left, AIOutputInvalidException is thrown.
+ *
+ * With content suggestions on (`content`), the model fills every text field with
+ * real copy, writes a search term and alt text per image, and may only link to
+ * the pages it was given. Afterwards each image term is looked up in the
+ * tenant's media library; the best unused hit is returned with the section.
  */
 class SectionGenerator
 {
-    public function __construct(protected MistralClient $client) {}
+    /** @var array<int, true> media ids already used in this response */
+    protected array $usedMedia = [];
+
+    public function __construct(protected MistralClient $client, protected MediaSearch $mediaSearch) {}
 
     /**
      * @param  array<string, mixed>  $manifest
@@ -27,15 +35,20 @@ class SectionGenerator
         int $maxSections = 3,
         ?string $model = null,
         ?string $tonePrompt = null,
+        bool $content = false,
+        array $linkTargets = [],
+        ?int $clientId = null,
     ): array {
         $model ??= (string) config('ai.mistral.models.builder');
         $maxRounds = (int) config('ai.builder.max_repair_rounds', 2);
-        $validator = new SectionValidator($manifest, $maxSections);
+        $validator = new SectionValidator($manifest, $maxSections, $content);
+        $linkTargets = $this->cleanLinkTargets($linkTargets);
+        $this->usedMedia = [];
         $started = hrtime(true);
 
         $messages = [
-            ['role' => 'system', 'content' => $this->systemPrompt($manifest, $tonePrompt)],
-            ['role' => 'user', 'content' => $this->userPrompt($prompt, $context, $maxSections)],
+            ['role' => 'system', 'content' => $this->systemPrompt($manifest, $tonePrompt, $content)],
+            ['role' => 'user', 'content' => $this->userPrompt($prompt, $context, $maxSections, $content ? $linkTargets : null)],
         ];
         $payload = [
             'model'           => $model,
@@ -46,7 +59,7 @@ class SectionGenerator
                 'json_schema' => [
                     'name'   => 'builder_sections',
                     'strict' => true,
-                    'schema' => SectionSchema::forManifest($manifest, $maxSections),
+                    'schema' => SectionSchema::forManifest($manifest, $maxSections, $content),
                 ],
             ],
         ];
@@ -83,6 +96,8 @@ class SectionGenerator
         }
 
         $warnings = $validator->warnings;
+        $placeholders = is_array($output['placeholders'] ?? null) ? array_values(array_filter($output['placeholders'], 'is_string')) : [];
+        $resolve = new ContentResolution($content, $linkTargets, $prompt, $clientId);
         $sections = [];
         if (is_array($output) && is_array($output['sections'] ?? null) && ! isset($errors[-1])) {
             foreach (array_values($output['sections']) as $index => $section) {
@@ -91,9 +106,11 @@ class SectionGenerator
 
                     continue;
                 }
-                $sections[] = $this->normalize($section, $manifest);
+                $sections[] = $this->normalize($section, $manifest, $resolve);
             }
         }
+        $warnings = array_merge($warnings, $resolve->warnings);
+        $placeholders = array_merge($placeholders, $resolve->placeholders);
 
         $meta = [
             'model'               => $usedModel,
@@ -102,6 +119,9 @@ class SectionGenerator
             'duration_ms'         => (int) ((hrtime(true) - $started) / 1_000_000),
             'usage'               => $usage,
             'warnings'            => array_values(array_unique($warnings)),
+            'content'             => $content,
+            'media_found'         => $resolve->mediaFound,
+            'media_missing'       => $resolve->mediaMissing,
         ];
 
         if ($sections === []) {
@@ -111,16 +131,13 @@ class SectionGenerator
         return [
             'data' => [
                 'sections'     => $sections,
-                'placeholders' => array_values(array_filter(
-                    is_array($output['placeholders'] ?? null) ? $output['placeholders'] : [],
-                    'is_string'
-                )),
+                'placeholders' => array_values(array_unique($placeholders)),
             ],
             'meta' => $meta,
         ];
     }
 
-    protected function systemPrompt(array $manifest, ?string $tonePrompt): string
+    protected function systemPrompt(array $manifest, ?string $tonePrompt, bool $content = false): string
     {
         $catalog = collect($manifest['blocks'] ?? [])->map(function (array $block) {
             $line = '- '.$block['id'].': '.($block['name'] ?? $block['id']);
@@ -150,8 +167,16 @@ class SectionGenerator
             '- Schreibe auf Deutsch in der Sie-Form, sachlich und konkret, ohne Superlative, ohne Garantieversprechen.',
             '- Erfinde keine Preise, Tarife, Prozente, Mengen, Fristen, Kontaktdaten oder Rechtstexte. Schreibe stattdessen [[PLATZHALTER: Beschreibung]] und liste jeden Platzhalter zusätzlich in "placeholders".',
             '- Rich-Text-Felder nur mit <p>, <strong>, <em>, <ul>, <li>, <a>. Keine Klassen, kein CSS, keine Bilder im Text.',
-            '- Link-Felder leer lassen, außer der Nutzer nennt eine Adresse.',
-            '- Bilder werden nicht erzeugt: gib unter "media" je Bild-Slot einen kurzen deutschen Suchbegriff für die Mediathek an.',
+            ...($content ? [
+                '- Inhalte vorschlagen: Fülle JEDES Textfeld mit echtem, zum Auftrag passendem deutschem Text, auch in jedem Listeneintrag (jede Folie, jede Karte, jeder Eintrag bekommt eigene Dachzeile, Überschrift, Text und Button-Beschriftung, soweit die Felder es vorsehen). Keine Platzhalter wie "Lorem", "Titel", "Text hier" und keine leeren Felder, außer ein Feld passt inhaltlich nicht.',
+                '- Rollen: overline = kurze Dachzeile (2–4 Wörter), headline = Überschrift, paragraph = ein bis drei Sätze, button = Handlungsaufforderung mit 1–4 Wörtern, caption = kurze Bildunterschrift.',
+                '- Bilder: Gib je Bild-Feld und je Eintrag in "media" einen kurzen deutschen Suchbegriff (2–4 Substantive, was zu sehen sein soll) und einen sachlichen Alt-Text (was auf dem Bild zu sehen ist, ohne "Bild von"). Die Bilder werden in der Mediathek des Mandanten gesucht.',
+                '- Link-Felder: nur Adressen aus der Liste "Vorhandene Seiten" im Auftrag oder Adressen, die der Nutzer selbst nennt. Passt keine Seite, schreibe "#". Erfinde keine Adressen.',
+                '- Fakten, die geprüft werden müssen (Preise, Tarife, Termine, Fristen, Kennzahlen, Namen, Zitate realer Personen), nicht erfinden: [[PLATZHALTER: …]] und in "placeholders" aufführen.',
+            ] : [
+                '- Link-Felder leer lassen, außer der Nutzer nennt eine Adresse.',
+                '- Bilder werden nicht erzeugt: gib unter "media" je Bild-Slot einen kurzen deutschen Suchbegriff für die Mediathek an.',
+            ]),
             '- Halte die Zeichenlimits ein, Listen haben genau die geforderte Anzahl Einträge innerhalb der Grenzen.',
             $tonePrompt ? "Tonalität des Mandanten:\n".$tonePrompt : null,
             "Katalog:\n".$catalog,
@@ -160,7 +185,10 @@ class SectionGenerator
 
     protected function describeField(array $field): string
     {
-        $parts = [$field['type'] ?? 'text'];
+        $parts = [($field['type'] ?? 'text') === 'image' ? 'Bild {query, alt}' : ($field['type'] ?? 'text')];
+        if (! empty($field['role'])) {
+            $parts[] = 'Rolle '.$field['role'];
+        }
         if (isset($field['maxLength'])) {
             $parts[] = 'max '.$field['maxLength'];
         }
@@ -174,7 +202,10 @@ class SectionGenerator
         return $field['key'].(isset($field['label']) ? ' "'.$field['label'].'"' : '').' ('.implode(', ', $parts).')';
     }
 
-    protected function userPrompt(string $prompt, array $context, int $maxSections): string
+    /**
+     * @param  array<int, array{title: string, url: string}>|null  $linkTargets  null = content suggestions off
+     */
+    protected function userPrompt(string $prompt, array $context, int $maxSections, ?array $linkTargets = null): string
     {
         $lines = ['Auftrag: '.$prompt, 'Erzeuge höchstens '.$maxSections.' Abschnitt(e).'];
         if (! empty($context['page_title'])) {
@@ -186,20 +217,33 @@ class SectionGenerator
         if (! empty($context['tone'])) {
             $lines[] = 'Gewünschter Ton: '.$context['tone'];
         }
+        if ($linkTargets !== null) {
+            $lines[] = $linkTargets === []
+                ? 'Vorhandene Seiten: keine bekannt, Links daher "#".'
+                : "Vorhandene Seiten (Titel → Adresse):\n".collect($linkTargets)->map(fn ($t) => '- '.$t['title'].' → '.$t['url'])->implode("\n");
+        }
 
         return implode("\n", $lines);
     }
 
     /**
      * Drop anything the admin must not get: unknown keys, tags/attributes outside the allowlist.
+     * With content suggestions: images resolved against the media library, links limited to known pages.
      */
-    protected function normalize(array $section, array $manifest): array
+    protected function normalize(array $section, array $manifest, ContentResolution $resolve): array
     {
         $block = collect($manifest['blocks'])->firstWhere('id', $section['block']);
-        $clean = fn (array $fields, array $values) => collect($fields)->mapWithKeys(function ($field) use ($values) {
-            $value = $values[$field['key']] ?? (in_array($field['type'] ?? 'text', SectionSchema::TEXT_TYPES, true) ? '' : null);
+        $clean = fn (array $fields, array $values) => collect($fields)->mapWithKeys(function ($field) use ($values, $resolve) {
+            $type = $field['type'] ?? 'text';
+            $value = $values[$field['key']] ?? (in_array($type, SectionSchema::TEXT_TYPES, true) ? '' : null);
+            if ($type === 'image') {
+                return [$field['key'] => is_array($value) ? $this->image($value, $resolve) : null];
+            }
             if (is_string($value)) {
-                $value = ($field['type'] ?? 'text') === 'rich' ? self::sanitizeRich($value) : trim(strip_tags($value));
+                $value = $type === 'rich' ? self::sanitizeRich($value) : trim(strip_tags($value));
+            }
+            if ($type === 'link' && $resolve->content) {
+                $value = $resolve->link((string) $value, ($field['role'] ?? null) === 'button', $field['key']);
             }
 
             return [$field['key'] => $value];
@@ -218,10 +262,52 @@ class SectionGenerator
             'fields' => (object) $clean($block['fields'] ?? [], $section['fields'] ?? []),
             'lists'  => (object) $lists,
             'media'  => array_values(array_map(
-                fn ($m) => ['slot' => $m['slot'], 'query' => trim(strip_tags($m['query']))],
+                fn ($m) => $resolve->content
+                    ? ['slot' => $m['slot']] + $this->image($m, $resolve)
+                    : ['slot' => $m['slot'], 'query' => trim(strip_tags($m['query']))],
                 $section['media'] ?? []
             )),
         ];
+    }
+
+    /**
+     * Search term + alt text → best unused hit of the tenant's media library (or none).
+     *
+     * @return array{query: string, alt: string, media: array<string, mixed>|null}
+     */
+    protected function image(array $value, ContentResolution $resolve): array
+    {
+        $query = trim(strip_tags((string) ($value['query'] ?? '')));
+        $alt = trim(strip_tags((string) ($value['alt'] ?? '')));
+        $media = null;
+        if ($resolve->content && $resolve->clientId !== null && $query !== '') {
+            foreach ($this->mediaSearch->images($resolve->clientId, $query) as $candidate) {
+                $id = (int) ($candidate['id'] ?? 0);
+                if ($id === 0 || isset($this->usedMedia[$id])) {
+                    continue;
+                }
+                $this->usedMedia[$id] = true;
+                $media = $candidate;
+                break;
+            }
+            $media === null ? $resolve->mediaMissing++ : $resolve->mediaFound++;
+        }
+
+        return ['query' => $query, 'alt' => $alt, 'media' => $media];
+    }
+
+    /**
+     * @return array<int, array{title: string, url: string}>
+     */
+    protected function cleanLinkTargets(array $targets): array
+    {
+        return collect($targets)
+            ->filter(fn ($t) => is_array($t) && is_string($t['url'] ?? null) && $t['url'] !== '')
+            ->map(fn ($t) => ['title' => trim(strip_tags((string) ($t['title'] ?? ''))) ?: $t['url'], 'url' => trim($t['url'])])
+            ->unique('url')
+            ->take(80)
+            ->values()
+            ->all();
     }
 
     public static function sanitizeRich(string $html): string

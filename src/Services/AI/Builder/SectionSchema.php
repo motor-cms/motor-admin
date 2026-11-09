@@ -11,7 +11,12 @@ namespace Motor\Admin\Services\AI\Builder;
  * media: [ { slot, label? } ] } ] }, Field = { key, label?, type, maxLength?,
  * required?, options? }.
  *
+ * Field types beyond the scalars: `image` = { query, alt } (search term for the
+ * media library plus alt text), only in item/slot positions; fields may carry a
+ * `role` (overline, headline, paragraph, button, caption, image) for the prompt.
+ *
  * Intermediate output: { sections: [ { block, fields, lists, media } ], placeholders }.
+ * With content suggestions on, every media entry also carries `alt`.
  * The model never sees uuids, classes or the PageDefinition tree; the admin maps
  * the result through the block factory.
  */
@@ -23,13 +28,17 @@ class SectionSchema
 
     public const MEDIA_QUERY_MAX = 80;
 
+    public const ALT_MAX = 160;
+
+    public const FIELD_TYPES = ['text', 'textarea', 'rich', 'link', 'enum', 'boolean', 'number', 'image'];
+
     /**
      * @param  array<string, mixed>  $manifest
      * @return array<string, mixed>
      */
-    public static function forManifest(array $manifest, int $maxSections): array
+    public static function forManifest(array $manifest, int $maxSections, bool $content = false): array
     {
-        $variants = array_map(fn (array $block) => self::blockSchema($block), $manifest['blocks'] ?? []);
+        $variants = array_map(fn (array $block) => self::blockSchema($block, $content), $manifest['blocks'] ?? []);
 
         return [
             'type'                 => 'object',
@@ -55,7 +64,7 @@ class SectionSchema
      * @param  array<string, mixed>  $block
      * @return array<string, mixed>
      */
-    public static function blockSchema(array $block): array
+    public static function blockSchema(array $block, bool $content = false): array
     {
         $lists = [];
         foreach ($block['lists'] ?? [] as $list) {
@@ -90,11 +99,12 @@ class SectionSchema
                         'items'    => [
                             'type'                 => 'object',
                             'additionalProperties' => false,
-                            'required'             => ['slot', 'query'],
-                            'properties'           => [
+                            'required'             => $content ? ['slot', 'query', 'alt'] : ['slot', 'query'],
+                            'properties'           => array_filter([
                                 'slot'  => ['type' => 'string', 'enum' => $slots],
                                 'query' => ['type' => 'string', 'maxLength' => self::MEDIA_QUERY_MAX],
-                            ],
+                                'alt'   => $content ? ['type' => 'string', 'maxLength' => self::ALT_MAX] : null,
+                            ]),
                         ],
                     ],
             ],
@@ -131,6 +141,15 @@ class SectionSchema
         return match ($field['type'] ?? 'text') {
             'boolean' => ['type' => 'boolean'],
             'number'  => ['type' => 'number'],
+            'image'   => [
+                'type'                 => 'object',
+                'additionalProperties' => false,
+                'required'             => ['query', 'alt'],
+                'properties'           => [
+                    'query' => ['type' => 'string', 'maxLength' => self::MEDIA_QUERY_MAX],
+                    'alt'   => ['type' => 'string', 'maxLength' => self::ALT_MAX],
+                ],
+            ],
             'enum'    => ($field['options'] ?? []) === []
                 ? ['type' => 'string']
                 : ['type' => 'string', 'enum' => array_values(array_map('strval', $field['options']))],

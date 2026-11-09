@@ -20,7 +20,10 @@ class MotorAIBuilderEvalCommand extends Command
         {manifest : Path to a catalog manifest JSON}
         {prompts : Path to golden prompts JSON ([{id, prompt, max_sections?, expect?: string[]}])}
         {--model=* : Models to compare (default: ai.mistral.models.builder)}
-        {--out= : Output JSON path}';
+        {--out= : Output JSON path}
+        {--content : Content suggestions on for every prompt (otherwise per prompt "content": true)}
+        {--client= : Client id whose media library is searched for images (content mode)}
+        {--only= : Comma-separated prompt ids}';
 
     protected $description = 'Evaluate section-from-prompt against golden prompts (live API)';
 
@@ -29,11 +32,17 @@ class MotorAIBuilderEvalCommand extends Command
         $manifest = json_decode((string) file_get_contents($this->argument('manifest')), true);
         $prompts = json_decode((string) file_get_contents($this->argument('prompts')), true);
         $models = $this->option('model') ?: [config('ai.mistral.models.builder')];
+        if ($this->option('only')) {
+            $only = array_map('trim', explode(',', (string) $this->option('only')));
+            $prompts = array_values(array_filter($prompts, fn ($p) => in_array($p['id'], $only, true)));
+        }
+        $clientId = $this->option('client') !== null ? (int) $this->option('client') : null;
         $results = [];
 
         foreach ($models as $model) {
             foreach ($prompts as $golden) {
-                $row = ['id' => $golden['id'], 'model' => $model, 'prompt' => $golden['prompt'], 'expect' => $golden['expect'] ?? []];
+                $content = $this->option('content') || ! empty($golden['content']);
+                $row = ['id' => $golden['id'], 'model' => $model, 'prompt' => $golden['prompt'], 'expect' => $golden['expect'] ?? [], 'content' => $content];
                 $started = hrtime(true);
                 try {
                     $result = $generator->generate(
@@ -41,6 +50,9 @@ class MotorAIBuilderEvalCommand extends Command
                         manifest: $manifest,
                         maxSections: (int) ($golden['max_sections'] ?? 3),
                         model: $model,
+                        content: $content,
+                        linkTargets: $golden['link_targets'] ?? [],
+                        clientId: $clientId,
                     );
                     $row += ['status' => 'ok', 'meta' => $result['meta'], 'response' => $result['data']];
                 } catch (AIOutputInvalidException $e) {

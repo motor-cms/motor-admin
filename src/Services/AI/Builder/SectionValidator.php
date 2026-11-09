@@ -28,7 +28,7 @@ class SectionValidator
     /**
      * @param  array<string, mixed>  $manifest
      */
-    public function __construct(array $manifest, protected int $maxSections = 6)
+    public function __construct(array $manifest, protected int $maxSections = 6, protected bool $content = false)
     {
         foreach ($manifest['blocks'] ?? [] as $block) {
             $this->blocks[(string) $block['id']] = $block;
@@ -127,6 +127,8 @@ class SectionValidator
                 $errors[] = $at.': unbekannter Medien-Slot "'.(is_scalar($slot) ? $slot : '?').'".';
             } elseif (! is_string($media['query'] ?? null) || mb_strlen($media['query']) > SectionSchema::MEDIA_QUERY_MAX) {
                 $errors[] = $at.': Medien-Suchbegriff für "'.$slot.'" fehlt oder ist zu lang.';
+            } elseif ($this->content && (! is_string($media['alt'] ?? null) || mb_strlen($media['alt']) > SectionSchema::ALT_MAX)) {
+                $errors[] = $at.': Alt-Text für "'.$slot.'" fehlt oder ist länger als '.SectionSchema::ALT_MAX.' Zeichen.';
             }
         }
 
@@ -155,6 +157,20 @@ class SectionValidator
             if ($value === null || $value === '') {
                 if (! empty($field['required'])) {
                     $errors[] = $label.': Pflichtfeld fehlt.';
+                }
+
+                continue;
+            }
+
+            if ($type === 'image') {
+                $query = is_array($value) ? ($value['query'] ?? null) : null;
+                $alt = is_array($value) ? ($value['alt'] ?? '') : null;
+                if (! is_string($query) || ! is_string($alt)) {
+                    $errors[] = $label.': Bild braucht ein Objekt {"query": Suchbegriff, "alt": Alt-Text}.';
+                } elseif (mb_strlen($query) > SectionSchema::MEDIA_QUERY_MAX || mb_strlen($alt) > SectionSchema::ALT_MAX) {
+                    $errors[] = $label.': Suchbegriff höchstens '.SectionSchema::MEDIA_QUERY_MAX.', Alt-Text höchstens '.SectionSchema::ALT_MAX.' Zeichen.';
+                } elseif (! empty($field['required']) && trim($query) === '') {
+                    $errors[] = $label.': Suchbegriff fürs Bild fehlt.';
                 }
 
                 continue;

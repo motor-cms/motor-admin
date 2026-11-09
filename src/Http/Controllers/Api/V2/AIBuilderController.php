@@ -70,6 +70,9 @@ class AIBuilderController extends ApiController
                 maxSections: $request->integer('max_sections', 3),
                 model: $model,
                 tonePrompt: AIAccess::tonePrompt($client),
+                content: $request->boolean('content'),
+                linkTargets: (array) $request->input('context.link_targets', []),
+                clientId: $client->id,
             );
         } catch (AIOutputInvalidException $e) {
             $log('invalid', $e->meta, 'output invalid after repairs');
