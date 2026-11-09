@@ -5,6 +5,7 @@ use Illuminate\Http\Client\Request as HttpRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Sleep;
 use Motor\Admin\Services\AI\Builder\MediaSearch;
+use Motor\Admin\Services\AI\Builder\ScoutMediaSearch;
 use Motor\Admin\Services\AI\Builder\SectionSchema;
 
 pest()->group('AIBuilder')->use(RefreshDatabase::class);
@@ -189,4 +190,18 @@ describe('Inhalte vorschlagen', function () {
             'required' => ['query', 'alt'],
         ]);
     });
+});
+
+it('takes only images whose texts carry the search words', function () {
+    $words = ScoutMediaSearch::words('KI Roboter Hand');
+    expect($words)->toBe(['roboter', 'hand'])
+        ->and(ScoutMediaSearch::required($words))->toBe(1)
+        // „anhand“ ist kein Wortanfang: das Stromkosten-Foto aus der Eval fällt raus
+        ->and(ScoutMediaSearch::relevance($words, 'Eine Frau berechnet Stromkosten anhand des Arbeitspreises'))->toBe(0)
+        ->and(ScoutMediaSearch::relevance(ScoutMediaSearch::words('Solarpanel Windrad'), 'Solarpanels auf dem Dach'))->toBe(1);
+
+    $webdesign = ScoutMediaSearch::words('Webdesign Arbeitsplatz Laptop');
+    expect(ScoutMediaSearch::required($webdesign))->toBe(2)
+        ->and(ScoutMediaSearch::relevance($webdesign, 'Kabel und Glasfasern auf einem Laptop'))->toBe(1)
+        ->and(ScoutMediaSearch::relevance(ScoutMediaSearch::words('Glasfaser'), 'glasfaser-kabel.jpg'))->toBe(1);
 });
