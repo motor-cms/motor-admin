@@ -352,7 +352,8 @@ describe('KI-UX-Test 2026-11-09: Sicherheit und Inhalt', function () {
         $this->actingAs(aiEditor($client))
             ->postJson('/api/v2/ai/builder/section', sectionBody($client, ['prompt' => 'Vergleich unserer Tarife mit dem Marktführer']))
             ->assertStatus(422)
-            ->assertJsonPath('error.code', 'AI_CONTENT_REFUSED');
+            ->assertJsonPath('error.code', 'AI_REQUEST_DECLINED')
+            ->assertJsonPath('error.message', 'Aussagen über Wettbewerber schreibe ich nicht.');
 
         Http::assertSentCount(1);
         Http::assertSent(function (HttpRequest $request) {
@@ -361,6 +362,21 @@ describe('KI-UX-Test 2026-11-09: Sicherheit und Inhalt', function () {
             return str_contains($body['messages'][0]['content'], 'Keine Aussagen über andere Unternehmen')
                 && in_array('refusal', $body['response_format']['json_schema']['schema']['required'], true);
         });
+    });
+
+    it('passes the model\'s own reason on as plain text and asks it to build with existing blocks (K6 retest)', function () {
+        Http::fake(['api.mistral.ai/*' => Http::response(mistralReply([
+            'sections' => [], 'placeholders' => [], 'refusal' => '<b>Der Block</b> 3d-carousel fehlt im Katalog.',
+        ]))]);
+        $client = aiClient();
+
+        $this->actingAs(aiEditor($client))
+            ->postJson('/api/v2/ai/builder/section', sectionBody($client, ['prompt' => '3D-Karussell mit Vorlage 3d-carousel']))
+            ->assertStatus(422)
+            ->assertJsonPath('error.code', 'AI_REQUEST_DECLINED')
+            ->assertJsonPath('error.message', 'Der Block 3d-carousel fehlt im Katalog.');
+
+        Http::assertSent(fn (HttpRequest $request) => str_contains($request->data()['messages'][0]['content'], 'den der Katalog nicht hat'));
     });
 
     it('allows consumer advice about scams and the tenant\'s own name (K5)', function () {

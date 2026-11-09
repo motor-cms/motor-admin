@@ -115,7 +115,8 @@ class SectionGenerator
             'usage'         => $usage,
         ];
         if ($refusal !== null) {
-            throw new AIContentRefusedException('model refused: '.mb_substr($refusal, 0, 120), $metaFor());
+            // The model's own sentence is the reason the editor sees (e.g. a block that is not in the catalog)
+            throw new AIContentRefusedException('model refused: '.mb_substr($refusal, 0, 120), $metaFor(), mb_substr(self::plainText($refusal), 0, 300));
         }
 
         $warnings = $validator->warnings;
@@ -191,6 +192,7 @@ class SectionGenerator
             'Du erstellst Abschnitte für eine Webseite in einem Page Builder. Antworte nur mit JSON nach dem vorgegebenen Schema.',
             'Regeln:',
             '- Verwende ausschließlich Blöcke aus dem Katalog unten und wähle pro Abschnitt den passendsten.',
+            '- Nennt der Auftrag einen Block, eine Vorlage oder einen Effekt, den der Katalog nicht hat, baue den Abschnitt mit den passendsten vorhandenen Blöcken und lehne nicht ab.',
             '- Schreibe auf Deutsch in der Sie-Form, sachlich und konkret, ohne Superlative, ohne Garantieversprechen.',
             '- Schreibe nur über das Angebot des eigenen Unternehmens. Keine Aussagen über andere Unternehmen, Marken, Wettbewerber oder reale Personen, keine Vergleiche mit ihnen, keine Beleidigungen, Vorwürfe oder Abwertungen. Verlangt der Auftrag so etwas, gib "sections": [] aus und begründe in "refusal" in einem Satz, sonst ist "refusal" leer.',
             '- Erfinde keine Preise, Tarife, Prozente, Mengen, Fristen, Kontaktdaten oder Rechtstexte. Schreibe stattdessen [[PLATZHALTER: Beschreibung]] und liste jeden Platzhalter zusätzlich in "placeholders".',

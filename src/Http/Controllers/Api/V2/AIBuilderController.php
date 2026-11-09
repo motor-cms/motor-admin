@@ -79,7 +79,7 @@ class AIBuilderController extends ApiController
         } catch (AIContentRefusedException $e) {
             $log('refused', $e->meta, $e->reason);
 
-            return $this->error('AI_CONTENT_REFUSED', $e->getMessage(), 422);
+            return $this->error($e->code(), $e->getMessage(), 422);
         } catch (AIOutputInvalidException $e) {
             $log('invalid', $e->meta, 'output invalid after repairs');
 
