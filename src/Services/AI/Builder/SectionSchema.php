@@ -15,7 +15,7 @@ namespace Motor\Admin\Services\AI\Builder;
  * media library plus alt text), only in item/slot positions; fields may carry a
  * `role` (overline, headline, paragraph, button, caption, image) for the prompt.
  *
- * Intermediate output: { sections: [ { block, fields, lists, media } ], placeholders }.
+ * Intermediate output: { sections: [ { block, fields, lists, media } ], placeholders, refusal }.
  * With content suggestions on, every media entry also carries `alt`.
  * The model never sees uuids, classes or the PageDefinition tree; the admin maps
  * the result through the block factory.
@@ -43,11 +43,12 @@ class SectionSchema
         return [
             'type'                 => 'object',
             'additionalProperties' => false,
-            'required'             => ['sections', 'placeholders'],
+            'required'             => ['sections', 'placeholders', 'refusal'],
             'properties'           => [
+                // Empty only together with a refusal; the validator asks for at least one section otherwise
                 'sections' => [
                     'type'     => 'array',
-                    'minItems' => 1,
+                    'minItems' => 0,
                     'maxItems' => $maxSections,
                     'items'    => count($variants) === 1 ? $variants[0] : ['anyOf' => $variants],
                 ],
@@ -56,6 +57,8 @@ class SectionSchema
                     'maxItems' => self::PLACEHOLDER_MAX,
                     'items'    => ['type' => 'string', 'maxLength' => 120],
                 ],
+                // Why the request is declined (third parties, insults); empty otherwise
+                'refusal' => ['type' => 'string', 'maxLength' => 300],
             ],
         ];
     }

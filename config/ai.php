@@ -29,6 +29,14 @@ return [
         'max_output_tokens'   => (int) env('AI_BUILDER_MAX_OUTPUT_TOKENS', 6000),
         'rate_per_user_min'   => (int) env('AI_BUILDER_RATE_PER_USER_MIN', 10),
         'rate_per_client_day' => (int) env('AI_BUILDER_RATE_PER_CLIENT_DAY', 200),
+        // Real third parties the builder never writes about (competitors, comparison portals). The tenant's own
+        // name is always allowed. Extend per installation if needed.
+        'third_party_names' => [
+            'Vattenfall', 'E.ON', 'EON', 'EnBW', 'RWE', 'Uniper', 'EWE', 'Innogy', 'Eprimo', 'Yello', 'LichtBlick',
+            'Naturstrom', 'Tibber', 'Octopus Energy', 'Ostrom', 'Polarstern', 'Mainova', 'Thüga', 'Entega',
+            'Süwag', 'Pfalzwerke', 'Stadtwerke Saarbrücken', 'Check24', 'Verivox', 'Grünwelt', 'Stromio',
+            'Teldafax', 'Flexstrom',
+        ],
     ],
 
     // Store prompt text in ai_requests (off by default: metadata only, plus a hash).

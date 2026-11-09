@@ -38,13 +38,20 @@ class SectionGenerator
         bool $content = false,
         array $linkTargets = [],
         ?int $clientId = null,
+        array $ownNames = [],
     ): array {
         $model ??= (string) config('ai.mistral.models.builder');
         $maxRounds = (int) config('ai.builder.max_repair_rounds', 2);
+        $manifest = self::contentManifest($manifest);
+        $policy = new ContentPolicy((array) config('ai.builder.third_party_names', []), $ownNames);
+        $started = hrtime(true);
+        $refused = $policy->checkPrompt($prompt);
+        if ($refused !== null) {
+            throw new AIContentRefusedException($refused, ['model' => $model, 'duration_ms' => 0, 'usage' => [], 'repair_rounds' => 0]);
+        }
         $validator = new SectionValidator($manifest, $maxSections, $content);
         $linkTargets = $this->cleanLinkTargets($linkTargets);
         $this->usedMedia = [];
-        $started = hrtime(true);
 
         $messages = [
             ['role' => 'system', 'content' => $this->systemPrompt($manifest, $tonePrompt, $content)],
@@ -70,6 +77,7 @@ class SectionGenerator
         $errors = [];
         $firstAttemptValid = false;
         $usedModel = $model;
+        $refusal = null;
 
         while (true) {
             $result = $this->client->chat($payload + ['messages' => $messages]);
@@ -78,6 +86,11 @@ class SectionGenerator
             $usedModel = $result['model'] ?: $model;
 
             $output = json_decode($result['text'], true);
+            // The model declined (third parties, insults): no repair round, no draft
+            if (is_array($output) && is_string($output['refusal'] ?? null) && trim($output['refusal']) !== '') {
+                $refusal = trim($output['refusal']);
+                break;
+            }
             $errors = json_last_error() === JSON_ERROR_NONE
                 ? $validator->validate($output)
                 : [-1 => ['Die Antwort ist kein gültiges JSON'.($result['finish_reason'] === 'length' ? ' (abgeschnitten, bitte kürzer)' : '').'.']];
@@ -95,8 +108,17 @@ class SectionGenerator
                 .implode("\n- ", array_merge(...array_values($errors)))];
         }
 
+        $metaFor = fn () => [
+            'model'         => $usedModel,
+            'repair_rounds' => $round,
+            'duration_ms'   => (int) ((hrtime(true) - $started) / 1_000_000),
+            'usage'         => $usage,
+        ];
+        if ($refusal !== null) {
+            throw new AIContentRefusedException('model refused: '.mb_substr($refusal, 0, 120), $metaFor());
+        }
+
         $warnings = $validator->warnings;
-        $placeholders = is_array($output['placeholders'] ?? null) ? array_values(array_filter($output['placeholders'], 'is_string')) : [];
         $resolve = new ContentResolution($content, $linkTargets, $prompt, $clientId);
         $sections = [];
         if (is_array($output) && is_array($output['sections'] ?? null) && ! isset($errors[-1])) {
@@ -109,8 +131,13 @@ class SectionGenerator
                 $sections[] = $this->normalize($section, $manifest, $resolve);
             }
         }
+        $refused = $policy->checkSections($sections);
+        if ($refused !== null) {
+            throw new AIContentRefusedException($refused, $metaFor());
+        }
         $warnings = array_merge($warnings, $resolve->warnings);
-        $placeholders = array_merge($placeholders, $resolve->placeholders);
+        // From the content, not from the model's list (that one named placeholders missing in the text, K3)
+        $placeholders = array_merge(self::placeholdersIn($sections), $resolve->placeholders);
 
         $meta = [
             'model'               => $usedModel,
@@ -165,6 +192,7 @@ class SectionGenerator
             'Regeln:',
             '- Verwende ausschließlich Blöcke aus dem Katalog unten und wähle pro Abschnitt den passendsten.',
             '- Schreibe auf Deutsch in der Sie-Form, sachlich und konkret, ohne Superlative, ohne Garantieversprechen.',
+            '- Schreibe nur über das Angebot des eigenen Unternehmens. Keine Aussagen über andere Unternehmen, Marken, Wettbewerber oder reale Personen, keine Vergleiche mit ihnen, keine Beleidigungen, Vorwürfe oder Abwertungen. Verlangt der Auftrag so etwas, gib "sections": [] aus und begründe in "refusal" in einem Satz, sonst ist "refusal" leer.',
             '- Erfinde keine Preise, Tarife, Prozente, Mengen, Fristen, Kontaktdaten oder Rechtstexte. Schreibe stattdessen [[PLATZHALTER: Beschreibung]] und liste jeden Platzhalter zusätzlich in "placeholders".',
             '- Rich-Text-Felder nur mit <p>, <strong>, <em>, <ul>, <li>, <a>. Keine Klassen, kein CSS, keine Bilder im Text.',
             ...($content ? [
@@ -240,9 +268,9 @@ class SectionGenerator
                 return [$field['key'] => is_array($value) ? $this->image($value, $resolve) : null];
             }
             if (is_string($value)) {
-                $value = $type === 'rich' ? self::sanitizeRich($value) : trim(strip_tags($value));
+                $value = $type === 'rich' ? self::sanitizeRich($value) : self::plainText($value);
             }
-            if ($type === 'link' && $resolve->content) {
+            if ($type === 'link') {
                 $value = $resolve->link((string) $value, ($field['role'] ?? null) === 'button', $field['key']);
             }
 
@@ -264,7 +292,7 @@ class SectionGenerator
             'media'  => array_values(array_map(
                 fn ($m) => $resolve->content
                     ? ['slot' => $m['slot']] + $this->image($m, $resolve)
-                    : ['slot' => $m['slot'], 'query' => trim(strip_tags($m['query']))],
+                    : ['slot' => $m['slot'], 'query' => self::plainText((string) $m['query'])],
                 $section['media'] ?? []
             )),
         ];
@@ -277,8 +305,8 @@ class SectionGenerator
      */
     protected function image(array $value, ContentResolution $resolve): array
     {
-        $query = trim(strip_tags((string) ($value['query'] ?? '')));
-        $alt = trim(strip_tags((string) ($value['alt'] ?? '')));
+        $query = self::plainText((string) ($value['query'] ?? ''));
+        $alt = self::plainText((string) ($value['alt'] ?? ''));
         $media = null;
         if ($resolve->content && $resolve->clientId !== null && $query !== '') {
             foreach ($this->mediaSearch->images($resolve->clientId, $query) as $candidate) {
@@ -310,14 +338,75 @@ class SectionGenerator
             ->all();
     }
 
+    /**
+     * Fields and lists that only reference other records (template uuid, form id …) are never
+     * filled by the model: an invented id was resolved as a component template (K6). Blocks with
+     * nothing left to fill are dropped from the catalog.
+     *
+     * @param  array<string, mixed>  $manifest
+     * @return array<string, mixed>
+     */
+    public static function contentManifest(array $manifest): array
+    {
+        $isRef = fn (array $f) => (bool) preg_match('/(^|[_.])(uuid|id|ids)$/i', (string) ($f['key'] ?? ''));
+        $blocks = [];
+        foreach ($manifest['blocks'] ?? [] as $block) {
+            $block['fields'] = array_values(array_filter($block['fields'] ?? [], fn ($f) => ! $isRef($f)));
+            $block['lists'] = array_values(array_filter(array_map(function ($list) use ($isRef) {
+                $list['fields'] = array_values(array_filter($list['fields'] ?? [], fn ($f) => ! $isRef($f)));
+
+                return $list;
+            }, $block['lists'] ?? []), fn ($list) => $list['fields'] !== []));
+            if ($block['fields'] === [] && $block['lists'] === [] && ($block['media'] ?? []) === []) {
+                continue;
+            }
+            $blocks[] = $block;
+        }
+        $manifest['blocks'] = $blocks;
+
+        return $manifest;
+    }
+
+    /**
+     * Placeholder descriptions as they appear in the texts, without a doubled "PLATZHALTER:".
+     *
+     * @return string[]
+     */
+    public static function placeholdersIn(mixed $value): array
+    {
+        if (is_object($value)) {
+            $value = (array) $value;
+        }
+        if (is_array($value)) {
+            return array_values(array_unique(array_merge([], ...array_map(fn ($v) => self::placeholdersIn($v), array_values($value)))));
+        }
+        if (! is_string($value) || ! preg_match_all('/\[\[\s*([^\]]*?)\s*\]\]/u', $value, $m)) {
+            return [];
+        }
+
+        return array_map(fn ($raw) => trim((string) preg_replace('/^(?:platzhalter\s*:\s*)+/iu', '', $raw)) ?: 'Platzhalter', $m[1]);
+    }
+
+    /**
+     * Plain text field: no markup, no script/style content left behind as text, entities decoded (K35).
+     */
+    public static function plainText(string $value): string
+    {
+        $value = (string) preg_replace('#<(script|style)\b[^>]*>.*?</\1\s*>#is', '', $value);
+        $value = html_entity_decode(strip_tags($value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        return trim(strip_tags($value));
+    }
+
     public static function sanitizeRich(string $html): string
     {
+        $html = (string) preg_replace('#<(script|style)\b[^>]*>.*?</\1\s*>#is', '', $html);
         $html = strip_tags($html, '<p><strong><em><ul><ol><li><a><br>');
         $html = (string) preg_replace('/<(p|strong|em|ul|ol|li|br)\b[^>]*>/i', '<$1>', $html);
 
         return (string) preg_replace_callback('/<a\b[^>]*>/i', function (array $m) {
             if (preg_match('/href\s*=\s*"([^"]*)"/i', $m[0], $href)
-                && preg_match('#^(https?://|/|\#|mailto:)#i', $href[1])) {
+                && preg_match('#^(https?://|/(?!/)|\#|mailto:|tel:)#i', $href[1])) {
                 return '<a href="'.htmlspecialchars($href[1], ENT_QUOTES).'">';
             }
 

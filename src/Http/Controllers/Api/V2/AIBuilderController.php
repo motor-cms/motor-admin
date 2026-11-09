@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Api\V2\AIBuilderStatusGetRequest;
 use Motor\Admin\Services\AI\AIAccess;
 use Motor\Admin\Services\AI\AIProviderException;
 use Motor\Admin\Services\AI\AIRequestLogger;
+use Motor\Admin\Services\AI\Builder\AIContentRefusedException;
 use Motor\Admin\Services\AI\Builder\AIOutputInvalidException;
 use Motor\Admin\Services\AI\Builder\SectionGenerator;
 
@@ -73,7 +74,12 @@ class AIBuilderController extends ApiController
                 content: $request->boolean('content'),
                 linkTargets: (array) $request->input('context.link_targets', []),
                 clientId: $client->id,
+                ownNames: array_filter([(string) $client->name]),
             );
+        } catch (AIContentRefusedException $e) {
+            $log('refused', $e->meta, $e->reason);
+
+            return $this->error('AI_CONTENT_REFUSED', $e->getMessage(), 422);
         } catch (AIOutputInvalidException $e) {
             $log('invalid', $e->meta, 'output invalid after repairs');
 

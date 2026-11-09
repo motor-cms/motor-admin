@@ -22,6 +22,9 @@ class ContentResolution
     /** @var array<string, true> */
     protected array $allowedUrls = [];
 
+    /** @var array<string, true> addresses the editor wrote into the prompt */
+    protected array $promptUrls = [];
+
     /**
      * @param  array<int, array{title: string, url: string}>  $linkTargets
      */
@@ -34,6 +37,19 @@ class ContentResolution
         foreach ($linkTargets as $target) {
             $this->allowedUrls[$target['url']] = true;
         }
+        // Whole addresses only: a substring check let "/" or "javascript:" through as soon as the prompt contained it (K31)
+        preg_match_all('#(?:https?://[^\s"\'<>]+|mailto:[^\s"\'<>]+|tel:[+\d][\d\s/-]*\d|(?<![\w/.:])/[a-z0-9][\w\-/]*)#iu', $prompt, $m);
+        foreach ($m[0] as $url) {
+            $this->promptUrls[rtrim($url, '.,;:!?)')] = true;
+        }
+    }
+
+    /**
+     * Only web, root-relative, anchor, mail and phone addresses; everything else (javascript:, data:, //host) is unsafe.
+     */
+    public static function safeScheme(string $url): bool
+    {
+        return (bool) preg_match('#^(https?://|/(?!/)|\#|mailto:|tel:)#i', $url);
     }
 
     /**
@@ -43,10 +59,19 @@ class ContentResolution
     public function link(string $url, bool $isButton, string $key): string
     {
         $url = trim($url);
+        if (! $this->content) {
+            // Structure only: no page list, but never an unsafe scheme
+            if ($url === '' || self::safeScheme($url)) {
+                return $url;
+            }
+            $this->warnings[] = 'Link "'.mb_substr($url, 0, 80).'" ('.$key.') hat ein unsicheres Schema und wurde durch "#" ersetzt.';
+
+            return '#';
+        }
         if ($url === '') {
             return $isButton ? '#' : '';
         }
-        if ($url === '#' || isset($this->allowedUrls[$url]) || str_contains($this->prompt, $url)) {
+        if ($url === '#' || isset($this->allowedUrls[$url]) || isset($this->promptUrls[$url])) {
             return $url;
         }
         // Known page with a trailing slash or without the leading one
