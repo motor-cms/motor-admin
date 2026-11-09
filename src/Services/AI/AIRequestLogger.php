@@ -25,6 +25,7 @@ class AIRequestLogger
         int $repairRounds = 0,
         ?string $error = null,
         ?string $prompt = null,
+        float $extraCostUsd = 0.0,
     ): ?AIRequest {
         $promptTokens = (int) ($usage['prompt_tokens'] ?? 0);
         $completionTokens = (int) ($usage['completion_tokens'] ?? 0);
@@ -39,7 +40,8 @@ class AIRequestLogger
                 'status'            => $status,
                 'prompt_tokens'     => $promptTokens,
                 'completion_tokens' => $completionTokens,
-                'cost_usd'          => self::costUsd($model, $promptTokens, $completionTokens),
+                // extra: per-call prices on top of tokens (e.g. one generated image)
+                'cost_usd'          => round(self::costUsd($model, $promptTokens, $completionTokens) + $extraCostUsd, 6),
                 'duration_ms'       => $durationMs,
                 'repair_rounds'     => $repairRounds,
                 'error'             => $error !== null ? mb_substr($error, 0, 255) : null,

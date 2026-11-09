@@ -12,6 +12,7 @@ use Motor\Admin\Services\AI\AIRequestLogger;
 use Motor\Admin\Services\AI\Builder\AIContentRefusedException;
 use Motor\Admin\Services\AI\Builder\AIOutputInvalidException;
 use Motor\Admin\Services\AI\Builder\SectionGenerator;
+use Motor\Admin\Services\AI\Images\Stock\StockProviders;
 
 /**
  * KI im Page Builder (spike): section from prompt, catalog-driven.
@@ -37,6 +38,12 @@ class AIBuilderController extends ApiController
                 'allowed'  => $enabled && AIAccess::userHasPermission($user),
                 'provider' => 'mistral',
                 'model'    => config('ai.mistral.models.builder'),
+                // Image sources after the own media library; stock only with a key, generation per tenant switch
+                'images' => [
+                    'generate' => $enabled && AIImageController::generationEnabled($client),
+                    'stock'    => app(StockProviders::class)->names(),
+                    'daily_limit' => (int) config('ai.images.rate_per_client_day', 20),
+                ],
             ],
             'meta' => ['api_version' => 'v2'],
         ]);

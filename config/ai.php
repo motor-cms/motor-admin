@@ -39,6 +39,34 @@ return [
         ],
     ],
 
+    // Images for the builder: own media library first, then stock (only with a key), then generation on request.
+    'images' => [
+        // Mistral built-in tool image_generation via the Conversations API; the agent model writes the tool prompt.
+        'generate'            => (bool) env('AI_IMAGES_GENERATE', true),
+        'model'               => env('MISTRAL_MODEL_IMAGE', 'mistral-medium-2604'),
+        'timeout'             => (int) env('MISTRAL_IMAGE_TIMEOUT', 120),
+        'rate_per_user_min'   => (int) env('AI_IMAGES_RATE_PER_USER_MIN', 5),
+        'rate_per_client_day' => (int) env('AI_IMAGES_RATE_PER_CLIENT_DAY', 20),
+        // USD per generated image on top of the tokens. Not on Mistral's price page (11/2026); third-party sources
+        // say 100 USD per 1,000 images. Check against the console invoice.
+        'price_per_image_usd' => (float) env('AI_IMAGES_PRICE_USD', 0.10),
+        // The tool answers with a signed download URL; only these hosts are fetched.
+        'download_hosts' => ['.blob.core.windows.net', '.mistral.ai'],
+        'max_bytes'      => 15 * 1024 * 1024,
+        // Stock providers stay off until a key is set. Unsplash is not offered: its API rules require hotlinking,
+        // we copy into the media library.
+        'stock' => [
+            'pexels' => [
+                'api_key'  => env('PEXELS_API_KEY'),
+                'base_url' => env('PEXELS_BASE_URL', 'https://api.pexels.com/v1'),
+            ],
+            'pixabay' => [
+                'api_key'  => env('PIXABAY_API_KEY'),
+                'base_url' => env('PIXABAY_BASE_URL', 'https://pixabay.com/api/'),
+            ],
+        ],
+    ],
+
     // Store prompt text in ai_requests (off by default: metadata only, plus a hash).
     'log_prompts' => (bool) env('AI_LOG_PROMPTS', false),
 

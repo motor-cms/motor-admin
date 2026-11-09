@@ -3,6 +3,7 @@
 namespace Motor\Admin\Services\AI;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -80,6 +81,65 @@ class MistralClient
             'model'         => $data['model'] ?? ($payload['model'] ?? ''),
             'raw'           => $data,
         ];
+    }
+
+    /**
+     * Conversations API (`POST /conversations`), needed for built-in tools such as image_generation.
+     *
+     * @param  array<string, mixed>  $payload  inputs, model, tools, instructions, completion_args, store
+     * @return array{outputs: array, usage: array, conversation_id: ?string, raw: array}
+     */
+    public function conversation(array $payload, ?int $timeout = null): array
+    {
+        // Only 429 is retried: a timeout or 5xx may still have produced (and billed) an image.
+        $response = $this->send(fn ($http) => $http->acceptJson()->timeout($timeout ?? $this->timeout)->post('/conversations', $payload), safeToRepeat: false);
+        $data = $response->json() ?? [];
+
+        return [
+            'outputs'         => (array) ($data['outputs'] ?? []),
+            'usage'           => (array) ($data['usage'] ?? []),
+            'conversation_id' => $data['conversation_id'] ?? null,
+            'raw'             => $data,
+        ];
+    }
+
+    /**
+     * Binary content of a file the API produced (`GET /files/{id}/content`).
+     */
+    public function fileContent(string $fileId): string
+    {
+        return $this->send(fn ($http) => $http->timeout($this->timeout)->get('/files/'.rawurlencode($fileId).'/content'))->body();
+    }
+
+    /**
+     * @param  callable(PendingRequest): Response  $call
+     */
+    protected function send(callable $call, bool $safeToRepeat = true): Response
+    {
+        if (! $this->isConfigured()) {
+            throw new AIProviderException('Mistral is not configured (MISTRAL_API_KEY missing).');
+        }
+
+        try {
+            $response = $call(Http::withToken($this->apiKey)
+                ->baseUrl($this->baseUrl)
+                ->retry(3, fn (int $attempt) => $attempt * 1000, function ($exception) use ($safeToRepeat) {
+                    if ($exception instanceof ConnectionException) {
+                        return $safeToRepeat;
+                    }
+
+                    return $exception instanceof RequestException
+                        && ($exception->response->status() === 429 || ($safeToRepeat && $exception->response->serverError()));
+                }, throw: false));
+        } catch (ConnectionException) {
+            throw new AIProviderException('Mistral is not reachable.');
+        }
+
+        if (! $response->successful()) {
+            throw new AIProviderException($this->errorMessage($response), $response->status());
+        }
+
+        return $response;
     }
 
     /**

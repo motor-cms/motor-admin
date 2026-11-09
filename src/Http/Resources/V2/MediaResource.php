@@ -56,6 +56,8 @@ class MediaResource extends BaseResource
             /** @format date-time */
             'created_at' => $this->created_at?->toIso8601String(),
             'conversions' => $conversions,
+            // Origin of imported images (AI generation, stock): licence, credit, author, prompt, see MediaImporter
+            'origin' => $this->resource instanceof Media ? $this->resource->getCustomProperty('origin') : null,
         ];
     }
 }

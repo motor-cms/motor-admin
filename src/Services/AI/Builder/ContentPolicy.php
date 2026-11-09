@@ -74,6 +74,21 @@ class ContentPolicy
         return null;
     }
 
+    /**
+     * Image prompts: any third-party name is refused (a logo or brand in a generated picture is never wanted).
+     *
+     * @return string|null reason when the prompt must be refused
+     */
+    public function checkImagePrompt(string $prompt): ?string
+    {
+        if (preg_match(self::INTENT, $prompt, $m)) {
+            return 'prompt asks for disparaging content ("'.$m[0].'")';
+        }
+        $name = $this->thirdParty($prompt);
+
+        return $name !== null ? 'image prompt names third party "'.$name.'"' : null;
+    }
+
     protected function thirdParty(string $text): ?string
     {
         foreach ($this->names as $name) {
