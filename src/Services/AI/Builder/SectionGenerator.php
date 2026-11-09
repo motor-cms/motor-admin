@@ -170,7 +170,7 @@ class SectionGenerator
             ...($content ? [
                 '- Inhalte vorschlagen: Fülle JEDES Textfeld mit echtem, zum Auftrag passendem deutschem Text, auch in jedem Listeneintrag (jede Folie, jede Karte, jeder Eintrag bekommt eigene Dachzeile, Überschrift, Text und Button-Beschriftung, soweit die Felder es vorsehen). Keine Platzhalter wie "Lorem", "Titel", "Text hier" und keine leeren Felder, außer ein Feld passt inhaltlich nicht.',
                 '- Rollen: overline = kurze Dachzeile (2–4 Wörter), headline = Überschrift, paragraph = ein bis drei Sätze, button = Handlungsaufforderung mit 1–4 Wörtern, caption = kurze Bildunterschrift.',
-                '- Bilder: Gib je Bild-Feld und je Eintrag in "media" einen kurzen deutschen Suchbegriff (2–4 Substantive, was zu sehen sein soll) und einen sachlichen Alt-Text (was auf dem Bild zu sehen ist, ohne "Bild von"). Die Bilder werden in der Mediathek des Mandanten gesucht.',
+                '- Bilder: Gib je Bild-Feld und je Eintrag in "media" einen kurzen deutschen Suchbegriff (2–4 Substantive, das Hauptmotiv als erstes Wort, z. B. "Wärmepumpe Garten Haus") und einen sachlichen Alt-Text (was auf dem Bild zu sehen ist, ohne "Bild von"). Die Bilder werden in der Mediathek des Mandanten gesucht.',
                 '- Link-Felder: nur Adressen aus der Liste "Vorhandene Seiten" im Auftrag oder Adressen, die der Nutzer selbst nennt. Passt keine Seite, schreibe "#". Erfinde keine Adressen.',
                 '- Fakten, die geprüft werden müssen (Preise, Tarife, Termine, Fristen, Kennzahlen, Namen, Zitate realer Personen), nicht erfinden: [[PLATZHALTER: …]] und in "placeholders" aufführen.',
             ] : [

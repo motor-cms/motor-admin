@@ -203,5 +203,8 @@ it('takes only images whose texts carry the search words', function () {
     $webdesign = ScoutMediaSearch::words('Webdesign Arbeitsplatz Laptop');
     expect(ScoutMediaSearch::required($webdesign))->toBe(2)
         ->and(ScoutMediaSearch::relevance($webdesign, 'Kabel und Glasfasern auf einem Laptop'))->toBe(1)
-        ->and(ScoutMediaSearch::relevance(ScoutMediaSearch::words('Glasfaser'), 'glasfaser-kabel.jpg'))->toBe(1);
+        ->and(ScoutMediaSearch::relevance(ScoutMediaSearch::words('Glasfaser'), 'glasfaser-kabel.jpg'))->toBe(1)
+        // Laptop allein reicht nicht, das Hauptmotiv (erstes Wort) schon
+        ->and(ScoutMediaSearch::relevant($webdesign, 1, false))->toBeFalse()
+        ->and(ScoutMediaSearch::relevant(ScoutMediaSearch::words('Wärmepumpe Außenbereich Haus'), 1, true))->toBeTrue();
 });

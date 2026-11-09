@@ -16,9 +16,10 @@ use Throwable;
  *
  * Meilisearch matches loosely (any word, typo tolerance), which in the eval put
  * a photo about electricity costs on a slide about robots. A hit therefore has
- * to carry at least half of the search words (word start, so "Hand" does not
- * match "anhand") in alt text, description, tags or file name; otherwise the
- * slot keeps its placeholder, which is better than a wrong picture.
+ * to carry the main subject (the first search word, the prompt asks for it
+ * first) or at least half of the search words, at a word start so "Hand" does
+ * not match "anhand", in alt text, description, tags or file name. Otherwise
+ * the slot keeps its placeholder, which is better than a wrong picture.
  */
 class ScoutMediaSearch implements MediaSearch
 {
@@ -43,8 +44,12 @@ class ScoutMediaSearch implements MediaSearch
 
         return $files
             ->filter(fn (File $file) => str_starts_with((string) $file->getFirstMedia('file')?->mime_type, 'image/'))
-            ->map(fn (File $file) => [$file, self::relevance($words, self::haystack($file))])
-            ->filter(fn (array $hit) => $hit[1] >= self::required($words))
+            ->map(function (File $file) use ($words) {
+                $text = self::haystack($file);
+
+                return [$file, self::relevance($words, $text), $words !== [] && self::relevance([$words[0]], $text) === 1];
+            })
+            ->filter(fn (array $hit) => self::relevant($words, $hit[1], $hit[2]))
             ->sortByDesc(fn (array $hit) => $hit[1])
             ->map(fn (array $hit) => $hit[0])
             ->take($limit)
@@ -89,6 +94,12 @@ class ScoutMediaSearch implements MediaSearch
             preg_split('/[^\pL\pN]+/u', mb_strtolower($query)) ?: [],
             fn ($w) => mb_strlen($w) > 3
         )));
+    }
+
+    /** Main subject (first word) found, or at least half of the words; a query of only short words passes. */
+    public static function relevant(array $words, int $score, bool $subject): bool
+    {
+        return $words === [] || $subject || $score >= self::required($words);
     }
 
     /** Half of the words, at least one (a query of only short words needs none). */
