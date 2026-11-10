@@ -191,6 +191,9 @@ Route::prefix('v2')
         Route::post('ai/builder/section', [AIBuilderController::class, 'section'])
             ->middleware('throttle:ai-builder')
             ->name('ai.builder.section');
+        Route::post('ai/builder/revise', [AIBuilderController::class, 'revise'])
+            ->middleware('throttle:ai-builder')
+            ->name('ai.builder.revise');
         // Rate limit for images inside the controller, after the tenant checks
         Route::post('ai/builder/image', [AIImageController::class, 'generate'])->name('ai.builder.image');
     });

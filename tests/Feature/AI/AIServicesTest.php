@@ -35,7 +35,8 @@ describe('SectionSchema', function () {
             ->and($variants[0]['properties']['block']['enum'])->toBe(['ui-page-hero'])
             ->and($variants[0]['properties']['fields']['required'])->toBe(['title', 'description', 'orientation'])
             ->and((array) $variants[0]['properties']['fields']['properties'])->toMatchArray([
-                'title'       => ['type' => 'string', 'maxLength' => 60],
+                // headroom against hard cuts; the validator keeps the real limit of 60
+                'title'       => ['type' => 'string', 'maxLength' => 90],
                 'orientation' => ['type' => 'string', 'enum' => ['horizontal', 'vertical']],
             ])
             ->and($variants[0]['properties']['media']['items']['properties']['slot']['enum'])->toBe(['media'])

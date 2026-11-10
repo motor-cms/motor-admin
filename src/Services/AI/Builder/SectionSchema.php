@@ -33,6 +33,16 @@ class SectionSchema
     public const FIELD_TYPES = ['text', 'textarea', 'rich', 'link', 'enum', 'boolean', 'number', 'image'];
 
     /**
+     * Strict decoding cuts a string hard at its maxLength (a paragraph ended in "…und sichen"). The schema
+     * therefore allows some headroom; the validator still enforces the real limit and asks for a shorter
+     * text in a repair round instead of returning a sentence cut off mid-word.
+     */
+    public const SCHEMA_HEADROOM = 1.5;
+
+    /** Revision operations (see forRevision) */
+    public const REVISION_OPS = ['keep', 'move', 'update', 'delete', 'add'];
+
+    /**
      * @param  array<string, mixed>  $manifest
      * @return array<string, mixed>
      */
@@ -158,8 +168,74 @@ class SectionSchema
                 : ['type' => 'string', 'enum' => array_values(array_map('strval', $field['options']))],
             default => array_filter([
                 'type'      => 'string',
-                'maxLength' => isset($field['maxLength']) ? (int) $field['maxLength'] : null,
+                'maxLength' => isset($field['maxLength']) ? (int) ceil((int) $field['maxLength'] * self::SCHEMA_HEADROOM) : null,
             ], fn ($v) => $v !== null),
         };
+    }
+
+    /**
+     * Revision of existing sections ("Mit KI überarbeiten"). Output: { operations: [Op], placeholders, refusal },
+     * operations in the new page order:
+     * - { op: keep|move|delete, ref } for an existing section (keep = unchanged in place, move = unchanged, new place)
+     * - { op: update, ref, section } complete new content of an existing, editable section
+     * - { op: add, ref: "neu1", section } new section at this position (page scope only)
+     * Scope "section": exactly one update of the target ref.
+     *
+     * @param  array<string, mixed>  $manifest
+     * @param  string[]  $refs  all refs of the context, in page order
+     * @param  string[]  $editable  refs the model may change (not locked, block in the catalog)
+     * @return array<string, mixed>
+     */
+    public static function forRevision(array $manifest, array $refs, array $editable, string $scope, ?string $target, int $maxNew): array
+    {
+        $variants = array_map(fn (array $block) => self::blockSchema($block, true), $manifest['blocks'] ?? []);
+        $section = count($variants) === 1 ? $variants[0] : ['anyOf' => $variants];
+        $op = fn (array $ops, array $refEnum, bool $withSection) => [
+            'type'                 => 'object',
+            'additionalProperties' => false,
+            'required'             => $withSection ? ['op', 'ref', 'section'] : ['op', 'ref'],
+            'properties'           => array_filter([
+                'op'      => ['type' => 'string', 'enum' => $ops],
+                'ref'     => $refEnum === [] ? ['type' => 'string', 'maxLength' => 20] : ['type' => 'string', 'enum' => array_values($refEnum)],
+                'section' => $withSection ? $section : null,
+            ]),
+        ];
+
+        if ($scope === 'section') {
+            $items = $op(['update'], [(string) $target], true);
+            $min = 1;
+            $max = 1;
+        } else {
+            $variantsOps = [$op(['keep', 'move', 'delete'], $refs, false)];
+            if ($editable !== []) {
+                $variantsOps[] = $op(['update'], $editable, true);
+            }
+            if ($maxNew > 0) {
+                $variantsOps[] = $op(['add'], [], true);
+            }
+            $items = count($variantsOps) === 1 ? $variantsOps[0] : ['anyOf' => $variantsOps];
+            $min = 1;
+            $max = count($refs) + $maxNew;
+        }
+
+        return [
+            'type'                 => 'object',
+            'additionalProperties' => false,
+            'required'             => ['operations', 'placeholders', 'refusal'],
+            'properties'           => [
+                'operations' => [
+                    'type'     => 'array',
+                    'minItems' => $min,
+                    'maxItems' => $max,
+                    'items'    => $items,
+                ],
+                'placeholders' => [
+                    'type'     => 'array',
+                    'maxItems' => self::PLACEHOLDER_MAX,
+                    'items'    => ['type' => 'string', 'maxLength' => 120],
+                ],
+                'refusal' => ['type' => 'string', 'maxLength' => 300],
+            ],
+        ];
     }
 }

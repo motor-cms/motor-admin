@@ -4,6 +4,7 @@ namespace Motor\Admin\Http\Controllers\Api\V2;
 
 use Illuminate\Http\JsonResponse;
 use Motor\Admin\Http\Controllers\ApiController;
+use Motor\Admin\Http\Requests\Api\V2\AIBuilderRevisePostRequest;
 use Motor\Admin\Http\Requests\Api\V2\AIBuilderSectionPostRequest;
 use Motor\Admin\Http\Requests\Api\V2\AIBuilderStatusGetRequest;
 use Motor\Admin\Services\AI\AIAccess;
@@ -83,6 +84,70 @@ class AIBuilderController extends ApiController
                 clientId: $client->id,
                 ownNames: array_filter([(string) $client->name]),
             );
+        } catch (AIContentRefusedException $e) {
+            $log('refused', $e->meta, $e->reason);
+
+            return $this->error($e->code(), $e->getMessage(), 422);
+        } catch (AIOutputInvalidException $e) {
+            $log('invalid', $e->meta, 'output invalid after repairs');
+
+            return $this->error('AI_OUTPUT_INVALID', $e->getMessage(), 422, ['errors' => $e->errors]);
+        } catch (AIProviderException $e) {
+            $log('error', ['duration_ms' => (int) ((hrtime(true) - $started) / 1_000_000)], $e->getMessage());
+
+            return $this->error('AI_PROVIDER_ERROR', 'Der KI-Dienst ist gerade nicht erreichbar. Bitte später erneut versuchen.', 503);
+        }
+
+        $log('ok', $result['meta']);
+
+        return response()->json([
+            'data' => $result['data'],
+            'meta' => $result['meta'] + ['api_version' => 'v2'],
+        ]);
+    }
+
+    /**
+     * "Mit KI überarbeiten": one section (scope section) or the whole page (scope page) as operations
+     * keep/move/update/delete/add. Same guard rails, rate limit and cost log (task builder.revise).
+     */
+    public function revise(AIBuilderRevisePostRequest $request, SectionGenerator $generator): JsonResponse
+    {
+        $user = $request->user();
+        $client = AIAccess::authorize($user, AIAccess::findClient($request->integer('client_id')));
+        $prompt = (string) $request->input('prompt');
+        $model = (string) config('ai.mistral.models.builder');
+        $log = fn (string $status, array $meta = [], ?string $error = null) => AIRequestLogger::log(
+            task: 'builder.revise',
+            clientId: $client->id,
+            userId: $user->id,
+            provider: 'mistral',
+            model: $meta['model'] ?? $model,
+            status: $status,
+            usage: $meta['usage'] ?? [],
+            durationMs: $meta['duration_ms'] ?? 0,
+            repairRounds: $meta['repair_rounds'] ?? 0,
+            error: $error,
+            prompt: $prompt,
+        );
+
+        $started = hrtime(true);
+        try {
+            $result = $generator->revise(
+                instruction: $prompt,
+                manifest: $request->input('catalog_manifest'),
+                current: (array) $request->input('sections', []),
+                scope: (string) $request->input('scope'),
+                target: $request->input('target'),
+                context: (array) $request->input('context', []),
+                maxNew: $request->integer('max_new', 3),
+                model: $model,
+                tonePrompt: AIAccess::tonePrompt($client),
+                linkTargets: (array) $request->input('context.link_targets', []),
+                clientId: $client->id,
+                ownNames: array_filter([(string) $client->name]),
+            );
+        } catch (\InvalidArgumentException $e) {
+            return $this->error('VALIDATION_ERROR', 'Der Abschnitt lässt sich nicht überarbeiten (gesperrt oder unbekannt).', 422);
         } catch (AIContentRefusedException $e) {
             $log('refused', $e->meta, $e->reason);
 

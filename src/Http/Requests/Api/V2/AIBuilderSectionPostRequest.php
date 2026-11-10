@@ -30,6 +30,18 @@ class AIBuilderSectionPostRequest extends Request
             'context.link_targets.*.title'                    => ['nullable', 'string', 'max:200'],
             'context.link_targets.*.url'                      => ['required', 'string', 'max:300'],
             'content'                                         => ['sometimes', 'boolean'],
+            ...self::manifestRules(),
+        ];
+    }
+
+    /**
+     * Catalog manifest as the admin builds it (shared with the revision request).
+     *
+     * @return array<string, mixed>
+     */
+    public static function manifestRules(): array
+    {
+        return [
             'catalog_manifest'                                => ['required', 'array'],
             'catalog_manifest.version'                        => ['required', 'integer', 'in:1'],
             'catalog_manifest.blocks'                         => ['required', 'array', 'min:1', 'max:80'],

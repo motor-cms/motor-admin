@@ -26,6 +26,14 @@ class SectionValidator
     public array $warnings = [];
 
     /**
+     * Numbers with units that already stand in the page (revision context): the model may keep them,
+     * only new ones must be placeholders.
+     *
+     * @var array<string, true>
+     */
+    protected array $knownNumbers = [];
+
+    /**
      * @param  array<string, mixed>  $manifest
      */
     public function __construct(array $manifest, protected int $maxSections = 6, protected bool $content = false)
@@ -70,9 +78,9 @@ class SectionValidator
     /**
      * @return string[]
      */
-    protected function validateSection(mixed $section, int $index): array
+    protected function validateSection(mixed $section, int $index, ?string $at = null): array
     {
-        $at = 'Abschnitt '.($index + 1);
+        $at ??= 'Abschnitt '.($index + 1);
         if (! is_array($section)) {
             return [$at.': muss ein Objekt sein.'];
         }
@@ -205,8 +213,8 @@ class SectionValidator
             if (isset($field['maxLength']) && mb_strlen($plain) > (int) $field['maxLength']) {
                 $errors[] = $label.': höchstens '.$field['maxLength'].' Zeichen, hat '.mb_strlen($plain).'.';
             }
-            if ($type !== 'link' && preg_match(self::NUMBER_PATTERN, $this->withoutPlaceholders($plain), $match)) {
-                $errors[] = $label.': konkrete Preise, Prozente oder Mengen ("'.$match[0].'") nicht erfinden, stattdessen [[PLATZHALTER: …]] verwenden.';
+            if ($type !== 'link' && ($invented = $this->inventedNumber($plain)) !== null) {
+                $errors[] = $label.': konkrete Preise, Prozente oder Mengen ("'.$invented.'") nicht erfinden, stattdessen [[PLATZHALTER: …]] verwenden.';
             }
             if (preg_match(self::INFORMAL_PATTERN, mb_strtolower($this->withoutPlaceholders($plain)))) {
                 $this->warnings[] = $label.': Du-Form gefunden, gewünscht ist die Sie-Form.';
@@ -216,6 +224,158 @@ class SectionValidator
         foreach (array_keys($values) as $key) {
             if (! isset($known[$key])) {
                 $errors[] = $at.': unbekanntes Feld "'.$key.'".';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * First price/percentage/amount in the text that is neither inside a placeholder nor already on the page.
+     */
+    protected function inventedNumber(string $plain): ?string
+    {
+        if (! preg_match_all(self::NUMBER_PATTERN, $this->withoutPlaceholders($plain), $matches)) {
+            return null;
+        }
+        foreach ($matches[0] as $match) {
+            if (! isset($this->knownNumbers[self::numberKey($match)])) {
+                return $match;
+            }
+        }
+
+        return null;
+    }
+
+    protected static function numberKey(string $match): string
+    {
+        return mb_strtolower((string) preg_replace('/\s+/u', '', $match));
+    }
+
+    /**
+     * Numbers already in the existing sections (any string in the context, recursively).
+     */
+    public function rememberNumbers(mixed $value): void
+    {
+        if (is_string($value)) {
+            if (preg_match_all(self::NUMBER_PATTERN, strip_tags($value), $matches)) {
+                foreach ($matches[0] as $match) {
+                    $this->knownNumbers[self::numberKey($match)] = true;
+                }
+            }
+
+            return;
+        }
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                $this->rememberNumbers($item);
+            }
+        }
+    }
+
+    /**
+     * Revision output: operations in the new page order (see SectionSchema::forRevision).
+     *
+     * @param  array<int, array<string, mixed>>  $current  context sections: ref, block, locked
+     * @return array<int, string[]> errors per operation index; key -1 = document level
+     */
+    public function validateRevision(mixed $output, array $current, string $scope, ?string $target, int $maxNew): array
+    {
+        $this->warnings = [];
+        if (! is_array($output) || ! isset($output['operations']) || ! is_array($output['operations']) || ! array_is_list($output['operations'])) {
+            return [-1 => ['Die Antwort muss ein Objekt mit "operations" (Liste) sein.']];
+        }
+        $byRef = [];
+        foreach ($current as $section) {
+            $byRef[(string) $section['ref']] = $section;
+        }
+        $errors = [];
+        $seen = [];
+        $added = 0;
+        $locked = [];
+        $ops = $output['operations'];
+
+        if ($scope === 'section') {
+            if (count($ops) !== 1 || ($ops[0]['op'] ?? null) !== 'update' || ($ops[0]['ref'] ?? null) !== $target) {
+                $errors[-1][] = 'Gib genau eine Operation {"op": "update", "ref": "'.$target.'", "section": …} aus.';
+            }
+        }
+
+        foreach ($ops as $index => $op) {
+            $at = 'Operation '.($index + 1);
+            if (! is_array($op)) {
+                $errors[$index][] = $at.': muss ein Objekt sein.';
+
+                continue;
+            }
+            $kind = $op['op'] ?? null;
+            $ref = is_scalar($op['ref'] ?? null) ? (string) $op['ref'] : '';
+            if (! in_array($kind, SectionSchema::REVISION_OPS, true)) {
+                $errors[$index][] = $at.': "op" muss keep, move, update, delete oder add sein.';
+
+                continue;
+            }
+            $at .= ' ('.$kind.' '.$ref.')';
+            if ($kind === 'add') {
+                if ($scope === 'section') {
+                    $errors[$index][] = $at.': beim Überarbeiten eines Abschnitts keine neuen Abschnitte.';
+
+                    continue;
+                }
+                if (isset($byRef[$ref]) || isset($seen[$ref])) {
+                    $errors[$index][] = $at.': neue Abschnitte brauchen eine eigene ref wie "neu1", nicht eine vorhandene.';
+                }
+                $seen[$ref] = true;
+                if (++$added > $maxNew) {
+                    $errors[$index][] = $at.': höchstens '.$maxNew.' neue Abschnitte.';
+                }
+                $sectionErrors = $this->validateSection($op['section'] ?? null, $index, $at);
+                if ($sectionErrors !== []) {
+                    $errors[$index] = array_merge($errors[$index] ?? [], $sectionErrors);
+                }
+
+                continue;
+            }
+            if (! isset($byRef[$ref])) {
+                $errors[$index][] = $at.': unbekannte ref "'.$ref.'", erlaubt sind nur die refs der bestehenden Abschnitte.';
+
+                continue;
+            }
+            if (isset($seen[$ref])) {
+                $errors[$index][] = $at.': ref "'.$ref.'" kommt mehrfach vor, jede ref genau einmal.';
+
+                continue;
+            }
+            $seen[$ref] = true;
+            $context = $byRef[$ref];
+            if (! empty($context['locked'])) {
+                $locked[] = $ref;
+                if ($kind !== 'keep') {
+                    $errors[$index][] = $at.': Abschnitt "'.$ref.'" ist gesperrt bzw. eine zentral gepflegte Vorlage und bleibt unverändert ("keep").';
+                }
+
+                continue;
+            }
+            if ($kind === 'update') {
+                $sectionErrors = $this->validateSection($op['section'] ?? null, $index, $at);
+                if ($sectionErrors !== []) {
+                    $errors[$index] = array_merge($errors[$index] ?? [], $sectionErrors);
+                }
+            }
+        }
+
+        if ($scope === 'page') {
+            $missing = array_values(array_diff(array_keys($byRef), array_keys($seen)));
+            if ($missing !== []) {
+                $errors[-1][] = 'Jede bestehende ref genau einmal angeben (keep, move, update oder delete), es fehlen: '.implode(', ', $missing).'.';
+            }
+            $lockedOrder = array_values(array_filter(array_keys($byRef), fn ($r) => ! empty($byRef[$r]['locked'])));
+            if ($locked !== array_values(array_intersect($lockedOrder, $locked))) {
+                $errors[-1][] = 'Gesperrte Abschnitte behalten ihre Reihenfolge: '.implode(', ', $lockedOrder).'.';
+            }
+            $remaining = array_filter($ops, fn ($op) => is_array($op) && ($op['op'] ?? null) !== 'delete');
+            if ($remaining === []) {
+                $errors[-1][] = 'Die Seite braucht mindestens einen Abschnitt.';
             }
         }
 
