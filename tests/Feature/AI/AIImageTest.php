@@ -191,6 +191,49 @@ describe('POST /api/v2/ai/builder/image', function () {
         });
     });
 
+    it('keeps and delivers the image when the search index is down', function () {
+        Http::fake([
+            'api.mistral.ai/v1/conversations' => Http::response(conversationWithUrl()),
+            '*.blob.core.windows.net/*'       => Http::response(tinyJpeg(), 200, ['Content-Type' => 'application/octet-stream']),
+        ]);
+        $client = imageClient();
+        $user = imageEditor($client);
+        // Meilisearch down (cluster node failure 11/2026): every index write throws
+        $manager = app(\Laravel\Scout\EngineManager::class);
+        $manager->extend('broken', fn () => new class extends \Laravel\Scout\Engines\NullEngine
+        {
+            public function update($models)
+            {
+                throw new RuntimeException('Failed to connect to meilisearch');
+            }
+        });
+        config(['scout.driver' => 'broken']);
+        $manager->forgetDrivers();
+
+        $response = $this->actingAs($user)->postJson('/api/v2/ai/builder/image', imageBody($client));
+
+        $response->assertOk()->assertJsonPath('data.ai_labeling', 'generated');
+        expect(File::withoutGlobalScopes()->find($response->json('data.id'))?->getFirstMedia('file'))->not->toBeNull();
+    });
+
+    it('offers only media library images whose file is on the disk (same URL as a pick)', function () {
+        $client = imageClient();
+        $make = function (string $alt) use ($client) {
+            $file = File::withoutSyncingToSearch(fn () => tap(new File(['client_id' => $client->id, 'alt_text' => $alt, 'description' => $alt, 'author' => '', 'source' => '', 'is_global' => false]))->save());
+            $file->addMediaFromString(tinyJpeg())->usingFileName(\Illuminate\Support\Str::slug($alt).'.jpg')->toMediaCollection('file', 'media');
+
+            return $file->refresh();
+        };
+        $present = $make('Wärmepumpe vor dem Haus');
+        $missing = $make('Wärmepumpe im Garten');
+        unlink($missing->getFirstMedia('file')->getPath());
+
+        $hits = (new \Motor\Admin\Services\AI\Builder\ScoutMediaSearch)->images($client->id, 'Wärmepumpe');
+
+        expect(array_column($hits, 'id'))->toBe([$present->id])
+            ->and($hits[0]['file']['url'])->toBe(json_decode(json_encode((new \Motor\Media\Http\Resources\FileResource($present))->resolve(request())), true)['file']['url']);
+    });
+
     it('fetches a tool_file chunk over the Files API when the answer has one', function () {
         Http::fake([
             'api.mistral.ai/v1/conversations'          => Http::response([

@@ -348,11 +348,9 @@ class SectionValidator
             }
             $seen[$ref] = true;
             $context = $byRef[$ref];
+            // Locked: delete/update are no error (no repair round), the generator keeps the section and tells the editor
             if (! empty($context['locked'])) {
                 $locked[] = $ref;
-                if ($kind !== 'keep') {
-                    $errors[$index][] = $at.': Abschnitt "'.$ref.'" ist gesperrt bzw. eine zentral gepflegte Vorlage und bleibt unverändert ("keep").';
-                }
 
                 continue;
             }

@@ -20,6 +20,10 @@ use Throwable;
  * first) or at least half of the search words, at a word start so "Hand" does
  * not match "anhand", in alt text, description, tags or file name. Otherwise
  * the slot keeps its placeholder, which is better than a wrong picture.
+ *
+ * Hits come as FileResource, exactly like a pick in the media library (same URL). A file whose image is not on
+ * the media disk (FileResource `exists` false, e.g. a database copied from another instance without its files)
+ * is skipped: its URL would be a 404 in the canvas.
  */
 class ScoutMediaSearch implements MediaSearch
 {
@@ -52,8 +56,9 @@ class ScoutMediaSearch implements MediaSearch
             ->filter(fn (array $hit) => self::relevant($words, $hit[1], $hit[2]))
             ->sortByDesc(fn (array $hit) => $hit[1])
             ->map(fn (array $hit) => $hit[0])
-            ->take($limit)
             ->map(fn (File $file) => json_decode(json_encode((new FileResource($file))->resolve(request())), true))
+            ->filter(fn (array $resource) => ($resource['exists'] ?? true) !== false)
+            ->take($limit)
             ->values()
             ->all();
     }

@@ -2,10 +2,12 @@
 
 namespace Motor\Admin\Services\AI\Images;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Models\User;
 use Motor\Media\Models\File;
+use Throwable;
 
 /**
  * Puts an image from outside (AI generation, later stock) into the media library of a tenant, like an upload:
@@ -51,7 +53,10 @@ class MediaImporter
             'is_global'                     => false,
             'is_excluded_from_search_index' => false,
         ]);
-        $file->save();
+        // The search index must not decide whether the image is kept: with Meilisearch down, saving (Scout syncs
+        // on save) threw, the request answered 500 and the image, already paid for, was lost to the editor.
+        // Indexing happens below and only logs a failure.
+        File::withoutSyncingToSearch(fn () => $file->save());
 
         $origin = array_merge([
             'imported_by'      => $user->id,
@@ -59,14 +64,18 @@ class MediaImporter
             'imported_at'      => now()->toIso8601String(),
         ], $origin);
 
-        $file->addMediaFromString($bytes)
+        File::withoutSyncingToSearch(fn () => $file->addMediaFromString($bytes)
             ->usingFileName($fileName)
             ->usingName(pathinfo($fileName, PATHINFO_FILENAME))
             ->withCustomProperties(['origin' => $origin, 'mime_type' => $mime])
-            ->toMediaCollection('file', 'media');
+            ->toMediaCollection('file', 'media'));
 
         $file->refresh();
-        rescue(fn () => $file->searchable(), report: true);
+        try {
+            $file->searchable();
+        } catch (Throwable $e) {
+            Log::warning('AI image: media library search index failed, image is stored anyway', ['file_id' => $file->id, 'error' => $e->getMessage()]);
+        }
 
         return $file;
     }

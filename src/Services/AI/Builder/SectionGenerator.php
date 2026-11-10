@@ -222,7 +222,8 @@ class SectionGenerator
         }
 
         $warnings = $validator->warnings;
-        $operations = $this->settleOperations($output['operations'], $run['errors'], $current, $scope, $target, $warnings);
+        $notices = [];
+        $operations = $this->settleOperations($output['operations'], $run['errors'], $current, $scope, $target, $warnings, $notices);
         $resolve = new ContentResolution(true, $linkTargets, $instruction, $clientId);
         $byRef = collect($current)->keyBy('ref');
         $sections = [];
@@ -252,6 +253,8 @@ class SectionGenerator
             ],
             'meta' => $meta + [
                 'warnings'      => array_values(array_unique($warnings)),
+                // For the editor (draft bar): what of the wish could not be done, by section name
+                'notices'       => array_values(array_unique($notices)),
                 'content'       => true,
                 'changes'       => (object) $changes,
                 'media_found'   => $resolve->mediaFound,
@@ -320,18 +323,23 @@ class SectionGenerator
 
     /**
      * Operations the admin can apply even if the last round still had errors: an invalid update stays the
-     * old section, an invalid or extra add is dropped, locked sections are always kept, a missing ref is
-     * kept at its old place.
+     * old section, an invalid or extra add is dropped, a missing ref is kept at its old place.
+     * Locked sections (locked, linked central template, not in the catalog such as a form) are never deleted or
+     * changed: a delete or update of one becomes "keep" at the place the model put it, and the editor gets a
+     * notice ("„Formular …“ ist geschützt und wurde nicht gelöscht."). Their place among the other sections is
+     * free, so the model can put new or moved sections before, between or after them.
      *
      * @param  array<int, mixed>  $ops
      * @param  array<int, string[]>  $errors
      * @param  array<int, array<string, mixed>>  $current
      * @param  string[]  $warnings
+     * @param  string[]  $notices  for the editor, by section name
      * @return array<int, array{op: string, ref: string, section?: array}>
      */
-    protected function settleOperations(array $ops, array $errors, array $current, string $scope, ?string $target, array &$warnings): array
+    protected function settleOperations(array $ops, array $errors, array $current, string $scope, ?string $target, array &$warnings, array &$notices = []): array
     {
         $byRef = collect($current)->keyBy('ref');
+        $name = fn (string $ref) => '„'.(trim((string) ($byRef->get($ref)['label'] ?? '')) ?: 'Abschnitt '.$ref).'“';
         $out = [];
         $seen = [];
         foreach ($ops as $index => $op) {
@@ -345,6 +353,7 @@ class SectionGenerator
                 if ($scope === 'section' || $invalid || ! is_array($op['section'] ?? null)) {
                     if ($invalid) {
                         $warnings[] = 'Neuer Abschnitt '.($index + 1).' verworfen: '.implode(' ', $errors[$index]);
+                        $notices[] = 'Ein neuer Abschnitt ließ sich nicht übernehmen und fehlt.';
                     }
 
                     continue;
@@ -360,12 +369,18 @@ class SectionGenerator
             }
             $seen[$ref] = true;
             if ($byRef->get($ref)['locked']) {
-                $out[] = ['op' => 'keep', 'ref' => $ref];
+                if ($kind === 'delete') {
+                    $notices[] = $name($ref).' ist geschützt und wurde nicht gelöscht.';
+                } elseif ($kind === 'update') {
+                    $notices[] = $name($ref).' ist geschützt und wurde nicht geändert.';
+                }
+                $out[] = ['op' => $kind === 'move' ? 'move' : 'keep', 'ref' => $ref];
 
                 continue;
             }
             if ($kind === 'update' && ($invalid || ! is_array($op['section'] ?? null))) {
                 $warnings[] = 'Überarbeitung von '.$ref.' verworfen: '.implode(' ', $errors[$index] ?? ['kein Abschnitt']);
+                $notices[] = 'Die Überarbeitung von '.$name($ref).' ließ sich nicht übernehmen, der Abschnitt bleibt unverändert.';
                 $out[] = ['op' => 'keep', 'ref' => $ref];
 
                 continue;
@@ -394,6 +409,7 @@ class SectionGenerator
             array_splice($out, $at, 0, [['op' => 'keep', 'ref' => $ref]]);
             $seen[$ref] = true;
             $warnings[] = 'Abschnitt '.$ref.' fehlte in der Antwort und bleibt unverändert.';
+            $notices[] = $name($ref).' fehlte in der Antwort der KI und bleibt unverändert.';
         }
 
         return $out;
@@ -418,8 +434,11 @@ class SectionGenerator
         }
 
         return array_merge($rules, [
-            '- {"op": "keep", "ref": …}: unverändert an dieser Stelle. {"op": "move", "ref": …}: unverändert, aber an neuer Stelle. {"op": "delete", "ref": …}: entfällt. {"op": "add", "ref": "neu1", "section": {…}}: neuer Abschnitt an dieser Stelle (refs "neu1", "neu2" …).',
-            '- Jede bestehende ref kommt genau einmal vor. Abschnitte mit "gesperrt": true (gesperrt oder zentral gepflegte Vorlage) sind immer "keep" und behalten ihre Reihenfolge untereinander.',
+            '- "operations" ist die neue Seite von oben nach unten: Die erste Operation steht ganz oben, die letzte ganz unten. Das gilt für jede Operation, auch für "keep". „Oben“ / „an den Anfang“ heißt: als erste Operation; „ans Ende“ heißt: als letzte Operation.',
+            '- {"op": "keep", "ref": …}: unverändert, Stelle wie bisher. {"op": "move", "ref": …}: unverändert, an der neuen Stelle in der Liste. {"op": "delete", "ref": …}: entfällt. {"op": "add", "ref": "neu1", "section": {…}}: neuer Abschnitt an dieser Stelle (refs "neu1", "neu2" …).',
+            '- Jede bestehende ref kommt genau einmal vor (keep, move, update oder delete), auch die gelöschten.',
+            '- Abschnitte mit "gesperrt": true (gesperrt, zentral gepflegte Vorlage oder nicht im Katalog, z. B. ein Formular) lassen sich weder ändern noch löschen. Sie behalten ihre Reihenfolge untereinander; neue und verschobene Abschnitte dürfen davor, dazwischen oder dahinter stehen.',
+            '- Verlangt der Wunsch, einen gesperrten Abschnitt zu löschen, gib für ihn trotzdem "delete" aus: Er bleibt an dieser Stelle stehen und die Redaktion bekommt einen Hinweis.',
             '- Ändere nur, was der Wunsch verlangt; Abschnitte ohne Bezug zum Wunsch bleiben "keep".',
             '- Lehnst du den Wunsch ab, gib für jede ref "keep" aus und begründe in "refusal".',
         ]);

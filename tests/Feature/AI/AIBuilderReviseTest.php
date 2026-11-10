@@ -150,7 +150,7 @@ describe('POST /api/v2/ai/builder/revise (page)', function () {
         expect(AIRequest::sole()->task)->toBe('builder.revise');
     });
 
-    it('repairs a changed locked section and a missing ref, then settles what is left', function () {
+    it('repairs a missing ref, keeps a locked section the model deleted and tells the editor', function () {
         reviseMediaLibrary();
         Http::fakeSequence('api.mistral.ai/*')
             ->push(mistralReply(['operations' => [
@@ -170,12 +170,50 @@ describe('POST /api/v2/ai/builder/revise (page)', function () {
         $response = $this->actingAs(aiEditor($client))->postJson('/api/v2/ai/builder/revise', reviseBody($client));
 
         $response->assertOk()->assertJsonPath('meta.repair_rounds', 2);
-        // locked s3 is kept, missing s2 keeps its place after s1
+        // locked s3 stays where the model put it, missing s2 keeps its place after s1
         expect(collect($response->json('data.operations'))->map(fn ($op) => $op['op'].':'.$op['ref'])->all())
-            ->toBe(['keep:s3', 'update:s1', 'keep:s2']);
+            ->toBe(['keep:s3', 'update:s1', 'keep:s2'])
+            ->and($response->json('meta.notices'))->toBe([
+                '„Kontakt-Teaser (Vorlage)“ ist geschützt und wurde nicht gelöscht.',
+                '„FAQ“ fehlte in der Antwort der KI und bleibt unverändert.',
+            ]);
         $repair = end(Http::recorded()[1][0]->data()['messages'])['content'];
-        expect($repair)->toContain('gesperrt bzw. eine zentral gepflegte Vorlage')
+        // deleting a locked section is no error (no repair round for it), the missing ref is
+        expect($repair)->not->toContain('gesperrt')
             ->toContain('es fehlen: s2');
+    });
+
+    it('puts a new section above a locked one, moves another to the end and keeps the locked one with a notice', function () {
+        reviseMediaLibrary();
+        // „Lösche alle außer FAQ, setze sie ans Ende, ergänze oben eine Einleitung“
+        Http::fake(['api.mistral.ai/*' => Http::response(mistralReply([
+            'operations' => [
+                ['op' => 'add', 'ref' => 'neu1', 'section' => heroSection('Willkommen bei der Fernwärme', 'Familie Beratung')],
+                ['op' => 'delete', 'ref' => 's1'],
+                ['op' => 'delete', 'ref' => 's3'],
+                ['op' => 'move', 'ref' => 's2'],
+            ],
+            'placeholders' => [],
+            'refusal'      => '',
+        ]))]);
+        $client = aiClient();
+
+        $response = $this->actingAs(aiEditor($client))->postJson('/api/v2/ai/builder/revise', reviseBody($client, [
+            'prompt' => 'Lösche alle außer FAQ, setze sie ans Ende, ergänze oben eine Einleitung',
+        ]));
+
+        $response->assertOk()
+            ->assertJsonPath('meta.repair_rounds', 0)
+            ->assertJsonPath('meta.notices', ['„Kontakt-Teaser (Vorlage)“ ist geschützt und wurde nicht gelöscht.']);
+        expect(collect($response->json('data.operations'))->map(fn ($op) => $op['op'].':'.$op['ref'])->all())
+            ->toBe(['add:neu1', 'delete:s1', 'keep:s3', 'move:s2']);
+
+        Http::assertSent(function (HttpRequest $request) {
+            $system = $request->data()['messages'][0]['content'];
+
+            return str_contains($system, 'Die erste Operation steht ganz oben')
+                && str_contains($system, 'neue und verschobene Abschnitte dürfen davor, dazwischen oder dahinter stehen');
+        });
     });
 
     it('lets existing prices stay but still rejects invented ones', function () {
