@@ -53,7 +53,7 @@ class ScoutMediaSearch implements MediaSearch
             ->sortByDesc(fn (array $hit) => $hit[1])
             ->map(fn (array $hit) => $hit[0])
             ->take($limit)
-            ->map(fn (File $file) => (new FileResource($file))->resolve(request()))
+            ->map(fn (File $file) => json_decode(json_encode((new FileResource($file))->resolve(request())), true))
             ->values()
             ->all();
     }

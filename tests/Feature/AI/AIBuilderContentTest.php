@@ -208,3 +208,18 @@ it('takes only images whose texts carry the search words', function () {
         ->and(ScoutMediaSearch::relevant($webdesign, 1, false))->toBeFalse()
         ->and(ScoutMediaSearch::relevant(ScoutMediaSearch::words('Wärmepumpe Außenbereich Haus'), 1, true))->toBeTrue();
 });
+
+it('finds placeholders in media hits without walking into models', function () {
+    // A media hit used to carry the MediaResource and the tag Collection; casting them recursed forever (energisde)
+    $model = new class extends \Illuminate\Database\Eloquent\Model {};
+    $model->setRelation('self', $model);
+    $hit = [
+        'id'   => 1,
+        'file' => $model,
+        'tags' => collect(['Windrad']),
+        'meta' => (object) ['alt' => '[[PLATZHALTER: Alt-Text prüfen]]'],
+    ];
+
+    expect(\Motor\Admin\Services\AI\Builder\SectionGenerator::placeholdersIn([['media' => [$hit], 'text' => '[[Preis]]']]))
+        ->toEqualCanonicalizing(['Alt-Text prüfen', 'Preis']);
+});

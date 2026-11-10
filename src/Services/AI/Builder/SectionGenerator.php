@@ -376,8 +376,9 @@ class SectionGenerator
      */
     public static function placeholdersIn(mixed $value): array
     {
+        // Only plain data: models, resources and collections can reach themselves through their relations
         if (is_object($value)) {
-            $value = (array) $value;
+            $value = $value instanceof \stdClass ? (array) $value : [];
         }
         if (is_array($value)) {
             return array_values(array_unique(array_merge([], ...array_map(fn ($v) => self::placeholdersIn($v), array_values($value)))));
