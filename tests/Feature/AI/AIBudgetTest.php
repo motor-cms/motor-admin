@@ -141,10 +141,11 @@ describe('permissions ai.use and ai.intensive', function () {
             ->assertJsonPath('data.budget.user.intensive', true);
     });
 
-    it('moves builder-pages.ai grants to ai.use and ai.intensive in the migration', function () {
+    it('moves builder-pages.ai grants to ai.use, ai.intensive only for SuperAdmin and Editor', function () {
         $old = Permission::create(['name' => 'builder-pages.ai', 'guard_name' => 'web']);
-        $role = Role::create(['name' => 'KI-Redaktion', 'guard_name' => 'web']);
-        $role->givePermissionTo($old);
+        $roles = collect(['SuperAdmin', 'Editor', 'Writer', 'KI-Redaktion'])
+            ->mapWithKeys(fn (string $name) => [$name => Role::firstOrCreate(['name' => $name, 'guard_name' => 'web'])]);
+        $roles->each->givePermissionTo($old);
         $direct = User::factory()->create();
         $direct->givePermissionTo($old);
 
@@ -152,11 +153,27 @@ describe('permissions ai.use and ai.intensive', function () {
         $migration->up();
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        expect($role->fresh()->hasPermissionTo('ai.use'))->toBeTrue()
-            ->and($role->fresh()->hasPermissionTo('ai.intensive'))->toBeTrue()
-            ->and($direct->fresh()->hasPermissionTo('ai.use'))->toBeTrue()
+        foreach ($roles as $name => $role) {
+            expect($role->fresh()->hasPermissionTo('ai.use'))->toBeTrue("{$name} keeps AI")
+                ->and($role->fresh()->hasPermissionTo('ai.intensive'))
+                ->toBe(in_array($name, ['SuperAdmin', 'Editor'], true), "{$name} ai.intensive");
+        }
+        expect($direct->fresh()->hasPermissionTo('ai.use'))->toBeTrue()
             ->and($direct->fresh()->hasDirectPermission('ai.intensive'))->toBeFalse()
             ->and(Permission::where('name', 'builder-pages.ai')->exists())->toBeFalse();
+    });
+
+    it('gives ai.intensive to SuperAdmin and Editor only if they had builder-pages.ai', function () {
+        Permission::create(['name' => 'builder-pages.ai', 'guard_name' => 'web']);
+        $editor = Role::firstOrCreate(['name' => 'Editor', 'guard_name' => 'web']);
+        $editor->syncPermissions([]);
+
+        $migration = require __DIR__.'/../../../database/migrations/2026_11_10_120000_add_ai_use_and_ai_intensive_permissions.php';
+        $migration->up();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        expect($editor->fresh()->hasPermissionTo('ai.use'))->toBeFalse()
+            ->and($editor->fresh()->hasPermissionTo('ai.intensive'))->toBeFalse();
     });
 });
 

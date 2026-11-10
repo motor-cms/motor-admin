@@ -14,9 +14,13 @@ return new class extends Migration
 
     private const NEW = ['ai.use', 'ai.intensive'];
 
+    /** Only these roles get the higher daily budget, and only if they had the old permission. */
+    private const INTENSIVE_ROLES = ['SuperAdmin', 'Editor'];
+
     /**
-     * ai.use and ai.intensive replace builder-pages.ai. Every role that had the old permission gets both, users with
-     * the old permission directly get ai.use, so nobody loses access with the deploy. Then the old one goes away.
+     * ai.use and ai.intensive replace builder-pages.ai. Every role and every user that had the old permission gets
+     * ai.use, so nobody loses access with the deploy. ai.intensive goes only to SuperAdmin and Editor; Writer and all
+     * other roles stay on the normal budget. Then the old one goes away.
      */
     public function up(): void
     {
@@ -26,7 +30,7 @@ return new class extends Migration
 
         $this->quietly(function () {
             $group = PermissionGroup::firstOrCreate(['name' => 'ai']);
-            $new = collect(self::NEW)->map(fn (string $name) => Permission::firstOrCreate(
+            collect(self::NEW)->each(fn (string $name) => Permission::firstOrCreate(
                 ['name' => $name, 'guard_name' => 'web'],
                 ['permission_group_id' => $group->id],
             ));
@@ -37,7 +41,10 @@ return new class extends Migration
             }
 
             foreach (Role::whereHas('permissions', fn ($q) => $q->where('permissions.id', $old->id))->get() as $role) {
-                $role->givePermissionTo($new->all());
+                $role->givePermissionTo('ai.use');
+                if (in_array($role->name, self::INTENSIVE_ROLES, true)) {
+                    $role->givePermissionTo('ai.intensive');
+                }
             }
             foreach (User::whereHas('permissions', fn ($q) => $q->where('permissions.id', $old->id))->get() as $user) {
                 $user->givePermissionTo('ai.use');
