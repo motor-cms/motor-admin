@@ -438,7 +438,7 @@ class SectionGenerator
             '- {"op": "keep", "ref": …}: unverändert, Stelle wie bisher. {"op": "move", "ref": …}: unverändert, an der neuen Stelle in der Liste. {"op": "delete", "ref": …}: entfällt. {"op": "add", "ref": "neu1", "section": {…}}: neuer Abschnitt an dieser Stelle (refs "neu1", "neu2" …).',
             '- Jede bestehende ref kommt genau einmal vor (keep, move, update oder delete), auch die gelöschten.',
             '- Abschnitte mit "gesperrt": true (gesperrt, zentral gepflegte Vorlage oder nicht im Katalog, z. B. ein Formular) lassen sich weder ändern noch löschen. Sie behalten ihre Reihenfolge untereinander; neue und verschobene Abschnitte dürfen davor, dazwischen oder dahinter stehen.',
-            '- Verlangt der Wunsch, einen gesperrten Abschnitt zu löschen, gib für ihn trotzdem "delete" aus: Er bleibt an dieser Stelle stehen und die Redaktion bekommt einen Hinweis.',
+            '- Verlangt der Wunsch, einen gesperrten Abschnitt zu löschen, gib für ihn trotzdem "delete" aus: Er bleibt an dieser Stelle stehen und die Redaktion bekommt einen Hinweis. Das gilt auch für allgemeine Wünsche wie „lösche alle außer …“ oder „nur noch …“: Jeder gesperrte Abschnitt, den der Wunsch damit trifft, bekommt "delete", nicht "keep".',
             '- Ändere nur, was der Wunsch verlangt; Abschnitte ohne Bezug zum Wunsch bleiben "keep".',
             '- Lehnst du den Wunsch ab, gib für jede ref "keep" aus und begründe in "refusal".',
         ]);

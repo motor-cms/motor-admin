@@ -212,7 +212,8 @@ describe('POST /api/v2/ai/builder/revise (page)', function () {
             $system = $request->data()['messages'][0]['content'];
 
             return str_contains($system, 'Die erste Operation steht ganz oben')
-                && str_contains($system, 'neue und verschobene Abschnitte dürfen davor, dazwischen oder dahinter stehen');
+                && str_contains($system, 'neue und verschobene Abschnitte dürfen davor, dazwischen oder dahinter stehen')
+                && str_contains($system, 'Jeder gesperrte Abschnitt, den der Wunsch damit trifft, bekommt "delete"');
         });
     });
 
