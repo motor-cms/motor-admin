@@ -138,6 +138,34 @@ describe('Inhalte vorschlagen', function () {
         });
     });
 
+    it('asks for readable placeholders and a header on topic, also for fixed child fields', function () {
+        $manifest = contentManifest();
+        $manifest['blocks'][0]['fields'][] = ['key' => 'child:carousel_controls/slot:content.0.text', 'type' => 'text', 'role' => 'overline', 'maxLength' => 80, 'required' => true];
+        $output = contentOutput();
+        $output['sections'][0]['fields'] = ['child:carousel_controls/slot:content.0.text' => 'Ökostrom für Familien'];
+        $output['sections'][1]['fields']['title'] = 'Sichern Sie sich [[PLATZHALTER: Dauer der Preisgarantie]] Preisgarantie';
+        Http::fake(['api.mistral.ai/*' => Http::response(mistralReply($output))]);
+        fakeMediaLibrary();
+        $client = aiClient();
+
+        $response = $this->actingAs(aiEditor($client))
+            ->postJson('/api/v2/ai/builder/section', array_merge(contentBody($client), ['catalog_manifest' => $manifest]));
+
+        $response->assertOk()
+            ->assertJsonPath('data.sections.1.fields.title', 'Sichern Sie sich [[PLATZHALTER: Dauer der Preisgarantie]] Preisgarantie');
+        expect($response->json('data.sections.0.fields')['child:carousel_controls/slot:content.0.text'])->toBe('Ökostrom für Familien')
+            ->and($response->json('data.placeholders'))->toContain('Dauer der Preisgarantie');
+
+        Http::assertSent(function (HttpRequest $request) {
+            $system = $request->data()['messages'][0]['content'];
+
+            return str_contains($system, 'Platzhalter stehen genau an der Stelle des fehlenden Werts')
+                && str_contains($system, 'wiederholt keine Wörter des Satzes')
+                && str_contains($system, 'Kopf des Abschnitts')
+                && str_contains($system, 'child:carousel_controls/slot:content.0.text (text, Rolle overline');
+        });
+    });
+
     it('stays structure-only with placeholders when content is off', function () {
         $output = contentOutput();
         unset($output['sections'][1]['media'][0]['alt']);
