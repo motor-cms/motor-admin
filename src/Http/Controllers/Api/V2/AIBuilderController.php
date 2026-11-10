@@ -7,7 +7,10 @@ use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\V2\AIBuilderRevisePostRequest;
 use Motor\Admin\Http\Requests\Api\V2\AIBuilderSectionPostRequest;
 use Motor\Admin\Http\Requests\Api\V2\AIBuilderStatusGetRequest;
+use Motor\Admin\Models\Client;
+use Motor\Admin\Models\User;
 use Motor\Admin\Services\AI\AIAccess;
+use Motor\Admin\Services\AI\AIBudget;
 use Motor\Admin\Services\AI\AIProviderException;
 use Motor\Admin\Services\AI\AIRequestLogger;
 use Motor\Admin\Services\AI\Builder\AIContentRefusedException;
@@ -32,11 +35,12 @@ class AIBuilderController extends ApiController
         }
 
         $enabled = AIAccess::clientEnabled($client);
+        $allowed = $enabled && AIAccess::userHasPermission($user);
 
         return response()->json([
             'data' => [
                 'enabled'  => $enabled,
-                'allowed'  => $enabled && AIAccess::userHasPermission($user),
+                'allowed'  => $allowed,
                 'provider' => 'mistral',
                 'model'    => config('ai.mistral.models.builder'),
                 // Image sources after the own media library; stock only with a key, generation per tenant switch
@@ -45,6 +49,8 @@ class AIBuilderController extends ApiController
                     'stock'    => app(StockProviders::class)->names(),
                     'daily_limit' => (int) config('ai.images.rate_per_client_day', 20),
                 ],
+                // Remaining cost budget (user today, customer this month), null when off or not allowed
+                'budget' => $allowed && AIBudget::enabled() ? AIBudget::status($user, $client) : null,
             ],
             'meta' => ['api_version' => 'v2'],
         ]);
@@ -54,6 +60,9 @@ class AIBuilderController extends ApiController
     {
         $user = $request->user();
         $client = AIAccess::authorize($user, AIAccess::findClient($request->integer('client_id')));
+        if ($exceeded = AIBudget::check($user, $client, 'section')) {
+            return AIBudget::response($exceeded);
+        }
         $prompt = (string) $request->input('prompt');
         $model = (string) config('ai.mistral.models.builder');
         $log = fn (string $status, array $meta = [], ?string $error = null) => AIRequestLogger::log(
@@ -102,7 +111,7 @@ class AIBuilderController extends ApiController
 
         return response()->json([
             'data' => $result['data'],
-            'meta' => $result['meta'] + ['api_version' => 'v2'],
+            'meta' => $result['meta'] + ['api_version' => 'v2', 'budget' => self::budgetMeta($user, $client)],
         ]);
     }
 
@@ -114,6 +123,9 @@ class AIBuilderController extends ApiController
     {
         $user = $request->user();
         $client = AIAccess::authorize($user, AIAccess::findClient($request->integer('client_id')));
+        if ($exceeded = AIBudget::check($user, $client, 'revise')) {
+            return AIBudget::response($exceeded);
+        }
         $prompt = (string) $request->input('prompt');
         $model = (string) config('ai.mistral.models.builder');
         $log = fn (string $status, array $meta = [], ?string $error = null) => AIRequestLogger::log(
@@ -166,8 +178,18 @@ class AIBuilderController extends ApiController
 
         return response()->json([
             'data' => $result['data'],
-            'meta' => $result['meta'] + ['api_version' => 'v2'],
+            'meta' => $result['meta'] + ['api_version' => 'v2', 'budget' => self::budgetMeta($user, $client)],
         ]);
+    }
+
+    /**
+     * Budget after the call, so the dialog can update "Heute noch ca. … €" without another request.
+     *
+     * @return array<string, mixed>|null
+     */
+    public static function budgetMeta(User $user, Client $client): ?array
+    {
+        return AIBudget::enabled() ? AIBudget::status($user, $client) : null;
     }
 
     protected function error(string $code, string $message, int $status, ?array $details = null): JsonResponse

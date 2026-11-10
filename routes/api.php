@@ -186,7 +186,7 @@ Route::prefix('v2')
             ->parameters(['announcements' => 'announcement']);
         Route::post('dashboard/announcements/{announcement}/dismiss', [DashboardAnnouncementsController::class, 'dismiss']);
 
-        // KI im Page Builder (tenant switch + builder-pages.ai checked in the controller)
+        // KI im Page Builder (tenant switch + ai.use checked in the controller)
         Route::get('ai/builder/status', [AIBuilderController::class, 'status'])->name('ai.builder.status');
         Route::post('ai/builder/section', [AIBuilderController::class, 'section'])
             ->middleware('throttle:ai-builder')

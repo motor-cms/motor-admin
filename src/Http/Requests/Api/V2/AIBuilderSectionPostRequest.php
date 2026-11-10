@@ -6,7 +6,7 @@ use Motor\Admin\Http\Requests\Request;
 
 /**
  * Prompt plus the catalog manifest of the admin that sends it (always matches the deployed admin).
- * Authorization (tenant switch, tenant access, builder-pages.ai) happens in the controller.
+ * Authorization (tenant switch, tenant access, ai.use) happens in the controller.
  */
 class AIBuilderSectionPostRequest extends Request
 {

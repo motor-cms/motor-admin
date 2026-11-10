@@ -166,7 +166,7 @@ describe('ai_help with Mistral', function () {
         $user = User::factory()->create();
         $user->assignRole('Editor');
         $user->clients()->attach($client->id);
-        $user->givePermissionTo('builder-pages.ai');
+        $user->givePermissionTo('ai.use');
 
         return [$client, $prompt, $user];
     }

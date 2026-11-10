@@ -115,8 +115,14 @@ return [
     'builder-pages' => [
         'values' => [
             'publish',
-            // KI im Page Builder (section from prompt, text help)
-            'ai',
+        ],
+    ],
+    // KI im Page Builder: use = AI at all (sections, revise, images, text help), intensive = higher daily budget.
+    // Replaces builder-pages.ai (migration 2026_11_10_120000 moves existing grants).
+    'ai' => [
+        'values' => [
+            'use',
+            'intensive',
         ],
     ],
 ];

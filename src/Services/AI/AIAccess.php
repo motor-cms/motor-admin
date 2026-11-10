@@ -12,11 +12,13 @@ use Motor\Admin\Models\User;
  *
  * Three gates, all must pass: the tenant switch (clients.ai_config.enabled,
  * default off), access to that tenant (users_client pivot, SuperAdmin sees all)
- * and the permission builder-pages.ai (SuperAdmin implicitly).
+ * and the permission ai.use (SuperAdmin implicitly). ai.intensive only raises the daily budget (AIBudget).
  */
 class AIAccess
 {
-    public const PERMISSION = 'builder-pages.ai';
+    public const PERMISSION = 'ai.use';
+
+    public const INTENSIVE_PERMISSION = 'ai.intensive';
 
     public static function clientEnabled(?Client $client): bool
     {
@@ -26,6 +28,11 @@ class AIAccess
     public static function userHasPermission(User $user): bool
     {
         return $user->isAdmin() || $user->checkPermissionTo(self::PERMISSION);
+    }
+
+    public static function userIsIntensive(User $user): bool
+    {
+        return $user->isAdmin() || $user->checkPermissionTo(self::INTENSIVE_PERMISSION);
     }
 
     public static function userCanAccessClient(User $user, Client $client): bool

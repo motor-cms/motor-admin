@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Motor\Admin\Console\Commands\MotorAIBuilderEvalCommand;
 use Motor\Admin\Console\Commands\MotorAIClientCommand;
+use Motor\Admin\Console\Commands\MotorAIUsageCommand;
 use Motor\Admin\Console\Commands\MotorCreatePermissionsCommand;
 use Motor\Admin\Console\Commands\MotorCreateScoutIndexCommand;
 use Motor\Admin\Models\Category;
@@ -186,6 +187,7 @@ class MotorServiceProvider extends ServiceProvider
                 MotorCreatePermissionsCommand::class,
                 MotorAIClientCommand::class,
                 MotorAIBuilderEvalCommand::class,
+                MotorAIUsageCommand::class,
                 MotorCreateScoutIndexCommand::class,
             ]);
         }

@@ -5,7 +5,7 @@ namespace Motor\Admin\Http\Requests\Api\V2;
 use Motor\Admin\Http\Requests\Request;
 
 /**
- * "Mit KI erzeugen" for one image slot. Authorization (tenant switch, tenant access, builder-pages.ai, image
+ * "Mit KI erzeugen" for one image slot. Authorization (tenant switch, tenant access, ai.use, image
  * switch) happens in the controller, the rate limit after it.
  */
 class AIImageGeneratePostRequest extends Request

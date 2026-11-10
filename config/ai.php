@@ -67,6 +67,38 @@ return [
         ],
     ],
 
+    // Cost caps on top of the per-minute rate limits, summed from ai_requests.cost_usd (app timezone).
+    'budget' => [
+        'enabled' => (bool) env('AI_BUDGET_ENABLED', true),
+        // Fixed rate for the euro limits and the display, check monthly against the invoice.
+        'usd_eur' => (float) env('AI_USD_EUR', 0.92),
+        // Per customer (budget group) and calendar month: warn us at warn_ratio, hard stop at 100 %.
+        'group_month_eur' => (float) env('AI_BUDGET_GROUP_MONTH_EUR', 60),
+        'warn_ratio'      => (float) env('AI_BUDGET_WARN_RATIO', 0.8),
+        // Optional mail address for the warning (it is always logged).
+        'notify_mail' => env('AI_BUDGET_NOTIFY_MAIL'),
+        // Per user and day across all tenants; the permission ai.intensive raises the cap.
+        'user_day_eur'           => (float) env('AI_BUDGET_USER_DAY_EUR', 2),
+        'user_day_intensive_eur' => (float) env('AI_BUDGET_USER_DAY_INTENSIVE_EUR', 5),
+        // Worst case of one request in USD, reserved before the call (section with repair rounds, one image).
+        'reserve_usd' => [
+            'section' => 0.08,
+            'revise'  => 0.08,
+            'image'   => 0.11,
+            'help'    => 0.005,
+        ],
+        // Tenant slug => customer group. Tenants not listed form their own group (named by their slug).
+        'groups' => [
+            'energisde'          => 'energis',
+            'glasfaserenergisde' => 'energis',
+            'highspeed'          => 'energis',
+            'elektrojaeckelde'   => 'energis',
+            'aussendienst'       => 'energis',
+        ],
+        // Optional monthly cap in EUR per group name, otherwise group_month_eur.
+        'group_month_eur_overrides' => [],
+    ],
+
     // Store prompt text in ai_requests (off by default: metadata only, plus a hash).
     'log_prompts' => (bool) env('AI_LOG_PROMPTS', false),
 

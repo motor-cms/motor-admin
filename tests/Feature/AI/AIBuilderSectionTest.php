@@ -69,7 +69,7 @@ function aiEditor(Client $client, bool $withPermission = true): User
     $user->assignRole('Editor');
     $user->clients()->attach($client->id);
     if ($withPermission) {
-        $user->givePermissionTo('builder-pages.ai');
+        $user->givePermissionTo('ai.use');
     }
 
     return $user;
@@ -209,7 +209,7 @@ describe('POST /api/v2/ai/builder/section', function () {
         Http::assertNothingSent();
     });
 
-    it('requires builder-pages.ai', function () {
+    it('requires ai.use', function () {
         Http::fake();
         $client = aiClient();
 

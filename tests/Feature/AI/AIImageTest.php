@@ -62,7 +62,7 @@ function imageEditor(Client $client, bool $withPermission = true): User
     $user->assignRole('Editor');
     $user->clients()->attach($client->id);
     if ($withPermission) {
-        $user->givePermissionTo('builder-pages.ai');
+        $user->givePermissionTo('ai.use');
     }
 
     return $user;

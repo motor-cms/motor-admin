@@ -9,6 +9,7 @@ use Motor\Admin\Http\Requests\Api\AIHelpPostRequest;
 use Motor\Admin\Http\Resources\AIHelpResource;
 use Motor\Admin\Models\AISystemPrompt;
 use Motor\Admin\Services\AI\AIAccess;
+use Motor\Admin\Services\AI\AIBudget;
 use Motor\Admin\Services\AI\AIProviderException;
 use Motor\Admin\Services\AI\AIRequestLogger;
 use Motor\Admin\Services\AI\MistralClient;
@@ -20,13 +21,16 @@ class AIHelpController extends ApiController
      *
      * Supports several providers (Mistral, OpenAI, Anthropic, Google, Groq).
      * The tenant is the client of the system prompt: it must have AI switched
-     * on and the user needs access to it plus builder-pages.ai.
+     * on and the user needs access to it plus ai.use, and budget left (AIBudget).
      */
     public function store(AIHelpPostRequest $request, MistralClient $mistral): JsonResponse
     {
         $system_prompt = AISystemPrompt::findOrFail($request->system_prompt);
         $user = $request->user();
         $client = AIAccess::authorize($user, AIAccess::findClient($system_prompt->client_id));
+        if ($exceeded = AIBudget::check($user, $client, 'help')) {
+            return AIBudget::response($exceeded);
+        }
 
         $provider = (string) config('ai.provider');
         $model = $provider === 'mistral' ? config('ai.model') ?: config('ai.mistral.models.help') : config('ai.model');

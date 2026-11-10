@@ -8,6 +8,7 @@ use Motor\Admin\Http\Controllers\ApiController;
 use Motor\Admin\Http\Requests\Api\V2\AIImageGeneratePostRequest;
 use Motor\Admin\Models\Client;
 use Motor\Admin\Services\AI\AIAccess;
+use Motor\Admin\Services\AI\AIBudget;
 use Motor\Admin\Services\AI\AIProviderException;
 use Motor\Admin\Services\AI\AIRequestLogger;
 use Motor\Admin\Services\AI\Builder\ContentPolicy;
@@ -20,7 +21,7 @@ use Motor\Media\Http\Resources\V2\FileResource;
 /**
  * KI im Page Builder: one image per request, only on the editor's explicit "Mit KI erzeugen".
  *
- * Gates: tenant switch + tenant access + builder-pages.ai (AIAccess), the image switch (config ai.images.generate
+ * Gates: tenant switch + tenant access + ai.use (AIAccess), the cost budget (AIBudget), the image switch (config ai.images.generate
  * and clients.ai_config.images.generate, default on where AI is on), then a separate rate limit (per user per
  * minute, per tenant per day). The result goes straight into the tenant's media library with ai_labeling
  * "generated", origin metadata and the machine-readable marking in the file; ai_requests gets task builder.image
@@ -44,6 +45,10 @@ class AIImageController extends ApiController
         $client = AIAccess::authorize($user, AIAccess::findClient($request->integer('client_id')));
         if (! self::generationEnabled($client)) {
             return $this->error('FORBIDDEN', 'KI-Bilder sind für diesen Mandanten nicht freigeschaltet.', 403);
+        }
+
+        if ($exceeded = AIBudget::check($user, $client, 'image')) {
+            return AIBudget::response($exceeded);
         }
 
         $limited = $this->rateLimited($user->id, $client->id);
@@ -140,6 +145,7 @@ class AIImageController extends ApiController
                 'duration_ms'    => (int) ((hrtime(true) - $started) / 1_000_000),
                 'marking'        => $marked['marking'],
                 'revised_prompt' => $image->revisedPrompt,
+                'budget'         => AIBuilderController::budgetMeta($user, $client),
             ],
         ]);
     }
