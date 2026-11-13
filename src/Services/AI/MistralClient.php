@@ -104,6 +104,25 @@ class MistralClient
     }
 
     /**
+     * Document OCR (`POST /ocr`): PDF, DOCX, PPTX or an image in, Markdown per page out.
+     *
+     * @param  array<string, mixed>  $payload  model, document, pages, include_image_base64, …
+     * @return array{pages: array, usage: array, model: string, raw: array}
+     */
+    public function ocr(array $payload, ?int $timeout = null): array
+    {
+        $response = $this->send(fn ($http) => $http->acceptJson()->timeout($timeout ?? $this->timeout)->post('/ocr', $payload));
+        $data = $response->json() ?? [];
+
+        return [
+            'pages' => (array) ($data['pages'] ?? []),
+            'usage' => (array) ($data['usage_info'] ?? []),
+            'model' => (string) ($data['model'] ?? ($payload['model'] ?? '')),
+            'raw'   => $data,
+        ];
+    }
+
+    /**
      * Binary content of a file the API produced (`GET /files/{id}/content`).
      */
     public function fileContent(string $fileId): string

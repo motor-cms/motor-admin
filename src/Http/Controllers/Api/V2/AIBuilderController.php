@@ -49,6 +49,12 @@ class AIBuilderController extends ApiController
                     'stock'    => app(StockProviders::class)->names(),
                     'daily_limit' => (int) config('ai.images.rate_per_client_day', 20),
                 ],
+                // "Dokument anhängen": PDF/Word/PowerPoint as source, read via Mistral OCR
+                'documents' => [
+                    'enabled'   => $allowed && (bool) config('ai.documents.enabled', true),
+                    'max_pages' => (int) config('ai.documents.max_pages', 30),
+                    'max_mb'    => (int) round(config('ai.documents.max_kb', 10240) / 1024),
+                ],
                 // Remaining cost budget (user today, customer this month), null when off or not allowed
                 'budget' => $allowed && AIBudget::enabled() ? AIBudget::status($user, $client) : null,
             ],
@@ -88,10 +94,12 @@ class AIBuilderController extends ApiController
                 maxSections: $request->integer('max_sections', 3),
                 model: $model,
                 tonePrompt: AIAccess::tonePrompt($client),
-                content: $request->boolean('content'),
+                // A document only makes sense with real texts
+                content: $request->boolean('content') || filled($request->input('document.markdown')),
                 linkTargets: (array) $request->input('context.link_targets', []),
                 clientId: $client->id,
                 ownNames: array_filter([(string) $client->name]),
+                document: $request->input('document'),
             );
         } catch (AIContentRefusedException $e) {
             $log('refused', $e->meta, $e->reason);
@@ -157,6 +165,7 @@ class AIBuilderController extends ApiController
                 linkTargets: (array) $request->input('context.link_targets', []),
                 clientId: $client->id,
                 ownNames: array_filter([(string) $client->name]),
+                document: $request->input('document'),
             );
         } catch (\InvalidArgumentException $e) {
             return $this->error('VALIDATION_ERROR', 'Der Abschnitt lässt sich nicht überarbeiten (gesperrt oder unbekannt).', 422);

@@ -39,6 +39,10 @@ class AIBuilderRevisePostRequest extends Request
             'context.link_targets'         => ['sometimes', 'array', 'max:100'],
             'context.link_targets.*.title' => ['nullable', 'string', 'max:200'],
             'context.link_targets.*.url'   => ['required', 'string', 'max:300'],
+            // Attached document (Markdown from ai/builder/document), sent again with every prompt
+            'document'          => ['sometimes', 'nullable', 'array'],
+            'document.name'     => ['sometimes', 'nullable', 'string', 'max:200'],
+            'document.markdown' => ['required_with:document', 'string', 'max:'.((int) config('ai.documents.max_chars', 60000) + 1000)],
             ...AIBuilderSectionPostRequest::manifestRules(),
         ];
     }

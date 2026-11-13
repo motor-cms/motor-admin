@@ -23,6 +23,7 @@ use Motor\Admin\Http\Controllers\Api\ProfileEditController;
 use Motor\Admin\Http\Controllers\Api\RolesController;
 use Motor\Admin\Http\Controllers\Api\UsersController;
 use Motor\Admin\Http\Controllers\Api\V2\AIBuilderController;
+use Motor\Admin\Http\Controllers\Api\V2\AIDocumentController;
 use Motor\Admin\Http\Controllers\Api\V2\AIImageController;
 use Motor\Admin\Http\Controllers\Api\V2\AISystemPromptsController;
 use Motor\Admin\Http\Controllers\Api\V2\DashboardAnnouncementsController;
@@ -194,6 +195,9 @@ Route::prefix('v2')
         Route::post('ai/builder/revise', [AIBuilderController::class, 'revise'])
             ->middleware('throttle:ai-builder')
             ->name('ai.builder.revise');
+        Route::post('ai/builder/document', [AIDocumentController::class, 'extract'])
+            ->middleware('throttle:ai-builder')
+            ->name('ai.builder.document');
         // Rate limit for images inside the controller, after the tenant checks
         Route::post('ai/builder/image', [AIImageController::class, 'generate'])->name('ai.builder.image');
     });

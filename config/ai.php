@@ -67,6 +67,21 @@ return [
         ],
     ],
 
+    // Documents as source for the builder ("Dokument anhängen"): Mistral OCR turns PDF/Word/PowerPoint into Markdown.
+    // The file is only held in memory for the request, never stored; ai_requests gets name-free metadata.
+    'documents' => [
+        'enabled'   => (bool) env('AI_DOCUMENTS_ENABLED', true),
+        'model'     => env('MISTRAL_MODEL_OCR', 'mistral-ocr-latest'),
+        'timeout'   => (int) env('MISTRAL_OCR_TIMEOUT', 120),
+        'max_kb'    => (int) env('AI_DOCUMENTS_MAX_KB', 10240),
+        'max_pages' => (int) env('AI_DOCUMENTS_MAX_PAGES', 30),
+        // Markdown handed to the generator; longer documents are cut and flagged as truncated.
+        'max_chars' => (int) env('AI_DOCUMENTS_MAX_CHARS', 60000),
+        'mimes'     => ['pdf', 'docx', 'pptx'],
+        // USD per page (Mistral OCR list price 11/2026, check against the invoice).
+        'price_per_page_usd' => (float) env('AI_DOCUMENTS_PRICE_PER_PAGE_USD', 0.001),
+    ],
+
     // Cost caps on top of the per-minute rate limits, summed from ai_requests.cost_usd (app timezone).
     'budget' => [
         'enabled' => (bool) env('AI_BUDGET_ENABLED', true),
@@ -85,6 +100,8 @@ return [
             'section' => 0.08,
             'revise'  => 0.08,
             'image'   => 0.11,
+            // 30 pages OCR; generating from the document then reserves 'section'/'revise' with the longer input
+            'document' => 0.03,
             'help'    => 0.005,
         ],
         // Tenant slug => customer group. Tenants not listed form their own group (named by their slug).
